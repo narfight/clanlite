@@ -35,39 +35,36 @@ $template->assign_vars(array(
 	'ALT_PROFIL' => $langue['alt_profil'],
 	'DEF_EQUIPE' => $langue['def_equipe'],
 ));
-if (!empty($liste_group) && is_array($liste_group))
-{
-	foreach($liste_group as $nom_section => $array_section)
-	{// fait la liste des section
-		$template->assign_block_vars('cadre', array('NOM_SECTION' => $nom_section));
+foreach($liste_group as $nom_section => $array_section)
+{// fait la liste des section
+	$template->assign_block_vars('cadre', array('NOM_SECTION' => $nom_section));
+	if ($config['show_grade'] == 1)
+	{
+		$template->assign_block_vars('cadre.grade', array('GRADE' => $langue['grade']));
+	}
+	foreach($array_section as $nom_equipe => $array_equipe)
+	{//fait la liste des equipes
+		$template->assign_block_vars('cadre.total', array('NOM_EQUIPE' => $nom_equipe));
 		if ($config['show_grade'] == 1)
 		{
-			$template->assign_block_vars('cadre.grade', array('GRADE' => $langue['grade']));
+			$template->assign_block_vars('cadre.total.grade', array('vide'));
 		}
-		foreach($array_section as $nom_equipe => $array_equipe)
-		{//fait la liste des equipes
-			$template->assign_block_vars('cadre.total', array('NOM_EQUIPE' => $nom_equipe));
+		else
+		{
+			$template->assign_block_vars('cadre.total.no_grade', array('vide'));
+		}
+		foreach($array_equipe as $liste_user => $array_user)
+		{// fait la liste des membres dans l'equipe
+			$template->assign_block_vars('cadre.total.listage', array(
+				'NOM' => $array_user['user'],
+				'SEX' => ($array_user['sex'] == 'Femme')? 'femme' : 'homme',
+				'ROLE' => $array_user['roles'],
+				'IM' => $array_user['im'],
+				'PROFIL_U' => session_in_url($root_path.'service/profil.php?link='.$array_user['user_id']),
+			));
 			if ($config['show_grade'] == 1)
 			{
-				$template->assign_block_vars('cadre.total.grade', array('vide'));
-			}
-			else
-			{
-				$template->assign_block_vars('cadre.total.no_grade', array('vide'));
-			}
-			foreach($array_equipe as $liste_user => $array_user)
-			{// fait la liste des membres dans l'equipe
-				$template->assign_block_vars('cadre.total.listage', array(
-					'NOM' => $array_user['user'],
-					'SEX' => ($array_user['sex'] == 'Femme')? 'femme' : 'homme',
-					'ROLE' => $array_user['roles'],
-					'IM' => $array_user['im'],
-					'PROFIL_U' => session_in_url($root_path.'service/profil.php?link='.$array_user['user_id']),
-				));
-				if ($config['show_grade'] == 1)
-				{
-					$template->assign_block_vars('cadre.total.listage.grade', array('GRADE' => $array_user['grade_nom']));
-				}
+				$template->assign_block_vars('cadre.total.listage.grade', array('GRADE' => $array_user['grade_nom']));
 			}
 		}
 	}

@@ -44,7 +44,7 @@ $langue['recrute_pas'] = "Nous ne sommes pas à la recherche de nouveaux joueurs.
 $langue['alert_ie'] = "[b]Avertissement :[/b] vous affichez cette page avec un navigateur Web non pris en charge. Ce site Web fonctionne de manière optimale avec [url=http://frenchmozilla.org/firefox/pourquoi/]Mozilla FireFox[/url] ou version ultérieure, ou Mozilla 1.6 ou version ultérieure";
 
 $langue['exec_time_rsql'] = "Page exécutée en %fs || %d requêtes sql";
-$langue['copyright'] = "Créé par <a href=\"mailto:narfight@clanlite.org\">Narfight</a>, <a href=\"http://www.clanlite.org\" onclick=\"window.open('http://www.clanlite.org');return false;\">ClanLite</a> V%1\$s © 2000-2004";
+$langue['copyright'] = "Crée par <a href=\"mailto:narfight@clanlite.org\">Narfight</a>, <a href=\"http://www.clanlite.org\" onclick=\"window.open('http://www.clanlite.org');return false;\">ClanLite</a> V%1\$s © 2000-2004";
 $langue['deconect_login'] = "Votre session est férmée<br />Vous ne serez plus automatiquement reconnu par le site à présent";
 
 $langue['where_unknow'] = "Vient de se connecter au site";
@@ -378,7 +378,7 @@ $langue['config_nbr_par_page'] = "Nombre de lignes par page";
 $langue['config_help_nbr/page'] = "<b>Exemple :</b> X fichiers de t&eacute;l&eacute;chargement par page, ou de rapport de match";
 $langue['config_reglement'] = "Règlement du clan";
 $langue['config_msg_news_membre'] = "Message de bienvenue apres l'inscription";
-$langue['config_mail_send_titre'] = "L'envoi d'e-mail";
+$langue['config_mail_send_titre'] = "L'envois d'e-mail";
 $langue['config_send_by'] = "Envois d'e-mail";
 $langue['config_by_smtp'] = "Par SMTP";
 $langue['config_by_php'] = "Par mail()";

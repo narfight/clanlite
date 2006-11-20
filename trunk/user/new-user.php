@@ -189,41 +189,66 @@ $template->assign_vars(array(
 ));
 // scan le rep pour les images
 // Ouvre un dossier bien connu, et liste tous les fichiers
-foreach(scandir($root_path.'images/personnages') as $id => $file)
+$dir = '../images/personnages';
+if (is_dir($dir))
 {
-	if (ereg('(.*).(gif|jpg|jpeg|jfif|png|bmp|dib|tif|tiff)', $file, $perso) && $file != '0.jpeg')
-	{ 
-		$template->assign_block_vars('images', array(
-			'FICHIER' => $perso[0],
-			'VALUE' => $perso[1],
-			'SELECTED' => ( !empty($_POST['perso']) && $_POST['perso'] == $perso[0]) ? 'selected="selected"' : '',
-		));
+	if ($dh = opendir($dir))
+	{
+		while (($file = readdir($dh)) !== false)
+		{
+			if($file != '..' && $file !='.' && $file !='' && $file != "0.jpeg")
+			{ 
+				$perso = explode(".", $file);
+				$template->assign_block_vars('images', array(
+					'FICHIER' => $file,
+					'VALUE' => $perso[0],
+					'SELECTED' => ( !empty($_POST['perso']) && $_POST['perso'] == $file) ? 'selected="selected"' : '',
+				));
+			}
+		}
+		closedir($dh);
 	}
 }
 // scan le rep pour les langues
-foreach(scandir($root_path.'langues') as $id => $file)
+$dir = '../langues/';
+if (is_dir($dir))
 {
-	if (file_exists($root_path.'langues/'.$file.'/langue.php'))
-	{ 
-		$template->assign_block_vars('langue', array(
-			'NAME' => $file,
-			'VALUE' => $file,
-			'SELECTED' => (!empty($_POST['langue']) && $_POST['langue'] == $file) ? 'selected="selected"' : '',
-		));
+	if ($dh = opendir($dir))
+	{
+		while (($file = readdir($dh)) !== false)
+		{
+			if($file != '..' && $file !='.' && $file !='')
+			{ 
+				$template->assign_block_vars('langue', array(
+					'NAME' => $file,
+					'VALUE' => $file,
+					'SELECTED' => ( !empty($_POST['langue']) && $_POST['langue'] == $file) ? 'selected="selected"' : '',
+				));
+			}
+		}
+		closedir($dh);
 	}
 }
 // scan le rep pour les images des armes
+$dir = '../images/armes';
 // Ouvre un dossier bien connu, et liste tous les fichiers
-foreach(scandir($root_path.'images/armes') as $id => $file)
+if (is_dir($dir))
 {
-	if (ereg('(.*).(gif|jpg|jpeg|jfif|png|bmp|dib|tif|tiff)', $file, $perso) && $file != '0.jpeg')
-	{ 
-		$template->assign_block_vars('armes', array(
-			'NOM' => $perso[1],
-			'VALEUR' => $perso[0],
-			'SELECTED' => (!empty($_POST['arme']) && $_POST['arme'] == $perso[0]) ? 'selected="selected"' : '',
-			
-		));
+	if ($dh = opendir($dir))
+	{
+		while (($file = readdir($dh)) !== false)
+		{
+			if($file != '..' && $file !='.' && $file !='' && $file != "0.gif")
+			{ 
+				$armes = explode(".", $file);
+				$template->assign_block_vars('armes', array(
+					'NOM' => $armes[0],
+					'VALEUR' => $file,
+					'SELECTED' => ( !empty($_POST['arme']) && $_POST['arme'] == $file) ? 'selected="selected"' : '',
+				));
+			}
+		}
+		closedir($dh);
 	}
 }
 $template->pparse('body');

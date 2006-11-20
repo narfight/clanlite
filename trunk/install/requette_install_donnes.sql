@@ -14,7 +14,7 @@ INSERT INTO clanlite_config VALUES ('inscription', '2');
 INSERT INTO clanlite_config VALUES ('tag', '[CL]');
 INSERT INTO clanlite_config VALUES ('nom_clan', '[Clan Lite - Home]');
 INSERT INTO clanlite_config VALUES ('limite_inscription', '24');
-INSERT INTO clanlite_config VALUES ('version', '1.23.01.2005');
+INSERT INTO clanlite_config VALUES ('version', '1.20.01.2005');
 INSERT INTO clanlite_config VALUES ('objet_par_page', '10');
 INSERT INTO clanlite_config VALUES ('site_path', '/clanlite/');
 INSERT INTO clanlite_config VALUES ('raport_error', '1');
@@ -76,7 +76,7 @@ INSERT INTO clanlite_smilies VALUES (66, ':mad:', 'non.gif', 'Mécontent', 16, 16
 INSERT INTO clanlite_smilies VALUES (67, ':P', 'pop.gif', 'Razz', 16, 16);
 INSERT INTO clanlite_smilies VALUES (68, ':-p', 'pop.gif', 'Razz', 16, 16);
 INSERT INTO clanlite_smilies VALUES (69, ':razz:', 'pop.gif', 'Razz', 16, 16);
-INSERT INTO clanlite_smilies VALUES (70, ':oops:', 'confusion.gif', 'Embarassé', 16, 16);
+INSERT INTO clanlite_smilies VALUES (70, ':oops:', 'confusion.gif', 'Embarasser', 16, 16);
 INSERT INTO clanlite_smilies VALUES (71, ':cry:', 'snif.gif', 'Crying or Very sad', 16, 16);
 INSERT INTO clanlite_smilies VALUES (72, ':evil:', 'evil.gif', 'Evil or Very Mad', 16, 16);
 INSERT INTO clanlite_smilies VALUES (73, ':twisted:', 'evil-heureux.gif', 'Twisted Evil', 16, 16);

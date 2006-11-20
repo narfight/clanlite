@@ -12,12 +12,11 @@
 $root_path = './../';
 $action_membre = '';
 $action_db = '';
-$news_version = '1.23.01.2005';
+$news_version = '1.20.01.2005';
 require($root_path.'conf/template.php');
 require($root_path.'conf/conf-php.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames(array('body' => 'divers_text.tpl'));
-$maj = false;
 switch($config['version'])
 {
 	case '1.18.04.2004':
@@ -96,7 +95,6 @@ switch($config['version'])
 			$action_db['1.16.09.2004']['Déplace la configuration du serveur de jeu du clan'] = "INSERT INTO `".$config['prefix']."game_server` (`ip`, `port`, `protocol`, `clan`) VALUES ('".$config['serveur_game_ip']."', '".$config['serveur_game_port']."', '".$config['serveur_game_protocol']."', '1');";
 		}
 	case '1.01.11.2004':
-	case '1.20.01.2005':
 	// pas de modif pour la version 1.01.11.2004
 	// sans break, metre case version a la suite, comme ca il fait toutes les mise à jours de la db de la version qu'il a jusqua la version actuelle
 	$maj = true;
@@ -106,23 +104,12 @@ switch($config['version'])
 	break;
 	default:
 		$action_db = '';
-		$etat = 'La version de votre ClanLite est inconnue';
+		$etat = 'La version de Votre ClanLite est inconnue';
 }
 if (is_array($action_db) && empty($etat) || $maj)
 {
 	// on ajoute automatiquement le changement de version dans la db
 	$action_db[$config['version']]['Mise à jours du numero de version'] = "UPDATE `".$config['prefix']."config` SET `conf_valeur` = '".$news_version."' WHERE `conf_nom` = 'version' AND `conf_valeur` = '".$config['version']."' LIMIT 1";
-	// on vérifie que le nombre de joueur est toujours le bon
-	$sql = "SELECT COUNT(`id`) FROM ".$config['prefix']."user";
-	if (! ($get = $rsql->requete_sql($sql)) )
-	{
-		sql_error($sql, $rsql->error, __LINE__, __FILE__);
-	}
-	else
-	{
-		$liste = $rsql->s_array($get);
-		$action_db[$config['version']]['vérifie le nombre de membre'] = "UPDATE `".$config['prefix']."config` SET `conf_valeur` = '".$liste['COUNT(`id`)']."' WHERE `conf_nom` = 'nbr_membre' ";
-	}
 	$texte = "<ul>\n";
 	foreach ($action_db as $version => $action)
 	{
@@ -136,10 +123,7 @@ if (is_array($action_db) && empty($etat) || $maj)
 				{
 					$texte .= "	<li><b>".$for." : </b> erreur --> ".$rsql->error;
 				}
-				else
-				{
-					$texte .= "	<li><b>".$for." : </b> OK";
-				}
+				$texte .= "	<li><b>".$for." : </b> OK";
 			}
 			$texte .= "	</ul>\n";
 		}
@@ -148,7 +132,7 @@ if (is_array($action_db) && empty($etat) || $maj)
 }
 $template->assign_vars(array(
 	'TITRE' => 'Mise à jour de ClanLite vers la version '.$news_version,
-	'TEXTE' => (empty($etat))? $texte.'<br /> Prenez le temps de lire <a href="../DOCS/INSTALL.html#upgradeSTABLE">la documentation sur la mise à jour depuis une précédente version de ClanLite</a>' : $etat,
+	'TEXTE' => (empty($etat))? $texte : $etat,
 ));
 $template->pparse('body');
 ?>

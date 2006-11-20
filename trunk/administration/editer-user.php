@@ -167,43 +167,68 @@ if ( ($profil = $rsql->s_array($get)) )
 		));
 	}
 	// scan le rep pour les images des personnages
+	$dir = '../images/personnages';
 	// Ouvre un dossier bien connu, et liste tous les fichiers
-	foreach(scandir($root_path.'images/personnages') as $id => $file)
+	if (is_dir($dir))
 	{
-		if (ereg('(.*).(gif|jpg|jpeg|jfif|png|bmp|dib|tif|tiff)', $file, $perso) && $file != '0.jpeg')
-		{ 
-			$template->assign_block_vars('images', array(
-				'FICHIER' => $perso[0],
-				'VALUE' => $perso[1],
-				'SELECTED' => ($profil['images'] == $perso[0]) ? 'selected="selected"' : '',
-			));
+		if ($dh = opendir($dir))
+		{
+			while (($file = readdir($dh)) !== false)
+			{
+				if($file != '..' && $file != '.' && $file != '' && $file != '0.jpeg')
+				{ 
+					$perso = explode('.', $file);;
+					$template->assign_block_vars('images', array(
+						'FICHIER' => $file,
+						'SELECTED' => ($profil['images'] == $file) ? 'selected="selected"' : '',
+						'VALUE' => $perso[0],
+					));
+				}
+			}
+			closedir($dh);
 		}
 	}
 	// scan le rep pour les langues
+	$dir = '../langues/';
 	// Ouvre un dossier bien connu, et liste tous les fichiers
-	foreach(scandir($root_path.'langues') as $id => $file)
+	if (is_dir($dir))
 	{
-		if (file_exists($root_path.'langues/'.$file.'/langue.php'))
-		{ 
-			$template->assign_block_vars('langue', array(
-				'NAME' => $file,
-				'VALUE' => $file,
-				'SELECTED' => ( $profil['langue'] == $file) ? 'selected="selected"' : '',
-			));
+		if ($dh = opendir($dir))
+		{
+			while (($file = readdir($dh)) !== false)
+			{
+				if($file != '..' && $file !='.' && $file !='')
+				{ 
+					$template->assign_block_vars('langue', array(
+						'NAME' => $file,
+						'VALUE' => $file,
+						'SELECTED' => ( $profil['langue'] == $file) ? 'selected="selected"' : '',
+					));
+				}
+			}
+			closedir($dh);
 		}
 	}
 	// scan le rep pour les images des armes
 	$dir = '../images/armes';
 	// Ouvre un dossier bien connu, et liste tous les fichiers
-	foreach(scandir($root_path.'images/armes') as $id => $file)
+	if (is_dir($dir))
 	{
-		if (ereg('(.*).(gif|jpg|jpeg|jfif|png|bmp|dib|tif|tiff)', $file, $perso) && $file != '0.jpeg')
-		{ 
-			$template->assign_block_vars('armes', array(
-				'NOM' => $perso[1],
-				'VALUE' => $perso[0],
-				'SELECTED' => ($profil['armes_préférées'] == $perso[0]) ? 'selected="selected"' : '',
-			));
+		if ($dh = opendir($dir))
+		{
+			while (($file = readdir($dh)) !== false)
+			{
+				if($file != '..' && $file != '.' && $file != '' && $file != '0.gif')
+				{ 
+					$armes = explode('.', $file);
+					$template->assign_block_vars('armes', array(
+						'NOM' => $armes[0],
+						'VALUE' => $file,
+						'SELECTED' => ( $profil['armes_préférées'] == $file) ? 'selected="selected"' : '',
+					));
+				}
+			}
+			closedir($dh);
 		}
 	}
 	$template->pparse('body');
