@@ -22,7 +22,7 @@ $template->assign_vars(array(
 	'IP' => $langue['ip'],
 ));
 // création de la liste des connecter
-$sql = "SELECT stock FROM ".$config['prefix']."sessions";
+$sql = "SELECT * FROM `".$config['prefix']."sessions` WHERE UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(date) < ".$config['time_cook'];
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql ,mysql_error(), __LINE__, __FILE__);
@@ -64,7 +64,7 @@ while ($liste = $rsql->s_array($get))
 			$template->assign_block_vars('IP', 'vide');
 		}
 	}
-unset($nfo_session);
+	unset($nfo_session);
 } 
 $template->pparse('body');
 include($root_path."conf/frame_admin.php");

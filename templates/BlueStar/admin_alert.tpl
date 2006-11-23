@@ -23,7 +23,7 @@
 		<div class="big_texte"><textarea name="text" cols="40" rows="10" id="text" onBlur="formverif(this.id,'nbr','10')">{TEXT}</textarea></div>
 	</p>
 	<p>
-		<span><label for="def">{TXT_AUTO_DEL}&nbsp;:</label></span>
+		<span><label for="auto_del">{TXT_AUTO_DEL}&nbsp;:</label></span>
 		<span><input name="auto_del" id="auto_del" {AUTO_DEL} type="checkbox" value="oui" onChange="toggle_msg('auto_del_div', this.id, 'true', 'checked')"></span>
 	</p>
 	<div id="auto_del_div">

@@ -13,7 +13,7 @@ if (defined('CL_AUTH'))
 	{
 		return;
 	}
-	$sql = "SELECT COUNT(*) FROM `".$config['prefix']."sessions`";
+	$sql = "SELECT COUNT(*) FROM `".$config['prefix']."sessions` WHERE UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(date) < ".$config['time_cook'];
 	if (! ($get_connecte = $rsql->requete_sql($sql, 'module', 'prend le nombre de session')) )
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);

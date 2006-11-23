@@ -14,7 +14,6 @@ if (defined('CL_AUTH'))
 		return;
 	}
 	$tpl_filename = $template->make_filename('modules/officiel_module.tpl');
-	//$tpl_filename = $template->make_filename('modules/bbcode.tpl');
 	
 	$tpl = fread(fopen($tpl_filename, 'r'), filesize($tpl_filename));
 	
@@ -30,7 +29,7 @@ if (defined('CL_AUTH'))
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 	}
-	while ($match = $rsql->s_array($get)) 
+	if ($match = $rsql->s_array($get)) 
 	{
 		if ( empty($match['nom']) )
 		{
@@ -50,6 +49,13 @@ if (defined('CL_AUTH'))
 		$template->assign_block_vars("modules_".$modules['place'],array(
 			'TITRE' => $modules['nom'],
 			'IN' => $block['match']
+		));
+	}
+	else
+	{
+		$template->assign_block_vars("modules_".$modules['place'],array(
+			'TITRE' => $modules['nom'],
+			'IN' => $langue['no_futur_match']
 		));
 	}
 }

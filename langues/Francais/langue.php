@@ -11,7 +11,7 @@ voici un exemple de traduction : $langue['test_traduction'] = "je suis \"malade\
 $langue['boutton_liste_game'] = "Serveurs de jeux";
 $langue['boutton_news'] = "Les news";
 $langue['boutton_forum'] = "Forum";
-$langue['boutton_inscription'] = "Rejoindre le clan";
+$langue['boutton_inscription'] = "Recrutement";
 $langue['boutton_match'] = "Les matchs";
 $langue['boutton_calendrier'] = "Calendrier";
 $langue['boutton_reglement'] = "Règlement";
@@ -35,7 +35,7 @@ $langue['recrute_s'] = "Nous cherchons [b]un[/b] nouveau joueur pour notre clan.
 $langue['recrute_p'] = "Nous cherchons [b]%d[/b] nouveaux joueurs pour notre clan.";
 $langue['recrute'] = "Nous sommes à la recherche de nouveaux joueurs dans notre clan.";
 $langue['recrute_pas'] = "Nous ne sommes pas à la recherche de nouveaux joueurs.";
-$langue['alert_ie'] = "[b]Avertissement :[/b] vous affichez cette page avec un navigateur Web non pris en charge. Ce site Web fonctionne de manière optimale avec [url=http://www.mozilla.org/products/firefox/]Mozilla FireFox[/url] ou version ultérieure, ou Mozilla 1.6 ou version ultérieure";
+$langue['alert_ie'] = "[b]Avertissement :[/b] vous affichez cette page avec un navigateur Web non pris en charge. Ce site Web fonctionne de manière optimale avec [url=http://frenchmozilla.org/firefox/pourquoi/]Mozilla FireFox[/url] ou version ultérieure, ou Mozilla 1.6 ou version ultérieure";
 
 $langue['exec_time_rsql'] = "Page exécutée en %fs || %d requêtes sql";
 $langue['copyright'] = "Powered by <a href=\"mailto:narfight@lna.be\">Narfight</a>, <a href=\"http://clanlite.lna.be\" onclick=\"window.open('http://clanlite.lna.be');return false;\">ClanLite</a> V%1\$s © 2000-2004";
@@ -151,6 +151,7 @@ $langue['resume_match_gagnee'] = "Nombre de match gagné";
 $langue['resume_match_perdu'] = "Nombre de match perdu";
 $langue['resume_match_norm'] = "Nombre d'égalitée";
 $langue['no_match_joue'] = "Le clan n'a pas encore fait de match";
+$langue['no_futur_match'] = "Pas de match prévu";
 
 $langue['titre_reaction'] = "Les réactions";
 $langue['where_reaction'] = "Regarde les réactions d'une news";
@@ -216,7 +217,6 @@ $langue['admin_nombre_match'] = "Nombre de matchs prévus";
 $langue['admin_nombre_demande_match'] = "Nombre de demandes de matchs en attente";
 $langue['user_verif'] = "Vérifier !!!";
 $langue['user_ok'] = "Ok";
-$langue['admin_news_cl'] = "Une nouvelle version de Clan Lite est disponible ( votre version: %1\$s, version disponible: %2\$s )";
 $langue['user_match_place'] = "Il y a encore de la place pour les matchs suivants";
 $langue['user_entrainement_place'] = "Le prochain entraînement";
 $langue['info_match_place'] = "Contre les %1\$s qui se déroulera le %2\$s à %3\$s";
@@ -225,10 +225,15 @@ $langue['date_entrai'] = "Prévu le";
 $langue['info_entrai'] = "Information publique";
 $langue['info_prive_entrai'] = "Information privée";
 
+$langue['admin_news_cl_titre'] = "Mise à jours de ClanLite";
+$langue['admin_news_cl_on'] = "Une nouvelle version de Clan Lite est disponible<br />( votre version: %1\$s, version disponible: %2\$s )";
+$langue['admin_news_cl_off'] = "Recherche désactivée";
+$langue['admin_news_cl_toggle'] = "Activer/Désactiver la détection de nouvelle mise à jours";
+
 $langue['titre_lire_news_nfo'] = "Lisez bien ceci";
 $langue['where_lire_news_nfo'] = "Lit le texte après l'inscription";
-$langue['text_bienvenu_vide'] = "Votre inscription a bien été enregistrée, contactez l'administrateur pour activer votre compte";
 
+$langue['text_bienvenu_vide'] = "Votre inscription a bien été enregistrée, contactez l'administrateur pour activer votre compte";
 $langue['titre_inscription'] = "Formulaire d'inscription au clan";
 $langue['where_inscription'] = "Remplit le formulaire d'inscription";
 $langue['inscription_fermée'] = "Les inscriptions sont bloquées, vous ne saurez pas envoyer ce formulaire";
@@ -249,7 +254,7 @@ $langue['redirection_txt_nonvide'] = "%1\$s<br />Cliquez <a href=\"%2\$s\">ici</
 $langue['module_compteur'] = "Il y a eu %1\$d visiteurs et il y a %2\$d connecté(s)";
 
 $langue['module_mp3'] = "Vous écoutez %1\$s qui vous chante \"%2\$s\"";
-$langue['module_mp3_no_info'] = "Information affichée à la prochaine page";
+$langue['module_mp3_no_info'] = "Information affichée à la prochaine page si vous avez enclenché le lecteur";
 
 $langue['where_module_aléatoire'] = "Gère le module aléatoires";
 $langue['titre_module_aléatoire'] = "Les aléatoire [Module]";
@@ -308,6 +313,9 @@ $langue['opt_auto_dell_alert'] = "Supprimer automatiquement à une date";
 $langue['opt_auto_dell_desactiver'] = "Aucune";
 
 $langue['titre_config_site'] = "Configuration général";
+$langue['config_site_base_titre'] = "Configuration de base";
+$langue['config_site_avancée_titre'] = "Configuration avancée";
+$langue['config_inscription_titre'] = "Les inscriptions";
 $langue['where_config_site'] = "Configure le site";
 $langue['redirection_config_ok'] = "La configuration a été mise à jour";
 $langue['config_tag_clan'] = "Le TAG du clan";
@@ -329,11 +337,14 @@ $langue['config_help_nbr/page'] = "<b>Exemple :</b> X fichiers de t&eacute;l&eac
 $langue['config_show_server_list'] = "Afficher la liste des serveurs de jeux";
 $langue['config_reglement'] = "Règlement du clan";
 $langue['config_msg_news_membre'] = "Message de bienvenue apres l'inscription";
+$langue['config_serveur_titre'] = "Serveur de jeux";
 $langue['config_serveur_game'] = "Le clan a un serveur de jeux";
-$langue['config_serveur_ip'] = "IP de votre serveur de jeux";
-$langue['config_serveur_port'] = "Query Port de votre serveur de jeux";
+$langue['config_serveur_game_ip'] = "IP de votre serveur de jeux";
+$langue['config_serveur_game_port'] = "Query Port de votre serveur de jeux";
 $langue['config_help_port'] = "<b>Pour Unreal Tournament :</b>Query Port = le port de votre serveur+1 <br /> <b>Pour Unreal Tournament 2003 :</b>Query Port = le port de votre serveur+10 <br /> <b>Pour Battlefield 1942 :</b>Pas de régle <br /> <b>Pour America\'s Army :</b>Query Port = le port de votre serveur+1<br /><br />Tout les jeux qui ne sont pas dans cette liste ont le même Query Port que le port pour s\'y connecter";
-$langue['config_serveur_protocol'] = "Protocol du serveur de jeux";
+$langue['config_serveur_game_protocol'] = "Protocol du serveur de jeux";
+$langue['config_serveur_game_txt'] = "Message visible sur la page serveur";
+$langue['config_mail_send_titre'] = "L'envois d'e-mail";
 $langue['config_send_by'] = "Envois d'e-mail";
 $langue['config_by_smtp'] = "Par SMTP";
 $langue['config_by_php'] = "Par mail()";
@@ -373,6 +384,7 @@ $langue['dll_url'] = "Emplacement du fichier";
 $langue['group_fichier'] = "Dans le groupe";
 
 $langue['where_medaille'] = "Gère les médailles d'un membre";
+$langue['redirection_medaille'] = "Les médailles ont été changées";
 $langue['titre_medaille'] = "Gestion des médailles";
 
 $langue['where_entrain'] = "Est dans l'administration des entraînements";
@@ -478,6 +490,7 @@ $langue['admin_mp3_autoplay'] = "Lecture automatique";
 $langue['admin_mp3_loop'] = "Lecture en boucle";
 $langue['mp3_artiste'] = "L'artiste";
 $langue['mp3_titre'] = "Titre";
+$langue['demande_lecteur_on'] = "Cliquez ici pour écouter un MP3";
 
 $langue['where_admin_news'] = "Est dans l'administration des news";
 $langue['titre_admin_news'] = "Les news";

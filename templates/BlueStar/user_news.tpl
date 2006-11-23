@@ -69,8 +69,8 @@
 		<span>
 		<label for="perso">{TXT_IMAGE}&nbsp;:</label>
 		</span> 
-		<span><select name="perso" id="perso" onChange="document.images['user_flag'].src = '../images/personnages/' + this.value;" onBlur="formverif(this.id, 'autre', '0.gif')">
-        <option value="0.gif">{TXT_CHOISIR}</option>
+		<span><select name="perso" id="perso" onChange="document.images['user_flag'].src = '../images/personnages/' + this.value;" onBlur="formverif(this.id, 'autre', '0.jpeg')">
+        <option value="0.jpeg">{TXT_CHOISIR}</option>
         <!-- BEGIN images -->
         <option value="{images.FICHIER}" {perso.SELECTED}>{images.FICHIER}</option>
         <!-- END images -->

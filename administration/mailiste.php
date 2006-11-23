@@ -21,9 +21,10 @@ if (!empty($_POST['Envoyer']))
 	}
 	$mailer->set_from($config['master_mail']);
 	$mailer->set_reply_to($config['master_mail']);
-	$mailer->set_subject($_POST['subject']);
-	$mailer->set_message($_POST['corps']);
-	$sql = "SELECT mail,user FROM ".$config['prefix']."user ORDER BY id ASC";
+	$mailer->set_subject(pure_var($_POST['subject'], 'no'));
+	$mailer->set_message(pure_var($_POST['corps'], 'no'));
+	$where = ($_POST['section'] == 0)? '' : "WHERE section='".$_POST['section']."' ";
+	$sql = "SELECT mail,user FROM ".$config['prefix']."user ".$where."ORDER BY id ASC";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
@@ -45,7 +46,21 @@ $template->assign_vars( array(
 	'TXT_SUBJECT' => $langue['mailiste_subject'],
 	'TXT_CORPS' => $langue['mailiste_corps'],
 	'ENVOYER' => $langue['envoyer'],
+	'TXT_FOR' => $langue['quelle_section'],
+	'ALL_SECTION' => $langue['toutes_section'],
 ));
+$sql = "SELECT * FROM ".$config['prefix']."section";
+if (! ($get_section_liste = $rsql->requete_sql($sql)) )
+{
+	sql_error($sql, $rsql->error, __LINE__, __FILE__);
+}
+while ( ($liste_section = $rsql->s_array($get_section_liste)) )
+{
+	$template->assign_block_vars('section', array( 
+		'ID' => $liste_section['id'],
+		'NOM' => $liste_section['nom']
+	));
+}
 $template->pparse('body');
 include($root_path."conf/frame_admin.php");
 ?>

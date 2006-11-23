@@ -22,8 +22,8 @@ else
 {
 	$template->set_filenames(array('body' => 'serveur_jeux.tpl'));
 	// on regarde si nous avons une image de la map en cour
-	$path = $root_path."images/pics_map/".$gameserver->mapname.".jpg";
-	switch($gameserver->password)
+	$path = $root_path."images/pics_map/".$gameserver['mapname'].".jpg";
+	switch($gameserver['password'])
 	{
 		case "0":
 			$serveur_password = $langue['non'];
@@ -42,19 +42,18 @@ else
 		'TXT_INFO' => $langue['info_serveur_jeux'],
 		'INFO' => nl2br(bbcode($config['serveur_game_info'])),
 		'TXT_NAME' => $langue['nom_serveur_jeux'],
-		'NAME' => $gameserver->servertitle,
+		'NAME' => $gameserver['servertitle'],
 		'TXT_VERSION' => $langue['version_serveur_jeux'],
-		'VERSION' => $gameserver->gameversion,
+		'VERSION' => $gameserver['gameversion'],
 		'TXT_PLACE' => $langue['nbr_place_serveur_jeux'],
-		'PLACE' => $gameserver->maxplayers,
-		'PLAYER' => $gameserver->numplayers,
-		'MAP' => htmlspecialchars($gameserver->mapname),
-		'PORT' => $gameserver->hostport,
+		'PLACE' => $gameserver['maxplayers'],
+		'PLAYER' => $gameserver['numplayers'],
+		'PORT' => $gameserver['hostport'],
 		'PICS_MAP' => (file_exists($path))? $path : $root_path."images/pics_map/empty.jpg",
 		'TXT_GAME_TYPE' => $langue['gametype_serveur_jeux'],
-		'GAME_TYPE' => $gameserver->gametype,								
+		'GAME_TYPE' => $gameserver['gametype'],
 		'TXT_CURRENT_MAP' => $langue['map_serveur_jeux'],
-		'CURRENT_MAP' => scan_map($gameserver->mapname, 'nom'),
+		'CURRENT_MAP' => scan_map($gameserver['mapname'], 'nom'),
 		'TXT_PASSWORD' => $langue['password_serveur_jeux'],
 		'PASSWORD' => $serveur_password,
 		'LISTE_JOUEUR' => $langue['liste_joueur_serveur_jeux'],
@@ -64,40 +63,40 @@ else
 	{
 		$template->assign_block_vars('next_map', array(
 			'TXT_NEXT_MAP' => $langue['next_map_serveur_jeux'],
-			'NEXT_MAP' => scan_map($gameserver->nextmap, 'nom'),
+			'NEXT_MAP' => scan_map($gameserver['nextmap'], 'nom'),
 		));
 	}
-	if ( !empty($gameserver->rules['sv_maxPing']) || !empty($gameserver->rules['sv_minPing']) )
+	if ( !empty($gameserver['rules']['sv_maxPing']) || !empty($gameserver['rules']['sv_minPing']) )
 	{
 		$template->assign_block_vars('min_max_ping', array(
 			'TXT_ENTRE_PING' => $langue['ip_min_max_serveur_jeux'],
-			'MIN_PING' => $gameserver->rules['sv_minPing'],
-			'MAX_PING' => $gameserver->rules['sv_maxPing'],
+			'MIN_PING' => $gameserver['rules']['sv_minPing'],
+			'MAX_PING' => $gameserver['rules']['sv_maxPing'],
 		));
 	}
 	// on fais la liste des joueurs qui sont sur le serveur
 	if ($config['serveur_game_protocol'] == "q3a")
 	{
-		if ($gameserver->gametype == "Objective-Match")
+		if ($gameserver['gametype'] == "Objective-Match")
 		{
 			$template->assign_block_vars('objectif', array(
 				'TXT_OBJ_AXIS' => $langue['obj_axis_serveur_jeux'],
 				'TXT_OBJ_ALLIER' => $langue['obj_allier_serveur_jeux'],
-				'OBJ_1_ALLIER' => ( !empty($gameserver->rules['g_obj_alliedtext1']) ) ? $gameserver->rules['g_obj_alliedtext1'] : "",
-				'OBJ_2_ALLIER' => ( !empty($gameserver->rules['g_obj_alliedtext2']) ) ? $gameserver->rules['g_obj_alliedtext2'] : "",
-				'OBJ_3_ALLIER' => ( !empty($gameserver->rules['g_obj_alliedtext3']) ) ? $gameserver->rules['g_obj_alliedtext3'] : "",
-				'OBJ_1_AXIS' => ( !empty($gameserver->rules['g_obj_axistext1']) ) ? $gameserver->rules['g_obj_axistext1'] : "",
-				'OBJ_2_AXIS' => ( !empty($gameserver->rules['g_obj_axistext2']) ) ? $gameserver->rules['g_obj_axistext2'] : "",
-				'OBJ_3_AXIS' => ( !empty($gameserver->rules['g_obj_axistext3']) ) ? $gameserver->rules['g_obj_axistext3'] : "",
+				'OBJ_1_ALLIER' => ( !empty($gameserver['rules']['g_obj_alliedtext1']) ) ? $gameserver['rules']['g_obj_alliedtext1'] : "",
+				'OBJ_2_ALLIER' => ( !empty($gameserver['rules']['g_obj_alliedtext2']) ) ? $gameserver['rules']['g_obj_alliedtext2'] : "",
+				'OBJ_3_ALLIER' => ( !empty($gameserver['rules']['g_obj_alliedtext3']) ) ? $gameserver['rules']['g_obj_alliedtext3'] : "",
+				'OBJ_1_AXIS' => ( !empty($gameserver['rules']['g_obj_axistext1']) ) ? $gameserver['rules']['g_obj_axistext1'] : "",
+				'OBJ_2_AXIS' => ( !empty($gameserver['rules']['g_obj_axistext2']) ) ? $gameserver['rules']['g_obj_axistext2'] : "",
+				'OBJ_3_AXIS' => ( !empty($gameserver['rules']['g_obj_axistext3']) ) ? $gameserver['rules']['g_obj_axistext3'] : "",
 			));
 		}
 		// on fait la liste des maps
-		if (!empty($gameserver->maplist) )
+		if (!empty($gameserver['maplist']) )
 		{
 			$template->assign_block_vars('list_map', array(
 				'TXT_ROTATION' => $langue['rotation_map_serveur_jeux'],
 			));
-			foreach ($gameserver->maplist as $num => $name)
+			foreach ($gameserver['maplist'] as $num => $name)
 			{ 
 				if (!empty($name))
 				{
@@ -117,15 +116,14 @@ else
 		}
 	}
 	// liste des joueurs
-	$players=$gameserver->sortPlayers($gameserver->players,'name');
 	$verif_ping='';
 	$verif_score='';
 	$verif_enemy='';
 	$verif_kia='';
 	$verif_frags='';
-	if(count($players))
+	if(count($gameserver['players']))
 	{
-		foreach($players as $player)
+		foreach($gameserver['players'] as $player)
 		{
 			$template->assign_block_vars('players', array('NAME' => $player['name']));
 			if ( isset($player['ping']) )

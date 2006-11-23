@@ -1,7 +1,4 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
 
 /*
  *  gsQuery - Querys game servers
@@ -34,7 +31,7 @@ include_once("gsQuery.php");
 /**
  * @brief Querys a halflife server
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: hlife.php,v 1.9 2004/03/17 07:25:21 jr Exp $
+ * @version $Id: hlife.php,v 1.11 2004/05/22 17:01:39 jr Exp $
  * @bug negative scores are not shown correctly 
  * @todo extract time field out of the player data
 
@@ -88,6 +85,7 @@ class hlife extends gsQuery
 	break;
       }
     } 
+	$this->gametype = ($this->gametype == 'cstrike')? $this->gametype.' '.$this->gameversion : $this->gametype;
     
     // get players
     if($this->numplayers && $getPlayers) {
@@ -136,7 +134,7 @@ class hlife extends gsQuery
 	$this->nextmap=$exploded_data[$i];
 	break;
       default:
-	if(isset($exploded_data[$i-1])) {
+	if(isset($exploded_data[$i-1]) && isset($exploded_data[$i])) {
 	  $this->rules[$exploded_data[$i-1]]=$exploded_data[$i];
 	}
       }
@@ -155,17 +153,17 @@ class hlife extends gsQuery
   {
     $get_challenge="\xFF\xFF\xFF\xFFchallenge rcon\n";
     if(!($challenge_rcon=$this->_sendCommand($this->address,$this->queryport,$get_challenge))) {
-      $this->debug["Command send " . $command]="No challenge rcon recieved";
+      $this->debug["Command send " . $command]="No challenge rcon received";
       return FALSE;
     }
     if (!ereg('challenge rcon ([0-9]+)', $challenge_rcon)) {
-      $this->debug["Command send " . $command]="No valid challenge rcon recieved";
+      $this->debug["Command send " . $command]="No valid challenge rcon received";
       return FALSE;
     }
     $challenge_rcon=substr($challenge_rcon, 19,10);
     $command="\xFF\xFF\xFF\xFFrcon \"".$challenge_rcon."\" ".$rcon_psw." ".$command."\n";
     if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
-      $this->debug["Command send " . $command]="No reply recieved";
+      $this->debug["Command send " . $command]="No reply received";
       return FALSE;
     } else {
       return substr($result, 5);

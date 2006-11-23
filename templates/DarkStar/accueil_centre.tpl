@@ -2,12 +2,10 @@
 	<h1>{TITRE_NEWS}</h1>
   <!-- BEGIN news --> 
   <div class="news"> 
-    <h2>{news.TITRE}</h2> 
+    <h2>{news.TITRE} <span class="reponce">{POSTE_LE} {news.DATE} {PAR} {news.BY}</span></h2> 
     <ul class="header"> 
-      <li>{POSTE_LE} <span class="reponce">{news.DATE}</span></li> 
-      <li>{PAR} <span class="reponce">{news.BY}</span></li> 
       <li><a href="reaction.php?for={news.FOR}">{news.COMMENTAIRE}</a></li> 
-    </ul>{news.TEXT}<div style="height: 30px;"></div>
+    </ul>{news.TEXT}
   </div> 
   <!-- END news --> 
 </div>

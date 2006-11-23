@@ -95,14 +95,18 @@ if(!empty($user_connect) && !empty($psw_connect))
 }
 // on prend l'heure en format MKtime pour le site
 $config['current_time'] = time();
-if (file_exists($root_path."langues/".$config['langue']."/langue.php"))
+// on vérifie que la langue est valise et on prend tout les fichiers de langues du rep
+$config['langue'] = (file_exists($root_path."langues/".$config['langue']."/langue.php"))? $config['langue'] : 'Francais';
+include($root_path."langues/".$config['langue']."/langue.php");
+$rep_langue=opendir($root_path."langues/".$config['langue']);
+while($curfile=readdir($rep_langue))
 {
-	include($root_path."langues/".$config['langue']."/langue.php");
+	if(ereg("^lg_(.*)\.php$", $curfile))
+	{
+		include($root_path."langues/".$config['langue'].'/'.$curfile);
+	}
 }
-else
-{
-	include($root_path."langues/Francais/langue.php");
-}
+closedir($rep_langue);
 $session_cl['action_membre'] = (!empty($action_membre) &&!empty($langue[$action_membre]))? $action_membre : 'where_unknow';
 save_session($session_cl);
 ?>

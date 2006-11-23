@@ -60,24 +60,15 @@ while ($entrainement = $rsql->s_array($get_entrainement))
 }
 // partie admin du script
 if ($user_pouvoir['particulier'] == "admin")
-{	// on vérifie si il a une derniére version en ligne
-	$var = "http://www.europubliweb.com/born-to-up/serveur_central/com.php";
-	$file = @fopen($var, "r");
-	if ($file)
-	{ // le site est en ligne donc on peux envoyer la demande
-		$reponce = file ($var."?get_version=oui");
-		if ($reponce[0] != "problem")
+{
+	if (!empty($_GET['toggle_get_version']))
+	{
+		$sql = "UPDATE `".$config['prefix']."config` SET `conf_valeur` = '".(($config['get_version'] == 1)? 0 : 1)."' WHERE `conf_nom` = 'get_version'";
+		if (! ($get_nbr_match = $rsql->requete_sql($sql)) )
 		{
-			$version_local = explode(".", $config['version']);
-			$version_distant = explode(".", $reponce[0]);
-			$version_local_time = mktime(0, 0, 0, $version_local[2], $version_local[1], $version_local[3]);
-			$version_distant_time = mktime(0, 0, 0, $version_distant[2], $version_distant[1], $version_distant[3]);
-			if ( $version_distant_time > $version_local_time  && $version_local[0] <= $version_distant[0])
-			{
-				msg('info', sprintf($langue['admin_news_cl'], $config['version'], $reponce[0]));
-			}
+			sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 		}
-	}	
+	}
 	$sql = "SELECT id FROM `".$config['prefix']."match`";
 	if (! ($get_nbr_match = $rsql->requete_sql($sql)) )
 	{
@@ -104,6 +95,54 @@ if ($user_pouvoir['particulier'] == "admin")
 		'POUVOIR' => $langue['pouvoirs'],
 		'PROFIL' => $langue['profil'],
 	));
+	// on vérifie si il a une derniére version en ligne
+	if ($config['get_version'] == 0)
+	{
+		$fp = @fsockopen("www.europubliweb.com", 80, $errno, $errstr, 30);
+		if ($fp)
+		{
+			$out = "GET /born-to-up/serveur_central/com.php?get_version=oui HTTP/1.1\r\n";
+			$out .= "Host: ".$_SERVER['HTTP_HOST']."\r\n";
+			$out .= "Referer: ".$config['site_domain'].$config['site_path']."\r\n";
+			$out .= "User-Agent: Clanlite ".$config['version']."\r\n";
+			$out .= "Connection: Close\r\n\r\n";
+		
+			fwrite($fp, $out);
+			while (!feof($fp))
+			{
+				$tmp = fgets($fp, 128);
+				if(ereg('([0-9]{1,2}).([0-9]{2}).([0-9]{2}).([0-9]{4})',$tmp))
+				{
+					$reponce = $tmp;
+					break;
+				}
+			}
+			fclose($fp);
+			if (!empty($reponce) && $reponce != "problem")
+			{
+				$version_local = explode(".", $config['version']);
+				$version_distant = explode(".", $reponce);
+				$version_local_time = mktime(0, 0, 0, $version_local[2], $version_local[1], $version_local[3]);
+				$version_distant_time = mktime(0, 0, 0, $version_distant[2], $version_distant[1], $version_distant[3]);
+				if ( $version_distant_time > $version_local_time  && $version_local[0] <= $version_distant[0])
+				{
+					$template->assign_block_vars('admin.update', array(
+						'TITRE' => $langue['admin_news_cl_titre'],
+						'TEXTE' => sprintf($langue['admin_news_cl_on'], $config['version'], $reponce),
+						'TXT_TOGGLE' => $langue['admin_news_cl_toggle'],
+					));
+				}
+			}
+		}
+	}	
+	else
+	{
+		$template->assign_block_vars('admin.update', array(
+			'TITRE' => $langue['admin_news_cl_titre'],
+			'TEXTE' => $langue['admin_news_cl_off'],
+			'TXT_TOGGLE' => $langue['admin_news_cl_toggle'],
+		));
+	}
 	// on regarde les membres sans equipe ou section
 	$sql = "SELECT id,user,sex,equipe,section,pouvoir FROM ".$config['prefix']."user WHERE equipe = '' OR section = '' OR pouvoir = 'news'";
 	if (! ($get_vide = $rsql->requete_sql($sql)) )
@@ -111,7 +150,6 @@ if ($user_pouvoir['particulier'] == "admin")
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 	}
 	$nombre = 0;
-	$template->assign_block_vars('cadre_nul', 'vide');
 	while ($liste_membre = $rsql->s_array($get_vide))
 	{
 		$nombre++;

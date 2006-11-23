@@ -30,7 +30,7 @@ include_once("gameSpy.php");
 /**
  * @brief Extends the gameSpy protocol to support America's Army
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: armyGame.php,v 1.3 2003/08/21 17:50:00 jr Exp $
+ * @version $Id: armyGame.php,v 1.4 2004/03/21 10:02:27 jr Exp $
  *
  * This is a quick hack to support the changed America's Army protocol.
  * It is slow, incomplete and ugly. Does anyone have the protocol specs?
@@ -48,7 +48,7 @@ class armyGame extends gameSpy
     
     $command="\\status\\";
     if(!($result=$this->_sendCommand($this->address, $this->queryport, $command))) {
-      $this->errstr="No reply recieved";
+      $this->errstr="No reply received";
       return FALSE;
     }
 

@@ -31,7 +31,7 @@ if (defined('CL_AUTH'))
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 	}
-	while($last_match = $rsql->s_array($get))
+	if ($last_match = $rsql->s_array($get))
 	{
 		// Turn template blocks into PHP assignment statements for the values of $match..
 		$tpl = preg_replace('#<!-- BEGIN (.*?) -->(.*?)<!-- END (.*?) -->#', "\n" . '$block[\'\\1\'] = \'\\2\';', $tpl);
@@ -50,6 +50,13 @@ if (defined('CL_AUTH'))
 		$template->assign_block_vars("modules_".$modules['place'], array( 
 			'TITRE' => $modules['nom'],
 			'IN' => $block['last_match']
+		));
+	}
+	else
+	{
+		$template->assign_block_vars("modules_".$modules['place'], array( 
+			'TITRE' => $modules['nom'],
+			'IN' => $langue['no_match_joue']
 		));
 	}
 }

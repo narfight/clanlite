@@ -151,6 +151,7 @@ $langue['resume_match_gagnee'] = "Number of matches won";
 $langue['resume_match_perdu'] = "Number of matches lost";
 $langue['resume_match_norm'] = "Number of draws/ties";
 $langue['no_match_joue'] = "The clan has not yet played any matches";
+$langue['no_futur_match'] = "No match planned";
 
 $langue['titre_reaction'] = "Comments";
 $langue['where_reaction'] = "Go to news comments";
@@ -216,7 +217,6 @@ $langue['admin_nombre_match'] = "Number of planned matches";
 $langue['admin_nombre_demande_match'] = "Number of waiting match requests";
 $langue['user_verif'] = "Verify!";
 $langue['user_ok'] = "Okay";
-$langue['admin_news_cl'] = "A new version of Clan Lite is available ( your version: %1\$s, available version: %2\$s )";
 $langue['user_match_place'] = "There is still room left in the follow matches";
 $langue['user_entrainement_place'] = "Next training session";
 $langue['info_match_place'] = "Against %1\$s on the %2\$s à %3\$s";
@@ -225,10 +225,15 @@ $langue['date_entrai'] = "Planned on";
 $langue['info_entrai'] = "Public information";
 $langue['info_prive_entrai'] = "Private information";
 
+$langue['admin_news_cl_titre'] = "ClanLite Updates";
+$langue['admin_news_cl_on'] = "A new version of ClanLite is available<br />( your current version: %1\$s, available version: %2\$s )";
+$langue['admin_news_cl_off'] = "Search deactivated";
+$langue['admin_news_cl_toggle'] = "Activate/deactivate detection of new updates";
+
 $langue['titre_lire_news_nfo'] = "Read this carefully";
 $langue['where_lire_news_nfo'] = "Read the text after signing-up";
-$langue['text_bienvenu_vide'] = "Your application has been saved, please contact the administrator to activate your account";
 
+$langue['text_bienvenu_vide'] = "Your application has been saved, please contact the administrator to activate your account";
 $langue['titre_inscription'] = "Clan sign-up";
 $langue['where_inscription'] = "Complete the application form";
 $langue['inscription_fermée'] = "Applications are currently closed, you will not be able to send this form.";
@@ -249,7 +254,7 @@ $langue['redirection_txt_nonvide'] = "%1\$s<br />Please click <a href=\"%2\$s\">
 $langue['module_compteur'] = "There have been %1\$d visitors and %2\$d users are currently connected";
 
 $langue['module_mp3'] = "You are listening to %1\$s with \"%2\$s\"";
-$langue['module_mp3_no_info'] = "Information posted on the next page";
+$langue['module_mp3_no_info'] = "Information displayed on next page if player started";
 
 $langue['where_module_aléatoire'] = "Manage the random display module";
 $langue['titre_module_aléatoire'] = "Random Display Module";
@@ -308,6 +313,9 @@ $langue['opt_auto_dell_alert'] = "Delete automatically after a certain amount of
 $langue['opt_auto_dell_desactiver'] = "None";
 
 $langue['titre_config_site'] = "General Configuration";
+$langue['config_site_base_titre'] = "Basic config";
+$langue['config_site_avancée_titre'] = "Advanced config";
+$langue['config_inscription_titre'] = "Register";
 $langue['where_config_site'] = "Configure the site";
 $langue['redirection_config_ok'] = "Configuration updated";
 $langue['config_tag_clan'] = "Clan TAG";
@@ -329,11 +337,14 @@ $langue['config_help_nbr/page'] = "<b>Example :</b> X files of t&eacute;l&eacute
 $langue['config_show_server_list'] = "Display games server list";
 $langue['config_reglement'] = "Clan rule(s)";
 $langue['config_msg_news_membre'] = "Welcome message after sign-in";
+$langue['config_serveur_titre'] = "Games server";
 $langue['config_serveur_game'] = "The clan has a games server";
-$langue['config_serveur_ip'] = "Your games server IP address";
-$langue['config_serveur_port'] = "Your games server's query port";
-$langue['config_help_port'] = "<b>For Unreal Tournament :</b>Query Port = your server's port+1 <br /> <b>For Unreal Tournament 2003 :</b>Query Port = your server's port+10 <br /> <b>For Battlefield 1942 :</b>No rule <br /> <b>For America\'s Army :</b>Query Port = your server's port+1<br /><br />TAll other games not listed have the same query port as the port used to connect.";
-$langue['config_serveur_protocol'] = "Games server protocol";
+$langue['config_serveur_game_ip'] = "Your games server IP address";
+$langue['config_serveur_game_port'] = "Your games server's query port";
+$langue['config_help_port'] = "<b>For Unreal Tournament :</b>Query Port = your server\'s port+1 <br /> <b>For Unreal Tournament 2003 :</b>Query Port = your server\'s port+10 <br /> <b>For Battlefield 1942 :</b>No rule <br /> <b>For America\'s Army :</b>Query Port = your server\'s port+1<br /><br />TAll other games not listed have the same query port as the port used to connect.";
+$langue['config_serveur_game_protocol'] = "Games server protocol";
+$langue['config_serveur_game_txt'] = "Message visable on the server page";
+$langue['config_mail_send_titre'] = "Send email";
 $langue['config_send_by'] = "Send email";
 $langue['config_by_smtp'] = "By SMTP";
 $langue['config_by_php'] = "By webmail()";
@@ -373,6 +384,7 @@ $langue['dll_url'] = "Location of file";
 $langue['group_fichier'] = "In this group";
 
 $langue['where_medaille'] = "Manage a player's medals";
+$langue['redirection_medaille'] = "Medal updated";
 $langue['titre_medaille'] = "Medal Manager";
 
 $langue['where_entrain'] = "Is in the training administration";
@@ -478,6 +490,7 @@ $langue['admin_mp3_autoplay'] = "Autoplay";
 $langue['admin_mp3_loop'] = "Repeat mode";
 $langue['mp3_artiste'] = "Artiste";
 $langue['mp3_titre'] = "Title";
+$langue['demande_lecteur_on'] = "Click here for MP3s";
 
 $langue['where_admin_news'] = "Is in the news administration";
 $langue['titre_admin_news'] = "News";
@@ -615,7 +628,7 @@ $langue['alt_image_profil'] = "Image";
 $langue['form_histoire'] = "Your story";
 
 // souvent utilisé
-$langue['show/hide_smilies']
+$langue['show/hide_smilies'] = "More smilies";
 $langue['alt_aide'] = "More information, help";
 $langue['date_format'] = '(dd-mm-yyyy)';
 $langue['sex_homme'] = "Male";

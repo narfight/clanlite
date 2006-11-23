@@ -23,6 +23,7 @@ if ( !empty($_POST['Envoyer']) )
 if ( !empty($_POST['Editer']) )
 {
 	$_POST = pure_var($_POST);
+	$_POST['auto_del'] = (isset($_POST['auto_del']))? $_POST['auto_del'] : '';
 	$date = mktime ( $_POST['heure'] , $_POST['minute'] , 1 , $_POST['mois'] , $_POST['jour'] , $_POST['annee']);
 	$sql = "UPDATE `".$config['prefix']."alert` SET info='".$_POST['text']."', date='".$date."', auto_del='".$_POST['auto_del']."' WHERE id='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )

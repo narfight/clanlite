@@ -30,7 +30,7 @@ include_once("gsQuery.php");
 /**
  * @brief Uses the gameSpy protcol to communicate with the server
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: gameSpy.php,v 1.14 2004/02/22 14:38:16 jr Exp $
+ * @version $Id: gameSpy.php,v 1.16 2004/03/21 10:02:27 jr Exp $
  * @bug some games does not escape the backslash, so we have a problem when somebody has a backlsash in its name
  *
  * The following games have been tested with this class:
@@ -65,7 +65,7 @@ class gameSpy extends gsQuery
     
     $cmd="\\basic\\\\info\\";
     if(!($response=$this->_sendCommand($this->address, $this->queryport, $cmd))) {
-      $this->errstr="No reply recieved";
+      $this->errstr="No reply received";
       return FALSE;
     }    
     $this->_processServerInfo($response);
@@ -113,7 +113,7 @@ class gameSpy extends gsQuery
     $this->hostport = $data["hostport"];
     $this->gameversion = $data["gamever"];
     $this->servertitle = $data["hostname"];
-    $this->maptitle = $data["maptitle"];
+    $this->maptitle = isset($data["maptitle"]) ? $data["maptitle"] : "";
     $this->mapname = $data["mapname"];
     $this->gametype = $data["gametype"];
     $this->numplayers = $data["numplayers"];
@@ -190,6 +190,7 @@ class gameSpy extends gsQuery
    */
   function _sortByQueryId($data)
   {
+    $result="";
     $data=preg_replace("/\\\final\\\/", "", $data);
     $exploded_data=explode("\\queryid\\", $data);
     $count=count($exploded_data);
@@ -203,10 +204,11 @@ class gameSpy extends gsQuery
       // the request is probably incomplete  
       return $data;
     }
+
     // sort the hash
     ksort($sorted_data);
     foreach($sorted_data as $key => $value) {
-      $result.=$value;
+      $result.=isset($value) ? $value : "";
     }
     return($result);
   }  

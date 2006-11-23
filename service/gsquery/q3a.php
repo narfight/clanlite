@@ -25,14 +25,13 @@
  *
  */
 
-include_once($root_path."service/gsquery/gsQuery.php");
+include_once("gsQuery.php");
 
 
 /**
  * @brief Uses the Quake 3 protcol to communicate with the server
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: q3a.php,v 1.18 2004/03/30 09:29:25 jr Exp $
- * @todo provide a method that htmlize the colortags in playernames
+ * @version $Id: q3a.php,v 1.20 2004/05/17 05:46:39 jr Exp $
  *
  * This class can communicate with most games based on the Quake 3
  * engine.
@@ -63,7 +62,8 @@ class q3a extends gsQuery
 	break;
       case "gamename":
 	$this->gametype=$rawdata[$i];
-	$this->gamename="q3a_" . $rawdata[$i];
+	
+	$this->gamename="q3a_" . preg_replace("/[ ]/", "_", strtolower($rawdata[$i]));
 	break;
       case "version":
 	$this->gameversion=$rawdata[$i];
@@ -73,7 +73,7 @@ class q3a extends gsQuery
         $this->gameversion=$rawdata[$i];
         break; 
       case "sv_hostname":
-	$this->servertitle=$this->htmlize($rawdata[$i]);
+	$this->servertitle=$rawdata[$i];
 	break;
       case "mapname":
 	$this->mapname=$rawdata[$i];
@@ -123,14 +123,14 @@ class q3a extends gsQuery
 	  if($curplayer[3]>2) {
 	    next; // ignore spectators
 	  }
-	  $players[$i-1]["name"]=$this->htmlize($curplayer[4]);
+	  $players[$i-1]["name"]=$curplayer[4];
 	  $players[$i-1]["score"]=$curplayer[1];
 	  $players[$i-1]["ping"]=$curplayer[2];	
 	  $players[$i-1]["team"]=$curplayer[3];
 	  $teamInfo=TRUE;
 	  $pingOnly=FALSE;
 	} elseif(preg_match("/(\d+)[^0-9](\d+)[^0-9]\"(.*)\"/", $allplayers[$i], $curplayer)) {
-	  $players[$i-1]["name"]=$this->htmlize($curplayer[3]);
+	  $players[$i-1]["name"]=$curplayer[3];
 	  $players[$i-1]["score"]=$curplayer[1];
 	  $players[$i-1]["ping"]=$curplayer[2];	
 	  $pingOnly=FALSE;
@@ -187,49 +187,19 @@ class q3a extends gsQuery
    * @param var a raw string from the gameserver that might contain special chars
    * @return a html version of the given string
    */
-	function htmlize($var) 
-	{
-		$var = htmlspecialchars($var);
-		// if game is SOF2
-		if (isset($this->rules['game_version']) && ereg("sof2mp-", $this->rules['game_version']))
-		{
-			while(ereg("\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])", $var))
-			{
-				if (ereg("\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])(.*)\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])", $var))
-				{
-					$var = preg_replace("#\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])(.*)\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])#Usi", "<span class=\"gsquery-$1\">$2</span>^$3", $var);
-				}
-				else
-				{
-					$var = preg_replace("#\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])(.*)$#Usi", "<span class=\"gsquery-$1\">$2</span>", $var);
-				}
-			}
-			//remplacement de carractére non autorisé pour le CSS
-			$var = str_replace("gsquery-&", "gsquery-et", $var);
-			$var = str_replace("gsquery-'", "gsquery-apos", $var);
-			$var = str_replace("gsquery-)", "gsquery-par", $var);
-			$var = str_replace("gsquery-=", "gsquery-egal", $var);
-			$var = str_replace("gsquery-?", "gsquery-ques", $var);
-			$var = str_replace("gsquery-.", "gsquery-point", $var);
-		}
-		else
-		{
-			while(ereg('\^([0-9])', $var))
-			{
-				foreach(array('black', 'red', 'darkgreen', 'yellow', 'blue', 'cyan', 'pink', 'white', 'blue-night', 'red-night') as $num_color => $name_color)
-				{
-					if (ereg('\^([0-9])(.*)\^([0-9])', $var))
-					{
-						$var = preg_replace("#\^".$num_color."(.*)\^([0-9])#Usi", "<span class=\"gsquery-".$name_color."\">$1</span>^$2", $var);
-					}
-					else
-					{
-						$var = preg_replace("#\^".$num_color."(.*)$#Usi", "<span class=\"gsquery-".$name_color."\">$1</span>", $var);
-					}
-				}
-			}
-		}
-		return $var;
+  function htmlize($var) 
+  {
+    $var = htmlspecialchars($var);
+    while(ereg('\^([0-9])', $var)) {
+      foreach(array('black', 'red', 'darkgreen', 'yellow', 'blue', 'cyan', 'pink', 'white', 'blue-night', 'red-night') as $num_color => $name_color) {
+	if (ereg('\^([0-9])(.*)\^([0-9])', $var)) {
+	  $var = preg_replace("#\^".$num_color."(.*)\^([0-9])#Usi", "<span class=\"gsquery-".$name_color."\">$1</span>^$2", $var);
+	} else {
+	  $var = preg_replace("#\^".$num_color."(.*)$#Usi", "<span class=\"gsquery-".$name_color."\">$1</span>", $var);
 	}
+      }
+    }
+    return $var;
+  }
 }
 ?>

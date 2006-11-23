@@ -157,6 +157,13 @@ if ($config['list_game_serveur'] == "oui")
 		"B_LISTE_SERVEUR_GAME" => $langue['boutton_liste_game']
 	)); 
 }
+//on vérifie si il faut metre le boutton inscription
+if ($inscription != 0) 
+{
+	$template->assign_block_vars('inscription', array(
+		'B_INSCRIPTION' => $langue['boutton_inscription'],
+	)); 
+}
 $template->assign_vars( array( 
 	'HEAD' => (!empty($frame_head))? $frame_head : "",
 	'PATH_ROOT' => $root_path,
@@ -164,7 +171,6 @@ $template->assign_vars( array(
 	'COPYRIGHT' => sprintf($langue['copyright'], $config['version']),
 	'B_NEWS' => $langue['boutton_news'],
 	'B_FORUM' => $langue['boutton_forum'],
-	'B_INSCRIPTION' => $langue['boutton_inscription'],
 	'B_MATCH' => $langue['boutton_match'],
 	'B_CALENDRIER' => $langue['boutton_calendrier'],
 	'B_REGLEMENT' => $langue['boutton_reglement'],
