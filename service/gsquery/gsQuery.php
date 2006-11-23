@@ -234,6 +234,7 @@ class gsQuery
       include_once($root_path."service/gsquery/gameSpy.php");
       return new gameSpy($address, $port);
      case "halflife":
+     case "hlife":
       include_once($root_path."service/gsquery/hlife.php");
       return new hlife($address, $port);
     case "q3a":

@@ -128,8 +128,9 @@ while ($annif = $rsql->s_array($get))
 	}
 }
 // Ces variables vont nous servir pour mettre les jours dans les bonnes colonnes    
-$jour_debut_mois = (date('w', $mk_time_date) == 0)? 7 : date('w', $mk_time_date)-1; //lundi = 1 Samedi = 6 et Dimanche = 0
-$horizontal = 1;
+$jour_debut_mois = (date('w', $mk_time_date) == 0)? 7 : date('w', $mk_time_date)-1; //lundi = 1 Samedi = 6 et Dimanche = 7
+//$jour_debut_mois = 0;
+$horizontal = ($jour_debut_mois == 7)? 0 : 1;
 $verticale = 1;
 //boucle pour les 28 a 31 jours du mois
 for ($i=0;$i<date('t', $mk_time_date)+$jour_debut_mois;$i++)

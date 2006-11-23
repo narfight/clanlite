@@ -11,7 +11,7 @@ include($root_path."controle/cook.php");
 if ( !empty($_POST['Envoyer']) )
 {
 	$_POST = pure_var($_POST);
-	$sql= "INSERT INTO `".$config['prefix']."custom_menu` (text, ordre, url, bouge, frame) VALUES ('".$_POST['text']."', '".$_POST['ordre']."', '".$_POST['url']."', '".(empty($_POST['bouge']))? '0' : '1'."', '".(empty($_POST['frame']))? '0' : '1'."')";
+	$sql= "INSERT INTO `".$config['prefix']."custom_menu` (text, ordre, url, bouge, frame) VALUES ('".$_POST['text']."', '".$_POST['ordre']."', '".$_POST['url']."', '".((empty($_POST['bouge']))? 0 : 1)."', '".((empty($_POST['frame']))? 0 : 1)."')";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -21,14 +21,17 @@ if ( !empty($_POST['Envoyer']) )
 if ( !empty($_POST['Editer']) )
 {
 	$_POST = pure_var($_POST);
-	$sql = "UPDATE `".$config['prefix']."custom_menu` SET ".((empty($_POST['liens_default']))? "text='".$_POST['text']."', ": '').((empty($_POST['module_central']) && empty($_POST['liens_default']))? "url='".$_POST['url']."', " : '')."ordre='".$_POST['ordre']."', bouge='".((empty($_POST['bouge']))? '0' : 1)."', frame='".((empty($_POST['frame']))? '0' : 1)."', `default`='".((empty($_POST['activation_oui']))? '0' : 1)."' WHERE id='".$_POST['for']."'";
+	$edit_default = (!empty($_POST['liens_default']))? " ,`default`='".((empty($_POST['activation_non']))? 1 : 0)."' " : ' ';
+	$edit_central = ((empty($_POST['module_central']) && empty($_POST['liens_default']))? "url='".$_POST['url']."', " : '');
+	$edit_liens_default = ((empty($_POST['liens_default']) && empty($_POST['module_central']))? "text='".$_POST['text']."', ": '');
+	echo $sql = "UPDATE `".$config['prefix']."custom_menu` SET ".$edit_liens_default.$edit_central."ordre='".$_POST['ordre']."', bouge='".((empty($_POST['bouge']))? '0' : 1)."', frame='".((empty($_POST['frame']))? 1 : 0)."' ".$edit_default."WHERE id='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	else
 	{
-		redirec_text("menu_boutton.php",$langue['redirection_custom_menu_edit'],"admin");
+		//redirec_text("menu_boutton.php",$langue['redirection_custom_menu_edit'],"admin");
 	}
 }
 if ( !empty($_POST['dell']) )
@@ -79,7 +82,7 @@ if ( !empty($_POST['edit']) )
 		'URL' => ($bouton_edit['bouge'] == 1)? $root_path.$bouton_edit['url'] : $bouton_edit['url'],
 		'DISABLED_URL' => ($bouton_edit['module_central'] == 1 || $bouton_edit['default'] != 'normal')? 'disabled="disabled"' : '',
 		'BOUGE' => ($bouton_edit['bouge'] == 1)? 'checked="checked"' : '',
-		'FRAME' => ($bouton_edit['frame'] == 1)? 'checked="checked"' : '',
+		'FRAME' => ($bouton_edit['module_central'] == 1)? 'disabled="disabled"' : (($bouton_edit['frame'] == 1)? '' : 'checked="checked"'),
 		'MODULE_CENTRAL' => ($bouton_edit['module_central'] == 1)? 1 : 0,
 		'LIENS_DEFAULT' => ($bouton_edit['default'] != 'normal')? 1 : 0
 	));

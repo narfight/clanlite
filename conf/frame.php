@@ -55,11 +55,7 @@ else
 		$target = '';
 		$target_u = ($boutton['url'] == 'url_forum')? $config['url_forum'] : $boutton['url'];
 		// pour voir ou va etre ouvert la page
-		if ($boutton['frame'] == 1)
-		{
-			$target_u = $root_path."service/iframe.php?id=".$boutton['id'];
-		}
-		elseif (($boutton['module_central'] == 1 || $boutton['default'] == 1) && $target_u != $config['url_forum'])
+		if (($boutton['module_central'] == 1 || $boutton['default'] == 1) && $target_u != $config['url_forum'])
 		{
 			$target_u = $root_path.$boutton['url'];
 		}
@@ -67,6 +63,10 @@ else
 		{
 			$target_u = $boutton['url'];
 			$target = "onclick=\"window.open('".$target_u."');return false;\"";
+		}
+		elseif ($boutton['frame'] == 1)
+		{
+			$target_u = $root_path."service/iframe.php?id=".$boutton['id'];
 		}
 		$template->assign_block_vars('bouttons', array( 
 			  'BOUTTON_U' => $target_u, 

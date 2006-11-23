@@ -5,7 +5,7 @@
 $root_path = './../';
 $action_membre = '';
 $action_db = '';
-$news_version = '1.07.07.2004';
+$news_version = '1.07.08.2004';
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 $template = new Template($root_path."templates/".$config['skin']);
@@ -57,6 +57,11 @@ switch($config['version'])
 			'Ajoute le boutton Liens' => "INSERT INTO `".$config['prefix']."custom_menu` VALUES ('', 9, 'boutton_liens', 'service/liens.php', '0', '0', '0', 0, '1');",
 			'Ajoute le boutton Rencontre' => "INSERT INTO `".$config['prefix']."custom_menu` VALUES ('', 10, 'boutton_org_rencontre', 'service/defier.php', '0', '0', '0', 0, '1');",
 		);
+	case '1.03.07.2004':
+	case '1.07.07.2004':
+		$action_db['1.07.07.2004'] = array(
+			'Activation d\'un liens' => "UPDATE `".$config['prefix']."custom_menu` SET `default` = '1' WHERE `text` = 'boutton_match' LIMIT 1 ;"
+		);
 	// sans break, metre case version a la suite, comme ca il fait toutes les mise à jours de la db de la version qu'il a jusqua la version actuelle
 	break;
 	case $news_version :
@@ -69,7 +74,7 @@ switch($config['version'])
 if (is_array($action_db) && empty($etat))
 {
 	// on ajoute automatiquement le changement de version dans la db
-	$action_db[$config['version']] += array('Mise à jours du numero de version' => "UPDATE `".$config['prefix']."config` SET `conf_valeur` = '".$news_version."' WHERE `conf_nom` = 'version' AND `conf_valeur` = '".$config['version']."' LIMIT 1");
+	$action_db[$config['version']]['Mise à jours du numero de version'] = "UPDATE `".$config['prefix']."config` SET `conf_valeur` = '".$news_version."' WHERE `conf_nom` = 'version' AND `conf_valeur` = '".$config['version']."' LIMIT 1";
 	$texte = "<ul>\n";
 	foreach ($action_db as $version => $action)
 	{

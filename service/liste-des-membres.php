@@ -12,19 +12,19 @@ if ( !empty($_POST['del']) )
 {
 	secu_level_test('22');
 	// supprime le membre
-	$sql = "DELETE FROM ".$config['prefix']."user WHERE id ='".$_POST['id_user']."'";
+	$sql = "DELETE FROM ".$config['prefix']."user WHERE id ='".$_POST['id']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	//supprime ces pouvoir
-	$sql = "DELETE FROM ".$config['prefix']."pouvoir  WHERE user_id ='".$_POST['id_user']."'";
+	$sql = "DELETE FROM ".$config['prefix']."pouvoir  WHERE user_id ='".$_POST['id']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	//supprime ces inscription au match
-	$sql = "DELETE FROM ".$config['prefix']."match_inscription WHERE user_id ='".$_POST['id_user']."'";
+	$sql = "DELETE FROM ".$config['prefix']."match_inscription WHERE user_id ='".$_POST['id']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
