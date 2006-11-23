@@ -4,9 +4,9 @@
 	
 	<!-- BEGIN liste -->
 	k.push(Array(
-		'{liste.TITRE}',
-		'{liste.NORM}',
-		'{liste.MIN}'
+		"{liste.TITRE}",
+		"{liste.NORM}",
+		"{liste.MIN}"
 	));
 	<!-- END liste -->
 		
@@ -52,7 +52,7 @@
 		else
 			var pi = k[dLoaded - 1];
 	
-		diapoTransition('previousImage', direction, ni[2], 100);
+		diapoTransition('previousImage', direction, pi[2], 100);
 	
 		return false;	
 	}

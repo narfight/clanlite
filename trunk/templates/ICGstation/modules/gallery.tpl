@@ -2,8 +2,8 @@
 	<h1>{TITRE}</h1>
 	<div class="big_cadre">
 		<h1>{TITRE_CONFIGURATION}</h1>
-		<div class="news" id="link_config"><a href="#config" onclick="toggle_msg('config-cadre', '', '');toggle_msg('link_config', '', '')" id="config" name="config">{CONFIGURATION}</a></div>		
-		<div id="config-cadre" style="display: none;">
+		<div class="news" id="link_config"><a href="#config" onclick="toggle_msg('config_cadre', '', '');toggle_msg('link_config', '', '')" id="config" name="config">{CONFIGURATION}</a></div>		
+		<div id="config_cadre" style="display: none;">
 			<form method="post" action="{ICI}" class="visible">
 				<p>
 					<span>

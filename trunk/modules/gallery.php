@@ -37,7 +37,7 @@ if (defined('CL_AUTH'))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
-		$sql = "INSERT INTO `".$config['prefix']."custom_menu` ( `id` , `ordre` , `text` , `url` , `bouge` , `frame` , `module_central` , `id_module` ) VALUES ('', '0', '".$_POST['nom']."', 'modules/gallery.php?from=".$id_module."', '0', '0', '1', '".$id_module."')";
+		$sql = "INSERT INTO `".$config['prefix']."custom_menu` (`ordre` , `text` , `url` , `bouge` , `frame` , `module_central` , `id_module` ) VALUES ('0', '".$_POST['nom']."', 'modules/gallery.php?from=".$id_module."', '0', '0', '1', '".$id_module."')";
 		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -321,7 +321,7 @@ if (!empty($_GET['from']))
 
 	$template->assign_vars(array(
 		'TITRE' => $langue['gallery'],
-		'COM_IMG' => $je_t_aime_anne_sophie[1]['lb_commentaire'],
+		'COM_IMG' => $je_t_aime_anne_sophie[2]['lb_commentaire'],
 		'SRC_MIN_1' => $je_t_aime_anne_sophie[1]['url_image_mini'],
 		'SRC' => $je_t_aime_anne_sophie[2]['url_image_norm'],
 		'SRC_MIN_2' => $je_t_aime_anne_sophie[3]['url_image_mini'],
