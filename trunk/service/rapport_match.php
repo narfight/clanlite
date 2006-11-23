@@ -22,7 +22,7 @@ $resulte_match['egalitée'] = 0;
 $resulte_match['gagné'] = 0;
 $resulte_match['perdu'] = 0;
 $resulte_match['total'] = 0;
-$sql = "SELECT `score_nous`, `score_eux` FROM ".$config['prefix']."match_rapport";
+$sql = 'SELECT `score_nous`, `score_eux` FROM `'.$config['prefix'].'match_rapport`';
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -45,7 +45,7 @@ while ($get_points = $rsql->s_array($get))
 	}
 }
 $_GET['limite'] = (empty($_GET['limite']))? 0 : $_GET['limite'];
-$sql = "SELECT rapport.*, section.nom FROM ".$config['prefix']."match_rapport AS rapport LEFT JOIN ".$config['prefix']."section AS section ON rapport.section = section.id ORDER BY `date` DESC LIMIT ".$_GET['limite'].", ".$resulte_match['total'];
+$sql = "SELECT rapport.*, section.nom FROM ".$config['prefix']."match_rapport AS rapport LEFT JOIN ".$config['prefix']."section AS section ON rapport.section = section.id ORDER BY `date` DESC LIMIT ".$_GET['limite'].", ".$config['objet_par_page'];
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);

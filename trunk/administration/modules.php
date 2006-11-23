@@ -147,7 +147,7 @@ if (is_dir($dir))
 		{
 			if($file != '..' && $file !='.' && $file !='')
 			{ 
-				include($root_path."modules/".$file);
+				include($root_path.'modules/'.$file);
 				$select = ( !empty($edit_module['call_page']) && $file == $edit_module['call_page'] ) ? 'selected="selected"' : '';
 				$template->assign_block_vars('liste_module', array(
 					'VALEUR' => $file,

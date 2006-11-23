@@ -248,7 +248,7 @@ $langue['user_envois_inscription'] = "Votre inscription est bien enregistrée";
 
 $langue['titre_login'] = "Entrez dans la partie privée";
 $langue['where_login'] = "Tape son code/login";
-$langue['save_code_login'] = "Se souvenir de mon code et de mon login";
+$langue['save_code_login'] = "Se souvenir de moi";
 $langue['lost_psw'] = "vous avez perdu votre code ?";
 $langue['non_active'] = "Votre compte n'a pas été validé par un administrateur, contactez-le pour plus d'informations";
 $langue['code_login_incorrect'] = "Votre code ou votre login est incorrect, attention aux majuscules !!!";
@@ -295,7 +295,7 @@ $langue['redirection_module_connect_ts_psw_channel'] = "Code de la chambre";
 $langue['redirection_module_connect_ts_channel'] = "La chambre";
 $langue['redirection_module_connect_ts_connection'] = "Connection";
 
-$langue['module_last_match_affiche_info'] = "Voir/cacher le résumer";
+$langue['module_last_match_affiche_info'] = "Voir/cacher le résumé";
 
 $langue['where_module_serveur_game'] = "Gère le module serveur de jeux";
 $langue['titre_module_serveur_game'] = "Serveur de jeux [Module]";

@@ -16,7 +16,7 @@ if (!empty($_POST['match']))
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	$verif_present = $rsql->s_array($get);
-	if ($verif_present['COUNT(id)'] === 0)
+	if ($verif_present['COUNT(id)'] == 0)
 	{
 		$sql = "INSERT INTO `".$config['prefix']."match_inscription` (id_match, user_id, statu) VALUES ('".$_POST['match']."', '".$session_cl['id']."', 'demande')";
 		if (! ($rsql->requete_sql($sql)) )
