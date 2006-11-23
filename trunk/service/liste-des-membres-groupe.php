@@ -50,10 +50,10 @@ foreach($liste_group as $nom_section => $array_section)
 		{// fait la liste des membres dans l'equipe
 			$template->assign_block_vars('cadre.total.listage', array(
 				'NOM' => $array_user['user'],
-				'ID' => $array_user['user_id'],
 				'SEX' => ($array_user['sex'] == 'Femme')? 'femme' : 'homme',
 				'ROLE' => $array_user['roles'],
-				'IM' => $array_user['im']
+				'IM' => $array_user['im'],
+				'PROFIL_U' => session_in_url($root_path.'service/profil.php?link='.$array_user['user_id']),
 			));
 			if ($config['show_grade'] == 1)
 			{

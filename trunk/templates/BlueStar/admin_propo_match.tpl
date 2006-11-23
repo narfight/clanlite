@@ -1,8 +1,7 @@
-<OBJECT classid='clsid:B69003B3-C55E-4B48-836C-BC5946FC3B28' codeType='application/x-oleobject' height='1' id='MsgrObj' width='1'></OBJECT> 
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
 	<!-- BEGIN notification -->
-	<form method="post" action="demande-match.php">
+	<form method="post" action="{ICI}">
 		<div class="big_cadre">
 			<h1>{notification.TITRE}</h1>
 			<p>
@@ -53,14 +52,14 @@
 						<td>{propo.VS}</td>
 						<td>{propo.INFO}</td>
 						<td>
-							<form method="post" action="demande-match.php">
+							<form method="post" action="{ICI}">
 								<input name="id" type="hidden" value="{propo.ID}" />
 								<input name="voir" type="hidden" value="{propo.VOIR}" />
-								<input type="submit" name="del" value="{propo.DELL}" onClick="return demande('{TXT_CON_DELL}')" />
+								<input type="submit" name="del" value="{propo.DELL}" onclick="return demande('{TXT_CON_DELL}')" />
 							</form>
 						</td>
 						<td>
-							<form method="post" action="demande-match.php">
+							<form method="post" action="{ICI}">
 								<input name="id" type="hidden" value="{propo.ID}" />
 								<input type="submit" name="envois_oui" value="{propo.OUI}" />
 								<input type="submit" name="envois_non" value="{propo.NON}" />

@@ -53,7 +53,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_p_centra
 		}
 		//redirec_text($root_path."administration/modules.php" ,$langue['redirection_module_custom_edit'], 'admin');
 	}
-	include($root_path."conf/frame_admin.php");
+	include($root_path.'conf/frame_admin.php');
 	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('body' => 'modules/module_perso_central.tpl'));
 	liste_smilies(true, '', 25);
@@ -74,7 +74,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_p_centra
 		'EDITER' => $langue['editer'],
 	));
 	$template->pparse('body');
-	include($root_path."conf/frame_admin.php");
+	include($root_path.'conf/frame_admin.php');
 	return;
 }
 if (!empty($_GET['from']))

@@ -9,22 +9,22 @@
 	<h1>{TITRE_REACTION}</h1>
 	<!-- BEGIN reactions -->
 	<div class="news">
-		<h2>Réaction de <a href="{reactions.BY_URL}"  onclick="window.open('{reactions.BY_URL}');return false;">{reactions.BY}</a></h2>
+		<h2><a href="{reactions.BY_URL}">{reactions.BY}</a></h2>
 		<!-- BEGIN admin -->
 		<ul class="header">
-			<li><a href="reaction.php?action=dell&amp;for={reactions.ID}&amp;view={reactions.FOR}" onClick="return demande('{reactions.admin.TXT_CON_DELL}')">{reactions.admin.DELL_REACTION}</a></li>
+			<li><a href="{reactions.admin.DELL_REACTION_U}">{reactions.admin.DELL_REACTION}</a></li>
 		</ul>
 		<!-- END admin -->
 		{reactions.REACTION}
 	</div>
 	<!-- END reactions -->
 </div>
-<form method="post" action="reaction.php">
+<form method="post" action="{ICI}">
 	<div class="big_cadre">
 		<h1>{ADD_COMMENTAIRE}</h1>
 		<!-- BEGIN login -->
 		<a name="showlogin"></a>
-		<div class="news"><a href="#showlogin" onClick="toggle_msg('code', '', '');toggle_msg('mail', '', '')">{login.LOGIN}</a></div>
+		<div class="news"><a href="#showlogin" onclick="toggle_msg('code', '', '');toggle_msg('mail', '', '')">{login.LOGIN}</a></div>
 			<p>
 				<span><label for="login">{login.FORM_LOGIN}&nbsp;:</label></span>
 				<span><input name="nom_p" type="text" id="login" value="{USER}" onblur="formverif(this.id,'nbr','2')" /></span>

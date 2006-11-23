@@ -25,12 +25,12 @@
  *
  */
 
-require_once 'quake.php';
+require_once GSQUERY_DIR . 'quake.php';
 
 /**
  * @brief Uses the Quake 3 protcol to communicate with the server
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: q3a.php,v 1.30 2004/08/12 19:14:47 jr Exp $
+ * @version $Rev: 191 $
  *
  * This class can communicate with most games based on the Quake 3
  * engine.
@@ -63,7 +63,7 @@ class q3a extends quake
       case 'gamename':
 	$this->gametype=$rawdata[$i];
 	
-	$this->gamename='q3a_' . preg_replace('/[ ]/', '_', strtolower($rawdata[$i]));
+	$this->gamename='q3a_' . preg_replace('/[ :]/', '_', strtolower($rawdata[$i]));
 	break;
       case 'version':
 	$this->gameversion=$rawdata[$i];
@@ -86,6 +86,7 @@ class q3a extends quake
         $this->password=$rawdata[$i];
         break; 
       case 'sv_maplist':
+	//$this->maplist = preg_split('#([a-z]) ([a-z])#si', $rawdata[$i]);
 	$this->maplist=explode(' ', $rawdata[$i]);
 	break;
       case 'sv_privateclients':

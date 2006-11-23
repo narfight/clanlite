@@ -20,7 +20,7 @@ if ( !empty($_POST['send']) )
 	if (empty($session_cl['user']))
 	{
 		// on vérifie que les champ sont pas vide
-		$forum_error = "";
+		$forum_error = '';
 		if(empty($_POST['nom_p']))
 		{
 			$forum_error .= $langue['erreur_nom_vide'];
@@ -37,18 +37,21 @@ if ( !empty($_POST['send']) )
 		{
 			$forum_error .= $langue['erreur_mail_invalide'];
 		}
-		// on vérifie qu'il na pas prit un nom des membres si il n'est pas un
-		$sql = "SELECT user, psw FROM ".$config['prefix']."user WHERE user = '".$_POST['nom_p']."'";
-		if (! ($get = $rsql->requete_sql($sql)) )
+		if (!empty($_POST['nom_p']))
 		{
-			sql_error($sql, $rsql->error, __LINE__, __FILE__);
-		}
-		if ( $membre = $rsql->s_array($get) ) 
-		{
-			// le nom est dans la db, on vérifie alors le code
-			if ( md5($_POST['code_p']) != $membre['psw'] )
+			// on vérifie qu'il na pas prit un nom des membres si il n'est pas un
+			$sql = "SELECT user, psw FROM ".$config['prefix']."user WHERE user = '".$_POST['nom_p']."'";
+			if (! ($get = $rsql->requete_sql($sql)) )
 			{
-				$forum_error .= $langue['erreur_no_membre'];
+				sql_error($sql, $rsql->error, __LINE__, __FILE__);
+			}
+			if ( $membre = $rsql->s_array($get) ) 
+			{
+				// le nom est dans la db, on vérifie alors le code
+				if ( md5($_POST['code_p']) != $membre['psw'] )
+				{
+					$forum_error .= $langue['erreur_no_membre'];
+				}
 			}
 		}
 	}
@@ -90,10 +93,10 @@ if ($news = $rsql->s_array($get))
 	while ($reaction = $rsql->s_array($list_reaction)) 
 	{ 
 		$template->assign_block_vars('reactions', array( 
-			'DATE' => date("j-n-y H:i", $reaction['date']),
+			'DATE' => date('j-n-y H:i', $reaction['date']),
 			'REACTION' => bbcode($reaction['texte']),
-			'BY' => $reaction['nom'],
-			'BY_URL' => (!empty($reaction['user']))? 'profil.php?link='.$reaction[0]: 'mailto:'.$reaction['email'],
+			'BY' => sprintf($langue['reaction_de'], $reaction['nom']),
+			'BY_URL' => (!empty($reaction['user']))? session_in_url($root_path.'service/profil.php?link='.$reaction[0]) : 'mailto:'.$reaction['email'],
 			'FOR' => $for, 
 			'ID' => $reaction['id'],
 		));
@@ -101,7 +104,8 @@ if ($news = $rsql->s_array($get))
 		{
 			$template->assign_block_vars('reactions.admin', array(
 				'DELL_REACTION' => $langue['dell_reaction'],
-				'TXT_CON_DELL' => $langue['confirm_dell']
+				'TXT_CON_DELL' => $langue['confirm_dell'],
+				'DELL_REACTION_U' => session_in_url('reaction.php?action=dell&amp;for='.$reaction['id'].'&amp;view='.$for)
 			));
 		}
 	}
@@ -116,6 +120,7 @@ if ($news = $rsql->s_array($get))
 		));
 	}
 	$template->assign_vars(array(
+		'ICI' => session_in_url('reaction.php'),
 		'TITRE_NEWS' => $langue['news_titre'],
 		'POSTE_LE' => $langue['poste_le'],
 		'PAR' => $langue['poste_par'],

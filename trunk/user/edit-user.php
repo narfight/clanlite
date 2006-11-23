@@ -3,13 +3,13 @@
 // LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
 // -------------------------------------------------------------
 $action_membre= 'where_edit_user';
-$root_path = "./../";
+$root_path = './../';
 include($root_path.'conf/template.php');
 include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if (!empty($_POST['Submit']))
 {
-	$forum_error = "";
+	$forum_error = '';
 	$_POST = pure_var($_POST);
 	//on vérifie le formulaire point par point
 	if(empty($_POST['nom']))
@@ -101,7 +101,7 @@ if (!empty($_POST['Submit']))
 	}
 	else
 	{
-		$code = "";
+		$code = '';
 	}
 	if ( empty($forum_error) )
 	{
@@ -116,10 +116,10 @@ if (!empty($_POST['Submit']))
 			nom='".$_POST['nom']."', 
 			user='".$_POST['user1']."', 
 			mail='".$_POST['mail']."', 
-			web='".$_POST['web']."',
+			web='".((!empty($_POST['web']) && eregi('http(s)?://', $_POST['web']))? $_POST['web'] : 'http://'.$_POST['web'])."',
 			".$code."
 			sex='".$_POST['sex']."', 
-			age='".mktime (0 , 0 , 0 , $_POST['age_m'] , $_POST['age_d'] , $_POST['age_y'])."', 
+			age='".mk_time (0 , 0 , 0 , $_POST['age_m'] , $_POST['age_d'] , $_POST['age_y'])."', 
 			prénom='".$_POST['prenom']."', 
 			armes_préférées='".$_POST['arme']."',
 			images='".$_POST['perso']."', 
@@ -131,10 +131,10 @@ if (!empty($_POST['Submit']))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
-		redirec_text('edit-user.php',"Votre profils a été mis à jours",'admin');
+		redirec_text('edit-user.php', $langue['user_envois_edit_profil'],'admin');
 	}
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 if ( !empty($forum_error) )
 {
 	msg('erreur', $forum_error);
@@ -151,6 +151,7 @@ if ( ($profil = $rsql->s_array($get)) )
 {
 	// on regarde le sex
 	$template->assign_vars(array( 
+		'ICI' => session_in_url('edit-user.php'),
 		'TITRE' => $langue['titre_edit_user'],
 		'ID' => $profil['0'],
 		'TXT_LANGUE' => $langue['form_langue'],
@@ -167,8 +168,8 @@ if ( ($profil = $rsql->s_array($get)) )
 		'TXT_MAIL'  => $langue['form_mail'],
 		'MSN' => $profil['im'],
 		'TXT_MSN' => $langue['form_msn'],
-		'HOMME' => ( $profil['sex'] == "Homme" ) ? "checked=\"checked\"" : "",
-		'FEMME' => ( $profil['sex'] == "Femme" ) ? "checked=\"checked\"" : "",
+		'HOMME' => ( $profil['sex'] == 'Homme' ) ? 'checked="checked"' : '',
+		'FEMME' => ( $profil['sex'] == 'Femme' ) ? 'checked="checked"' : '',
 		'TXT_HOMME' => $langue['sex_homme'],
 		'TXT_FEMME' => $langue['sex_femme'],
 		'TXT_SEX' => $langue['form_sex'],
@@ -193,7 +194,7 @@ if ( ($profil = $rsql->s_array($get)) )
 		'BT_ENVOYER' => $langue['envoyer'],
 	));
 	// scan le rep pour les images
-	$dir = "../images/personnages";
+	$dir = '../images/personnages';
 	// Ouvre un dossier bien connu, et liste tous les fichiers
 	if (is_dir($dir))
 	{
@@ -215,7 +216,7 @@ if ( ($profil = $rsql->s_array($get)) )
 		}
 	}
 	// scan le rep pour les images des armes
-	$dir = "../images/armes";
+	$dir = '../images/armes';
 	// Ouvre un dossier bien connu, et liste tous les fichiers
 	if (is_dir($dir))
 	{
@@ -237,7 +238,7 @@ if ( ($profil = $rsql->s_array($get)) )
 		}
 	}
 	// scan le rep pour les langues
-	$dir = "../langues/";
+	$dir = '../langues/';
 	// Ouvre un dossier bien connu, et liste tous les fichiers
 	if (is_dir($dir))
 	{
@@ -263,5 +264,5 @@ else
 	msg('erreur', $langue['erreur_profil_no_found']);
 }
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

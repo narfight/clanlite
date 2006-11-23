@@ -30,7 +30,7 @@ require_once GSQUERY_DIR . 'gsQuery.php';
 /**
  * @brief Uses the Spearhead protcol to communicate with the server
  * @author Robert Limoges (robert@mega-rl.ca)
- * @version $Id: mohs.php,v 1.5 2004/08/12 19:14:47 jr Exp $
+ * @version $Id: mohs.php 190 2004-09-25 15:48:06Z jr $
  *
  * This class can communicate with Medal of Honor Spearhead and Breakthrough
  */

@@ -4,7 +4,7 @@
 // -------------------------------------------------------------
 /*
 si vous voulez traduire ce fichier dans un autre langue :
-seul le texte après le = entre les "" doit être traduit, si dans votre traduction vous utilisez un caractère ", vous devez le faire suivre d'un \
+seul le texte après le = entre les '' doit être traduit, si dans votre traduction vous utilisez un caractère ", vous devez le faire suivre d'un \
 Parfois vous verrez %f, %s, %d, %1\$s, %2\$s, %3\$s, ce sont des repères qui désignent au site de remplacer par une information.
 voici un exemple de traduction : $langue['test_traduction'] = "je suis \"malade\" car %1\$s m'a frappé sur la ù2\$s";
 */
@@ -22,7 +22,6 @@ $langue['boutton_connect'] = "Partie privée";
 $langue['boutton_deconnect'] = "Déconnecter";
 $langue['boutton_liens'] = "Liens";
 $langue['boutton_org_rencontre'] = "Proposer une rencontre";
-$langue['boutton_game_serveur_clan'] = "Notre serveur";
 $langue['boutton_liste_membres_groupe'] = "Les membres";
 
 $langue['error_sql_titre'] = "Erreur de requete SQL";
@@ -48,12 +47,13 @@ $langue['news_titre'] = "Les news";
 $langue['poste_le'] = "Posté le";
 $langue['poste_par'] = "par";
 $langue['0_reaction'] = "Il n'y a pas de réactions";
-$langue['1_reaction'] = "Il a <b>une</b> réaction";
+$langue['1_reaction'] = "Il y a <b>une</b> réaction";
 $langue['plus_reaction'] = "Il y a eu %s réactions";
 $langue['reaction_add'] = "Votre réaction a été ajoutée";
 $langue['reaction_dell'] = "La réaction est supprimée";
 $langue['reaction_login'] = "Cliquez ici si vous êtes membre du clan";
 $langue['erreur_news_no_found'] = "La News n'a pas été trouvée";
+$langue['reaction_de'] = "Réaction de %1\$s";
 
 $langue['frame_erreur_id'] = "Le id du site à afficher dans une Iframe n'est pas trouvé";
 $langue['where_rss'] = "Utilise le system de News RSS";
@@ -71,11 +71,12 @@ $langue['titre_calendrier'] = "Calendrier";
 $langue['where_calendrier'] = "Regarde le calendrier";
 $langue['calendrier_entrai'] = "Entrainement";
 $langue['calendrier_match'] = "Match contre les %s";
-$langue['calendrier_annif'] = "Annivairsaire de <a href=\"%1\$sservice/profil.php?link=%2\$u\">%3\$s</a>";
+$langue['calendrier_annif'] = "Anniversaire de <a href=\"%1\$sservice/profil.php?link=%2\$u\">%3\$s</a>";
 
 $langue['titre_connecte'] = "Les connectés";
 $langue['where_connecte'] = "Regarde les connectés";
 $langue['no_profil'] = "Pas de profil";
+$langue['guest'] = "Visiteur";
 
 $langue['where_iframe'] = "regarde un lien depuis une Iframe dans le site";
 
@@ -110,6 +111,7 @@ $langue['def_equipe'] = "Description des équipes";
 
 $langue['where_membre_group'] = "Regarde les membres par groupe";
 $langue['where_membre_liste'] = "Regarde la liste des membres";
+$langue['membre_dell'] = "Le membre a été supprimé";
 $langue['titre_liste_membres'] = "La liste des membres";
 $langue['no_section'] = "Sans section détérminée";
 $langue['no_equipe'] = "Dans cette section mais sans équipe déterminée";
@@ -170,22 +172,23 @@ $langue['where_reglement'] = "Lit le règlement du clan";
 $langue['no_reglement'] = "Il n'y a pas de règlement pour le moment";
 
 $langue['titre_serveur_jeux'] = "Le serveur de jeux des %s";
-$langue['serveur_jeux_down'] = "Le serveur de jeux du clan n'a pas répondu, actualisez la fenêtre, si le probléme est encore là, c'est que le serveur n'est plus en ligne";
+$langue['titre_serveurs_jeux'] = "Les serveurs de jeux des %s";
+$langue['titre_serveur_jeux_autre'] = "Les serveurs des autres clan";
+$langue['serveur_jeux_down'] = "Le serveur de jeux n'a pas répondu";
 $langue['where_serveur_jeux'] = "Regarde la page sur le serveur de jeux du clan";
 $langue['nom_serveur_jeux'] = "Nom du serveur";
 $langue['password_serveur_jeux'] = "Présence d'un code";
 $langue['version_serveur_jeux'] = "Version du serveur";
 $langue['gametype_serveur_jeux'] = "Type de partie";
-$langue['ip_min_max_serveur_jeux'] = "Votre IP doit être dans une fourchette de";
-$langue['nbr_place_serveur_jeux'] = "Nombre de places sur le serveur";
+$langue['ping_min_max_serveur_jeux'] = "Votre PING doit être dans une fourchette de";
+$langue['nbr_place_serveur_jeux'] = "Joueur";
 $langue['map_serveur_jeux'] = "Map actuelle";
-$langue['alt_img_map_serveur_jeux'] = "aperçu de la map %s";
+$langue['alt_img_map_serveur_jeux'] = "Aperçu de la map %s";
 $langue['rotation_map_serveur_jeux'] = "Rotation des maps";
 $langue['next_map_serveur_jeux'] = "Prochaine map";
-$langue['info_serveur_jeux'] = "Information supplémentaire";
 $langue['obj_axis_serveur_jeux'] = "Objectis Axis";
 $langue['obj_allier_serveur_jeux'] = "Objectis alliés";
-$langue['liste_joueur_serveur_jeux'] = "Liste des joueurs sur le serveur";
+$langue['liste_joueur_serveur_jeux'] = "Joueurs connectés";
 $langue['name_serveur_jeux'] = "Nom";
 $langue['score_serveur_jeux'] = "Score";
 $langue['ping_serveur_jeux'] = "Ping";
@@ -222,7 +225,7 @@ $langue['admin_nombre_membre'] = "Nombre de membres dans le clan";
 $langue['admin_nombre_match'] = "Nombre de matchs prévus";
 $langue['admin_nombre_old_match'] = "Nombre de vieux match qui attendent leurs rapport";
 $langue['admin_nombre_demande_match'] = "Nombre de demandes de matchs en attente";
-$langue['user_verif'] = "Vérifier !!!";
+$langue['user_verif'] = "Vérifier !";
 $langue['user_ok'] = "Ok";
 $langue['user_match_place'] = "Il y a encore de la place pour les matchs suivants";
 $langue['user_entrainement_place'] = "Le prochain entraînement";
@@ -363,16 +366,8 @@ $langue['config_skin'] = "Théme par default";
 $langue['config_recrutement_limit_txt'] = "Limitation des inscriptions";
 $langue['config_nbr_par_page'] = "Nombre de lignes par page";
 $langue['config_help_nbr/page'] = "<b>Exemple :</b> X fichiers de t&eacute;l&eacute;chargement par page, ou de rapport de match";
-$langue['config_show_server_list'] = "Afficher la liste des serveurs de jeux";
 $langue['config_reglement'] = "Règlement du clan";
 $langue['config_msg_news_membre'] = "Message de bienvenue apres l'inscription";
-$langue['config_serveur_titre'] = "Serveur de jeux";
-$langue['config_serveur_game'] = "Le clan a un serveur de jeux";
-$langue['config_serveur_game_ip'] = "IP de votre serveur de jeux";
-$langue['config_serveur_game_port'] = "Query Port de votre serveur de jeux";
-$langue['config_help_port'] = "<b>Pour Unreal Tournament :</b>Query Port = le port de votre serveur+1 <br /> <b>Pour Unreal Tournament 2003 :</b>Query Port = le port de votre serveur+10 <br /> <b>Pour Battlefield 1942 :</b>Pas de régle <br /> <b>Pour America\'s Army :</b>Query Port = le port de votre serveur+1<br /><br />Tout les jeux qui ne sont pas dans cette liste ont le même Query Port que le port pour s\'y connecter";
-$langue['config_serveur_game_protocol'] = "Protocol du serveur de jeux";
-$langue['config_serveur_game_txt'] = "Message visible sur la page serveur";
 $langue['config_mail_send_titre'] = "L'envois d'e-mail";
 $langue['config_send_by'] = "Envois d'e-mail";
 $langue['config_by_smtp'] = "Par SMTP";
@@ -446,6 +441,10 @@ $langue['titre_game_server_list'] = "La liste des serveurs";
 $langue['redirection_game_server_add'] = "Le serveur à ajouter";
 $langue['redirection_game_server_edit'] = "Le serveur a été mis à jour";
 $langue['redirection_game_server_dell'] = "Le serveur est bien supprimé et les membres qui y étaient sont sans équipe maintenant !!!";
+$langue['serveur_game_ip'] = "IP de votre serveur de jeux";
+$langue['serveur_game_port'] = "Query Port de votre serveur de jeux";
+$langue['serveur_game_help_port'] = "<b>Pour Unreal Tournament :</b>Query Port = le port de votre serveur+1 <br /> <b>Pour Unreal Tournament 2003 :</b>Query Port = le port de votre serveur+10 <br /> <b>Pour Battlefield 1942 :</b>Pas de régle <br /> <b>Pour America\'s Army :</b>Query Port = le port de votre serveur+1<br /><br />Tout les jeux qui ne sont pas dans cette liste ont le même Query Port que le port pour s\'y connecter";
+$langue['serveur_game_protocol'] = "Protocol du serveur de jeux";
 
 $langue['where_grade'] = "Est dans l'administration des grades";
 $langue['titre_grade'] = "Les grades";
@@ -456,6 +455,7 @@ $langue['redirection_grade_edit'] = "Le grade a été mis à jour";
 $langue['redirection_grade_dell'] = "Le grade est bien supprimée et les membres qui y étaient sont sans grade maintenant !!!";
 $langue['nom_grade'] = "Nom du grade";
 $langue['puissance_grade'] = "Puissance du grade";
+$langue['serveur_game_clan'] = "Serveur du clan";
 
 $langue['where_liens_admin'] = "Est dans l'administration des liens";
 $langue['titre_liens_admin'] = "Les liens";
@@ -468,6 +468,7 @@ $langue['liens_nom_site'] = "Titre du liens";
 $langue['liens_url_site'] = "L'URL";
 $langue['liens_image_site'] = "Bannière";
 $langue['liens_test_url'] = "Tester le lien";
+$langue['liens_test_no_url'] = "Pas de lien";
 
 $langue['where_admin_match'] = "Est dans l'administration des matchs";
 $langue['titre_admin_match'] = "Les matchs";
@@ -592,6 +593,7 @@ $langue['erreur_clan_vide'] = "Vous n'avez pas entré le nom de votre clan<br />"
 $langue['erreur_jour_vide'] = "Vous n'avez pas entré le jour<br />";
 $langue['erreur_mois_vide'] = "Vous n'avez pas entré le mois<br />";
 $langue['erreur_minute_vide'] = "Vous n'avez pas entré les minutes<br />";
+$langue['erreur_heure_vide'] = "Vous n'avez pas entré les heures<br />";
 $langue['erreur_sex_vide'] = "Vous n'avez pas selectionné votre sexe<br />";
 $langue['erreur_naissance_vide'] = "Votre date de naissance est incomplète<br />";
 $langue['erreur_arme_vide'] = "Vous n'avez pas selectionné votre arme préférée<br />";
@@ -637,6 +639,7 @@ $langue['redirection_admin_section_add'] = "La section à ajouter";
 $langue['redirection_admin_section_edit'] = "La section a été mise à jour";
 $langue['redirection_admin_section_dell'] = "La section est bien supprimée, tous les membres qui y étaient se retrouvent sans section";
 $langue['admin_section_nom'] = "Nom";
+
 $langue['admin_section_titre_limite'] = "Limité";
 $langue['admin_section_limite'] = "Ne peut voir que les matchs de sa section";
 $langue['admin_section_limite_true'] = "Limité";
@@ -679,7 +682,6 @@ $langue['date'] = "Date";
 $langue['heure'] = "Heure";
 $langue['détails'] = "Détails";
 $langue['posteur'] = "Posteur";
-$langue['id'] = "ID";
 $langue['nom/sex'] = "Le nom / Sexe";
 $langue['nom'] = "Le nom";
 $langue['action'] = "Action";
@@ -718,6 +720,7 @@ $langue['active'] = "Activer";
 $langue['desactive'] = "Désactiver";
 $langue['user'] = "Membre";
 $langue['admin'] = "Administrateur";
+
 // date
 $langue['lundi'] = "Lundi";
 $langue['mardi'] = "Mardi";

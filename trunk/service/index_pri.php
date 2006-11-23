@@ -10,7 +10,7 @@ include($root_path.'conf/frame.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'accueil_centre.tpl'));
 // on prend le nombre de news pour les news/page
-$_GET['limite'] = (empty($_GET['limite']))? 0 : $_GET['limite'];
+$_GET['limite'] = (empty($_GET['limite']) || !is_numeric($_GET['limite']))? 0 : $_GET['limite'];
 $total = get_nbr_objet('news', '');
 $sql = "SELECT news.*, COUNT(reaction.id_news) FROM `".$config['prefix']."news` AS news LEFT JOIN ".$config['prefix']."reaction_news AS reaction ON news.id = reaction.id_news  GROUP BY news.id ORDER BY news.id DESC LIMIT ".$_GET['limite'].", ".$config['objet_par_page'];
 if (! ($list_news = $rsql->requete_sql($sql)) )
@@ -40,13 +40,13 @@ while ( $recherche = $rsql->s_array($list_news) )
 	$template->assign_block_vars('news', array( 
 		'BY' => $recherche['user'],
 		'COMMENTAIRE' => $reaction,
-		'DATE'  => date("j/n/y H:i", $recherche['date']),
-		'FOR' => $recherche['id'],
+		'DATE'  => date('j/n/y H:i', $recherche['date']),
+		'FOR' => session_in_url('reaction.php?for='.$recherche['id']),
 		'TEXT' => bbcode($recherche['info']),
 		'TITRE' => $recherche['titre']
 	));
 }
-displayNextPreviousButtons($_GET['limite'],$total,"multi_page");
+displayNextPreviousButtons($_GET['limite'],$total,'multi_page', 'index_pri.php');
 $template->pparse('body');
 include($root_path.'conf/frame.php');
 ?>

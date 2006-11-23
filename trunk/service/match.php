@@ -29,11 +29,11 @@ while ($liste = $rsql->s_array($get))
 		'DATE' => date('j/n/Y', $liste['date']),
 		'CLAN' => $liste['le_clan'],
 		'INFO' => bbcode($liste['info']),
-		'HEURE' => date("H:i", $liste['date']),
+		'HEURE' => date('H:i', $liste['date']),
 		'FOR' => $liste['id'],
 	));
 }
-if ($i == 0)
+if ($i === 0)
 {
 	$template->assign_block_vars('no_match', array('TXT' => $langue['no_futur_match']));
 }

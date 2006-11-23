@@ -1,6 +1,6 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-	<form method="post" action="news.php">
+	<form method="post" action="{ICI}">
 		<div class="big_cadre">
 			<h1>{TITRE_GESTION}</h1>
 			<p>
@@ -62,8 +62,8 @@
 						</td> 
 						<td>{liste.POSTEUR}</td> 
 						<td>
-							<form action="news.php" method="post">
-								<input name="dell" type="submit" id="dell" value="{liste.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />
+							<form action="{ICI}" method="post">
+								<input name="dell" type="submit" id="dell" value="{liste.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" />
 								<input name="for" type="hidden" value="{liste.ID}" />
 								<input name="edit" type="submit" value="{liste.EDITER}" />
 							</form>

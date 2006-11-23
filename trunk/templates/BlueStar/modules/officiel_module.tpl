@@ -19,14 +19,14 @@
 	<div style="display: none;" id="last_match_resum">{INFO}</div>
 <!-- END last_match -->
 <!-- BEGIN connection -->
-	<form method="post" action="{ROOT_PATH}controle/entrer.php"> 
+	<form method="post" action="{ICI}"> 
 		<p>
-			<span><label for="user">{LOGIN}&nbsp;:</label></span>
-			<span><input name="user" type="text" id="user" onBlur="formverif(this.id,'nbr','2')" /></span>
+			<span><label for="user_module">{LOGIN}&nbsp;:</label></span>
+			<span><input name="user" type="text" id="user_module" onBlur="formverif(this.id,'nbr','2')" /></span>
 		</p>
 		<p>
-			<span><label for="psw">{CODE}&nbsp;:</label></span>
-			<span><input name="psw" type="password" id="psw" onBlur="formverif(this.id,'nbr','4')" /></span>
+			<span><label for="psw_module">{CODE}&nbsp;:</label></span>
+			<span><input name="psw" type="password" id="psw_module" onBlur="formverif(this.id,'nbr','4')" /></span>
 		</p>
 		<p>
 			<span><label for="save_code_login">{SAVE}&nbsp;:</label></span>
@@ -40,7 +40,7 @@
 	</form>
 <!-- END connection -->
 <!-- BEGIN newsletter -->
-	<form method="post" action="{ROOT_PATH}modules/newsletter.php"> 
+	<form method="post" action="{ICI}"> 
 		<p>
 			<span><label for="mail_ns_{ID}">{MAIL}&nbsp;:</label></span>
 			<span><input name="mail_ns" type="text" id="mail_ns_{ID}" onBlur="formverif(this.id,'mail','')" /></span>

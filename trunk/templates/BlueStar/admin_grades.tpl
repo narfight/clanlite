@@ -42,7 +42,7 @@
 						<td>{liste.NOM}</td>
 						<td>
 							<form action="{ICI}" method="post">
-								<input name="dell" type="submit" id="dell" value="{liste.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />
+								<input name="dell" type="submit" id="dell" value="{liste.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" />
 								<input name="for" type="hidden" value="{liste.ID}" />
 								<input name="edit" type="submit" value="{liste.EDITER}" />
 							</form>

@@ -44,7 +44,7 @@ while ($get_points = $rsql->s_array($get))
 		$resulte_match['perdu']++;
 	}
 }
-$_GET['limite'] = (empty($_GET['limite']))? 0 : $_GET['limite'];
+$_GET['limite'] = (empty($_GET['limite']) || !is_numeric($_GET['limite']))? 0 : $_GET['limite'];
 $sql = "SELECT rapport.*, section.nom FROM ".$config['prefix']."match_rapport AS rapport LEFT JOIN ".$config['prefix']."section AS section ON rapport.section = section.id ORDER BY `date` DESC LIMIT ".$_GET['limite'].", ".$config['objet_par_page'];
 if (! ($get = $rsql->requete_sql($sql)) )
 {
@@ -76,12 +76,11 @@ if ($resulte_match['total'] > 0)
 		'MATCH_NORM' => $resulte_match['egalitée'],
 		'MATCH_NORM_PC' => round(($resulte_match['egalitée']*$rapport_pc), 2),
 	));
-	displayNextPreviousButtons($_GET['limite'], $resulte_match['total'], 'multi_page');
+	displayNextPreviousButtons($_GET['limite'], $resulte_match['total'], 'multi_page', 'rapport_match.php');
 }
 else
 {
 	$template->assign_block_vars('no_match', array('TXT' => $langue['no_match_joue']));
-
 }
 $template->pparse('body');
 include($root_path.'conf/frame.php');

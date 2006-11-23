@@ -7,7 +7,7 @@ $action_membre= 'where_entree_user';
 include($root_path.'conf/template.php');
 include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'info_priver.tpl'));
 //on releve tout les match que le joueur peux voir
@@ -32,7 +32,7 @@ while ($match = $rsql->s_array($get_match))
 			));
 		} 
 		$template->assign_block_vars('cadre_match', array( 
-			'MATCH_DISPO' => sprintf($langue['info_match_place'], $match['le_clan'], date('j/n/Y', $match['date']), date("H:i", $match['date'])),
+			'MATCH_DISPO' => sprintf($langue['info_match_place'], $match['le_clan'], date('j/n/Y', $match['date']), date('H:i', $match['date'])),
 		));
 	}
 }
@@ -48,7 +48,7 @@ while ($entrainement = $rsql->s_array($get_entrainement))
 		'ENTRAI_PLACE' => $langue['user_entrainement_place'],
 		'DATE' =>  date('j/n/Y', $entrainement['date']),
 		'TXT_DATE' => $langue['date_entrai'],
-		'HEURE' => date("H:i", $entrainement['date']),
+		'HEURE' => date('H:i', $entrainement['date']),
 		'TXT_HEURE' => $langue['heure_entrai'],
 		'INFO' => bbcode($entrainement['info']),
 		'TXT_INFO' => $langue['info_entrai'],
@@ -59,7 +59,7 @@ while ($entrainement = $rsql->s_array($get_entrainement))
 // partie admin du script
 if ($user_pouvoir['particulier'] == 'admin')
 {
-	if (!empty($_GET['toggle_get_version']))
+	if (!empty($_POST['toggle_get_version']))
 	{
 		$sql = "UPDATE `".$config['prefix']."config` SET `conf_valeur` = '".(($config['get_version'] == 1)? 0 : 1)."' WHERE `conf_nom` = 'get_version'";
 		if (! ($get_nbr_match = $rsql->requete_sql($sql)) )
@@ -126,13 +126,14 @@ if ($user_pouvoir['particulier'] == 'admin')
 			fclose($fp);
 			if (!empty($reponce) && $reponce != "problem")
 			{
-				$version_local = explode(".", $config['version']);
-				$version_distant = explode(".", $reponce);
-				$version_local_time = mktime(0, 0, 0, $version_local[2], $version_local[1], $version_local[3]);
-				$version_distant_time = mktime(0, 0, 0, $version_distant[2], $version_distant[1], $version_distant[3]);
+				$version_local = explode('.', $config['version']);
+				$version_distant = explode('.', $reponce);
+				$version_local_time = mk_time(0, 0, 0, $version_local[2], $version_local[1], $version_local[3]);
+				$version_distant_time = mk_time(0, 0, 0, $version_distant[2], $version_distant[1], $version_distant[3]);
 				if ( $version_distant_time > $version_local_time  && $version_local[0] <= $version_distant[0])
 				{
 					$template->assign_block_vars('admin.update', array(
+						'ICI' => session_in_url('index.php'),
 						'TITRE' => $langue['admin_news_cl_titre'],
 						'TEXTE' => sprintf($langue['admin_news_cl_on'], $config['version'], $reponce),
 						'TXT_TOGGLE' => $langue['admin_news_cl_toggle'],
@@ -144,6 +145,7 @@ if ($user_pouvoir['particulier'] == 'admin')
 	else
 	{
 		$template->assign_block_vars('admin.update', array(
+			'ICI' => session_in_url('index.php'),
 			'TITRE' => $langue['admin_news_cl_titre'],
 			'TEXTE' => $langue['admin_news_cl_off'],
 			'TXT_TOGGLE' => $langue['admin_news_cl_toggle'],
@@ -160,6 +162,7 @@ if ($user_pouvoir['particulier'] == 'admin')
 	{
 		$nombre++;
 		$template->assign_block_vars('admin.nul_part', array(
+			'ICI' => session_in_url($root_path.'administration/editer-user.php'),
 			'ID' => $liste_membre['id'],
 			'NOM' => $liste_membre['user'],
 			'SEX' => ( $liste_membre['sex'] == "Femme") ? "femme" : "homme",
@@ -171,5 +174,5 @@ if ($user_pouvoir['particulier'] == 'admin')
 	}
 }
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

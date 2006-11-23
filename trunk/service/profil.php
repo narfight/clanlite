@@ -8,7 +8,6 @@ include($root_path.'conf/template.php');
 include($root_path.'conf/conf-php.php');
 include($root_path.'conf/frame.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
-$template->set_filenames( array('body' => 'profile.tpl'));
 $sql = "SELECT user.*,user.nom AS user_nom, equipe.nom AS equipe_nom, section.nom AS section_nom, grade.nom AS grade_nom FROM ".$config['prefix']."user AS user LEFT JOIN ".$config['prefix']."section AS section ON section.id = user.section LEFT JOIN ".$config['prefix']."équipe as equipe ON equipe.id = user.equipe LEFT JOIN ".$config['prefix']."grades as grade ON grade.id = user.grade WHERE user.id = '".$_GET['link']."'";
 if (! ($get_p = $rsql->requete_sql($sql)) )
 {
@@ -16,6 +15,7 @@ if (! ($get_p = $rsql->requete_sql($sql)) )
 }
 if ( ($profil = $rsql->s_array($get_p)) )
 {
+	$template->set_filenames( array('body' => 'profile.tpl'));
 	$template->assign_vars(array( 
 		'TITRE_PROFIL' =>  sprintf($langue['titre_profil'], $profil['user']),
 		'ID' => $profil['id'],
@@ -83,11 +83,11 @@ if ( ($profil = $rsql->s_array($get_p)) )
 			));
 		}
 	}
+	$template->pparse('body');
 }
 else
 {
 	msg('erreur', $langue['erreur_profil_no_found']);
 }
-$template->pparse('body');
 include($root_path.'conf/frame.php');
 ?>

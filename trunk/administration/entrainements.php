@@ -10,25 +10,25 @@ include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if ( !empty($_POST['Envoyer']) )
 {
-	$date = mktime( $_POST['heure'], $_POST['minute'], 0, $_POST['mois'], $_POST['jours'], $_POST['annee']);
+	$date = mk_time( $_POST['heure'], $_POST['minute'], 0, $_POST['mois'], $_POST['jours'], $_POST['annee']);
 	$_POST = pure_var($_POST);
 	$sql = "INSERT INTO `".$config['prefix']."entrainement` (info, date, user, priver) VALUES ('".$_POST['texte']."', '".$date."', '".$session_cl['user']."', '".$_POST['priver']."')";
 	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql,mysql_error(), __LINE__, __FILE__);
 	}
-	redirec_text("entrainements.php", $langue['redirection_entrain_add'], 'admin');
+	redirec_text('entrainements.php', $langue['redirection_entrain_add'], 'admin');
 }
 if ( !empty($_POST['Editer']) )
 {
-	$date = mktime( $_POST['heure'], $_POST['minute'], 0, $_POST['mois'], $_POST['jours'], $_POST['annee']);
+	$date = mk_time( $_POST['heure'], $_POST['minute'], 0, $_POST['mois'], $_POST['jours'], $_POST['annee']);
 	$_POST = pure_var($_POST);
 	$sql = "UPDATE `".$config['prefix']."entrainement` SET info='".$_POST['texte']."', date='".$date."', user='".$session_cl['user']."', priver='".$_POST['priver']."' WHERE id=".$_POST['for'];
 	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql,mysql_error(), __LINE__, __FILE__);
 	}
-	redirec_text("entrainements.php", $langue['redirection_entrain_edit'], 'admin');
+	redirec_text('entrainements.php', $langue['redirection_entrain_edit'], 'admin');
 }
 if (!empty($_POST['dell']))
 {
@@ -37,13 +37,14 @@ if (!empty($_POST['dell']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("entrainements.php", $langue['redirection_entrain_dell'], 'admin');
+	redirec_text('entrainements.php', $langue['redirection_entrain_dell'], 'admin');
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_entrainements.tpl'));
 liste_smilies(true, '', 25);
 $template->assign_vars( array( 
+	'ICI' => session_in_url('entrainements.php'),
 	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'TITRE' => $langue['titre_entrain'],
 	'TITRE_GESTION' => $langue['titre_entrain_gestion'],
@@ -68,11 +69,11 @@ if ( !empty($_POST['edit']) )
 		'ID' => $rechercheedit['id'],
 		'INFO' => $rechercheedit['info'],
 		'PRIVER' => $rechercheedit['priver'],
-		'JOURS' =>  date("j", $rechercheedit['date']),
-		'MOIS' => date("n", $rechercheedit['date']),
-		'ANNEE' => date("Y", $rechercheedit['date']),
-		'HH' => date("H", $rechercheedit['date']),
-		'MM' => date("i", $rechercheedit['date']),
+		'JOURS' =>  date('j', $rechercheedit['date']),
+		'MOIS' => date('n', $rechercheedit['date']),
+		'ANNEE' => date('Y', $rechercheedit['date']),
+		'HH' => date('H', $rechercheedit['date']),
+		'MM' => date('i', $rechercheedit['date']),
 	));
 }
 else
@@ -97,5 +98,5 @@ while ($liste = $rsql->s_array($query))
 	));
 }
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

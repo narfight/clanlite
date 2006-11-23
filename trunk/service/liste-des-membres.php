@@ -36,18 +36,21 @@ if ( !empty($_POST['del']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("liste-des-membres.php","Le membres est supprimé", 'admin');
+	redirec_text('liste-des-membres.php', $langue['membre_dell'], 'admin');
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'membre_liste.tpl'));
-// connection Mysql
 $template->assign_vars(array( 
+	'ICI' => session_in_url('liste-des-membres.php'),
+	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'TITRE_LISTE_MEMBRES' => $langue['titre_liste_membres'],
-	'ID' => $langue['id'],
 	'NUM' => $langue['numero'],
 	'NOM_SEX' => $langue['nom/sex'],
 	'MSN' => $langue['msn'],
+	'PROFIL' => $langue['profil'],
+	'ALT_MSN' => $langue['alt_msn'],
+	'ALT_PROFIL' => $langue['alt_profil'],
 ));
 $sql = "SELECT sex,id,user,im,pouvoir FROM ".$config['prefix']."user ORDER BY id ASC";
 if (! ($get = $rsql->requete_sql($sql)) )
@@ -58,15 +61,15 @@ $nombre = 0;
 while ($liste = $rsql->s_array($get))
 { 
 	$nombre++;
-	if ( ( $user_pouvoir['particulier'] == 'admin' || $user_pouvoir[8] == "oui") && $nombre == 1)
+	if ( ( $user_pouvoir['particulier'] == 'admin' || $user_pouvoir[8] == 'oui') && $nombre == 1)
 	{
 		$template->assign_block_vars('profil_tete', array('PROFIL' => $langue['profil']));
 	}
-	if ( ($user_pouvoir['particulier'] == 'admin' || $user_pouvoir[7] == "oui") && $nombre == 1)
+	if ( ($user_pouvoir['particulier'] == 'admin' || $user_pouvoir[7] == 'oui') && $nombre == 1)
 	{
 		$template->assign_block_vars('medail_tete', array('MEDAILLES' => $langue['medailles']));
 	}
-	if ( ($user_pouvoir['particulier'] == 'admin' || $user_pouvoir[22] == "oui") && $nombre == 1)
+	if ( ($user_pouvoir['particulier'] == 'admin' || $user_pouvoir[22] == 'oui') && $nombre == 1)
 	{
 		$template->assign_block_vars('del_tete', array('SUPPRIMER' => $langue['supprimer']));
 	}
@@ -80,25 +83,35 @@ while ($liste = $rsql->s_array($get))
 		'SEX' => ($liste['sex'] == 'Femme')? 'femme' : 'homme',
 		'USER' => $liste['user'],
 		'MSN' => $liste['im'],
+		'PROFIL_U' => session_in_url($root_path.'service/profil.php?link='.$liste['id']),
 		'EDITER' => $langue['editer']
 	));
 	if ( $user_pouvoir['particulier'] == 'admin' || $user_pouvoir[8] == 'oui')
 	{
-		$template->assign_block_vars('liste.edit_profil', array( 'vide' => 'vide'));
+		$template->assign_block_vars('liste.edit_profil', array(
+			'ICI_EDIT' => session_in_url($root_path.'administration/editer-user.php')
+		));
 	}
-	if ( $user_pouvoir['particulier'] == 'admin' || $user_pouvoir[7] == "oui")
+	if ( $user_pouvoir['particulier'] == 'admin' || $user_pouvoir[7] == 'oui')
 	{
-		$template->assign_block_vars('liste.edit_medail', array( 'vide' => 'vide'));
+		$template->assign_block_vars('liste.edit_medail', array(
+			'ICI_MEDAIL' => session_in_url($root_path.'administration/editer-medail.php')
+		));
 	}
-	if ( $user_pouvoir['particulier'] == 'admin' || $user_pouvoir[7] == "oui")
+	if ( $user_pouvoir['particulier'] == 'admin' || $user_pouvoir[7] == 'oui')
 	{
-		$template->assign_block_vars('liste.del', array( 'vide' => 'vide'));
+		$template->assign_block_vars('liste.del', array(
+			'vide' => 'vide'
+		));
 	}
 	if ($user_pouvoir['particulier'] == 'admin')
 	{
-		$template->assign_block_vars('liste.admin', array('DISABLED' => ($liste['pouvoir'] == 'admin')? 'disabled="disabled"' : ''));
+		$template->assign_block_vars('liste.admin', array(
+			'ICI_POUVOIR' => session_in_url($root_path.'administration/pouvoir.php'),
+			'DISABLED' => ($liste['pouvoir'] == 'admin')? 'disabled="disabled"' : ''
+		));
 	}
 }
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

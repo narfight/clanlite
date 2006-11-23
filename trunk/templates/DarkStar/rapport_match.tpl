@@ -27,14 +27,14 @@
 </div>
 <!-- BEGIN multi_page -->
 <div class="parpage">
-<!-- BEGIN link_prev -->
-	<a href="rapport_match.php?limite={multi_page.link_prev.PRECEDENT}">{multi_page.link_prev.PRECEDENT_TXT}</a>
+	<!-- BEGIN link_prev -->
+	<a href="{multi_page.link_prev.PRECEDENT}">{multi_page.link_prev.PRECEDENT_TXT}</a>
 	<!-- END link_prev -->
 	<!-- BEGIN num_p -->
-	<a href="rapport_match.php?{multi_page.num_p.URL}">{multi_page.num_p.NUM}</a>,
+	<a href="{multi_page.num_p.URL}">{multi_page.num_p.NUM}</a>,
 	<!-- END num_p -->
 	<!-- BEGIN link_next -->
-	<a href="rapport_match.php?limite={multi_page.link_next.SUIVANT}">{multi_page.link_next.SUIVANT_TXT}</a>
+	<a href="{multi_page.link_next.SUIVANT}">{multi_page.link_next.SUIVANT_TXT}</a>
 	<!-- END link_next -->
 </div>
 <!-- END multi_page -->

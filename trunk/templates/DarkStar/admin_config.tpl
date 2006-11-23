@@ -1,4 +1,4 @@
-<form action="config.php" method="post" name="config" id="config"> 
+<form action="{ICI}" method="post" name="config" id="config"> 
 	<div class="big_cadre">
 		<h1>{TITRE}</h1>
 		<div class="big_cadre">
@@ -15,7 +15,7 @@
 				<span><label for="id_membre_match">{TXT_USER_MATCH}&nbsp;:</label></span>
 				<span>
 					<select name="id_membre_match" id="id_membre_match" onblur="formverif(this.id,'autre','')"> 
-						<option value="">{TXT_CHOISIR}</option> 
+						<option value"">{TXT_CHOISIR}</option> 
 						<!-- BEGIN list_membre_match --> 
 						<option value="{list_membre_match.ID}" {list_membre_match.SELECTED_ID_MATCH}>{list_membre_match.NOM}</option> 
 						<!-- END list_membre_match --> 
@@ -26,7 +26,7 @@
 				<span><label for="show_grade">{TXT_SHOW_GRADE}&nbsp;:</label></span>
 				<span>
 					<select name="show_grade" id="show_grade" onblur="formverif(this.id,'autre','')" onchange="toggle_msg('limite_inscription_div', this.id, '2', 'value')"> 
-						<option value="">{TXT_CHOISIR}</option> 
+						<option value"">{TXT_CHOISIR}</option> 
 						<option value="1" {SHOW_GRADE_1}>{TXT_OUI}</option> 
 						<option value="0" {SHOW_GRADE_0}>{TXT_NON}</option> 
 					</select>
@@ -55,6 +55,9 @@
 				</div>
 				<div class="big_texte"><textarea name="reglement" cols="40" rows="10" id="reglement" onblur="formverif(this.id,'nbr','20')">{REGLEMENT}</textarea></div>
 			</p>
+			<p>
+				<span><input type="submit" name="Submit" value="{BT_EDITER}" /></span>
+			</p>
 		</div>
 		<div class="big_cadre">
 			<h1>{TITRE_INSCRIPTION}</h1>
@@ -81,7 +84,7 @@
 				<span><label for="inscription">{TXT_INSCRI}&nbsp;:</label></span>
 				<span>
 					<select name="inscription" id="inscription" onblur="formverif(this.id,'autre','')" onchange="toggle_msg('limite_inscription_div', this.id, '2', 'value')"> 
-						<option value="">{TXT_CHOISIR}</option> 
+						<option value"">{TXT_CHOISIR}</option> 
 						<option value="1" {SELECT_INSCI_1}>{TXT_OUI}</option> 
 						<option value="0" {SELECT_INSCI_0}>{TXT_NON}</option> 
 						<option value="2" {SELECT_INSCI_2}>{TXT_INSCRI_LIMIT}</option> 
@@ -98,11 +101,14 @@
 				<span><label for="recrutement_alert">{TXT_RECRUTEMENT_ALERT}&nbsp;:</label></span>
 				<span>
 					<select name="recrutement_alert" id="recrutement_alert" onblur="formverif(this.id,'autre','')">
-						<option value="">{TXT_CHOISIR}</option> 
+						<option value"">{TXT_CHOISIR}</option> 
 						<option value="1" {RECRUTEMENT_ALERT_OUI}>{TXT_OUI}</option>
 						<option value="0" {RECRUTEMENT_ALERT_NON}>{TXT_NON}</option>
 					</select>
 				</span>
+			</p>
+			<p>
+				<span><input type="submit" name="Submit" value="{BT_EDITER}" /></span>
 			</p>
 		</div>
 		<div class="big_cadre">
@@ -127,7 +133,7 @@
 				<span><label for="langue">{TXT_LANGUE}&nbsp;:</label></span>
 				<span>
 					<select name="langue" id="langue" onblur="formverif(this.id,'autre','')">
-						<option value="">{TXT_CHOISIR}</option> 
+						<option value"">{TXT_CHOISIR}</option> 
 						<!-- BEGIN langue -->
 						<option value="{langue.VALUE}" {langue.SELECTED}>{langue.NAME}</option>
 						<!-- END langue -->
@@ -138,7 +144,7 @@
 				<span><label for="skin">{TXT_SKIN}&nbsp;:</label></span>
 				<span>
 					<select name="skin" id="skin" onblur="formverif(this.id,'autre','')">
-						<option value="">{TXT_CHOISIR}</option> 
+						<option value"">{TXT_CHOISIR}</option> 
 						<!-- BEGIN skin -->
 						<option value="{skin.VALUE}" {skin.SELECTED}>{skin.NAME}</option>
 						<!-- END skin -->
@@ -153,11 +159,14 @@
 				<span><label for="scan_game_server">{TXT_SCAN_GAME_SERVER}&nbsp;:</label></span>
 				<span>
 					<select name="scan_game_server" id="scan_game_server" onblur="formverif(this.id,'autre','')">
-						<option value="">{TXT_CHOISIR}</option> 
+						<option value"">{TXT_CHOISIR}</option> 
 						<option value="udp" {SELECT_SCAN_UDP}>{TXT_SCAN_GAME_SERVER_UDP}</option>
 						<option value="http" {SELECT_SCAN_HTTP}>{TXT_SCAN_GAME_SERVER_HTTP}</option>
 					</select><img src="../images/smilies/question.gif" onmouseover="poplink('{TXT_HELP_SCAN_GAME_SERVER}',event)" onmouseout="kill_poplink()" alt="{ALT_AIDE}" />
 				</span>
+			</p>
+			<p>
+				<span><input type="submit" name="Submit" value="{BT_EDITER}" /></span>
 			</p>
 		</div>
 		<div class="big_cadre">
@@ -166,7 +175,7 @@
 				<span><label for="send_mail">{TXT_SEND_MAIL}&nbsp;:</label></span>
 				<span>
 					<select name="send_mail" id="send_mail" onblur="formverif(this.id,'autre','')" onchange="toggle_msg('partie_smtp', this.id, 'smtp', 'value')">
-						<option value="">{TXT_CHOISIR}</option> 
+						<option value"">{TXT_CHOISIR}</option> 
 						<option value="php" {SEND_MAIL_PAR_PHP}>{TXT_SEND_PHP}</option>
 						<option value="smtp" {SEND_MAIL_PAR_SMTP}>{TXT_SEND_SMTP}</option>
 					</select>
@@ -189,80 +198,16 @@
 					<span><label for="smtp_code">{TXT_SMTP_CODE}&nbsp;:</label></span>
 					<span><input name="smtp_code" type="text" id="smtp_code" value="{SMTP_CODE}" onblur="formverif(this.id,'nbr','9')" /></span>
 				</p>
-			</div>
-		</div>
-		<div class="big_cadre">
-			<h1>{SERVEUR_GAME_TITRE}</h1>
-			<p>
-				<span><label for="list_game_serveur">{TXT_LIST_GAME_SERVEUR}&nbsp;:</label></span>
-				<span>
-					<select name="list_game_serveur" id="list_game_serveur" onblur="formverif(this.id,'autre','')">
-						<option value="">{TXT_CHOISIR}</option> 
-						<option value="oui" {LIST_GAME_SERVEUR_OUI}>{TXT_OUI}</option>
-						<option value="non" {LIST_GAME_SERVEUR_NON}>{TXT_NON}</option>
-					</select>
-				</span>
-			</p>
-			<p>
-				<span><label for="serveur">{TXT_SERVEUR_GAME}&nbsp;:</label></span>
-				<span>	
-					<select name="serveur" id="serveur" onblur="formverif(this.id,'autre','')" onchange="toggle_msg('partie_serveur', this.id, '1', 'value')"> 
-						<option value="">{TXT_CHOISIR}</option> 
-						<option value="1" {SERVEUR_GAME_OUI}>{TXT_OUI}</option> 
-						<option value="0" {SERVEUR_GAME_NON}>{TXT_NON}</option> 
-					</select>
-				</span>
-			</p>
-			<div id="partie_serveur">
 				<p>
-					<span><label for="serveur_game_ip">{TXT_SERVEUR_GAME_IP}&nbsp;:</label></span>
-					<span><input name="serveur_game_ip" type="text" id="serveur_game_ip" value="{SERVEUR_GAME_IP}" size="12" onblur="formverif(this.id,'nbr','9')" /></span>
-				</p>
-				<p>
-					<span><label for="serveur_game_port">{TXT_SERVEUR_GAME_PORT}&nbsp;:</label></span>
-					<span><input name="serveur_game_port" type="text" id="serveur_game_port" value="{SERVEUR_GAME_PORT}" size="5" onblur="formverif(this.id,'chiffre','')" /> <img src="../images/smilies/question.gif" onmouseover="poplink('{TXT_HELP_GAME_PORT}')" onmouseout="kill_poplink()" alt="{ALT_AIDE}" /></span>
-				</p>
-				<p>
-					<span><label for="serveur_game_protocol">{TXT_SERVEUR_GAME_PROTOCOL}&nbsp;:</label></span>
-					<span>
-						<select name="serveur_game_protocol" id="serveur_game_protocol" onblur="formverif(this.id,'autre','')"> 
-							<option value="">{TXT_CHOISIR}</option> 
-							<!-- BEGIN protocol_game_liste --> 
-							<option value="{protocol_game_liste.VALUE}" {protocol_game_liste.SELECTED}>{protocol_game_liste.NAME}</option> 
-							<!-- END protocol_game_liste --> 
-						</select>
-					</span>
-				</p>
-				<p>
-					<span><label for="serveur_game_info">{TXT_SERVEUR_GAME_TXT}&nbsp;:</label></span>
-				</p>
-				<p>
-					<div class="smilies">
-						<!-- BEGIN poste_smilies_liste -->
-						<a href="javascript:emoticon('{poste_smilies_liste.TXT}','serveur_game_info')"><img src="{poste_smilies_liste.IMG}" alt="{poste_smilies_liste.ALT}" width="{poste_smilies_liste.WIDTH}"  height="{poste_smilies_liste.HEIGHT}" /></a>
-						<!-- BEGIN more -->
-						<a href="javascript:toggle_msg('smilies_more_serveur_game_info', '', '')">{poste_smilies_liste.more.MORE_SMILIES}</a>
-						<div id="smilies_more_serveur_game_info" style="display: none;">
-							<!-- BEGIN liste -->
-							<a href="javascript:emoticon('{poste_smilies_liste.more.liste.TXT}','serveur_game_info')"><img src="{poste_smilies_liste.more.liste.IMG}" alt="{poste_smilies_liste.more.liste.ALT}" width="{poste_smilies_liste.more.liste.WIDTH}"  height="{poste_smilies_liste.more.liste.HEIGHT}" /></a>
-							<!-- END liste -->
-						</div>
-						<!-- END more -->
-						<!-- END poste_smilies_liste -->
-					</div>
-					<div class="big_texte"><textarea name="serveur_game_info" cols="40" rows="10" id="serveur_game_info" onblur="formverif(this.id,'nbr','5')">{SERVEUR_GAME_INFO}</textarea></div>
+					<span><input type="submit" name="Submit" value="{BT_EDITER}" /></span>
 				</p>
 			</div>
 		</div>
-		<p>
-			<span><input type="submit" name="Submit" value="{BT_EDITER}" /></span>
-		</p>
 	</div>
 </form>
 <SCRIPT language="JavaScript">
 	<!--
 	toggle_msg('partie_smtp', 'send_mail', 'smtp', 'value');
-	toggle_msg('partie_serveur', 'serveur', '1', 'value');
 	toggle_msg('limite_inscription_div', 'inscription', '2', 'value');
 	-->
 </script> 

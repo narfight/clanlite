@@ -27,7 +27,8 @@ if (isset($_GET['lecture']) || isset($session_cl['id_mp3']))
 		$template->assign_block_vars('lecteur', array(
 			'SRC' => $session_cl['src_mp3'],
 			'AUTOPLAY' => $donnees[$session_cl['id_mp3']]['AUTOPLAY'],
-			'LOOP' => $donnees[$session_cl['id_mp3']]['LOOP']
+			'LOOP' => $donnees[$session_cl['id_mp3']]['LOOP'],
+			'NEWS' => $langue['news_titre'],
 		));
 	}
 }

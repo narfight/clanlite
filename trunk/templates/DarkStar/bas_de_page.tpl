@@ -10,9 +10,7 @@
 				</div> 
 				<div class="copyright">
 					<div class="cellule_copyright">
-						<!-- BEGIN admin -->
-						<a href="{PATH_ROOT}user/index.php">{admin.ADMINISTRATION}</a><br />
-						<!-- END admin -->
+						<a href="{PATH_ROOT}user/index.php">{ADMINISTRATION}</a><br />
 						{COPYRIGHT}<br /> 
 						Themed By <a href="http://www.seldo-design.com" onclick="window.open('http://www.seldo-design.com');return false;">Seldo-Design</a> 
 						<br /> 

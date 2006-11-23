@@ -43,7 +43,7 @@ class Template {
 	var $files = array();
 
 	// Root template directory.
-	var $root = "";
+	var $root = '';
 
 	// this will hash handle names to the compiled code for that handle.
 	var $compiled_code = array();
@@ -144,7 +144,7 @@ class Template {
 		}
 
 		// Compile it, with the "no echo statements" option on.
-		$_str = "";
+		$_str = '';
 		$code = $this->compile($this->uncompiled_code[$handle], true, '_str');
 
 		// evaluate the variable assignment.
@@ -262,7 +262,7 @@ class Template {
 
 		$filename = $this->files[$handle];
 
-		$str = implode("", @file($filename));
+		$str = implode('', @file($filename));
 		if (empty($str))
 		{
 			die("Template->loadfile(): File $filename for handle $handle is empty");

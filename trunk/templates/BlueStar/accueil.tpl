@@ -3,10 +3,11 @@
 	<head>
 		<title>ClanLite - {NOM_CLAN}</title>
 		<link rel="shortcut icon" href="{PATH_ROOT}templates/BlueStar/images/favicon.gif">
+		<link rel="alternate" type="application/rss+xml" title="{NEWS}" href="{PATH_ROOT}rss.php">
 	</head>
 	<frameset rows="*,16" cols="*">
-		<frame src="{ROOT_PATH}service/index_pri.php" scrolling="yes" id="site">
-		<frame src="{ROOT_PATH}service/lecteur_mp3.php" scrolling="no" id="mp3">
+		<frame src="{INDEX}" scrolling="yes" id="site">
+		<frame src="{MP3}" scrolling="no" id="mp3">
 	</frameset>
 	<noframes>Click <a href="{ROOT_PATH}service/index_pri.php">here</a> to enter the site.</noframes>
 </html>

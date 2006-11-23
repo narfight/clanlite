@@ -2,14 +2,14 @@
 // -------------------------------------------------------------
 // LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
 // -------------------------------------------------------------
-$root_path = "./../";
+$root_path = './../';
 $action_membre = 'where_inscription';
 include($root_path.'conf/template.php');
 include($root_path.'conf/conf-php.php');
 // envois du formulaire dans la db
 if (!empty($_POST['Submit']) && $inscription != 0)
 {
-	$forum_error = "";
+	$forum_error = '';
 	$_POST = pure_var($_POST);
 	//on vérifie le formulaire point par point
 	if(empty($_POST['nom']))
@@ -40,11 +40,11 @@ if (!empty($_POST['Submit']) && $inscription != 0)
 	{
 		$forum_error .= $langue['erreur_naissance_vide'];
 	}
-	if(empty($_POST['arme']) && $_POST['arme'] == "0.gif")
+	if(empty($_POST['arme']) && $_POST['arme'] == '0.gif')
 	{
 		$forum_error .= $langue['erreur_arme_vide'];
 	}
-	if(empty($_POST['perso']) && $_POST['perso'] == "0.gif")
+	if(empty($_POST['perso']) && $_POST['perso'] == '0.gif')
 	{
 		$forum_error .= $langue['erreur_perso_image_vide'];
 	}
@@ -106,8 +106,8 @@ if (!empty($_POST['Submit']) && $inscription != 0)
 	// on regarde si il a une erreur dans la variable $forum_error et si non on continue
 	if( empty($forum_error) )
 	{
-		// on formate l'heure en Mktime depuis 1970
-		$age = mktime ( 0 , 0 , 0 , $_POST['age_m'] , $_POST['age_d'] , $_POST['age_y']);
+		// on formate l'heure en mk_time depuis 1970
+		$age = mk_time ( 0 , 0 , 0 , $_POST['age_m'] , $_POST['age_d'] , $_POST['age_y']);
 		$sql = "INSERT INTO `".$config['prefix']."user` (`nom`, `user`, `mail`, `im`, `psw`, `pouvoir`, `sex`, `age`, `web`, `cri`, `last_connect`, `prénom`, `armes_préférées`, `equipe`, `histoire`, `roles`, `images`, `langue`) VALUES ('".$_POST['nom']."', '".$_POST['user1']."', '".$_POST['mail']."', '".$_POST['icq']."', '".md5($_POST['psw'])."', 'news', '".$_POST['sex']."', '".$age."', '".((!empty($_POST["web"]) && eregi('http(s)?://',$_POST["web"]))? $_POST["web"] : 'http://'.$_POST["web"])."', '".$_POST["texte"]."', '', '".$_POST['prenom']."', '".$_POST['arme']."', '', '".$_POST['histoire']."', '', '".$_POST['perso']."', '".$_POST['langue_form']."')"; 
 		if (! $rsql->requete_sql($sql) )
 		{
@@ -119,7 +119,7 @@ if (!empty($_POST['Submit']) && $inscription != 0)
 		{
 			sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 		}
-		redirec_text("msgnew.php", $langue['user_envois_inscription'], "user");
+		redirec_text('msgnew.php', $langue['user_envois_inscription'], 'user');
 	}
 }
 include($root_path.'conf/frame.php');
@@ -139,9 +139,10 @@ if ($inscription == 0)
 } 
 else
 {
-	$block_insc = "";
+	$block_insc = '';
 }
 $template->assign_vars(array(
+	'ICI' => session_in_url('new-user.php'),
 	'TITRE' => $langue['titre_inscription'],
 	'TXT_CHOISIR' => $langue['choisir'],
 	'NOM' => (!empty($_POST['nom']))? $_POST['nom'] : '',
@@ -152,8 +153,8 @@ $template->assign_vars(array(
 	'TXT_LOGIN' => $langue['form_login'], 
 	'TXT_CODE' => $langue['form_psw'], 
 	'TXT_RE_CODE' => $langue['form_re_psw'], 
-	'CHECKED_SEX_HOMME' => (!empty($_POST['sex']) && $_POST['sex'] == "Homme")? "checked=\"checked\"" : '',
-	'CHECKED_SEX_FEMME' => (!empty($_POST['sex']) && $_POST['sex'] == "Femme")? "checked=\"checked\"" : '',
+	'CHECKED_SEX_HOMME' => (!empty($_POST['sex']) && $_POST['sex'] == 'Homme')? 'checked="checked"' : '',
+	'CHECKED_SEX_FEMME' => (!empty($_POST['sex']) && $_POST['sex'] == 'Femme')? 'checked="checked"' : '',
 	'TXT_HOMME' => $langue['sex_homme'],
 	'TXT_FEMME' => $langue['sex_femme'],
 	'TXT_SEX' => $langue['form_sex'],
@@ -181,7 +182,7 @@ $template->assign_vars(array(
 ));
 // scan le rep pour les images
 // Ouvre un dossier bien connu, et liste tous les fichiers
-$dir = "../images/personnages";
+$dir = '../images/personnages';
 if (is_dir($dir))
 {
 	if ($dh = opendir($dir))
@@ -202,7 +203,7 @@ if (is_dir($dir))
 	}
 }
 // scan le rep pour les langues
-$dir = "../langues/";
+$dir = '../langues/';
 if (is_dir($dir))
 {
 	if ($dh = opendir($dir))
@@ -222,7 +223,7 @@ if (is_dir($dir))
 	}
 }
 // scan le rep pour les images des armes
-$dir = "../images/armes";
+$dir = '../images/armes';
 // Ouvre un dossier bien connu, et liste tous les fichiers
 if (is_dir($dir))
 {

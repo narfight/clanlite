@@ -4,15 +4,15 @@
 // -------------------------------------------------------------
 $action_membre= 'where_admin_edit_user';
 $niveau_secu = 8;
-$root_path = "./../";
+$root_path = './../';
 include($root_path.'conf/template.php');
 include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if (!empty($_POST['Submit']))
 {
-	$code = (!empty($_POST['psw']))? "psw='".md5($_POST['psw'])."', " : "";
+	$code = (!empty($_POST['psw']))? "psw='".md5($_POST['psw'])."', " : '';
 	$_POST = pure_var($_POST);
-	$age = mktime ( 0 , 0 , 0 , $_POST['age_m'] , $_POST['age_d'] , $_POST['age_y']);
+	$age = mk_time ( 0 , 0 , 0 , $_POST['age_m'] , $_POST['age_d'] , $_POST['age_y']);
 	$sql = "UPDATE ".$config['prefix']."user SET 
 		cri='".$_POST['texte']."', 
 		im='".$_POST['icq']."', 
@@ -39,10 +39,10 @@ if (!empty($_POST['Submit']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text($root_path."service/liste-des-membres.php", $langue['user_envois_edit_profil'] , 'admin');
+	redirec_text($root_path.'service/liste-des-membres.php', $langue['user_envois_edit_profil'] , 'admin');
 }
-include($root_path."conf/frame_admin.php");
-$sql = "SELECT user.*, section.nom, section.id, equipe.nom, equipe.id FROM ".$config['prefix']."user AS user LEFT JOIN ".$config['prefix']."section AS section ON section.id = user.section LEFT JOIN ".$config['prefix']."équipe as equipe ON equipe.id = user.equipe WHERE user.id = '".$_POST['id']."' LIMIT 1";
+include($root_path.'conf/frame_admin.php');
+$sql = "SELECT user.*, section.nom, section.id, equipe.nom, equipe.id, user.id AS id_user, user.nom AS nom_user FROM ".$config['prefix']."user AS user LEFT JOIN ".$config['prefix']."section AS section ON section.id = user.section LEFT JOIN ".$config['prefix']."équipe as equipe ON equipe.id = user.equipe WHERE user.id = '".$_POST['id']."' LIMIT 1";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -52,12 +52,12 @@ if ( ($profil = $rsql->s_array($get)) )
 	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('body' => 'admin_edit_user.tpl'));
 	$template->assign_vars(array( 
+		'ICI' => session_in_url('editer-user.php'),
 		'TITRE' => $langue['titre_edit_user'],
-		'ID' => $_POST['id'],
-		'ID' => $profil['0'],
+		'ID' => $profil['id_user'],
 		'TXT_LANGUE' => $langue['form_langue'],
 		'TXT_CHOISIR' => $langue['choisir'],
-		'NOM' => $profil[1],
+		'NOM' => $profil['nom_user'],
 		'TXT_NOM' => $langue['form_nom'],
 		'PRENOM' => $profil['prénom'],
 		'TXT_PRENOM' => $langue['form_prenom'],
@@ -69,14 +69,14 @@ if ( ($profil = $rsql->s_array($get)) )
 		'TXT_MAIL'  => $langue['form_mail'],
 		'MSN' => $profil['im'],
 		'TXT_MSN' => $langue['form_msn'],
-		'HOMME' => ( $profil['sex'] == "Homme" ) ? "checked=\"checked\"" : "",
-		'FEMME' => ( $profil['sex'] == "Femme" ) ? "checked=\"checked\"" : "",
+		'HOMME' => ( $profil['sex'] == 'Homme' ) ? 'checked="checked"' : '',
+		'FEMME' => ( $profil['sex'] == 'Femme' ) ? 'checked="checked"' : '',
 		'TXT_HOMME' => $langue['sex_homme'],
 		'TXT_FEMME' => $langue['sex_femme'],
 		'TXT_SEX' => $langue['form_sex'],
-		'AGE_D' => date("j", $profil['age']),
-		'AGE_M' => date("n", $profil['age']),
-		'AGE_Y' => date("Y", $profil['age']),
+		'AGE_D' => date('j', $profil['age']),
+		'AGE_M' => date('n', $profil['age']),
+		'AGE_Y' => date('Y', $profil['age']),
 		'TXT_NAISSANCE' => $langue['form_naissance'],
 		'WEB' => $profil['web'],
 		'TXT_WEB' => $langue['form_web'],
@@ -98,9 +98,9 @@ if ( ($profil = $rsql->s_array($get)) )
 		'TXT_EQUIPE' => $langue['equipe'],
 		'TXT_SECTION' => $langue['section'],
 		'TXT_ROLE' => $langue['role'],
-		'DESACTIVE_SELECT' => ($profil['pouvoir'] == "news")? 'selected="selected"' : '',
+		'DESACTIVE_SELECT' => ($profil['pouvoir'] == 'news')? 'selected="selected"' : '',
 		'TXT_DESACTIVE' => $langue['desactive'],
-		'USER_SELECT' => ($profil['pouvoir'] == "user")? 'selected="selected"' : '',
+		'USER_SELECT' => ($profil['pouvoir'] == 'user')? 'selected="selected"' : '',
 		'TXT_USER' => $langue['user'],
 		'ADMIN_SELECT' => ($profil['pouvoir'] == 'admin')? 'selected="selected"' : '',
 		'TXT_ADMIN' => $langue['admin'],
@@ -160,7 +160,7 @@ if ( ($profil = $rsql->s_array($get)) )
 		));
 	}
 	// scan le rep pour les images des personnages
-	$dir = "../images/personnages";
+	$dir = '../images/personnages';
 	// Ouvre un dossier bien connu, et liste tous les fichiers
 	if (is_dir($dir))
 	{
@@ -168,7 +168,7 @@ if ( ($profil = $rsql->s_array($get)) )
 		{
 			while (($file = readdir($dh)) !== false)
 			{
-				if($file != '..' && $file !='.' && $file !='' && $file != "0.jpeg")
+				if($file != '..' && $file != '.' && $file != '' && $file != '0.jpeg')
 				{ 
 					$perso = explode('.', $file);;
 					$template->assign_block_vars('images', array(
@@ -182,7 +182,7 @@ if ( ($profil = $rsql->s_array($get)) )
 		}
 	}
 	// scan le rep pour les langues
-	$dir = "../langues/";
+	$dir = '../langues/';
 	// Ouvre un dossier bien connu, et liste tous les fichiers
 	if (is_dir($dir))
 	{
@@ -203,7 +203,7 @@ if ( ($profil = $rsql->s_array($get)) )
 		}
 	}
 	// scan le rep pour les images des armes
-	$dir = "../images/armes";
+	$dir = '../images/armes';
 	// Ouvre un dossier bien connu, et liste tous les fichiers
 	if (is_dir($dir))
 	{
@@ -211,9 +211,9 @@ if ( ($profil = $rsql->s_array($get)) )
 		{
 			while (($file = readdir($dh)) !== false)
 			{
-				if($file != '..' && $file !='.' && $file !='' && $file != "0.gif")
+				if($file != '..' && $file != '.' && $file != '' && $file != '0.gif')
 				{ 
-					$armes = explode(".", $file);
+					$armes = explode('.', $file);
 					$template->assign_block_vars('armes', array(
 						'NOM' => $armes[0],
 						'VALUE' => $file,
@@ -230,5 +230,5 @@ else
 {
 	msg('erreur', $langue['erreur_profil_no_found']);
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

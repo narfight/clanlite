@@ -90,7 +90,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_partenaire_mod
 			redirec_text("partenaire.php?config_modul_admin=oui&id_module=".$id_module, $langue['redirection_module_partenaire_edit'], 'admin');
 		}
 	}
-	include($root_path."conf/frame_admin.php");
+	include($root_path.'conf/frame_admin.php');
 	$template = new Template($root_path.'templates/'.$config['skin']."/modules");
 	$template->set_filenames( array('body_module' => 'partenaires.tpl'));
 	$template->assign_vars( array(
@@ -141,7 +141,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_partenaire_mod
 		));
 	}
 	$template->pparse('body_module');
-	include($root_path."conf/frame_admin.php");
+	include($root_path.'conf/frame_admin.php');
 	return;
 }
 ?>

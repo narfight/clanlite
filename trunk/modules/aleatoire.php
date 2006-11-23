@@ -93,7 +93,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_aléatoire_modu
 			redirec_text("aleatoire.php?config_modul_admin=oui&id_module=".$id_module, $langue['redirection_module_aléatoire_edit'], 'admin');
 		}
 	}
-	include($root_path."conf/frame_admin.php");
+	include($root_path.'conf/frame_admin.php');
 	$template = new Template($root_path.'templates/'.$config['skin']."/modules");
 	$template->set_filenames( array('body_module' => 'aléatoire.tpl'));
 	liste_smilies(true, '', 25);
@@ -139,7 +139,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_aléatoire_modu
 		));
 	}
 	$template->pparse('body_module');
-	include($root_path."conf/frame_admin.php");
+	include($root_path.'conf/frame_admin.php');
 	return;
 }
 ?>

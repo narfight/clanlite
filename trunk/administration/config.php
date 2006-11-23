@@ -12,14 +12,14 @@ if( !empty($_POST['Submit']) )
 {
 	foreach ($_POST as $config_name => $config_value)
 	{
-		$sql = "UPDATE ".$config['prefix']."config SET conf_valeur='".pure_var($config_value)."' WHERE conf_nom='".htmlspecialchars($config_name, ENT_QUOTES)."'";
+		$sql = 'UPDATE `'.$config['prefix']."config` SET conf_valeur='".pure_var($config_value)."' WHERE conf_nom='".htmlspecialchars($config_name, ENT_QUOTES)."'";
 		if (! $rsql->requete_sql($sql) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
 	}
 	// on prend la config
-	$sql = "SELECT * FROM ".$config['prefix']."config";
+	$sql = 'SELECT * FROM `'.$config['prefix'].'config`';
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -31,15 +31,14 @@ if( !empty($_POST['Submit']) )
 	unset($langue);
 	// on redifinit les varriables importante pour le bon déroulement du script
 	$config['time_cook'] = 60*$config['time_cook'];
-	$config['langue'] = (!empty($session_cl['langue_user']) && is_dir($root_path.'langues/'.$session_cl['langue_user']))? $session_cl['langue_user'] : $config['langue'];
-	include ($root_path.'langues/'.$config['langue'].'/langue.php');
+	include ($root_path.'langues/'.$config['langue_actuelle'].'/langue.php');
 	redirec_text('config.php', $langue['redirection_config_ok'] , 'admin');
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_config.tpl'));
 // on fait la liste des membres
-$sql = "SELECT id,user FROM ".$config['prefix']."user";
+$sql = 'SELECT `id` ,`user` FROM `'.$config['prefix'].'user`';
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -52,18 +51,8 @@ while($user_list = $rsql->s_array($get))
 		'SELECTED_ID_MATCH' => ( $user_list['id'] == $config['id_membre_match'] ) ? 'selected="selected"' : ''
 	));
 }
-// scan les protocols possible pour le scanner de serveur de jeux
-include($root_path."service/gsquery/gsQuery.php");
-foreach(gsQuery::getSupportedProtocols($root_path."service/gsquery/") as $protocol_liste)
-{
-	$template->assign_block_vars('protocol_game_liste', array(
-		'NAME' => $protocol_liste,
-		'VALUE' => $protocol_liste,
-		'SELECTED' => ($config['serveur_game_protocol'] == $protocol_liste) ? 'selected="selected"' : '',
-	));
-}
 // scan le rep pour les langues
-$dir = "../langues/";
+$dir = '../langues/';
 // Ouvre un dossier bien connu, et liste tous les fichiers
 if (is_dir($dir))
 {
@@ -84,7 +73,7 @@ if (is_dir($dir))
 	}
 }
 // scan le rep pour les skins
-$dir = "../templates/";
+$dir = '../templates/';
 // Ouvre un dossier bien connu, et liste tous les fichiers
 if (is_dir($dir))
 {
@@ -106,6 +95,7 @@ if (is_dir($dir))
 }
 liste_smilies(true, '', 25);
 $template->assign_vars( array( 
+	'ICI' => session_in_url('config.php'),
 	'TITRE' => $langue['titre_config_site'],
 	'TITRE_CONFIG_BASE' => $langue['config_site_base_titre'],
 	'TITRE_CONFIG_AVANCEE' => $langue['config_site_avancée_titre'],
@@ -140,29 +130,15 @@ $template->assign_vars( array(
 	'MSG_BIENVENU' => $config['msg_bienvenu'],
 	'URL_FORUM' => $config['url_forum'],
 	'TXT_URL_FORUM' => $langue['config_url_config'],
-	'LIST_GAME_SERVEUR_OUI' => ( "oui" == $config['list_game_serveur'] ) ? 'selected="selected"' : '',
-	'LIST_GAME_SERVEUR_NON' => ( "oui" != $config['list_game_serveur'] ) ? 'selected="selected"' : '',
-	'TXT_LIST_GAME_SERVEUR' => $langue['config_show_server_list'],
 	'RECRUTEMENT_ALERT_OUI' => ( 1 == $config['recrutement_alert'] ) ? 'selected="selected"' : '',
 	'RECRUTEMENT_ALERT_NON' => ( 1 != $config['recrutement_alert'] ) ? 'selected="selected"' : '',
 	'TXT_RECRUTEMENT_ALERT' => $langue['config_show_recrute_index'],
-	'SERVEUR_GAME_TITRE' => $langue['config_serveur_titre'],
-	'SERVEUR_GAME_IP' => $config['serveur_game_ip'],
-	'TXT_SERVEUR_GAME_IP' => $langue['config_serveur_game_ip'],
-	'SERVEUR_GAME_PORT' => $config['serveur_game_port'],
-	'TXT_SERVEUR_GAME_PORT' => $langue['config_serveur_game_port'],
-	'TXT_HELP_GAME_PORT' => $langue['config_help_port'],
-	'TXT_SERVEUR_GAME_PROTOCOL' => $langue['config_serveur_game_protocol'],
-	'SERVEUR_GAME_INFO' => $config['serveur_game_info'],
-	'TXT_SERVEUR_GAME_TXT' => $langue['config_serveur_game_txt'],
+
 	'SELECT_INSCI_0' => ( 0 == $config['inscription'] ) ? 'selected="selected"' : '',
 	'SELECT_INSCI_1' => ( 1 == $config['inscription'] ) ? 'selected="selected"' : '',
 	'SELECT_INSCI_2' => ( 2 == $config['inscription'] ) ? 'selected="selected"' : '',
 	'TXT_INSCRI' => $langue['config_etat_recrute'],
 	'TXT_INSCRI_LIMIT' => $langue['config_recrute_limit'],
-	'SERVEUR_GAME_OUI' => ( 1 == $config['serveur'] ) ? 'selected="selected"' : '',
-	'SERVEUR_GAME_NON' => ( 0 == $config['serveur'] ) ? 'selected="selected"' : '',
-	'TXT_SERVEUR_GAME' => $langue['config_serveur_game'],
 	'BT_EDITER' => $langue['editer'],
 	'TXT_SEND_MAIL_TITRE' => $langue['config_mail_send_titre'],
 	'TXT_SEND_MAIL' => $langue['config_send_by'],
@@ -191,5 +167,5 @@ $template->assign_vars( array(
 	'SHOW_GRADE_0' => ( '0' == $config['show_grade'] ) ? 'selected="selected"' : '',
 ));
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

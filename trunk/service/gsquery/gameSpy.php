@@ -30,17 +30,21 @@ require_once GSQUERY_DIR . 'gsQuery.php';
 /**
  * @brief Uses the gameSpy protcol to communicate with the server
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: gameSpy.php,v 1.22 2004/08/12 19:14:47 jr Exp $
+ * @version $Id: gameSpy.php 190 2004-09-25 15:48:06Z jr $
  * @bug some games does not escape the backslash, so we have a problem when somebody has a backlsash in its name
  *
  * The following games have been tested with this class:
  *
  *   - Unreal Tournamnet (and most mods)
- *   - Unreal Tournamnet 2003 (and most mods)
+ *   - Unreal Tournamnet 200x (and most mods)
  *   - Battlefield 1942 (and most mods)
  */
 class gameSpy extends gsQuery
 {
+
+  var $infoCommand = '\basic\\\\info\\';
+  var $playerCommand = '\\players\\';
+  var $ruleCommand = '\\rules\\';
 
   function getGameJoinerURI()
   {
@@ -63,8 +67,7 @@ class gameSpy extends gsQuery
       $this->_init();
     }
     
-    $cmd="\\basic\\\\info\\";
-    if(!($response=$this->_sendCommand($this->address, $this->queryport, $cmd))) {
+    if(!($response=$this->_sendCommand($this->address, $this->queryport, $this->infoCommand))) {
       $this->errstr='No reply received';
       return FALSE;
     }    
@@ -74,8 +77,7 @@ class gameSpy extends gsQuery
 
     // get players
     if($this->numplayers && $getPlayers) {
-      $cmd="\\players\\";
-      if(!($response=$this->_sendCommand($this->address, $this->queryport, $cmd))) {
+      if(!($response=$this->_sendCommand($this->address, $this->queryport, $this->playerCommand))) {
 	return FALSE;
       }    
   
@@ -85,14 +87,24 @@ class gameSpy extends gsQuery
 
     // get rules
     if($getRules) {
-      $cmd="\\rules\\";
-      if(!($response=$this->_sendCommand($this->address, $this->queryport, $cmd))) {
+      if(!($response=$this->_sendCommand($this->address, $this->queryport, $this->ruleCommand))) {
 	return FALSE;
       } 
       $this->_processRules($response);
     }
 
     return TRUE;
+  }
+
+  function getDebugDumps($html=FALSE, $dumper=NULL) {
+    require_once(GSQUERY_DIR . 'includes/HexDumper.class.php');    
+
+    if(!isset($dumper)) {
+      $dumper = new HexDumper();
+      $dumper->setDelimiter(ord('\\'));
+    }
+
+    return parent::getDebugDumps($html, $dumper);
   }
 
   /**

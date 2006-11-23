@@ -23,7 +23,7 @@ if (!empty($_POST['match']))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
-		redirec_text("membre_match.php", $langue['user_envois_demande_ok'], 'admin');
+		redirec_text('membre_match.php', $langue['user_envois_demande_ok'], 'admin');
 	}
 	else
 	{
@@ -32,10 +32,10 @@ if (!empty($_POST['match']))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
-		redirec_text("membre_match.php", $langue['user_envois_annule_demande'], 'admin');
+		redirec_text('membre_match.php', $langue['user_envois_annule_demande'], 'admin');
 	}
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'match_membre.tpl'));
 $sql = "SELECT nom FROM ".$config['prefix']."section WHERE id ='".$session_cl['section']."'";
@@ -45,6 +45,7 @@ if (! ($get = $rsql->requete_sql($sql)) )
 }
 $nom_section = $rsql->s_array($get);
 $template->assign_vars(array( 
+	'ICI' => session_in_url('membre_match.php'),
 	'TITRE_MATCH' => $langue['titre_match'],
 	'SECTION' => $nom_section['nom'],
 	'CONTRE' => $langue['contre_qui'],
@@ -83,9 +84,9 @@ while ( ($list_match = $rsql->s_array($get_match)) )
 		'SECTION' => (empty($list_match['nom']))? $langue['toutes_section'] : $list_match['nom'],
 		'INFO' => bbcode($list_match['info']),
 		'SUR' => $list_match['nombre_de_joueur'],
-		'HEURE' => date("H:i", $list_match['date']),
+		'HEURE' => date('H:i', $list_match['date']),
 		'CHAT' => $list_match['heure_msn'],
-		'NB_JOUEURS' => (!empty($liste_user_match[$list_match['id']]))? count($liste_user_match[$list_match['id']]['ok']) : "0",
+		'NB_JOUEURS' => (!empty($liste_user_match[$list_match['id']]['ok']))? count($liste_user_match[$list_match['id']]['ok']) : '0',
 	));
 	if (!empty($liste_user_match[$list_match['id']]))
 	{
@@ -100,10 +101,10 @@ while ( ($list_match = $rsql->s_array($get_match)) )
 		}
 	}
 } 
-if ($i == 0)
+if ($i === 0)
 {
 	$template->assign_block_vars('no_match', array('TXT' => $langue['no_futur_match']));
 }
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

@@ -18,7 +18,7 @@ if ($_SERVER['HTTP_USER_AGENT'] == 'WebPost_UserAgent')
 	{
 		//$_POST = pure_var($_POST);
 		// ajoute ou edit le serveur selon qu'il soit deja ou nom dans la db
-		$sql = "UPDATE `".$config['prefix']."module_webost_ts` SET `query_port` ='".$_POST['server_queryport']."',		`version` ='".$_POST['server_version_major'].'.'.$_POST['server_version_major'].'.'.$_POST['server_version_minor'].'.'.$_POST['server_version_release'].'.'.$_POST['server_version_build']."', `name` ='".$_POST['server_name']."', `password` ='".$_POST['server_password']."', `max_user` ='".$_POST['clients_maximum']."', `country` ='".$_POST['server_ispcountry']."', `mail` ='".$_POST['server_adminemail']."',	`url` ='".$_POST['server_isplinkurl']."', `os` ='".$_POST['server_platform']."', `ispname` ='".$_POST['server_ispname']."', `up_time` ='".$_POST['server_uptime']."' WHERE `ip`='".$session_cl['ip']."' AND `port`='".$_POST['server_port']."'";
+		$sql = "UPDATE `".$config['prefix']."module_webost_ts` SET `query_port` ='".$_POST['server_queryport']."', `version` ='".$_POST['server_version_major'].'.'.$_POST['server_version_major'].'.'.$_POST['server_version_minor'].'.'.$_POST['server_version_release'].'.'.$_POST['server_version_build']."', `name` ='".$_POST['server_name']."', `password` ='".$_POST['server_password']."', `max_user` ='".$_POST['clients_maximum']."', `country` ='".$_POST['server_ispcountry']."', `mail` ='".$_POST['server_adminemail']."',	`url` ='".$_POST['server_isplinkurl']."', `os` ='".$_POST['server_platform']."', `ispname` ='".$_POST['server_ispname']."', `up_time` ='".$_POST['server_uptime']."' WHERE `ip`='".$session_cl['ip']."' AND `port`='".$_POST['server_port']."'";
 		if (! ($rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -213,7 +213,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_webpost_
 			redirec_text($root_path.'modules/ts_webpost.php?config_modul_admin=oui&id_module='.$id_module , $langue['erreur_webpost_no_reply'], 'admin');
 		}
 	}
-	include($root_path."conf/frame_admin.php");
+	include($root_path.'conf/frame_admin.php');
 	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('body' => 'modules/ts_webpost.tpl'));
 	liste_smilies(true, '', 25);
@@ -238,7 +238,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_webpost_
 		'EDITER' => $langue['editer'],
 	));
 	$template->pparse('body');
-	include($root_path."conf/frame_admin.php");
+	include($root_path.'conf/frame_admin.php');
 	return;
 }
 if (!empty($_GET['from']))
@@ -272,24 +272,29 @@ if (!empty($_GET['from']))
 		if (!empty($tmp_users) && is_array($tmp_users))
 		{
 			foreach($tmp_users as $id => $value)
-			{
+			{// les channels
+				$value = decode_channel($value);
 				$template->assign_block_vars('webpost_show.channel', array(
-					'CHANNEL_NAME' => $value['name'],
+					'CHANNEL_NAME' => $value['name'].' '.$value['flags'],
+					'PASSWORD_ICON' => $value['password'],
 				));
 				if (!empty($value['subchannel']) && is_array($value['subchannel']))
 				{
 					foreach($value['subchannel'] as $id_sub_channel => $value_sub_channel)
-					{
+					{// les sub channel
+						$value_sub_channel = decode_channel($value_sub_channel);
 						$template->assign_block_vars('webpost_show.channel.sub_channel', array(
 							'NAME' => $value_sub_channel['name'],
+							'PASSWORD_ICON' => $value_sub_channel['password'],
 						));
 						if (!empty($value_sub_channel['user']) && is_array($value_sub_channel['user']))
-						{
+						{// user dans subchannel
 							foreach($value_sub_channel['user'] as $id_sub_user => $value_sub_user)
 							{
 								$value_sub_user = decode_user($value_sub_user);
 								$template->assign_block_vars('webpost_show.channel.sub_channel.sub_user', array(
 									'USER_NAME' => $value_sub_user['nick'],
+									'PLAYER_ICON' => $value_sub_user['icon'],
 								));
 							}
 						}
@@ -297,11 +302,13 @@ if (!empty($_GET['from']))
 				}
 			}
 			if (!empty($value['user']) && is_array($value['user']))
-			{
+			{// user dans channel
 				foreach($value['user'] as $id_user => $value_user)
 				{
+					$value_user = decode_user($value_user);
 					$template->assign_block_vars('webpost_show.channel.user', array(
 						'USER_NAME' => $value_user['nick'],
+						'PLAYER_ICON' => $value_user['icon'],
 					));
 				}
 			}

@@ -24,10 +24,10 @@ if (!empty($_POST['envois_edit']))
 	}
 	else
 	{
-		redirec_text("../service/liste-des-membres.php", $langue['redirection_pouvoir_edit'],'admin');
+		redirec_text('../service/liste-des-membres.php', $langue['redirection_pouvoir_edit'],'admin');
 	}
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 
 //vérifie que l'id existe et qu'il n'est pas un admin
 $sql = "SELECT pouvoir FROM ".$config['prefix']."user WHERE id ='".$_POST['id']."'";
@@ -67,13 +67,14 @@ if ($info_user = $rsql->s_array($get))
 				$template->assign_block_vars('liste', array( 
 					'INFO_POUVOIR' => $langue['pv_num_'.$i],
 					'NUM' => $i,
-					'ACTIVATION_0' => ( $edit_pouvoir['p'.$i] != "oui") ? 'checked="checked"' : '',
-					'ACTIVATION_1' => ( $edit_pouvoir['p'.$i] == "oui") ? 'checked="checked"' : '',
+					'ACTIVATION_0' => ( $edit_pouvoir['p'.$i] != 'oui') ? 'checked="checked"' : '',
+					'ACTIVATION_1' => ( $edit_pouvoir['p'.$i] == 'oui') ? 'checked="checked"' : '',
 					'OUI' => $langue['oui'],
 					'NON' => $langue['non'],
 				));
 			}
 			$template->assign_vars( array(
+				'ICI' => session_in_url('pouvoir.php'),
 				'ID' => $_POST['id'],
 				'TITRE' => sprintf($langue['titre_pouvoir'], $user_nfo['user']),
 				'EDITER' => $langue['editer'],
@@ -92,5 +93,5 @@ else
 {
 	msg('erreur', $langue['erreur_profil_no_found']);
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

@@ -26,14 +26,14 @@ if ( !empty($_POST['envoyer']) )
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
 	}
-	$date = mktime ( 1, 1, 1 ,$_POST['mm'] , $_POST['jj'] , $_POST['aaaa'] , 1 );
+	$date = mk_time ( 1, 1, 1 ,$_POST['mm'] , $_POST['jj'] , $_POST['aaaa'] , 1 );
 	$_POST = pure_var($_POST);
 	$sql = "INSERT INTO `".$config['prefix']."match_rapport` (`date`, `section`, `contre`, `info`, `score_nous`, `score_eux`) VALUES ('".$date."', '".$_POST['section']."', '".$_POST['clan']."', '".$_POST['information']."', '".$_POST['score_clan']."', '".$_POST['score_mechant']."')"; 
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("rapport.php", $langue['redirection_admin_rapport_match_add'], 'admin');
+	redirec_text('rapport.php', $langue['redirection_admin_rapport_match_add'], 'admin');
 }
 if ( !empty($_POST['supprimer']) )
 {
@@ -42,25 +42,26 @@ if ( !empty($_POST['supprimer']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("rapport.php", $langue['redirection_admin_rapport_match_dell'], 'admin');
+	redirec_text('rapport.php', $langue['redirection_admin_rapport_match_dell'], 'admin');
 }
 // envoyer le formulaire rempli pour editer
 if ( !empty($_POST['edit']) )
 {
 	$_POST = pure_var($_POST);
-	$date = mktime ( 1 , 1 , 1 , $_POST['mm'] , $_POST['jj'] , $_POST['aaaa'] , 1 );
+	$date = mk_time ( 1 , 1 , 1 , $_POST['mm'] , $_POST['jj'] , $_POST['aaaa'] , 1 );
 	$sql = "UPDATE `".$config['prefix']."match_rapport` SET `date`='".$date."', `section`='".$_POST['section']."', `contre`='".$_POST['clan']."', `info`='".$_POST['information']."', `score_nous`='".$_POST['score_clan']."', `score_eux`='".$_POST['score_mechant']."' WHERE id='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("rapport.php", $langue['redirection_admin_rapport_match_edit'], 'admin');
+	redirec_text('rapport.php', $langue['redirection_admin_rapport_match_edit'], 'admin');
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_rapport_match.tpl'));
 liste_smilies(true, '', 25);
 $template->assign_vars(array(
+	'ICI' => session_in_url('rapport.php'),
 	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'TITRE' => $langue['titre_admin_rapport_match'],
 	'TITRE_GESTION' => $langue['titre_admin_rapport_match_gestion'],
@@ -169,5 +170,5 @@ while ( ($liste_section = $rsql->s_array($get)) )
 	));
 }
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

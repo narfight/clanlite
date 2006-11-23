@@ -43,12 +43,12 @@ if (!empty($_POST['Editer']))
 		redirec_text("liens.php", $langue['redirection_liens_edit'], 'admin');
 	}
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_liens.tpl'));
 $template->assign_vars( array(
+	'ICI' => session_in_url('liens.php'),
 	'TXT_CON_DELL' => $langue['confirm_dell'],
-	'ICI' => $_SERVER['PHP_SELF'],
 	'TITRE' => $langue['titre_liens_admin'],
 	'TITRE_GESTION' => $langue['titre_liens_admin_gestion'],
 	'TITRE_LISTE' => $langue['titre_liens_admin_list'],
@@ -98,5 +98,5 @@ while ( $liste = $rsql->s_array($get) )
 	}
 }
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

@@ -16,7 +16,7 @@ if (!empty($_POST['Envoyer_group']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("download.php", $langue['redirection_group_dl_add'], 'admin');
+	redirec_text('download.php', $langue['redirection_group_dl_add'], 'admin');
 }
 if (!empty($_POST['Supprimer_group']))
 {
@@ -34,11 +34,11 @@ if (!empty($_POST['Supprimer_group']))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
-		redirec_text("download.php", $langue['redirection_group_dl_dell'], 'admin');
+		redirec_text('download.php', $langue['redirection_group_dl_dell'], 'admin');
 	}
 	else
 	{
-		redirec_text("download.php", $langue['redirection_group_dl_pasvide'], 'admin');
+		redirec_text('download.php', $langue['redirection_group_dl_pasvide'], 'admin');
 	}
 }
 if (!empty($_POST['Edit_group']))
@@ -49,7 +49,7 @@ if (!empty($_POST['Edit_group']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("download.php", $langue['redirection_group_dl_edit'], 'admin');
+	redirec_text('download.php', $langue['redirection_group_dl_edit'], 'admin');
 }
 if ( !empty($_POST['Envoyer_fichier']) )
 {
@@ -59,7 +59,7 @@ if ( !empty($_POST['Envoyer_fichier']) )
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 	}
-	redirec_text("download.php", $langue['redirection_dl_add'], 'admin');
+	redirec_text('download.php', $langue['redirection_dl_add'], 'admin');
 }
 if ( !empty($_POST['Supprimer_fichier']) )
 {
@@ -68,7 +68,7 @@ if ( !empty($_POST['Supprimer_fichier']) )
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 	}
-	redirec_text("download.php", $langue['redirection_dl_dell'], 'admin');
+	redirec_text('download.php', $langue['redirection_dl_dell'], 'admin');
 }
 if ( !empty($_POST['Edit_fichier']) )
 {
@@ -78,15 +78,15 @@ if ( !empty($_POST['Edit_fichier']) )
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 	}
-	redirec_text("download.php", $langue['redirection_dl_edit'], 'admin');
+	redirec_text('download.php', $langue['redirection_dl_edit'], 'admin');
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_dl_fichiers.tpl'));
 liste_smilies(true, '', 25);
 $template->assign_vars( array(
+	'ICI' => session_in_url('download.php'),
 	'TXT_CON_DELL' => $langue['confirm_dell'],
-	'ICI' => $_SERVER['PHP_SELF'],
 	'TITRE' => $langue['titre_download_admin'],
 	'TITRE_GESTION' => $langue['titre_gestion_download_admin'],
 	'TITRE_LISTE' => $langue['titre_liste_download_admin'],
@@ -198,5 +198,5 @@ if ( !empty($liste_group))
 	}
 }
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

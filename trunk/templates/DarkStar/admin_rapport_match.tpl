@@ -1,6 +1,6 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-	<form method="post" action="rapport.php">
+	<form method="post" action="{ICI}">
 		<div class="big_cadre">
 			<h1>{TITRE_GESTION}</h1>
 			<p>
@@ -50,7 +50,7 @@
 				<span><label for="section">{SECTION}&nbsp;:</label></span>
 				<span>
 					<select name="section" id="section" onblur="formverif(this.id,'change','')">
-						<option value="">{CHOISIR}</option>
+						<option value"">{CHOISIR}</option>
 						<option value="0" {SELECTED_ALL}>{ALL_SECTION}</option>
 						<!-- BEGIN section -->
 						<option value="{section.ID}" {section.SELECTED}>{section.NOM}</option>
@@ -99,8 +99,8 @@
 						<td>{liste.SCORE_MECHANT} -- {liste.SCORE_NOUS}</td>
 						<td>{liste.INFO}</td>
 						<td>
-							<form method="post" action="rapport.php">
-								<input name="supprimer" type="submit" id="Supprimer" value="{liste.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />
+							<form method="post" action="{ICI}">
+								<input name="supprimer" type="submit" id="Supprimer" value="{liste.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" />
 								<input name="id" type="hidden" id="id" value="{liste.ID}" />
 								<input name="editer" type="submit" id="Editer" value="{liste.EDITER}" />
 							</form>

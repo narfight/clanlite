@@ -17,6 +17,9 @@ if ($mp3['COUNT(id)'] > 0)
 {
 	$template->assign_vars(array(
 		'NOM_CLAN' => $config['nom_clan'],
+		'NEWS' => $langue['news_titre'],
+		'MP3' => session_in_url($root_path.'service/lecteur_mp3.php'),
+		'INDEX' => session_in_url($root_path.'service/index_pri.php')
 	));
 }
 else

@@ -12,7 +12,7 @@ $template->set_filenames( array('body' => 'calendrier.tpl'));
 $jour=date("d");
 $annee=(empty($_GET['annee']))? date('Y') : $_GET['annee'];
 $mois=(isset($_GET['mois']))? $_GET['mois'] : date('n');
-$mk_time_date = mktime( 1, 1, 1, $mois, 1, $annee);
+$mk_time_date = mk_time( 1, 1, 1, $mois, 1, $annee);
 if ( $mois > 12)
 {
 	$annee++;
@@ -175,7 +175,7 @@ for ($i=0;$i<date('t', $mk_time_date)+$jour_debut_mois;$i++)
 }
 while($horizontal < 9 && $horizontal != 1)
 {
-	$case[$horizontal][$verticale]['info'] = "";
+	$case[$horizontal][$verticale]['info'] = '';
 	$case[$horizontal][$verticale]['class'] = "calendra-vide";
 	$case[$horizontal][$verticale]['num'] = "&nbsp;";
 	$horizontal++;

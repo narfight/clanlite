@@ -37,14 +37,16 @@ if ( !empty($_POST['send_vote']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("download.php", $langue['user_envois_vote'], "user");
+	redirec_text('download.php', $langue['user_envois_vote'], 'user');
 }
 include($root_path.'conf/frame.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'dl_fichiers.tpl'));
 $template->assign_vars(array( 
+	'ICI' => session_in_url('download.php'),
 	'TITRE_DOWNLOAD' => $langue['titre_download'],
 	'TOP_10' => $langue['download_top_10'],
+	'TOP_10_U' => session_in_url('download.php?top_dl=nbr_dl#debut'),
 	'TOP_10_DEF' => $langue['download_top_10_def'],
 	'NOM_CLAN_ADV' => $langue['nom_clan_opose'],
 ));
@@ -61,7 +63,7 @@ else
 {
 	if( empty($_POST['action']) )
 	{// on affiche les groups de téléchargement
-		$template->assign_block_vars('tete', array("vide" => "vide"));
+		$template->assign_block_vars('tete', array('vide' => 'vide'));
 		$sql = "SELECT groups.*, COUNT(fichiers.id_rep) FROM `".$config['prefix']."download_groupe` AS groups LEFT JOIN `".$config['prefix']."download_fichier` AS fichiers ON groups.id = fichiers.id_rep GROUP BY groups.id";
 		if (! $cat_list = $rsql->requete_sql($sql) )
 		{
@@ -70,8 +72,8 @@ else
 		while ($info_group = $rsql->s_array($cat_list))
 		{
 			$template->assign_block_vars('tete.group', array( 
-				'FOP_REP' => $info_group['id'],
-				'INFO_GROUP'  => $info_group['nom']." (".$info_group['COUNT(fichiers.id_rep)'].")",
+				'GROUP_U' => session_in_url('download.php?for_rep='.$info_group['id'].'#debut'),
+				'INFO_GROUP'  => $info_group['nom'].' ('.$info_group['COUNT(fichiers.id_rep)'].')',
 				'INFO_GROUP_DETAIL' => bbcode($info_group['comentaire'])
 			));
 		
@@ -82,17 +84,17 @@ else
 		if ( !empty($_GET['for_rep']) )
 		{
 			$template->assign_vars(array('FOR_REP' => $_GET['for_rep']));
-			$_GET['limite'] = (empty($_GET['limite']))? 0 : $_GET['limite'];
+			$_GET['limite'] = (empty($_GET['limite']) || !is_numeric($_GET['limite']))? 0 : $_GET['limite'];
 			$total = get_nbr_objet('download_fichier', "id_rep ='".$_GET['for_rep']."'");
 		}
 		else
 		{
-			$_GET['for_rep'] = "";
+			$_GET['for_rep'] = '';
 		}
 		// on regarde si il a pas une régle de tri
 		if ( !empty($_GET['top_dl']) )
 		{
-			if ( $_GET['top_dl'] == "nbr_dl" )
+			if ($_GET['top_dl'] == 'nbr_dl')
 			{
 				$where = "ORDER BY telecharger DESC LIMIT 10";
 			}
@@ -113,11 +115,11 @@ else
 		while ($actuelle = $rsql->s_array($resultat_actu))
 		{
 			$nbr_fichier++;
-			$cote = "0";
+			$cote = 0;
 			if (!empty($actuelle['nombre_de_vote']))
 			{
 				$cote = $actuelle['cote']/$actuelle['nombre_de_vote'];
-				$cote = floor($cote)."/10 (".$actuelle['nombre_de_vote'].")";
+				$cote = floor($cote).'/10 ('.$actuelle['nombre_de_vote'].')';
 			}
 			else
 			{
@@ -140,7 +142,7 @@ else
 		}
 		if ( !empty($_GET['for_rep']) )
 		{
-			displayNextPreviousButtons($_GET['limite'],$total,"multi_page");
+			displayNextPreviousButtons($_GET['limite'],$total,'multi_page', 'download.php');
 		}
 	} 
 }

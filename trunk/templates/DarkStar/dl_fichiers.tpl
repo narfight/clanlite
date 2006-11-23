@@ -1,5 +1,5 @@
 <!-- BEGIN voter -->
-<form method="post" action="download.php">
+<form method="post" action="{ICI}">
 	<div class="big_cadre">
 		<h1>{voter.TITRE_VOTRE}</h1>
 		<div class="news">{voter.VOTE_EXPLICATION}
@@ -27,10 +27,10 @@
 	<h1>{TITRE_DOWNLOAD}</h1>
 	<div class="news">
 	<!-- BEGIN group -->
-		<h2><a href="download.php?for_rep={tete.group.FOP_REP}#debut">{tete.group.INFO_GROUP}</a></h2>
+		<h2><a href="{tete.group.GROUP_U}">{tete.group.INFO_GROUP}</a></h2>
 		{tete.group.INFO_GROUP_DETAIL}
-	<!-- END group -->
-		<h2><a href="download.php?top_dl=nbr_dl">{TOP_10}</a></h2>
+		<!-- END group -->
+		<h2><a href="{TOP_10_U}">{TOP_10}</a></h2>
 		{TOP_10_DEF}
 	</div>
 </div>
@@ -48,7 +48,7 @@
 			<li>{liste_fichiers.pas_vide.TXT_NB_TELECHARGER}: <span class="reponce">{liste_fichiers.pas_vide.NB_TELECHARGER} fois</span></li> 
 		</ul>
 		{liste_fichiers.pas_vide.DETAIL}
-		<form action="download.php" method="post"> 
+		<form action="{ICI}" method="post"> 
 			<input name="voter" type="submit" id="voter" value="{liste_fichiers.pas_vide.VOTER}" />
 			<input name="dll" type="submit" id="dll" value="{liste_fichiers.pas_vide.TELECHARGER}" />
 			<input name="for" type="hidden" id="for" value="{liste_fichiers.pas_vide.FOR}" />
@@ -61,14 +61,14 @@
 <!-- END liste_fichiers -->
 <!-- BEGIN multi_page --> 
 <div class="parpage">
-	<!-- BEGIN link_prev --> 
-	<a href="download.php?for_rep={FOR_REP}&amp;limite={multi_page.link_prev.PRECEDENT}#debut">{multi_page.link_prev.PRECEDENT_TXT}</a> 
-	<!-- END link_prev --> 
-	<!-- BEGIN num_p --> 
-	<a href="download.php?for_rep={FOR_REP}&amp;{multi_page.num_p.URL}#debut">{multi_page.num_p.NUM}</a>,
-	<!-- END num_p --> 
-	<!-- BEGIN link_next --> 
-	<a href="download.php?for_rep={FOR_REP}&amp;limite={multi_page.link_next.SUIVANT}#debut">{multi_page.link_next.SUIVANT_TXT}</a> 
+	<!-- BEGIN link_prev -->
+	<a href="{multi_page.link_prev.PRECEDENT}">{multi_page.link_prev.PRECEDENT_TXT}</a>
+	<!-- END link_prev -->
+	<!-- BEGIN num_p -->
+	<a href="{multi_page.num_p.URL}">{multi_page.num_p.NUM}</a>,
+	<!-- END num_p -->
+	<!-- BEGIN link_next -->
+	<a href="{multi_page.link_next.SUIVANT}">{multi_page.link_next.SUIVANT_TXT}</a>
 	<!-- END link_next -->
 </div>
 <!-- END multi_page --> 

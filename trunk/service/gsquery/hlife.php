@@ -2,7 +2,7 @@
 
 /*
  *  gsQuery - Querys game servers
- *  Copyright (c) 2002-2004 Jeremias Reith <jr@terragate.net>
+ *  Copyright (c) 2002-2004 Jeremias Reith <jr@gsquery.org>
  *  http://www.gsquery.org
  *
  *  This file is part of the gsQuery library.
@@ -25,20 +25,41 @@
  *
  */
 
-require_once GSQUERY_DIR . 'quake.php';
-
 /**
  * @brief Querys a halflife server
- * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: hlife.php,v 1.18 2004/08/12 19:14:47 jr Exp $
+ * @author Jeremias Reith (jr@gsquery.org)
+ * @version $Rev: 195 $
  *
  * Code is very ugly at the moment.
  * Does anyone have the protocol specs?<br>
  *
  * This class works with Halflife only.
  */
-class hlife extends quake
+class hlife extends gsQuery
 {
+  var $playerFormat = '/sscore/x2/ftime';
+
+  function rcon_query_server($command, $rcon_pwd)
+  {
+    $get_challenge="\xFF\xFF\xFF\xFFchallenge rcon\n";
+    if(!($challenge_rcon=$this->_sendCommand($this->address,$this->queryport,$get_challenge))) {
+      $this->debug['Command send ' . $command]='No challenge rcon received';
+      return FALSE;
+    }
+    if (!ereg("challenge rcon ([0-9]+)", $challenge_rcon)) {
+      $this->debug['Command send ' . $command]='No valid challenge rcon received';
+      return FALSE;
+    }
+    $challenge_rcon=substr($challenge_rcon, 19,10);
+    $command="\xFF\xFF\xFF\xFFrcon \"".$challenge_rcon."\" ".$rcon_pwd.' '.$command."\n";
+    if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
+      $this->debug['Command send ' . $command]='No reply received';
+      return FALSE;
+    } else {
+      return substr($result, 5);
+    }
+  }
+ 
   function getGameJoinerURI()
   {
     return 'gamejoin://hlife@'. $this->address .':'. $this->hostport .'/'. $this->gametype;
@@ -96,29 +117,12 @@ class hlife extends quake
 	return FALSE;
       }
       
-      // Process Player Data
-      $j=7;  //pointer into player data string.  We start at 7 (past header bytes)
-      $listedplayers=ord($result{5}); // Number of players actually being listed
-      for($i=0;$i<$listedplayers;$i++) {       
-	while($result[$j]!=chr(0)) $players[$i]['name'].=$result[$j++];
-	$j++;
-	$t= ord($result{$j}) | (ord($result{$j+1})<<8) | (ord($result{$j+2})<<16) | (ord($result{$j+3})<<24);
-	$players[$i]['score']=$t;
-	if($players[$i]['score']>128) {
-	  $players[$i]['score']-=256;
-	}
-	
-	$j+=4;
-	$t= unpack('ftime', substr($result, $j, 4));
-	$t= mktime(0, 0, $t['time']);
-	$players[$i]['time'] = date('H:i:s', $t);
-	$j+=5;  
-      }
-      
+      $this->_processPlayers($result, $this->playerFormat, 8);
+        
       $this->playerkeys['name']=TRUE;
       $this->playerkeys['score']=TRUE;
       $this->playerkeys['time']=TRUE;
-      $this->players=$players;
+
     }
     $this->gametype = ($this->gametype == 'cstrike') ? $this->gametype.' '.$this->gameversion : $this->gametype;
     
@@ -170,6 +174,43 @@ class hlife extends quake
     $this->online = TRUE;
     return TRUE;
   }
+
+  function getDebugDumps($html=FALSE, $dumper=NULL) {
+    require_once(GSQUERY_DIR . 'includes/HexDumper.class.php');    
+
+    if(!isset($dumper)) {
+      $dumper = new HexDumper();
+      $dumper->setDelimiter(0x00);
+      $dumper->setEndOfHeader(0x04);
+    }
+
+    return parent::getDebugDumps($html, $dumper);
+  }
+
+
+  function _processPlayers($data, $format, $formatLength) 
+  {
+    $len = strlen($data);
+
+    $posNextPlayer=$len;
+
+    for($i=6;$i<$len;$i=$endPlayerName+$formatLength+1) { 
+      // finding end of player name
+      $endPlayerName = strpos($data, "\x00", ++$i);
+      if($endPlayerName == FALSE) { return FALSE; } // abort on bogus data
+      // unpacking player's score and time
+      $curPlayer = unpack('@'.($endPlayerName+1).$format, $data);
+      // format time
+      if(array_key_exists('time', $curPlayer)) {
+	$curPlayer['time'] = date('H:i:s', mktime(0, 0, $curPlayer['time']));
+      }
+      // extract player name
+      $curPlayer['name'] = substr($data, $i, $endPlayerName-$i);
+      // add player to the list of players
+      $this->players[] = $curPlayer; 
+    }
+  }
+
  
 }
 

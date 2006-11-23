@@ -4,7 +4,6 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th>{ID}</th>
 					<th>{NOM_SEX}</th>
 					<th>{ACTION}</th>
 					<th>{PROFIL}</th>
@@ -16,11 +15,10 @@
 			<tbody>
 				<!-- BEGIN connecter -->
 				<tr>
-					<td>{connecter.ID}</td>
 					<td><span class="{connecter.SEX}">{connecter.USER}</span></td>
 					<td>{connecter.ACTION}</td>
 					<!-- BEGIN membre_connect -->
-					<td><a href="profil.php?link={connecter.ID}" onclick="window.open('profil.php?link={connecter.ID}');return false;"><img src="../images/smal-info.gif" width="16" height="16" /></a></td>
+					<td><a href="{connecter.membre_connect.PROFIL_U}"><img src="../images/smal-info.gif" width="16" height="16" alt="{connecter.membre_connect.ALT_PROFIL}" /></a></td>
 					<!-- END membre_connect -->
 					<!-- BEGIN no_membre_connect -->
 					<td>{NO_PROFIL}</td>

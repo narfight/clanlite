@@ -1,6 +1,6 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-    <form method="post" action="server_map.php">
+    <form method="post" action="{ICI}">
 		<div class="big_cadre">
 			<h1>{TITRE_GESTION}</h1>
 			<p>
@@ -46,8 +46,8 @@
 					<td>{liste.NOM}</td>
 					<td>{liste.URL}</td>
 					<td>
-						<form action="server_map.php" method="post">
-							<input name="dell" type="submit" id="Supprimer" value="{liste.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />
+						<form action="{ICI}" method="post">
+							<input name="dell" type="submit" id="Supprimer" value="{liste.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" />
 							<input name="for" type="hidden" value="{liste.ID}" />
 							<input name="edit" type="submit" value="{liste.EDITER}" />
 						</form>

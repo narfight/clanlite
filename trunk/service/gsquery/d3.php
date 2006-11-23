@@ -2,7 +2,7 @@
 
 /*
  *  gsQuery - Querys various game servers
- *  Copyright (c) 2002-2004 Jeremias Reith <jr@terragate.net>
+ *  Copyright (c) 2002-2004 Jeremias Reith <jr@gsquery.org>
  *  http://www.gsquery.org
  *
  *  This file is part of the gsQuery library.
@@ -30,7 +30,7 @@ require_once GSQUERY_DIR . 'q3a.php';
 /**
  * @brief Uses the Doom 3 protcol to communicate with the server
  * @author Jeremias Reith (jr@gsquery.org)
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  *
  * Uses color code routines from q3a
  */
@@ -75,6 +75,9 @@ class d3 extends q3a
 	break;
       case 'si_map':
 	$this->mapname=$rawdata[$i];
+	break;
+      case 'si_usepass':
+	$this->password=$rawdata[$i];
 	break;
       case 'si_maxPlayers':
 	$this->maxplayers=$rawdata[$i];

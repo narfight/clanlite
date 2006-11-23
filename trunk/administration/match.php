@@ -10,14 +10,14 @@ include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if ( !empty($_POST['Submit']) )
 {
-	$date = mktime ( $_POST['heure_match'] , $_POST['minute_match'] , 1 , $_POST['date2'] , $_POST['date1'] , $_POST['date3']);
+	$date = mk_time ( $_POST['heure_match'] , $_POST['minute_match'] , 1 , $_POST['date2'] , $_POST['date1'] , $_POST['date3']);
 	$_POST = pure_var($_POST);
 	$sql = "INSERT INTO `".$config['prefix']."match` (date , info , le_clan , nombre_de_joueur , heure_msn, section) VALUES ('".$date."', '".$_POST['infoe']."', '".$_POST['clan']."', '".$_POST['joueur']."', '".$_POST['heure_msn']."', '".$_POST['section']."')";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("match.php",$langue['redirection_admin_match_add'],'admin');
+	redirec_text('match.php',$langue['redirection_admin_match_add'],'admin');
 }
 if (!empty($_POST['del']))
 {
@@ -31,11 +31,11 @@ if (!empty($_POST['del']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("match.php",$langue['redirection_admin_match_dell'],'admin');
+	redirec_text('match.php',$langue['redirection_admin_match_dell'],'admin');
 }
 if (!empty($_POST['edit_save']))
 {
-	$date = mktime ( $_POST['heure_match'] , $_POST['minute_match'] , 1 , $_POST['date2'] , $_POST['date1'] , $_POST['date3']);
+	$date = mk_time ( $_POST['heure_match'] , $_POST['minute_match'] , 1 , $_POST['date2'] , $_POST['date1'] , $_POST['date3']);
 	$_POST = pure_var($_POST);
 	$sql = "UPDATE `".$config['prefix']."match` SET date='".$date."', info='".$_POST['infoe']."', le_clan='".$_POST['clan']."', nombre_de_joueur='".$_POST['joueur']."', heure_msn='".$_POST['heure_msn']."', section='".$_POST['section']."' WHERE id ='".$_POST['id_match']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
@@ -44,11 +44,12 @@ if (!empty($_POST['edit_save']))
 	}
 	redirec_text("match.php#".$_POST['id_match'],$langue['redirection_admin_match_edit'],'admin');
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_match.tpl'));
 liste_smilies(true, '', 25);
 $template->assign_vars(array( 
+	'ICI' => session_in_url('match.php'),
 	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'TITRE' => $langue['titre_admin_match'],
 	'TITRE_GESTION' => $langue['titre_admin_match_gestion'],
@@ -93,15 +94,15 @@ else
 // on regarde si il a une action a faire
 if ( !empty($_POST['ok']) )
 {
-	$action = "ok";
+	$action = 'ok';
 }
 if ( !empty($_POST['demande']) )
 {
-	$action = "demande";
+	$action = 'demande';
 }
 if ( !empty($_POST['reserve']) )
 {
-	$action = "reserve";
+	$action = 'reserve';
 }
 if ( !empty($action) )
 {
@@ -146,7 +147,7 @@ while ( ($list_match = $rsql->s_array($get_match)) )
 		'SECTION' => (empty($list_match['nom']))? $langue['toutes_section'] : $list_match['nom'],
 		'INFO' => bbcode($list_match['info']),
 		'SUR' => $list_match['nombre_de_joueur'],
-		'HEURE' => date("H:i", $list_match['date']),
+		'HEURE' => date('H:i', $list_match['date']),
 		'CHAT' => $list_match['heure_msn'],
 		'NB_JOUEURS' => (!empty($liste_user_match[$list_match['id']]['ok']))? count($liste_user_match[$list_match['id']]['ok']) : "0",
 		'ACTION_USER_MATCH' => (!empty($liste_user_match[$list_match['id']]['ok']) && (count($liste_user_match[$list_match['id']]['ok'][$session_cl['user']]) >= 1 || count($liste_user_match[$list_match['id']]['reserve'][$session_cl['user']]) >= 1 || count($liste_user_match[$list_match['id']]['demande'][$session_cl['user']]) >= 1))? "moin" : "add",
@@ -185,5 +186,5 @@ while ( ($liste_section = $rsql->s_array($get_section_liste)) )
 	));
 }
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

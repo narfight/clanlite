@@ -30,7 +30,7 @@ if (defined('CL_AUTH'))
 		$tpl = preg_replace('#<!-- BEGIN (.*?) -->(.*?)<!-- END (.*?) -->#', "\n" . '$block[\'\\1\'] = \'\\2\';', $tpl);
 		eval($tpl);
 		
-		$block['connection'] = str_replace('{ROOT_PATH}', $root_path, $block['connection']);
+		$block['connection'] = str_replace('{ICI}', session_in_url($root_path.'controle/entrer.php'), $block['connection']);
 		$block['connection'] = str_replace('{LOGIN}', $langue['form_login'], $block['connection']);
 		$block['connection'] = str_replace('{CODE}', $langue['form_psw'], $block['connection']);
 		$block['connection'] = str_replace('{SAVE}', $langue['save_code_login'], $block['connection']);
