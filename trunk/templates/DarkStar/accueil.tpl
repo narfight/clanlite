@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>ClanLite - {NOM_CLAN}</title>
-		<link rel="shortcut icon" href="{PATH_ROOT}templates/DarkStar/images/favicon.gif">
+		<link rel="shortcut icon" href="{PATH_ROOT}templates/ICGstation/images/favicon.gif">
 		<link rel="alternate" type="application/rss+xml" title="{NEWS}" href="{PATH_ROOT}rss.php">
 	</head>
 	<frameset rows="*,16" cols="*">

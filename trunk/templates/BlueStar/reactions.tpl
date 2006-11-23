@@ -19,9 +19,9 @@
 	</div>
 	<!-- END reactions -->
 </div>
-<form method="post" action="{ICI}">
-	<div class="big_cadre">
-		<h1>{ADD_COMMENTAIRE}</h1>
+<div class="big_cadre">
+	<h1>{ADD_COMMENTAIRE}</h1>
+	<form method="post" action="{ICI}" class="visible">
 		<!-- BEGIN login -->
 		<a name="showlogin"></a>
 		<div class="news"><a href="#showlogin" onclick="toggle_msg('code', '', '');toggle_msg('mail', '', '')">{login.LOGIN}</a></div>
@@ -65,5 +65,5 @@
 			<input name="send" type="submit" id="send" value="{FORM_ENVOYER}" />
 			<input name="for" type="hidden" id="for" value="{FOR}" />
 		</p>
-	</div>
-</form>
+	</form>
+</div>

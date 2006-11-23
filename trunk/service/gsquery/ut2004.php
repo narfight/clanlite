@@ -2,8 +2,8 @@
 
 /*
  *  gsQuery - Querys game servers
- *  Copyright (c) 2002-2004 Jeremias Reith <jr@terragate.net>
- *  http://gsquery.terragate.net
+ *  Copyright (c) 2002-2004 Jeremias Reith <jr@gsquery.org>
+ *  http://www.gsquery.org
  *
  *  This file is part of the gsQuery library.
  *
@@ -30,7 +30,7 @@ require_once GSQUERY_DIR . 'gameSpy.php';
 /**
  * @brief Uses the gameSpy protocol
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: ut2004.php 190 2004-09-25 15:48:06Z jr $
+ * @version $Id: ut2004.php,v 1.1 2005/01/12 18:29:30 narfight Exp $
  *
  * Adds UT2004 Color code support
  */

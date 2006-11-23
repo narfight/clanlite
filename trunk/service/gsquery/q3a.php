@@ -30,7 +30,7 @@ require_once GSQUERY_DIR . 'quake.php';
 /**
  * @brief Uses the Quake 3 protcol to communicate with the server
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Rev: 191 $
+ * @version $Rev: 198 $
  *
  * This class can communicate with most games based on the Quake 3
  * engine.
@@ -86,8 +86,7 @@ class q3a extends quake
         $this->password=$rawdata[$i];
         break; 
       case 'sv_maplist':
-	//$this->maplist = preg_split('#([a-z]) ([a-z])#si', $rawdata[$i]);
-	$this->maplist=explode(' ', $rawdata[$i]);
+	$this->maplist=preg_split('#( )+#', $rawdata[$i]);
 	break;
       case 'sv_privateclients':
 	$this->rules['sv_privateClients']=$rawdata[$i];

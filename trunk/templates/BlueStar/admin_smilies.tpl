@@ -1,8 +1,8 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-	<form method="post" action="{ICI}">
-		<div class="big_cadre">
-			<h1>{TITRE_GESTION}</h1>
+	<div class="big_cadre">
+		<h1>{TITRE_GESTION}</h1>
+		<form method="post" action="{ICI}" class="visible">
 			<p>
 				<span><label for="text">{TXT}&nbsp;:</label></span>
 				<span><input name="text" type="text" id="text" value="{TEXT}" onblur="formverif(this.id,'nbr','2')" /></span>
@@ -31,8 +31,8 @@
 					<!-- END edit -->
 				</span>
 			</p>
-		</div>
-	</form>
+		</form>
+	</div>
 	<div class="big_cadre">
 		<h1>{TITRE_LISTE}</h1>
 		<div class="news">

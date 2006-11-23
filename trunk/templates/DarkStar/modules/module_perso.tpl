@@ -1,6 +1,6 @@
-<form method="post" action="module_perso.php">
-	<div class="big_cadre">
+<div class="big_cadre">
 	<h1>{TITRE}</h1>
+	<form method="post" action="module_perso.php" class="visible">
 		<p>
 			<span><label for="contenu">{TXT_CONTENU}&nbsp;:</label></span>
 		</p>
@@ -26,5 +26,5 @@
 				<input name="Submit_module_perso_module" type="submit" id="Submit_module_perso_module" value="{EDITER}" /> 
 			</span>
 		</p>
-	</div>
-</form>
+	</form>
+</div>

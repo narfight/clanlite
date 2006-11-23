@@ -25,7 +25,7 @@
  *
  */
 
-include_once("../gsQuery.php"); 
+require_once("../gsQuery.php"); 
 
 $gameserver=gsQuery::createInstance($_GET["protocol"], $_GET["host"], $_GET["queryport"]);
   

@@ -1,17 +1,24 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $niveau_secu = 24;
 $action_membre = 'where_admin_mailiste';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
 $_POST = pure_var($_POST, 'no');
 if (!empty($_POST['Envoyer']))
 { 
-	include_once($root_path.'service/wamailer/class.mailer.php');
+	require_once($root_path.'service/wamailer/class.mailer.php');
 	$mailer = new Mailer();
 	$mailer->set_root($root_path.'service/wamailer/');
 	if ($config['send_mail'] == 'smtp')
@@ -82,7 +89,7 @@ if (!empty($_POST['Envoyer']))
 	}
 	redirec_text('mailiste.php', $langue['redirection_admin_mailiste_add'], 'admin');
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_mailiste.tpl'));
 $template->assign_vars( array(
@@ -135,5 +142,5 @@ while ( ($liste_ns = $rsql->s_array($get_ns_liste)) )
 	));
 }
 $template->pparse('body');
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

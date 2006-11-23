@@ -176,7 +176,7 @@ class hlife extends gsQuery
   }
 
   function getDebugDumps($html=FALSE, $dumper=NULL) {
-    require_once(GSQUERY_DIR . 'includes/HexDumper.class.php');    
+    require_once(GSQUERY_DIR . 'requires/HexDumper.class.php');    
 
     if(!isset($dumper)) {
       $dumper = new HexDumper();

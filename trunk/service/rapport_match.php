@@ -1,12 +1,19 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $action_membre = 'where_match_rapport';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path.'conf/frame.php');
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path.'conf/frame.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'rapport_match.tpl'));
 $template->assign_vars(array( 
@@ -83,5 +90,5 @@ else
 	$template->assign_block_vars('no_match', array('TXT' => $langue['no_match_joue']));
 }
 $template->pparse('body');
-include($root_path.'conf/frame.php');
+require($root_path.'conf/frame.php');
 ?>

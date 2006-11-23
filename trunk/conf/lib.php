@@ -21,6 +21,34 @@ function mk_time($heure, $minute, $seconde, $mois, $jours, $annee)
 		return mktime($heure , $minute , $seconde , $mois , $jours , $annee);  
 	} 
 }
+// coupe une chaine de carractére trop longue
+function cut_sentence($texte,$nbcar=0)
+{
+	if (strlen($texte) > $nbcar && 0 != $nbcar)
+	{
+		$liste = explode(' ', $texte);
+		$tmp = '';
+		foreach($liste as $value)
+		{
+			if ( strlen($tmp) >= $nbcar )
+			{
+				break;
+			}
+			$tmp .= $value.' ';
+		}
+		// on supprime le dérnié espace
+		$tmp = substr( $tmp, 0, strlen($tmp)-1 );
+		if ( count($liste) > 1 )
+		{
+			$tmp .= '...';
+		}
+	}
+	else
+	{
+		$tmp = $texte;
+	}
+	return $tmp;
+}
 //Prend les IP dans tout les cas
 function get_ip()
 {
@@ -92,7 +120,7 @@ function pure_var($var, $action='del', $force=false)
 	if ($action === 'del')
 	{
 		if( !get_magic_quotes_gpc() || $force )
-		{
+		{// la protection native de PHP n'est pas activée, on le fait
 			if (is_array($var))
 			{
 				foreach($var as $key=>$val)
@@ -103,6 +131,20 @@ function pure_var($var, $action='del', $force=false)
 			else
 			{
 				$var = addslashes(trim($var));
+			}
+		}
+		else
+		{// la protection est activée, mais on aplique quand même la fonction trim
+			if (is_array($var))
+			{
+				foreach($var as $key=>$val)
+				{ 
+					$var[$key] = trim(($key == 'for' || $key == 'id')? intval($var[$key]) : $var[$key]);
+				}
+			}
+			else
+			{
+				$var = trim($var);
 			}
 		}
 	}
@@ -235,7 +277,7 @@ function liste_smilies($show, $tpl_ou='', $limite=-1)
 		if ($limite == 1 || $limite > $nombre)
 		{
 			$template->assign_block_vars($tpl_ou.'poste_smilies_liste', array( 
-				'TXT' => pure_var($info_smilies['text']),
+				'TXT' => addslashes($info_smilies['text']),
 				'IMG' => $root_path.'images/smilies/'.$info_smilies['img'],
 				'ALT' => $info_smilies['def'],
 				'WIDTH' => $info_smilies['width'],
@@ -284,7 +326,7 @@ function sql_error($requete, $erreur, $line, $file)
 		$fp = @fsockopen('services.clanlite.org', 80, $errno, $errstr, 30);
 		if ($fp)
 		{
-			$out = "GET /com.php?rapport=".urlencode($requete."|*|".$erreur."|*|".$file."|*|".$line)." HTTP/1.1\r\n";
+			$out = "GET /com.php?rapport=".urlencode($requete.'|*|'.$erreur.'|*|'.$file.'|*|'.$line)." HTTP/1.1\r\n";
 			$out .= "Host: services.clanlite.org\r\n";
 			$out .= "Referer: ".$config['site_domain'].$config['site_path']."(".$_SERVER['HTTP_HOST'].")\r\n";
 			$out .= "User-Agent: Clanlite ".$config['version']."\r\n";
@@ -302,8 +344,8 @@ function sql_error($requete, $erreur, $line, $file)
 		}
 		elseif (!$fp || !empty($tmp) && $tmp != 'ok')
 		{
-			$log = fopen($root_path."erreur_sql.txt" ,"a");
-			fwrite($log, $config['current_time']."|*|".$requete."|*|".$erreur."|*|".$file."|*|".$line."|*|".$config['site_domain'].$config['site_path']."|*|".$config['version'].chr(10));
+			$log = fopen($root_path.'erreur_sql.txt' ,'a');
+			fwrite($log, $config['current_time'].'|*|'.$requete.'|*|'.$erreur.'|*|'.$file.'|*|'.$line.'|*|'.$config['site_domain'].$config['site_path'].'|*|'.$config['version'].chr(10));
 			fclose($log);
 		}
 	}
@@ -343,14 +385,14 @@ function redirec_text($url,$txt,$for)
 	$url = session_in_url($url);
 	$frame_head = '<meta http-equiv="refresh" content="3;URL='.$url.'" />'."\n";
 	$frame_where = ($for === 'admin')? $root_path.'conf/frame_admin.php' : $root_path.'conf/frame.php';
-	include($frame_where);
+	require($frame_where);
 	$template->set_filenames(array('body' => 'divers_text.tpl'));
 	$template->assign_vars(array(
 		'TEXTE' => (empty($txt))? sprintf($langue['redirection_txt_vide'], $url) : sprintf($langue['redirection_txt_nonvide'], $txt, $url),
 		'TITRE' => 'Redirection'
 	));
 	$template->pparse('body');
-	include($frame_where);
+	require($frame_where);
 	exit();
 }
 // gestion des grande liste sur plusieur page
@@ -366,7 +408,7 @@ function get_nbr_objet($from, $where)
 	$file_nbr = $rsql->s_array($file_nbr);
 	return $file_nbr['count(*)'];
 }
-function displayNextPreviousButtons($limite, $total, $tpl_ou, $file_ou)
+function displayNextPreviousButtons($limite, $total, $tpl_ou, $file_ou, $plus='')
 {
 	global $template, $config, $langue;
 	if ($config['objet_par_page'] < $total && $config['objet_par_page'] != 0)
@@ -381,14 +423,14 @@ function displayNextPreviousButtons($limite, $total, $tpl_ou, $file_ou)
 		if (($limite + $config['objet_par_page']) < $total)
 		{
 			$template->assign_block_vars($tpl_ou.'.link_next', array( 
-				'SUIVANT' => session_in_url($file_ou.'?limite='.($limite+$config['objet_par_page'])),
+				'SUIVANT' => session_in_url($file_ou.'?limite='.($limite+$config['objet_par_page']).$plus),
 				'SUIVANT_TXT' => $langue['parpage_suivant'],
 			));
 		}
 		if ($limite != 0)
 		{
 			$template->assign_block_vars($tpl_ou.'.link_prev', array( 
-				'PRECEDENT' => session_in_url($file_ou.'?limite='.($limite-$config['objet_par_page'])),
+				'PRECEDENT' => session_in_url($file_ou.'?limite='.($limite-$config['objet_par_page']).$plus),
 				'PRECEDENT_TXT' => $langue['parpage_precedent'],
 			));
 		}
@@ -402,7 +444,7 @@ function displayNextPreviousButtons($limite, $total, $tpl_ou, $file_ou)
 			$numeroPages_f = ($limite_liste == $limite)? '['.$numeroPages.']': $numeroPages;
 			$template->assign_block_vars($tpl_ou.'.num_p', array( 
 				'NUM' => $numeroPages_f,
-				'URL' => session_in_url($file_ou.'?limite='.$limite_liste)
+				'URL' => session_in_url($file_ou.'?limite='.$limite_liste.$plus)
 			));
 			$limite_liste = $limite_liste + $config['objet_par_page'];
 			$numeroPages = $numeroPages + 1;
@@ -522,6 +564,10 @@ function scan_map($map_console, $info='array')
 				'console' => $map_info['nom_console'],
 				'url' => $map_info['url']
 			);
+		}
+		if ($rsql->nbr($map_info) == 0)
+		{// on definit quand même la variable pour eviter de faire des recherches en boucle
+			$config['map_liste'][0] = false;
 		}
 	}
 	else

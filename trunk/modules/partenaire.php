@@ -1,7 +1,14 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 if (defined('CL_AUTH'))
 {
 	if( !empty($get_nfo_module))
@@ -14,7 +21,7 @@ if (defined('CL_AUTH'))
 	{
 		secu_level_test(16);
 		$sql = "CREATE TABLE `".$config['prefix']."module_partenaires_".mysql_insert_id()."` (`id` MEDIUMINT( 8 ) UNSIGNED NOT NULL AUTO_INCREMENT ,`nom` LONGTEXT NOT NULL ,`url` LONGTEXT NOT NULL ,`image` LONGTEXT NOT NULL ,PRIMARY KEY ( `id` ))";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
@@ -24,7 +31,7 @@ if (defined('CL_AUTH'))
 	{
 		secu_level_test(16);
 		$sql = "DROP TABLE `".$config['prefix']."module_partenaires_".$_POST['for']."` ";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
@@ -52,13 +59,13 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_partenaire_mod
 	$root_path = './../';
 	$niveau_secu = 16;
 	$action_membre= 'where_module_partenaire';
-	include($root_path.'conf/template.php');
-	include($root_path.'conf/conf-php.php');
-	include($root_path."controle/cook.php");
+	require($root_path.'conf/template.php');
+	require($root_path.'conf/conf-php.php');
+	require($root_path."controle/cook.php");
 	if (!empty($_POST['dell_partenaire_module']))
 	{
 		$sql = "DELETE FROM `".$config['prefix']."module_partenaires_".$id_module."` WHERE id ='".$_POST['for_partenaire_module']."'";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
@@ -68,7 +75,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_partenaire_mod
 	{ 
 		$_POST = pure_var($_POST);
 		$sql = "INSERT INTO `".$config['prefix']."module_partenaires_".$id_module."` (url, nom, image) VALUES ('".((eregi('http(s)?://',$_POST["url"]))? $_POST["url"] : 'http://'.$_POST["url"])."', '".$_POST['nom']."', '".$_POST['image']."')";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
@@ -81,7 +88,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_partenaire_mod
 	{
 		$_POST = pure_var($_POST);
 		$sql = "UPDATE `".$config['prefix']."module_partenaires_".$id_module."` SET url='".$_POST['url']."', nom='".$_POST['nom']."', image='".$_POST['image']."' WHERE id='".$_POST['for_partenaire_module']."'";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
@@ -90,7 +97,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_partenaire_mod
 			redirec_text("partenaire.php?config_modul_admin=oui&id_module=".$id_module, $langue['redirection_module_partenaire_edit'], 'admin');
 		}
 	}
-	include($root_path.'conf/frame_admin.php');
+	require($root_path.'conf/frame_admin.php');
 	$template = new Template($root_path.'templates/'.$config['skin']."/modules");
 	$template->set_filenames( array('body_module' => 'partenaires.tpl'));
 	$template->assign_vars( array(
@@ -141,7 +148,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_partenaire_mod
 		));
 	}
 	$template->pparse('body_module');
-	include($root_path.'conf/frame_admin.php');
+	require($root_path.'conf/frame_admin.php');
 	return;
 }
 ?>

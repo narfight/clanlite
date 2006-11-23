@@ -1,6 +1,6 @@
-<form method="post" action="module_perso_central.php">
-	<div class="big_cadre">
+<div class="big_cadre">
 	<h1>{TITRE}</h1>
+	<form method="post" action="module_perso_central.php" class:"visible">
 		<p>
 			<span><label for="titre">{TXT_TITRE}&nbsp;:</label></span>
 			<span><input name="titre" type="text" id="titre" value="{TITRE}" onblur="formverif(this.id,'nbr','3')" /></span>
@@ -30,5 +30,5 @@
 				<input name="Submit_module_p_centrale" type="submit" id="Submit_module_p_centrale" value="{EDITER}" /> 
 			</span>
 		</p>
-	</div>
-</form>
+	</form>
+</div>

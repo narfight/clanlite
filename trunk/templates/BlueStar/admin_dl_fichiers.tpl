@@ -2,11 +2,17 @@
 	<h1>{TITRE}</h1>
 	<div class="big_cadre">
 		<h1>{TITRE_GESTION}</h1>
-		<p>
-			<span><a href="#" onclick="toggle_msg('fichier', '', '')">{TOGGLE_FICHIER}</a></span>
-		</p>
-		<div id="fichier" style="display:none">
-			<form method="post" action="{ICI}">
+		<!-- BEGIN erreur -->
+		<div class="news">
+			<h2>{erreur.TITRE}</h2>
+			{erreur.TXT}
+		</div>
+		<!-- END erreur -->
+		<form method="post" action="{ICI}" class="visible">
+			<p>
+				<span><a href="#" onclick="toggle_msg('fichier', '', '')">{TOGGLE_FICHIER}</a></span>
+			</p>
+			<div id="fichier" style="display:none">
 				<p>
 					<span><label for="nom">{NOM}&nbsp;:</label></span>
 					<span><input name="nom" id="nom" type="text" value="{NOM_FICHIER}" onblur="formverif(this.id,'nbr','3')" /></span>
@@ -54,13 +60,13 @@
 					  <input name="for_fichier" type="hidden" id="for_fichier_form" value="{FOR_FICHIER}" />
 					</span>
 				</p>
-			</form>
-		</div>
+			</div>
+		</form>
+		<form method="post" action="{ICI}" class="visible">
 		<p>
 			<span><a href="#" onclick="toggle_msg('group', '', '')">{TOGGLE_GROUP}</a></span>
 		</p>
 		<div id="group" style="display:none">
-			<form method="post" action="{ICI}">
 				<p>
 					<span><label for="nom">{NOM}&nbsp;:</label></span>
 					<span><input name="nom_group" id="nom_group" type="text" value="{NOM_GROUP}" onblur="formverif(this.id,'nbr','3')" /></span>
@@ -95,8 +101,8 @@
 					  <input name="for_group" type="hidden" id="for_group_form" value="{FOR_GROUP}" />
 					</span>
 				</p>
-			</form>
-		</div>
+			</div>
+		</form>
 	</div>
 	<div class="big_cadre">
 		<h1>{TITRE_LISTE}</h1>
@@ -148,7 +154,7 @@
 </div>
 <SCRIPT language="JavaScript">
 <!--
-if (trouve('for_fichier_form').value.length != 0)
+if (trouve('for_fichier_form').value.length != 0 || trouve('url_dl').value.length != 0)
 {
 	toggle_msg('fichier', '', '');
 }

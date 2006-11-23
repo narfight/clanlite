@@ -1,8 +1,8 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-	<form method="post" action="{ICI}">
-		<div class="big_cadre">
-			<h1>{TITRE_GESTION}</h1>
+	<div class="big_cadre">
+		<h1>{TITRE_GESTION}</h1>
+		<form method="post" action="{ICI}" class="visible">
 			<p>
 				<span><label for="nom">{TXT_NOM}&nbsp;:</label></span>
 				<span><input name="nom" type="text" id="nom" value="{NOM}" onblur="formverif(this.id,'nbr','3')" /></span>
@@ -10,7 +10,7 @@
 			<p>
 				<span><label for="module">{TXT_FICHIER}&nbsp;:</label></span>
 				<span>
-					<select name="module" id="module" onblur="formverif(this.id,'autre','')">
+					<select name="module" id="module" onblur="formverif(this.id,'autre','')" {EDIT_MODULE}>
 						<option value"">{TXT_CHOISIR}</option>
 						<!-- BEGIN liste_module -->
 						<option value="{liste_module.VALEUR}" {liste_module.SELECTED}>{liste_module.NOM}</option>
@@ -49,8 +49,8 @@
 					<input name="for" type="hidden" id="for" value="{ID}" />
 				</span>
 			</p>
-		</div>
-	</form>
+		</form>
+	</div>
 	<div class="big_cadre">
 		<h1>{TITRE_LISTE}</h1>
 		<div class="news">

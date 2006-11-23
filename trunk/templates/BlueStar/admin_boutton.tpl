@@ -1,8 +1,8 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-	<form method="post" action="{ICI}">
-		<div class="big_cadre">
-			<h1>{TITRE_GESTION}</h1>
+	<div class="big_cadre">
+		<h1>{TITRE_GESTION}</h1>
+		<form method="post" action="{ICI}" class="visible">
 			<p>
 				<span><label for="text">{TXT_TEXTE}&nbsp;:</label></span>
 				<span><input name="text" type="text" id="text" value="{NOM}" onblur="formverif(this.id,'nbr','2')" {DISABLED_URL} /></span>
@@ -45,8 +45,8 @@
 					<input name="liens_default" type="hidden" value="{LIENS_DEFAULT}" />
 				</span>
 			</p>
-		</div>
-	</form>
+		</form>
+	</div>
 	<div class="big_cadre">
 		<h1>{TITRE_LISTE}</h1>
 		<div class="news">
@@ -70,7 +70,7 @@
 								<input name="dell" type="submit" value="{liste.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" {liste.DISABLED_DELL} />
 								<input name="for" type="hidden" value="{liste.ID}" />
 								<input name="edit" type="submit" value="{liste.EDITER}" />
-							</form> 
+							</form>
 						</td>
 					</tr>
 					<!-- END liste -->

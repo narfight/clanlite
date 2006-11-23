@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: template.php,v 1.10.2.3 2002/12/21 19:09:57 psotfx Exp $
+ *   $Id: template.php,v 1.1 2005/01/12 18:29:22 narfight Exp $
  *
  *
  ***************************************************************************/
@@ -131,7 +131,7 @@ class Template {
 	/**
 	 * Inserts the uncompiled code for $handle as the
 	 * value of $varname in the root-level. This can be used
-	 * to effectively include a template in the middle of another
+	 * to effectively require a template in the middle of another
 	 * template.
 	 * Note that all desired assignments to the variables in $handle should be done
 	 * BEFORE calling this function.
@@ -448,10 +448,10 @@ class Template {
 	 * (possibly nested) block namespace. This is a string of the form:
 	 * $this->_tpldata['parent'][$_parent_i]['$child1'][$_child1_i]['$child2'][$_child2_i]...['$childN']
 	 *
-	 * If $include_last_iterator is true, then [$_childN_i] will be appended to the form shown above.
+	 * If $require_last_iterator is true, then [$_childN_i] will be appended to the form shown above.
 	 * NOTE: does not expect a trailing "." on the blockname.
 	 */
-	function generate_block_data_ref($blockname, $include_last_iterator)
+	function generate_block_data_ref($blockname, $require_last_iterator)
 	{
 		// Get an array of the blocks involved.
 		$blocks = explode(".", $blockname);
@@ -465,7 +465,7 @@ class Template {
 		// Add the block reference for the last child.
 		$varref .= '[\'' . $blocks[$blockcount] . '.\']';
 		// Add the iterator for the last child if requried.
-		if ($include_last_iterator)
+		if ($require_last_iterator)
 		{
 			$varref .= '[$_' . $blocks[$blockcount] . '_i]';
 		}

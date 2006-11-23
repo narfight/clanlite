@@ -2,7 +2,7 @@
 	<h1>{TITRE_NEWS}</h1>
   <!-- BEGIN news -->
   <div class="news">
-    <h2>{news.TITRE} <span class="reponce">{POSTE_LE} {news.DATE} {PAR} {news.BY}</span></h2>
+    <h2>{news.TITRE} <br /> <span class="reponce">{POSTE_LE} {news.DATE} {PAR} {news.BY}</span></h2>
     <ul class="header">
       <li><a href="{news.FOR}">{news.COMMENTAIRE}</a></li>
     </ul>{news.TEXT}

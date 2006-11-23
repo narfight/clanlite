@@ -22,11 +22,11 @@
 	<form method="post" action="{ICI}"> 
 		<p>
 			<span><label for="user_module">{LOGIN}&nbsp;:</label></span>
-			<span><input name="user" type="text" id="user_module" onBlur="formverif(this.id,'nbr','2')" /></span>
+			<span><input name="user" type="text" id="user_module" onblur="formverif(this.id,'nbr','2')" /></span>
 		</p>
 		<p>
 			<span><label for="psw_module">{CODE}&nbsp;:</label></span>
-			<span><input name="psw" type="password" id="psw_module" onBlur="formverif(this.id,'nbr','4')" /></span>
+			<span><input name="psw" type="password" id="psw_module" onblur="formverif(this.id,'nbr','4')" /></span>
 		</p>
 		<p>
 			<span><label for="save_code_login">{SAVE}&nbsp;:</label></span>
@@ -43,11 +43,11 @@
 	<form method="post" action="{ICI}"> 
 		<p>
 			<span><label for="mail_ns_{ID}">{MAIL}&nbsp;:</label></span>
-			<span><input name="mail_ns" type="text" id="mail_ns_{ID}" onBlur="formverif(this.id,'mail','')" /></span>
+			<span><input name="mail_ns" type="text" id="mail_ns_{ID}" onblur="formverif(this.id,'mail','')" /></span>
 		</p>
 		<p>
 			<span><label for="mail_dell_{ID}">{DELL}&nbsp;:</label></span>
-			<span><input id="mail_dell_{ID}" name="action" type="checkbox" value="dell"></span>
+			<span><input id="mail_dell_{ID}" name="action" type="checkbox" value="dell" /></span>
 		</p>
 		<p>
 			<span>

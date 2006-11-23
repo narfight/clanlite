@@ -1,8 +1,8 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-	<form method="post" action="{ICI}">
-		<div class="big_cadre">
-			<h1>{TITRE_GESTION}</h1>
+	<div class="big_cadre">
+		<h1>{TITRE_GESTION}</h1>
+		<form method="post" action="{ICI}" class="visible">
 			<p>
 				<span><label for="titre">{TXT_TITRE}&nbsp;:</label></span>
 				<span><input name="titre" id="titre" type="text" value="{TITRE_TITRE}" onblur="formverif(this.id,'nbr','5')" /></span>
@@ -38,8 +38,8 @@
 					<!-- END rajouter --> 
 				</span>
 			</p>
-		</div>
-	</form>
+		</form>
+	</div>
 	<div class="big_cadre">
 		<h1>{TITRE_LISTE}</h1>
 		<div class="news">

@@ -1,7 +1,14 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 if (defined('CL_AUTH'))
 {
 	if( !empty($get_nfo_module) )
@@ -13,7 +20,7 @@ if (defined('CL_AUTH'))
 	{
 		secu_level_test(16);
 		$sql = "CREATE TABLE `".$config['prefix']."module_newsletter_".mysql_insert_id()."` (`id` mediumint(8) unsigned NOT NULL auto_increment, `mail` varchar(255) NOT NULL default '', PRIMARY KEY  (`id`))";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
@@ -23,7 +30,7 @@ if (defined('CL_AUTH'))
 	{
 		secu_level_test(16);
 		$sql = "DROP TABLE `".$config['prefix']."module_newsletter_".$_POST['for']."` ";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
@@ -58,9 +65,9 @@ if(!empty($_POST['Submit_newsletter']) && !empty($_POST['id']))
 	unset($_POST['Submit_newsletter']);
 	$root_path = './../';
 	$action_membre= 'where_newsletter';
-	include($root_path.'conf/template.php');
-	include($root_path.'conf/conf-php.php');
-	include($root_path.'conf/frame.php');
+	require($root_path.'conf/template.php');
+	require($root_path.'conf/conf-php.php');
+	require($root_path.'conf/frame.php');
 	$_POST = pure_var($_POST);
 	if (!empty($_POST['mail_ns']) && eregi("(.+)@(.+).([a-z]{2,4})$", $_POST['mail_ns']))
 	{
@@ -106,7 +113,7 @@ if(!empty($_POST['Submit_newsletter']) && !empty($_POST['id']))
 		'TITRE' => $langue['titre_newsletter']
 	));
 	$template->pparse('body_module');
-	include($root_path.'conf/frame.php');
+	require($root_path.'conf/frame.php');
 	return;
 }
 ?>

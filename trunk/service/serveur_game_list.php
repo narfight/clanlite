@@ -1,13 +1,20 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $action_membre = 'where_serveur_list';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path.'conf/frame.php');
-require_once($root_path."service/gsquery/gsQuery.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path.'conf/frame.php');
+require_once($root_path.'service/gsquery/gsQuery.php');
 $template->set_filenames(array('body' => 'liste_game_serveur.tpl'));
 $_GET['limite'] = (empty($_GET['limite']) || !is_numeric($_GET['limite']))? 0 : $_GET['limite'];
 $total = get_nbr_objet('game_server', '');
@@ -207,58 +214,59 @@ if (!empty($_GET['details']) && !empty($liste_serveur[$_GET['details']]) && is_a
 	$verif_frags='';
 	if(count($liste_serveur[$_GET['details']]['LISTE_PLAYER']))
 	{
+		$template->assign_block_vars('details.liste_joueur_visible', array(''));
 		foreach($liste_serveur[$_GET['details']]['LISTE_PLAYER'] as $player)
 		{
-			$template->assign_block_vars('details.players', array('NAME' => $player['name']));
+			$template->assign_block_vars('details.liste_joueur_visible.players', array('NAME' => $player['name']));
 			if ( isset($player['ping']) )
 			{
-				$template->assign_block_vars('details.players.list_ping', array('PING' => ( !empty($player['ping']) ) ? $player['ping'] : ''));
+				$template->assign_block_vars('details.liste_joueur_visible.players.list_ping', array('PING' => ( !empty($player['ping']) ) ? $player['ping'] : ''));
 				$verif_ping=1;
 			}
 			if ( isset($player['score']) )
 			{
-				$template->assign_block_vars('details.players.list_score', array('SCORE' => ( !empty($player['score']) ) ? $player['score'] : '0'));
+				$template->assign_block_vars('details.liste_joueur_visible.players.list_score', array('SCORE' => ( !empty($player['score']) ) ? $player['score'] : '0'));
 				$verif_score=1;
 			}
 			if ( isset($player['enemy']) )
 			{
-				$template->assign_block_vars('details.players.list_enemy', array('ENEMY' => ( !empty($player['enemy']) ) ? $player["enemy"] : '0'));
+				$template->assign_block_vars('details.liste_joueur_visible.players.list_enemy', array('ENEMY' => ( !empty($player['enemy']) ) ? $player["enemy"] : '0'));
 				$verif_enemy=1;
 			}
 			if ( isset($player['kia']) )
 			{
-				$template->assign_block_vars('details.players.list_kia', array('KIA' => ( !empty($player['kia']) ) ? $player['kia'] : '0'));
+				$template->assign_block_vars('details.liste_joueur_visible.players.list_kia', array('KIA' => ( !empty($player['kia']) ) ? $player['kia'] : '0'));
 				$verif_kia=1;
 			}
 			if ( isset($player['frags']) )
 			{
-				$template->assign_block_vars('details.players.list_frags', array('FRAGS' => ( !empty($player['frags']) ) ? $player['frags'] : '0'));
+				$template->assign_block_vars('details.liste_joueur_visible.players.list_frags', array('FRAGS' => ( !empty($player['frags']) ) ? $player['frags'] : '0'));
 				$verif_frags=1;
 			}
 		}
 		if($verif_ping == 1)
 		{
-			$template->assign_block_vars('details.tete_ping', array('PING' => $langue['ping_serveur_jeux']));
+			$template->assign_block_vars('details.liste_joueur_visible.tete_ping', array('PING' => $langue['ping_serveur_jeux']));
 		}
 		if($verif_score == 1)
 		{
-			$template->assign_block_vars('details.tete_score', array('SCORE' => $langue['score_serveur_jeux']));
+			$template->assign_block_vars('details.liste_joueur_visible.tete_score', array('SCORE' => $langue['score_serveur_jeux']));
 		}
 		if($verif_enemy == 1)
 		{
-			$template->assign_block_vars('details.tete_enemy', array('ENEMY' => $langue['enemy_serveur_jeux']));
+			$template->assign_block_vars('details.liste_joueur_visible.tete_enemy', array('ENEMY' => $langue['enemy_serveur_jeux']));
 		}
 		if($verif_kia == 1)
 		{
-			$template->assign_block_vars('details.tete_kia', array('KIA' => $langue['enemy_serveur_jeux']));
+			$template->assign_block_vars('details.liste_joueur_visible.tete_kia', array('KIA' => $langue['enemy_serveur_jeux']));
 		}
 		if($verif_frags == 1)
 		{
-			$template->assign_block_vars('details.tete_frags', array('FRAGS' => $langue['frags_serveur_jeux']));
+			$template->assign_block_vars('details.liste_joueur_visible.tete_frags', array('FRAGS' => $langue['frags_serveur_jeux']));
 		}
 	}
 }
 displayNextPreviousButtons($_GET['limite'],$total ,'multi_page', 'serveur_game_list.php');
 $template->pparse('body');
-include($root_path.'conf/frame.php'); 
+require($root_path.'conf/frame.php'); 
 ?>

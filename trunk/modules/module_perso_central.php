@@ -1,7 +1,14 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 if (defined('CL_AUTH'))
 {
 	if( !empty($get_nfo_module) )
@@ -15,7 +22,7 @@ if (defined('CL_AUTH'))
 	{
 		secu_level_test(16);
 		$sql = "INSERT INTO `".$config['prefix']."custom_menu` ( `id` , `ordre` , `text` , `url` , `bouge` , `frame` , `module_central` , `id_module` ) VALUES ('', '0', '".$_POST['nom']."', 'modules/module_perso_central.php?from=".mysql_insert_id()."', '0', '0', '1', '".mysql_insert_id()."')";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
@@ -25,7 +32,7 @@ if (defined('CL_AUTH'))
 	{
 		secu_level_test(16);
 		$sql = "DELETE FROM `".$config['prefix']."custom_menu` WHERE `id_module` = '".$_POST['for']."' LIMIT 1";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
@@ -37,9 +44,9 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_p_centra
 	$root_path = './../';
 	$action_membre= 'where_module_module_custom';
 	$niveau_secu = 16;
-	include($root_path.'conf/template.php');
-	include($root_path.'conf/conf-php.php');
-	include($root_path."controle/cook.php");
+	require($root_path.'conf/template.php');
+	require($root_path.'conf/conf-php.php');
+	require($root_path."controle/cook.php");
 	$id_module = (!empty($_POST['id_module']))? $_POST['id_module'] : $_GET['id_module'];
 	if ( !empty($_POST['Submit_module_p_centrale']) )
 	{
@@ -47,13 +54,13 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_p_centra
 		$serialisation = pure_var(serialize(array('contenu' => $_POST['contenu'], 'titre' => $_POST['titre'])), 'del', true);
 		$_POST = pure_var($_POST, 'del', true);
 		$sql = "UPDATE ".$config['prefix']."modules SET config='".$serialisation."' WHERE id ='".$id_module."'";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
 		//redirec_text($root_path."administration/modules.php" ,$langue['redirection_module_custom_edit'], 'admin');
 	}
-	include($root_path.'conf/frame_admin.php');
+	require($root_path.'conf/frame_admin.php');
 	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('body' => 'modules/module_perso_central.tpl'));
 	liste_smilies(true, '', 25);
@@ -74,16 +81,16 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_p_centra
 		'EDITER' => $langue['editer'],
 	));
 	$template->pparse('body');
-	include($root_path.'conf/frame_admin.php');
+	require($root_path.'conf/frame_admin.php');
 	return;
 }
 if (!empty($_GET['from']))
 {
 	$root_path = './../';
 	$action_membre = 'where_module_central';
-	include($root_path.'conf/template.php');
-	include($root_path.'conf/conf-php.php');
-	include($root_path.'conf/frame.php');
+	require($root_path.'conf/template.php');
+	require($root_path.'conf/conf-php.php');
+	require($root_path.'conf/frame.php');
 	$template->set_filenames(array('body' => 'divers_text.tpl'));
 	$sql = "SELECT config FROM ".$config['prefix']."modules WHERE id ='".intval($_GET['from'])."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
@@ -97,6 +104,6 @@ if (!empty($_GET['from']))
 		'TEXTE' => bbcode($recherche['contenu'], false),
 	));
 	$template->pparse('body');
-	include($root_path.'conf/frame.php'); 
+	require($root_path.'conf/frame.php'); 
 }
 ?>

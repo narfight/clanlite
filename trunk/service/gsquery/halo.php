@@ -29,7 +29,7 @@ require_once GSQUERY_DIR . 'gsQuery.php';
 
 /**
  * @brief Implements the protocol used by halo
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.1 $
  * @author Curtis Brown <webmaster@2dementia.com>
  * 
  */

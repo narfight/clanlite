@@ -1,6 +1,6 @@
-<form method="post" action="{GOTO_U}"> 
-	<div class="big_cadre">
-		<h1>{TITRE}</h1>
+<div class="big_cadre">
+	<h1>{TITRE}</h1>
+	<form method="post" action="{GOTO_U}" class="visible"> 
 		<!-- BEGIN erreur -->
 		<div class="news">
 			{erreur.TEXTE}
@@ -25,5 +25,5 @@
 			</span>
 			<span><a href="{LOST_U}">{LOST}</a></span>
 		</p>
-	</div>
-</form>
+	</form>
+</div>

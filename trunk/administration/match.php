@@ -1,19 +1,26 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $action_membre= 'where_admin_match';
 $niveau_secu = 14;
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
 if ( !empty($_POST['Submit']) )
 {
 	$date = mk_time ( $_POST['heure_match'] , $_POST['minute_match'] , 1 , $_POST['date2'] , $_POST['date1'] , $_POST['date3']);
 	$_POST = pure_var($_POST);
 	$sql = "INSERT INTO `".$config['prefix']."match` (date , info , le_clan , nombre_de_joueur , heure_msn, section) VALUES ('".$date."', '".$_POST['infoe']."', '".$_POST['clan']."', '".$_POST['joueur']."', '".$_POST['heure_msn']."', '".$_POST['section']."')";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -22,12 +29,12 @@ if ( !empty($_POST['Submit']) )
 if (!empty($_POST['del']))
 {
 	$sql = "DELETE FROM `".$config['prefix']."match` WHERE id ='".$_POST['id_match']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	$sql = "DELETE FROM `".$config['prefix']."match_inscription` WHERE id_match ='".$_POST['id_match']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -44,7 +51,7 @@ if (!empty($_POST['edit_save']))
 	}
 	redirec_text("match.php#".$_POST['id_match'],$langue['redirection_admin_match_edit'],'admin');
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_match.tpl'));
 liste_smilies(true, '', 25);
@@ -63,6 +70,7 @@ $template->assign_vars(array(
 	'CHOISIR' => $langue['choisir'],
 	'ALL_SECTION' => $langue['toutes_section'],
 	'TXT_DETAILS' => $langue['détails'],
+	'VOIR' => $langue['détails']
 ));
 if (!empty($_POST['Editer']))
 {
@@ -108,7 +116,7 @@ if ( !empty($action) )
 {
 	secu_level_test('9');
 	$sql = "UPDATE `".$config['prefix']."match_inscription` SET statu='".$action."' WHERE id='".$_POST['for']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -186,5 +194,5 @@ while ( ($liste_section = $rsql->s_array($get_section_liste)) )
 	));
 }
 $template->pparse('body');
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

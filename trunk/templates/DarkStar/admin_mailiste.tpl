@@ -1,4 +1,5 @@
 <div class="big_cadre">
+	<h1>{TITRE}</h1>
 	<!-- BEGIN apercu -->
 	<div class="big_cadre">
 		<h1>{apercu.TITRE}</h1>
@@ -10,7 +11,7 @@
 	<!-- END apercu -->
 	<div class="big_cadre">
 		<h1>{TITRE}</h1>
-		<form method="post" action="{ICI}">
+		<form method="post" action="{ICI}" class="visible">
 			<p>
 				<span><label for="no_section">{TXT_FOR}&nbsp;:</label></span>
 			</p>

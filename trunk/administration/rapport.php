@@ -1,13 +1,20 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $niveau_secu = 19;
 $action_membre= 'where_admin_rapport_match';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
 // envoyer le formulaire rempli
 if ( !empty($_POST['envoyer']) )
 { 
@@ -15,13 +22,13 @@ if ( !empty($_POST['envoyer']) )
 	{
 		// on enleve des listes des match
 		$sql = "DELETE FROM `".$config['prefix']."match` WHERE id ='".$_POST['id_match_del']."'";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
 		// on enleve les inscriptions pour le match
 		$sql = "DELETE FROM `".$config['prefix']."match_inscription` WHERE id_match ='".$_POST['id_match_del']."'";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
@@ -29,7 +36,7 @@ if ( !empty($_POST['envoyer']) )
 	$date = mk_time ( 1, 1, 1 ,$_POST['mm'] , $_POST['jj'] , $_POST['aaaa'] , 1 );
 	$_POST = pure_var($_POST);
 	$sql = "INSERT INTO `".$config['prefix']."match_rapport` (`date`, `section`, `contre`, `info`, `score_nous`, `score_eux`) VALUES ('".$date."', '".$_POST['section']."', '".$_POST['clan']."', '".$_POST['information']."', '".$_POST['score_clan']."', '".$_POST['score_mechant']."')"; 
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -38,7 +45,7 @@ if ( !empty($_POST['envoyer']) )
 if ( !empty($_POST['supprimer']) )
 {
 	$sql = "DELETE FROM `".$config['prefix']."match_rapport` WHERE id ='".$_POST['id']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -50,13 +57,13 @@ if ( !empty($_POST['edit']) )
 	$_POST = pure_var($_POST);
 	$date = mk_time ( 1 , 1 , 1 , $_POST['mm'] , $_POST['jj'] , $_POST['aaaa'] , 1 );
 	$sql = "UPDATE `".$config['prefix']."match_rapport` SET `date`='".$date."', `section`='".$_POST['section']."', `contre`='".$_POST['clan']."', `info`='".$_POST['information']."', `score_nous`='".$_POST['score_clan']."', `score_eux`='".$_POST['score_mechant']."' WHERE id='".$_POST['for']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	redirec_text('rapport.php', $langue['redirection_admin_rapport_match_edit'], 'admin');
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_rapport_match.tpl'));
 liste_smilies(true, '', 25);
@@ -88,7 +95,7 @@ while ( ($liste_match = $rsql->s_array($get)) )
 {
 	$template->assign_block_vars('liste_match', array( 
 		'ID_MATCH' => $liste_match['id'],
-		'NOM_MATCH' => date('j/n/Y', $liste_match[1])." -- contre les ".$liste_match[3]
+		'NOM_MATCH' => date('j/n/Y', $liste_match[1]).' -- '.$langue['contre_qui'].' '.$liste_match[3]
 	));
 }
 if ( !empty($_POST['importation']) )
@@ -102,9 +109,9 @@ if ( !empty($_POST['importation']) )
 	$import_match = $rsql->s_array($get);
 	$template->assign_vars(array(
 		'ID' => $import_match['id'],
-		'JJ' => date("j", $import_match['date']),
-		'MM' => date("n", $import_match['date']),
-		'AAAA' => date("Y", $import_match['date']),
+		'JJ' => date('j', $import_match['date']),
+		'MM' => date('n', $import_match['date']),
+		'AAAA' => date('Y', $import_match['date']),
 		'CLAN' => $import_match['le_clan'],
 		'INFO' => $import_match['info'],
 		'SELECTED_ALL' => ($import_match['section'] == 0)? 'selected="selected"' : '',
@@ -122,9 +129,9 @@ if ( !empty($_POST['editer']) )
 	$template->assign_block_vars('editer', array('EDITER' => $langue['editer']));
 	$template->assign_vars(array(
 		'ID' => $info_rapport_edit['id'],
-		'JJ' => date("j", $info_rapport_edit['date']),
-		'MM' => date("n", $info_rapport_edit['date']),
-		'AAAA' => date("Y", $info_rapport_edit['date']),
+		'JJ' => date('j', $info_rapport_edit['date']),
+		'MM' => date('n', $info_rapport_edit['date']),
+		'AAAA' => date('Y', $info_rapport_edit['date']),
 		'CLAN' => $info_rapport_edit['contre'],
 		'INFO' => $info_rapport_edit['info'],
 		'SCORE_NOUS' => $info_rapport_edit['score_nous'],
@@ -146,7 +153,7 @@ while ($liste_rapport = $rsql->s_array($get))
 	$template->assign_block_vars('liste', array( 
 		'ID' => $liste_rapport['id'],
 		'DATE' => date('j/n/Y', $liste_rapport['date']),
-		'TEAM' => (empty($liste_rapport['nom']))? $langue['toutes_section'] : $liste_rapport['nom'],
+		'SECTION' => (empty($liste_rapport['nom']))? $langue['toutes_section'] : $liste_rapport['nom'],
 		'CLAN' => $liste_rapport['contre'],
 		'INFO' => bbcode($liste_rapport['info']),
 		'SCORE_NOUS' => $liste_rapport['score_nous'],
@@ -170,5 +177,5 @@ while ( ($liste_section = $rsql->s_array($get)) )
 	));
 }
 $template->pparse('body');
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

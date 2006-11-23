@@ -25,12 +25,12 @@
  *
  */
 
-include_once GSQUERY_DIR . 'gsQuery.php';
+require_once GSQUERY_DIR . 'gsQuery.php';
 
 /**
  * @brief This class implements the protocol used by Savage
  * @author Curtis Brown <webmaster@2dementia.com>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  */
 class savage extends gsQuery
 {

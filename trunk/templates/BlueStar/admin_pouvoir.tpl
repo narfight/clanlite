@@ -1,6 +1,6 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-	<form method="post" action="{ICI}">
+	<form method="post" action="{ICI}" class="visible">
 		<table class="table">
 			<thead>
 				<tr>

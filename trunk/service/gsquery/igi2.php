@@ -30,7 +30,7 @@ require_once GSQUERY_DIR . 'gameSpy.php';
 /**
  * @brief Extends the gameSpy protocol to support IGI2
  * @author Curtis Brown (volfin1@earthlink.net)
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.1 $
  * @todo make teamnames available in teamnames array
  * @todo remove team scores from rules
  */

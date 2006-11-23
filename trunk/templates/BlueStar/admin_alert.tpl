@@ -1,8 +1,8 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-	<form method="post" action="{ICI}">
-		<div class="big_cadre">
-			<h1>{TITRE_GESTION}</h1>
+	<div class="big_cadre">
+		<h1>{TITRE_GESTION}</h1>
+		<form method="post" action="{ICI}" class="visible">
 			<p>
 				<span><label for="text">{TXT_TEXT}&nbsp;:</label></span>
 			</p>
@@ -47,8 +47,8 @@
 					<input name="for" type="hidden" value="{ID}" />
 				</span>
 			</p>
-		</div>
-	</form>
+		</form>
+	</div>
 	<SCRIPT language="JavaScript">
 	<!--
 		toggle_msg('auto_del_div', 'auto_del', 'true', 'checked');

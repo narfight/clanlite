@@ -30,7 +30,7 @@ require_once GSQUERY_DIR . 'gsQuery.php';
 /**
  * @brief Uses the openQuery protcol to communicate with the server
  * @author Curtis Brown <webmaster@2dementia.com>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.1 $
  *
  * The openQuery protocol comes from UDP Soft (creators of 'The All Seeing Eye')
  */
@@ -65,7 +65,7 @@ class openQuery extends gsQuery
     $this->maxplayers=$gamearray[9];
     $this->gametype=$gamearray[1];
     $this->gamename=$gamearray[1];
-    $this->gameversion='1.1'; // Queries weren't supported before 1.1
+    $this->gameversion=$gamearray[6];
     $this->servertitle=$gamearray[3];
     $this->mapname=$gamearray[5];
     $this->hostport=$gamearray[2];

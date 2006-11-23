@@ -1,13 +1,20 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $niveau_secu = 16;
 $action_membre = 'where_module';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
 if (!empty($_POST['envoyer']))
 { 
 	if (empty($_POST['module']))
@@ -17,26 +24,22 @@ if (!empty($_POST['envoyer']))
 	$_POST = pure_var($_POST);
 	$central = false;
 	$get_nfo_module = 1;
-	include($root_path."modules/".$_POST['module']);
+	require($root_path."modules/".$_POST['module']);
 	unset($get_nfo_module);
 	$sql = "INSERT INTO `".$config['prefix']."modules` (nom, ordre, place, call_page, etat) VALUES ('".$_POST['nom']."', '".$_POST['num']."', '".(($central)? 'centre' : $_POST['position'])."', '".$_POST['module']."', '".$_POST['activation']."')";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	$module_installtion = 1;
-	include($root_path.'modules/'.$_POST['module']);
+	require($root_path.'modules/'.$_POST['module']);
 	redirec_text('modules.php', $langue['redirection_module_add'], 'admin');
 }
 if (!empty($_POST['envois_edit']))
 {
-	if (empty($_POST['module']))
-	{
-		redirec_text('modules.php', $langue['redirection_module_erreur'], 'admin');
-	}
 	$_POST = pure_var($_POST);
-	$sql = "UPDATE `".$config['prefix']."modules` SET nom='".$_POST['nom']."', ordre='".$_POST['num']."', place='".$_POST['position']."', call_page='".$_POST['module']."', etat='".(($_POST['activation'] != 0)? 1 : 0)."' WHERE id='".$_POST['for']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	$sql = "UPDATE `".$config['prefix']."modules` SET nom='".$_POST['nom']."', ordre='".$_POST['num']."', place='".$_POST['position']."', etat='".(($_POST['activation'] != 0)? 1 : 0)."' WHERE id='".$_POST['for']."'";
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -48,15 +51,15 @@ if (!empty($_POST['envois_edit']))
 if (!empty($_POST['Supprimer']))
 {
 	$sql = "DELETE FROM `".$config['prefix']."modules` WHERE id ='".$_POST['for']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	$module_deinstaller = 1;
-	include($root_path.'modules/'.$_POST['call_page']);
+	require($root_path.'modules/'.$_POST['call_page']);
 	redirec_text('modules.php', $langue['redirection_module_dell'], 'admin');
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_modules.tpl'));
 if (!empty($_POST['Editer']))
@@ -76,6 +79,7 @@ if (!empty($_POST['Editer']))
 		'SELECTED_DROITE' => ( $edit_module['place'] == "droite") ? 'selected="selected"' : '',
 		'SELECTED_CENTRE' => ( $edit_module['place'] == "centre") ? 'selected="selected"' : '',
 		'ACTIVATION_OFF' => ( $edit_module['etat'] == 0)? 'checked="checked"' : '',
+		'EDIT_MODULE' => 'disabled="disabled',
 	));
 }
 else
@@ -145,9 +149,9 @@ if (is_dir($dir))
 		$get_nfo_module = 1;
 		while (($file = readdir($dh)) !== false)
 		{
-			if($file != '..' && $file !='.' && $file !='')
+			if($file != '..' && $file !='.' && $file !='' && eregi('.php', $file))
 			{ 
-				include($root_path.'modules/'.$file);
+				require($root_path.'modules/'.$file);
 				$select = ( !empty($edit_module['call_page']) && $file == $edit_module['call_page'] ) ? 'selected="selected"' : '';
 				$template->assign_block_vars('liste_module', array(
 					'VALEUR' => $file,
@@ -161,5 +165,5 @@ if (is_dir($dir))
 	}
 }
 $template->pparse('body');
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

@@ -30,7 +30,7 @@ require_once GSQUERY_DIR . 'quake.php';
 /**
  * @brief Uses the Quake 2 protcol to communicate with the server
  * @author Curtis Brown <volfin1@earthlink.net>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.1 $
  *
  * This class can communicate with most games based on the Quake 2
  * engine.

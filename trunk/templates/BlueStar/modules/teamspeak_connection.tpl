@@ -16,9 +16,9 @@
 </form>
 <!-- END teamspeak_connection --> 
 <!-- BEGIN teamspeak_connection_config -->
-<form method="post" action="connection_teamspeak.php">
-	<div class="big_cadre">
+<div class="big_cadre">
 	<h1>{teamspeak_connection_config.TITRE}</h1>
+	<form method="post" action="connection_teamspeak.php" class="visible">
 		<p>
 			<span><label for="ip_vocal">{teamspeak_connection_config.TXT_IP}&nbsp;:</label></span>
 			<span><input name="ip_vocal" type="text" id="ip_vocal" value="{teamspeak_connection_config.IP}" onblur="formverif(this.id,'nbr','3')"></span>
@@ -33,6 +33,6 @@
 				<input name="Submit_connect_ts_module" type="submit" id="Editer" value="{teamspeak_connection_config.EDITER}" /> 
 			</span>
 		</p>
-	</div>
-</form>
+	</form>
+</div>
 <!-- END teamspeak_connection_config -->

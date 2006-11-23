@@ -48,7 +48,7 @@ class deusEX extends gameSpy
     $this->infoCommand = '\\rules\\';
 
     // processing rules as basic info
-    // basic infos are included if and only if a basic query has been issued before
+    // basic infos are required if and only if a basic query has been issued before
     $result = parent::query_server($getPlayers, FALSE);
 
     $this->debug = array_merge($debug, $this->debug);

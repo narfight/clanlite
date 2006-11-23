@@ -30,7 +30,7 @@ require_once GSQUERY_DIR . 'q3a.php';
 /**
  * @brief Uses the Doom 3 protcol to communicate with the server
  * @author Jeremias Reith (jr@gsquery.org)
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.1 $
  *
  * Uses color code routines from q3a
  */

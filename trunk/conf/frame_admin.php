@@ -1,7 +1,14 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 if (!empty($page_frame_admin))
 {
 	$template = new Template($root_path.'templates/'.$config['skin']);
@@ -97,7 +104,7 @@ if ($user_pouvoir['particulier'] == 'admin' || in_array('oui', $user_pouvoir))
 	$get_nfo_module = 1;
 	while( $modules = $rsql->s_array($get_module) )
 	{
-		include($root_path.'modules/'.$modules['call_page']);
+		require($root_path.'modules/'.$modules['call_page']);
 		if ( !empty($filename) && !empty($nom) )
 		{
 			$template->assign_block_vars('menu_admin.list_module', array( 

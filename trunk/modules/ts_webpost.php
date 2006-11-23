@@ -1,12 +1,19 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 if ($_SERVER['HTTP_USER_AGENT'] == 'WebPost_UserAgent')
 {
 	$root_path = './../';
 	$action_membre='server_teamspeak_webpost';
-	include($root_path.'conf/conf-php.php');
+	require($root_path.'conf/conf-php.php');
 	// on vérifie que le serveur est bien lié à un module
 	// scan tout les serveurs de la db pour les users qui sont dedans
 	$sql = "SELECT `id` FROM ".$config['prefix']."modules WHERE `config` = '".serialize(array('ip' => $session_cl['ip'], 'port' => $_POST['server_port'], 'query_port' => $_POST['server_queryport']))."'";
@@ -19,14 +26,14 @@ if ($_SERVER['HTTP_USER_AGENT'] == 'WebPost_UserAgent')
 		//$_POST = pure_var($_POST);
 		// ajoute ou edit le serveur selon qu'il soit deja ou nom dans la db
 		$sql = "UPDATE `".$config['prefix']."module_webost_ts` SET `query_port` ='".$_POST['server_queryport']."', `version` ='".$_POST['server_version_major'].'.'.$_POST['server_version_major'].'.'.$_POST['server_version_minor'].'.'.$_POST['server_version_release'].'.'.$_POST['server_version_build']."', `name` ='".$_POST['server_name']."', `password` ='".$_POST['server_password']."', `max_user` ='".$_POST['clients_maximum']."', `country` ='".$_POST['server_ispcountry']."', `mail` ='".$_POST['server_adminemail']."',	`url` ='".$_POST['server_isplinkurl']."', `os` ='".$_POST['server_platform']."', `ispname` ='".$_POST['server_ispname']."', `up_time` ='".$_POST['server_uptime']."' WHERE `ip`='".$session_cl['ip']."' AND `port`='".$_POST['server_port']."'";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
 		if ($rsql->requete_nb_row() == 0)
 		{
 			$sql = "INSERT INTO `".$config['prefix']."module_webost_ts` (`ip` ,`port`, `query_port` , `version` , `name` , `password` , `max_user` , `country` , `mail` , `url` , `os` , `ispname` , `up_time`)	VALUES ('".$session_cl['ip']."', '".$_POST['server_port']."', '".$_POST['server_queryport']."', '".$_POST['server_version_major'].'.'.$_POST['server_version_major'].'.'.$_POST['server_version_minor'].'.'.$_POST['server_version_release'].'.'.$_POST['server_version_build']."', '".$_POST['server_name']."', '".$_POST['server_password']."', '".$_POST['clients_maximum']."', '".$_POST['server_ispcountry']."', '".$_POST['server_adminemail']."', '".$_POST['server_isplinkurl']."', '".$_POST['server_platform']."', '".$_POST['server_ispname']."', '".$_POST['server_uptime']."')";
-			if (! ($rsql->requete_sql($sql)) )
+			if (!$rsql->requete_sql($sql))
 			{
 				sql_error($sql, $rsql->error, __LINE__, __FILE__);
 			}
@@ -108,7 +115,7 @@ if ($_SERVER['HTTP_USER_AGENT'] == 'WebPost_UserAgent')
 				}
 				fclose($connection);
 				echo $sql = "UPDATE `".$config['prefix']."module_webost_ts` SET `users` ='".serialize($channel_data)."' WHERE `ip`='".$nfo_connect['ip']."' AND `port`='".$nfo_connect['port']."'";
-				if (! ($rsql->requete_sql($sql)) )
+				if (!$rsql->requete_sql($sql))
 				{
 					sql_error($sql, $rsql->error, __LINE__, __FILE__);
 				}
@@ -138,13 +145,13 @@ if (defined('CL_AUTH'))
 		if ($test['COUNT(id)'] == 1)
 		{
 			$sql = "CREATE TABLE `".$config['prefix']."module_webost_ts` ( `id` mediumint(8) unsigned NOT NULL auto_increment, `ip` varchar(15) NOT NULL default '', `port` smallint(5) unsigned NOT NULL default '0', `query_port` smallint(5) unsigned NOT NULL default '0', `version` varchar(30) NOT NULL default '', `up_time` int(11) unsigned NOT NULL default '0', `name` varchar(255) NOT NULL default '', `password` enum('0','1') NOT NULL default '0', `max_user` smallint(5) unsigned NOT NULL default '0', `country` varchar(255) NOT NULL default '', `mail` varchar(255) NOT NULL default '', `url` varchar(255) NOT NULL default '', `os` enum('Linux','Win32') NOT NULL default 'Linux', `ispname` varchar(255) NOT NULL default '', `users` longtext NOT NULL, PRIMARY KEY  (`id`))";
-			if (! ($rsql->requete_sql($sql)) )
+			if (!$rsql->requete_sql($sql))
 			{
 				sql_error($sql, $rsql->error, __LINE__, __FILE__);
 			}
 		}
 		$sql = "INSERT INTO `".$config['prefix']."custom_menu` ( `id` , `ordre` , `text` , `url` , `bouge` , `frame` , `module_central` , `id_module` ) VALUES ('', '0', '".$_POST['nom']."', 'modules/ts_webpost.php?from=".$id_insert."', '0', '0', '1', '".$id_insert."')";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
@@ -162,13 +169,13 @@ if (defined('CL_AUTH'))
 		if ($test['COUNT(id)'] == 0)
 		{
 			$sql = "DROP TABLE `".$config['prefix']."module_webost_ts`";
-			if (! ($rsql->requete_sql($sql)) )
+			if (!$rsql->requete_sql($sql))
 			{
 				sql_error($sql, $rsql->error, __LINE__, __FILE__);
 			}
 		}
 		$sql = "DELETE FROM `".$config['prefix']."custom_menu` WHERE `id_module` = '".$_POST['for']."' LIMIT 1";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
@@ -180,14 +187,14 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_webpost_
 	$root_path = './../';
 	$action_membre= 'where_module_webpost';
 	$niveau_secu = 16;
-	include($root_path.'conf/template.php');
-	include($root_path.'conf/conf-php.php');
-	include($root_path."controle/cook.php");
+	require($root_path.'conf/template.php');
+	require($root_path.'conf/conf-php.php');
+	require($root_path."controle/cook.php");
 	$id_module = (!empty($_POST['id_module']))? $_POST['id_module'] : $_GET['id_module'];
 	if ( !empty($_POST['Submit_module_webpost_centrale']) )
 	{
 		$sql = "UPDATE ".$config['prefix']."modules SET config='".serialize(array('ip' => $_POST['ip'], 'port' => $_POST['port'], 'query_port' => $_POST['query_port']))."' WHERE id ='".$id_module."'";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
@@ -213,7 +220,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_webpost_
 			redirec_text($root_path.'modules/ts_webpost.php?config_modul_admin=oui&id_module='.$id_module , $langue['erreur_webpost_no_reply'], 'admin');
 		}
 	}
-	include($root_path.'conf/frame_admin.php');
+	require($root_path.'conf/frame_admin.php');
 	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('body' => 'modules/ts_webpost.tpl'));
 	liste_smilies(true, '', 25);
@@ -238,16 +245,16 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_webpost_
 		'EDITER' => $langue['editer'],
 	));
 	$template->pparse('body');
-	include($root_path.'conf/frame_admin.php');
+	require($root_path.'conf/frame_admin.php');
 	return;
 }
 if (!empty($_GET['from']))
 {
 	$root_path = './../';
 	$action_membre = 'where_cl_module_webpost';
-	include($root_path.'conf/template.php');
-	include($root_path.'conf/conf-php.php');
-	include($root_path.'conf/frame.php');
+	require($root_path.'conf/template.php');
+	require($root_path.'conf/conf-php.php');
+	require($root_path.'conf/frame.php');
 	$template->set_filenames(array('body' => 'modules/ts_webpost.tpl'));
 	$_POST = pure_var($_POST);
 	$sql = "SELECT `config`, `nom` FROM `".$config['prefix']."modules` WHERE `id` ='".intval($_GET['from'])."'";
@@ -315,6 +322,6 @@ if (!empty($_GET['from']))
 		}
 	}
 	$template->pparse('body');
-	include($root_path.'conf/frame.php'); 
+	require($root_path.'conf/frame.php'); 
 }
 ?>

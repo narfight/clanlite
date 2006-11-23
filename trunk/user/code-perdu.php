@@ -1,14 +1,21 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = '../';
 $action_membre = 'where_lost_code';
-include($root_path.'conf/conf-php.php');
-include($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path.'conf/template.php');
 if (empty($_GET['activ_pw']) && empty($_POST['activ_pw']) && empty($_POST['mail']))
 {// envois le formulaire pour retrouver son code
-	include($root_path.'conf/frame.php');
+	require($root_path.'conf/frame.php');
 	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('body' => 'code-perdu.tpl'));
 	$template->assign_vars(array(
@@ -19,7 +26,7 @@ if (empty($_GET['activ_pw']) && empty($_POST['activ_pw']) && empty($_POST['mail'
 		'BT_ENVOYER' => $langue['envoyer'],
 	));
 	$template->pparse('body');
-	include($root_path.'conf/frame.php');
+	require($root_path.'conf/frame.php');
 }
 else
 {
@@ -34,7 +41,7 @@ else
 		if ( $info_lost = $rsql->s_array($get) )
 		{//la key est bonne
 			$sql = "UPDATE ".$config['prefix']."user SET tmp_code='', key_activ_code='', psw='".$info_lost['tmp_code']."' WHERE key_activ_code ='".$key_activ_code."'";
-			if (! ($rsql->requete_sql($sql)) )
+			if (!$rsql->requete_sql($sql))
 			{
 				sql_error($sql, $rsql->error, __LINE__, __FILE__);
 			}
@@ -79,12 +86,12 @@ else
 				}
 				//on change sont code
 				$sql = "UPDATE ".$config['prefix']."user SET tmp_code='".md5($news_code)."', key_activ_code='".$activation."' WHERE id ='".$info_lost['id']."'";
-				if (! ($rsql->requete_sql($sql)) )
+				if (!$rsql->requete_sql($sql))
 				{
 					sql_error($sql, $rsql->error, __LINE__, __FILE__);
 				}
 				// et on l'envois
-				include_once($root_path.'service/wamailer/class.mailer.php');
+				require_once($root_path.'service/wamailer/class.mailer.php');
 				$mailer = new Mailer();
 				$mailer->set_root($root_path.'service/wamailer/');
 				if ($config['send_mail'] == 'smtp')

@@ -1,12 +1,19 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $action_membre= 'where_profil';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path.'conf/frame.php');
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path.'conf/frame.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $sql = "SELECT user.*,user.nom AS user_nom, equipe.nom AS equipe_nom, section.nom AS section_nom, grade.nom AS grade_nom FROM ".$config['prefix']."user AS user LEFT JOIN ".$config['prefix']."section AS section ON section.id = user.section LEFT JOIN ".$config['prefix']."équipe as equipe ON equipe.id = user.equipe LEFT JOIN ".$config['prefix']."grades as grade ON grade.id = user.grade WHERE user.id = '".$_GET['link']."'";
 if (! ($get_p = $rsql->requete_sql($sql)) )
@@ -89,5 +96,5 @@ else
 {
 	msg('erreur', $langue['erreur_profil_no_found']);
 }
-include($root_path.'conf/frame.php');
+require($root_path.'conf/frame.php');
 ?>

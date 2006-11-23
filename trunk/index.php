@@ -1,10 +1,17 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'accueil.tpl'));
 $sql = "SELECT COUNT(id) FROM `".$config['prefix']."config_sond` GROUP BY id";

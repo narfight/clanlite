@@ -1,23 +1,30 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $action_membre= 'where_medaille';
 $niveau_secu = 7;
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
 if ( !empty($_POST['Submit']) )
 {
 	$sql = "UPDATE ".$config['prefix']."user SET medail='".((empty($_POST['medail1']))? '' : 1).",".((empty($_POST['medail2']))? '' : 1).",".((empty($_POST['medail3']))? '' : 1).",".((empty($_POST['medail4']))? '' : 1).",".((empty($_POST['medail5']))? '' : 1).",".((empty($_POST['medail6']))? '' : 1).",".((empty($_POST['medail7']))? '' : 1).",".((empty($_POST['medail8']))? '' : 1).",".((empty($_POST['medail9']))? '' : 1).",".((empty($_POST['medail10']))? '' : 1)."' WHERE id ='".$_POST['id']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	redirec_text($root_path."service/liste-des-membres.php", $langue['redirection_medaille'], 'admin');
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 $sql = "SELECT user,id,medail FROM `".$config['prefix']."user` WHERE id = '".$_POST['id']."'";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
@@ -49,5 +56,5 @@ else
 {
 	msg('erreur', $langue['erreur_profil_no_found']);
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>
