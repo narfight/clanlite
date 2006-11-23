@@ -3,7 +3,7 @@
 /*
  *  gsQuery - Querys game servers
  *  Copyright (c) 2002-2004 Jeremias Reith <jr@terragate.net>
- *  http://gsquery.terragate.net
+ *  http://www.gsquery.org
  *
  *  This file is part of the gsQuery library.
  *
@@ -31,7 +31,7 @@ include_once("gsQuery.php");
 /**
  * @brief Querys a halflife server
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: hlife.php,v 1.11 2004/05/22 17:01:39 jr Exp $
+ * @version $Id: hlife.php,v 1.14 2004/06/01 06:23:15 jr Exp $
  * @bug negative scores are not shown correctly 
  * @todo extract time field out of the player data
 
@@ -62,7 +62,11 @@ class hlife extends gsQuery
     for($i=1;$i<count($exploded_data);$i++) {
       switch($exploded_data[$i++]) {
       case "address":
-	list($ip, $this->hostport) = explode(":", $exploded_data[$i]);
+	if ($exploded_data[$i] == 'loopback') {
+	  $this->hostport = $this->queryport;
+	} else {
+	  list($ip, $this->hostport) = explode(":", $exploded_data[$i]);
+	}
 	break;
       case "hostname":
 	$this->servertitle = $exploded_data[$i];
@@ -85,7 +89,6 @@ class hlife extends gsQuery
 	break;
       }
     } 
-	$this->gametype = ($this->gametype == 'cstrike')? $this->gametype.' '.$this->gameversion : $this->gametype;
     
     // get players
     if($this->numplayers && $getPlayers) {
@@ -112,6 +115,7 @@ class hlife extends gsQuery
       $this->playerkeys["score"]=TRUE;
       $this->players=$players;
     }
+   $this->gametype = ($this->gametype == 'cstrike') ? $this->gametype.' '.$this->gameversion : $this->gametype;
     
     // get rules
     $command="\xFF\xFF\xFF\xFFrules\n";
@@ -139,6 +143,7 @@ class hlife extends gsQuery
 	}
       }
     }
+    $this->online = TRUE;
     return TRUE; 
   }
   

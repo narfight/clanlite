@@ -80,7 +80,7 @@
     <td>{liste.POSTEUR}</td> 
       <td>
 		<form action="entrainements.php" method="post"> 
-			<input name="dell" type="submit" value="{liste.SUPPRIMER}" /> 
+			<input name="dell" type="submit" value="{liste.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" /> 
 			<input name="for" type="hidden" value="{liste.ID}" /> 
 			<input name="edit" type="submit" value="{liste.EDITER}" /> 
 		</form> 

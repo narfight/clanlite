@@ -42,7 +42,6 @@ if ( $user_pouvoir['particulier'] == "admin" || in_array('oui', $user_pouvoir))
 		'DEMANDE_MATCH' => $langue['titre_defit_admin'],
 		'EQUIPE' => $langue['titre_equipe'],
 		'GAME_SERVEUR' => $langue['titre_game_server'],
-		'GRADE' => $langue['titre_grade'],
 		'LIENS' => $langue['titre_liens_admin'],
 		'MATCH' => $langue['titre_admin_match'],
 		'MENU_EDIT' => $langue['titre_custom_menu'],
@@ -57,6 +56,10 @@ if ( $user_pouvoir['particulier'] == "admin" || in_array('oui', $user_pouvoir))
 		'ENTRAINEMENT' => $langue['titre_entrain'],
 		'MAILLINGLISTE' => $langue['titre_admin_mailiste'],
 	));
+	if ($config['show_grade'] == 1)
+	{
+		$template->assign_block_vars('menu_admin.grade', array('GRADE' => $langue['titre_grade']));
+	}
 	$sql = "SELECT id,nom,place,call_page,config FROM `".$config['prefix']."modules`";
 	if (! ($get_module = $rsql->requete_sql($sql)) )
 	{

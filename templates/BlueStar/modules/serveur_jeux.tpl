@@ -4,13 +4,16 @@
 	{TXT_NEXT_MAP} : <span class="reponce">{NEXT_MAP}</span><br />
 	{TXT_PLACE} :<span class="reponce">{PLAYER}</span>/<span class="reponce">{PLACE}</span><br />
 	{TXT_GAME_TYPE} :<span class="reponce">{GAME_TYPE}</span><br />
-	Liste des joueurs :
-<marquee width="170" height="100" scrollamount="1" scrolldelay=20 direction="up" onMouseover="this.scrollAmount=0" onMouseout="this.scrollAmount=1">
-		{LISTE}
-</marquee>
+	{LISTE}
 <!-- END serveur_jeux -->
+<!-- BEGIN total_liste -->
+	{TXT_LISTE} :
+<marquee width="170" height="100" scrollamount="1" scrolldelay=20 direction="up" onMouseover="this.scrollAmount=0" onMouseout="this.scrollAmount=1">
+	{LISTE}
+</marquee>
+<!-- END total_liste -->
 <!-- BEGIN serveur_jeux_boucle --> 
-    <div class="{COLOR}">{NAME}</div>
+<div class="{COLOR}">{NAME}</div>
 <!-- END serveur_jeux_boucle --> 
 <!-- BEGIN serveur_config -->
 	<form method="post" action="serveur_jeux.php">

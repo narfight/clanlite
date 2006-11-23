@@ -44,6 +44,7 @@ $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'admin_entrainements.tpl'));
 liste_smilies(true, '', 25);
 $template->assign_vars( array( 
+	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'TITRE' => $langue['titre_entrain'],
 	'TITRE_GESTION' => $langue['titre_entrain_gestion'],
 	'TITRE_LISTE' => $langue['titre_entrain_list'],

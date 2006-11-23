@@ -53,18 +53,6 @@ if (defined('CL_AUTH'))
 		$tpl = preg_replace('#<!-- BEGIN (.*?) -->(.*?)<!-- END (.*?) -->#', "\n" . '$block[\'\\1\'] = \'\\2\';', $tpl);
 		eval($tpl);
 		
-		// liste des joueurs
-		$serveur_jeux_boucle = '';
-		if(count($gameserver['players']))
-		{
-			$color = '';
-			foreach($gameserver['players'] as $player)
-			{
-				$color = ($color == "table-cellule")? "table-cellule-2" : "table-cellule";
-				$serveur_jeux_boucle_beta = str_replace('{NAME}', $player["name"], $block['serveur_jeux_boucle']);
-				$serveur_jeux_boucle .= str_replace('{COLOR}', $color, $serveur_jeux_boucle_beta);
-			}
-		}
 		$block['serveur_jeux'] = str_replace('{TXT_IP}', $langue['ip'], $block['serveur_jeux']);
 		$block['serveur_jeux'] = str_replace('{IP}', $module_game['ip']." : ".$module_game['port'], $block['serveur_jeux']);
 		$block['serveur_jeux'] = str_replace('{TXT_CURRENT_MAP}', $langue['map_serveur_jeux'], $block['serveur_jeux']);
@@ -77,7 +65,24 @@ if (defined('CL_AUTH'))
 		$block['serveur_jeux'] = str_replace('{GAME_TYPE}', $gameserver['gametype'], $block['serveur_jeux']);
 		$block['serveur_jeux'] = str_replace('{TXT_PLACE}', $langue['nbr_place_serveur_jeux'], $block['serveur_jeux']);
 		$block['serveur_jeux'] = str_replace('{PLACE}', $gameserver['maxplayers'], $block['serveur_jeux']);
-		$block['serveur_jeux'] = str_replace('{LISTE}', $serveur_jeux_boucle, $block['serveur_jeux']);
+		// liste des joueurs
+		if(count($gameserver['players']))
+		{
+			$serveur_jeux_boucle = '';
+			$color = '';
+			foreach($gameserver['players'] as $player)
+			{
+				$color = ($color == "table-cellule")? "table-cellule-2" : "table-cellule";
+				$serveur_jeux_boucle_beta = str_replace('{NAME}', $player["name"], $block['serveur_jeux_boucle']);
+				$serveur_jeux_boucle .= str_replace('{COLOR}', $color, $serveur_jeux_boucle_beta);
+			}
+			$block['serveur_jeux'] = str_replace('{LISTE}', str_replace('{LISTE}', $serveur_jeux_boucle, $block['total_liste']), $block['serveur_jeux']);
+			$block['serveur_jeux'] = str_replace('{TXT_LISTE}', $langue['liste_joueur_serveur_jeux'], $block['serveur_jeux']);
+		}
+		else
+		{
+			$block['serveur_jeux'] = str_replace('{LISTE}', '', $block['serveur_jeux']);
+		}
 		$template->assign_block_vars("modules_".$modules['place'], array( 
 			'TITRE' => $modules['nom'],
 			'IN' => $block['serveur_jeux']

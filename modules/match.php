@@ -24,7 +24,7 @@ if (defined('CL_AUTH'))
 	// strip newlines.
 	$tpl  = str_replace("\n", '', $tpl);
 	
-	$sql = "SELECT a.*, section.nom  FROM `".$config['prefix']."match` a LEFT JOIN ".$config['prefix']."section section ON a.section = section.id ORDER BY a.date ASC LIMIT 1";
+	$sql = "SELECT a.*, section.nom  FROM `".$config['prefix']."match` a LEFT JOIN ".$config['prefix']."section section ON a.section = section.id WHERE a.date > '".(time()-60*60*2) ."' ORDER BY a.date ASC LIMIT 1";
 	if (! ($get = $rsql->requete_sql($sql, 'module', 'Prend le prochain match')) )
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);

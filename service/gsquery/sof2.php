@@ -32,7 +32,7 @@ include_once("q3a.php");
 /**
  * @brief Uses the Quake 3 protcol to communicate with the server
  * @author Narfight (Jean-Pierre Sneyers) <narfight@lna.be>
- * @version $Id: sof2.php,v 1.2 2004/05/17 05:49:14 jr Exp $
+ * @version $Id: sof2.php,v 1.3 2004/05/29 14:33:59 jr Exp $
  *
  * This class is capable of translating color tags from SOF2.
  */
@@ -50,19 +50,19 @@ class sof2 extends q3a
   {
     $var = htmlspecialchars($var);
 
-    while(ereg("\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])", $var)) {
-      if (ereg("\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])(.*)\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])", $var)) {
-	$var = preg_replace("#\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])(.*)\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])#Usi", "<span class=\"gsquery-$1\">$2</span>^$3", $var);
+    while(ereg("\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|\.|\?|-|_])", $var)) {
+      if (ereg("\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|\.|\?|-|_])(.*)\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|\.|\?|-|_])", $var)) {
+	$var = preg_replace("#\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|\.|\?|-|_])(.*)\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|\.|\?|-|_])#Usi", "<span class=\"gsquery-$1\">$2</span>^$3", $var);
       } else {
-	$var = preg_replace("#\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])(.*)$#Usi", "<span class=\"gsquery-$1\">$2</span>", $var);
+	$var = preg_replace("#\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|\.|\?|-|_])(.*)$#Usi", "<span class=\"gsquery-$1\">$2</span>", $var);
       }
     }
     // replace illegal css
-    $var = str_replace("gsquery-&", "gsquery-et", $var);
-    $var = str_replace("gsquery-'", "gsquery-apos", $var);
-    $var = str_replace("gsquery-)", "gsquery-par", $var);
-    $var = str_replace("gsquery-=", "gsquery-egal", $var);
-    $var = str_replace("gsquery-?", "gsquery-ques", $var);
+    $var = str_replace("gsquery-&", "gsquery-and", $var);
+    $var = str_replace("gsquery-'", "gsquery-tick", $var);
+    $var = str_replace("gsquery-)", "gsquery-cbracket", $var);
+    $var = str_replace("gsquery-=", "gsquery-equal", $var);
+    $var = str_replace("gsquery-?", "gsquery-questionmark", $var);
     $var = str_replace("gsquery-.", "gsquery-point", $var);
     
     return $var;    

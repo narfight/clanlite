@@ -12,7 +12,7 @@ if( !empty($_POST['Submit']) )
 {
 	foreach ($_POST as $config_name => $config_value)
 	{
-		$sql = "UPDATE ".$config['prefix']."config SET conf_valeur='".htmlspecialchars($config_value, ENT_QUOTES)."' WHERE conf_nom='".htmlspecialchars($config_name, ENT_QUOTES)."'";
+		$sql = "UPDATE ".$config['prefix']."config SET conf_valeur='".pure_var($config_value)."' WHERE conf_nom='".htmlspecialchars($config_name, ENT_QUOTES)."'";
 		if (! $rsql->requete_sql($sql) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -179,6 +179,16 @@ $template->assign_vars( array(
 	'SMTP_CODE' => $config['smtp_code'],
 	'TXT_SMTP_LOGIN' => $langue['config_smtp_login'],
 	'SMTP_LOGIN' => $config['smtp_login'],
+	'TXT_SCAN_GAME_SERVER' => $langue['config_scan_game_server'],
+	'TXT_HELP_SCAN_GAME_SERVER' => $langue['config_help_scan_game_server'],
+	'SCAN_GAME_SERVER' => $config['scan_game_server'],
+	'TXT_SCAN_GAME_SERVER_UDP' => $langue['config_scan_game_server_udp'],
+	'TXT_SCAN_GAME_SERVER_HTTP' => $langue['config_scan_game_server_http'],
+	'SELECT_SCAN_UDP' => ( 'udp' == $config['scan_game_server'] ) ? 'selected="selected"' : '',
+	'SELECT_SCAN_HTTP' => ( 'http' == $config['scan_game_server'] ) ? 'selected="selected"' : '',
+	'TXT_SHOW_GRADE' => $langue['config_show_grade'],
+	'SHOW_GRADE_1' => ( '1' == $config['show_grade'] ) ? 'selected="selected"' : '',
+	'SHOW_GRADE_0' => ( '0' == $config['show_grade'] ) ? 'selected="selected"' : '',
 ));
 $template->pparse('body');
 include($root_path."conf/frame_admin.php");

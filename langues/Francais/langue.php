@@ -50,8 +50,13 @@ $langue['poste_par'] = "par";
 $langue['0_reaction'] = "Il n'y a pas de réactions";
 $langue['1_reaction'] = "Il a <b>une</b> réaction";
 $langue['plus_reaction'] = "Il y a eu %s réactions";
+$langue['reaction_add'] = "Votre réaction a été ajoutée";
+$langue['reaction_dell'] = "La réaction est supprimée";
+$langue['reaction_login'] = "Cliquez ici si vous êtes membre du clan";
+$langue['erreur_news_no_found'] = "La News n'a pas été trouvée";
 
 $langue['frame_erreur_id'] = "Le id du site à afficher dans une Iframe n'est pas trouvé";
+$langue['where_rss'] = "Utilise le system de News RSS";
 
 $langue['titre_liens'] = "Nos liens";
 $langue['where_liens'] = "Regarde les liens";
@@ -141,12 +146,12 @@ $langue['cri_guerre'] = "Cri de guerre";
 $langue['roles'] = "Rôle dans le clan";
 $langue['histoire'] = "Petite histoire";
 $langue['alt_medaille'] = "Médaille offerte à ce membre";
-$langue['erreur_profil_no_found'] = "Le profil que vous voulez voir n'existe pas";
+$langue['erreur_profil_no_found'] = "Le profil que vous voulez voir/modifier n'existe pas";
 
 $langue['titre_match_rapport'] = "Les résultats des matchs";
 $langue['where_match_rapport'] = "Regarde les matchs joués";
 $langue['score_nous'] = "Score de la team";
-$langue['score_eux'] = "Leurs scores";
+$langue['score_eux'] = "Leurs score";
 $langue['resume_match_gagnee'] = "Nombre de match gagné";
 $langue['resume_match_perdu'] = "Nombre de match perdu";
 $langue['resume_match_norm'] = "Nombre d'égalitée";
@@ -201,7 +206,7 @@ $langue['user_envois_mailinvalideenvoye'] = "un e-mail vous a été envoyé avec un
 $langue['titre_mail_codeperdu'] = "Votre nouveau code pour le site des %s";
 $langue['corps_mail_codeperdu'] = "Bonjour %1\$s,\nVoici votre login et votre nouveau code :\nVotre code: %2\$s\nVotre login: %3\$s\nPour activer ce nouveau code, vous devez vous diriger sur cette URL : %4\$suser/code-perdu.php?activ_pw=%5\$s\n_________________\npour toute question : ".$config['master_mail'];
 
-$langue['titre_admin_edit_user'] = "Gestion administrative du membre";
+$langue['titre_admin_edit_user'] = "Gestion administrative de %1\$s";
 $langue['where_admin_edit_user'] = "Édite le compte d'un membre";
 $langue['where_edit_user'] = "Édite son profil";
 $langue['titre_edit_user'] = "Édition de votre compte";
@@ -214,6 +219,7 @@ $langue['admin_divers_nfo'] = "Quelques informations";
 $langue['admin_user_nfo'] = "Avertissement au sujet des membres";
 $langue['admin_nombre_membre'] = "Nombre de membres dans le clan";
 $langue['admin_nombre_match'] = "Nombre de matchs prévus";
+$langue['admin_nombre_old_match'] = "Nombre de vieux match qui attendent leurs rapport";
 $langue['admin_nombre_demande_match'] = "Nombre de demandes de matchs en attente";
 $langue['user_verif'] = "Vérifier !!!";
 $langue['user_ok'] = "Ok";
@@ -251,6 +257,7 @@ $langue['redirection_txt_vide'] = "Les modifications ont été éxécutées<br />Cliq
 $langue['redirection_txt_nonvide'] = "%1\$s<br />Cliquez <a href=\"%2\$s\">ici</a> si vous n'êtes pas redirigé après 3s";
 
 // Les modules officiel
+$langue['where_module_central'] = "Regarde un module central";
 $langue['module_compteur'] = "Il y a eu %1\$d visiteurs et il y a %2\$d connecté(s)";
 
 $langue['module_mp3'] = "Vous écoutez %1\$s qui vous chante \"%2\$s\"";
@@ -273,6 +280,13 @@ $langue['redirection_module_partenaire_edit'] = "Le partenaire a été mis à jour"
 $langue['redirection_module_partenaire_dell'] = "Le partenaire a été supprimé";
 $langue['module_partenaire_nom'] = "Nom du site";
 
+$langue['where_module_module_custom'] = "Modifie un module perso";
+$langue['titre_module_module_custom'] = "Module perso [Module]";
+$langue['titre_module_module_custom_c'] = "Module perso [Module Central]";
+$langue['module_custom_contenu'] = "Contenu du module";
+$langue['module_custom_titre'] = "Titre du module";
+$langue['redirection_module_custom_edit'] = "Le module perso a été mis à jour";
+
 $langue['where_module_connect_ts'] = "Gère la connection au Teamspeak";
 $langue['titre_module_connect_ts'] = "Connection Teamspeak [Module]";
 $langue['redirection_module_connect_ts_edit'] = "L'adresse du serveur Teamspeak a été mis à jour";
@@ -293,6 +307,24 @@ $langue['ticker_nsd_module_ticker_ts'] = "Emplacement de ticker_nsd.php";
 $langue['webpost_module_ticker_ts'] = "Emplacement du WebPost";
 $langue['redirection_module_ticker_ts_edit'] = "Le Webpost a été mis à jours";
 $langue['offline_module_ticker_ts'] = "La liste des serveurs est indisponible";
+
+$langue['titre_newsletter'] = "Newsletter";
+$langue['where_newsletter'] = "Ajoute son e-mail à une newsletter";
+$langue['newsletter_send_ok'] = "Vous avez bien été ajouté à la liste de la Newsletter";
+$langue['newsletter_doublon'] = "Vous etes dèjà inscrit à cette Newsletter";
+$langue['newsletter_deinscription'] = "Déinscription";
+$langue['newsletter_deinscription_ok'] = "Vous e-mail a été supprimé de la liste";
+$langue['newsletter_mailiste_send'] = "Pour la Newsletter";
+
+$langue['where_module_webpost'] = "Gère le module de Webpost";
+$langue['server_teamspeak_webpost'] = "Serveur Teamspeak qui envoit des infos";
+$langue['where_cl_module_webpost'] = "Regarde un Webpost";
+$langue['titre_module_webpost'] = "TeamSpeak Webpost [Module]";
+$langue['module_webpost_titre_aide'] = "Configurer le serveur TeamSpeak";
+$langue['module_webpost_txt_aide'] = "Dans l'administration web de votre serveur TeamSpeak, dirigez-vous sur \"Server settings\" et remplicez le champ \"Server WebPost PostUrl\" comme ceci : %s<br />\nL'affichage serra actualisé toutes les 5minutes par le serveur si il est bien configurer";
+$langue['erreur_webpost_bad_port'] = "Le serveur TeamSpeak dit que votre serveur n'existe pas, vérifiez votre port";
+$langue['erreur_webpost_no_reply'] = "Le serveur TeamSpeak ne répond pas, vérifiez votre IP";
+$langue['module_webpost_add'] = "Attendez quelques minutes pour que le serveur envoit les informations de bases";
 // partie administration de CL
 $langue['prive_titre_page'] = "Partie privée du site";
 $langue['menu_titre_admin'] = "Administration";
@@ -312,7 +344,7 @@ $langue['heure_dell_alert'] = "heure de suppresion";
 $langue['opt_auto_dell_alert'] = "Supprimer automatiquement à une date";
 $langue['opt_auto_dell_desactiver'] = "Aucune";
 
-$langue['titre_config_site'] = "Configuration général";
+$langue['titre_config_site'] = "Configuration générale";
 $langue['config_site_base_titre'] = "Configuration de base";
 $langue['config_site_avancée_titre'] = "Configuration avancée";
 $langue['config_inscription_titre'] = "Les inscriptions";
@@ -352,6 +384,11 @@ $langue['config_smtp_server_ip'] = "Serveur SMTP";
 $langue['config_smtp_server_port'] = "Port du serveur SMTP";
 $langue['config_smtp_code'] = "Mot de passe SMTP";
 $langue['config_smtp_login'] = "Nom d'utilisateur SMTP";
+$langue['config_scan_game_server'] = "Scan les serveurs de jeux";
+$langue['config_scan_game_server_udp'] = "Par UDP";
+$langue['config_scan_game_server_http'] = "Par HTTP";
+$langue['config_help_scan_game_server'] = "Essayez l\'une ou l\'autre option si vous n\'arrivez pas a afficher les informations sur votre serveur de jeux";
+$langue['config_show_grade'] = "Activer la gestion des grades pour les membres du clan";
 
 $langue['where_defit_admin'] = "Regarde les demandes des autres clans pour un futur match";
 $langue['titre_defit_admin'] = "Demandes de rencontres";
@@ -385,7 +422,7 @@ $langue['group_fichier'] = "Dans le groupe";
 
 $langue['where_medaille'] = "Gère les médailles d'un membre";
 $langue['redirection_medaille'] = "Les médailles ont été changées";
-$langue['titre_medaille'] = "Gestion des médailles";
+$langue['titre_medaille'] = "Gestion des médailles de %1\$s";
 
 $langue['where_entrain'] = "Est dans l'administration des entraînements";
 $langue['titre_entrain'] = "Les entraînements";
@@ -433,7 +470,7 @@ $langue['redirection_liens_dell'] = "Le lien est bien supprimé";
 $langue['liens_nom_site'] = "Titre du liens";
 $langue['liens_url_site'] = "L'URL";
 $langue['liens_image_site'] = "Bannière";
-$langue['liens_test_url'] = "Tester le liens";
+$langue['liens_test_url'] = "Tester le lien";
 
 $langue['where_admin_match'] = "Est dans l'administration des matchs";
 $langue['titre_admin_match'] = "Les matchs";
@@ -448,7 +485,7 @@ $langue['add_team_demande'] = "Demande";
 
 $langue['where_custom_menu'] = "Est dans l'administration du menu";
 $langue['titre_custom_menu'] = "Édition du menu";
-$langue['titre_custom_menu_gestion'] = "Gestion du liens";
+$langue['titre_custom_menu_gestion'] = "Gestion des liens";
 $langue['titre_custom_menu_list'] = "La liste des liens";
 $langue['redirection_custom_menu_add'] = "Le lien à ajouter";
 $langue['redirection_custom_menu_edit'] = "Le lien a été mis à jour";
@@ -474,6 +511,7 @@ $langue['fichier_mosule'] = "Le module";
 $langue['position_module'] = "Afficher à";
 $langue['module_gauche'] = "Gauche";
 $langue['module_droite'] = "Droite";
+$langue['module_centre'] = "Centre";
 $langue['module_etat'] = "État";
 $langue['module_on'] = "Activé";
 $langue['module_off'] = "Désactivé";
@@ -503,7 +541,7 @@ $langue['admin_news_titre'] = "Titre";
 $langue['admin_news_corps'] = "La news";
 
 $langue['where_pouvoir'] = "Est dans la gestion des pouvoirs d'un membre";
-$langue['titre_pouvoir'] = "Gestion des pouvoirs";
+$langue['titre_pouvoir'] = "Gestion des pouvoirs de %1\$s";
 $langue['pv_num_1'] = "Gestion des alertes";
 $langue['pv_num_2'] = "Configuration du site";
 $langue['pv_num_3'] = "Gestion des demandes de match";
@@ -528,6 +566,7 @@ $langue['pv_num_21'] = "Gestion des sections";
 $langue['pv_num_22'] = "Supprimer un membre";
 $langue['pv_num_23'] = "Gestion des smilies";
 $langue['pv_num_24'] = "Envois mail de masse";
+$langue['redirection_pouvoir_edit'] = "les pouvoirs ont été mis a jours, vous allez etre rediriger sur la liste des membres";
 
 $langue['where_admin_rapport_match'] = "Est dans l'administration des rapports de match";
 $langue['titre_admin_rapport_match'] = "Les rapports de match";
@@ -584,11 +623,13 @@ $langue['smilie_images'] = "Le smilies";
 $langue['smilie_text'] = "Commande";
 $langue['smilie_def'] = "Définition";
 
-$langue['where_admin_mailiste'] = "Envoit a tout les membres";
+$langue['where_admin_mailiste'] = "Envoit un mail de masse";
 $langue['titre_admin_mailiste'] = "Mail de masse";
 $langue['redirection_admin_mailiste_add'] = "Les emails ont été envoyés";
 $langue['mailiste_subject'] = "Objet";
 $langue['mailiste_corps'] = "Corps";
+$langue['mailiste_qui'] = "Envoyer à";
+$langue['mailiste_sans_section'] = "Membre sans section";
 
 $langue['where_admin_section'] = "Est dans l'administration des sections";
 $langue['titre_admin_section'] = "Les sections";
@@ -598,10 +639,12 @@ $langue['redirection_admin_section_add'] = "La section à ajouter";
 $langue['redirection_admin_section_edit'] = "La section a été mise à jour";
 $langue['redirection_admin_section_dell'] = "La section est bien supprimée, tous les membres qui y étaient se retrouvent sans section";
 $langue['admin_section_nom'] = "Nom";
+$langue['admin_section_titre_limite'] = "Limité";
 $langue['admin_section_limite'] = "Ne peut voir que les matchs de sa section";
 $langue['admin_section_limite_true'] = "Limité";
 $langue['admin_section_limite_false'] = "Peut participer à tous les matchs";
-$langue['admin_section_titre_limite'] = "Limité";
+$langue['admin_section_titre_visible'] = "Visibilité";
+$langue['admin_section_visible'] = "Visible dans la partie publique";
 $langue['help_section'] = "<b>Explication :</b> Les sections sont surtout quand le clan à beaucoup de membres, pour faire une section A et une section B par exemple, et dans chaque section, il y aura les équipes";
 
 // texte de formulaire
@@ -628,6 +671,7 @@ $langue['alt_image_profil'] = "Votre image";
 $langue['form_histoire'] = "Votre histoire";
 
 // souvent utilisé
+$langue['confirm_dell'] = "Etes-vous certain de vouloir supprimer ceci ?";
 $langue['show/hide_smilies'] = "Plus de Smilies";
 $langue['alt_aide'] = "Information en plus, aide";
 $langue['date_format'] = '(jj-mm-aaaa)';
@@ -648,12 +692,13 @@ $langue['query_port'] = "Query Port";
 $langue['protocol'] = "Protocol";
 $langue['grade'] = "Grade";
 $langue['role'] = "Rôle";
-$langue['msn'] = "MSN Messenger";
+$langue['msn'] = "MSN M";
 $langue['alt_msn'] = "MSN Messenger";
 $langue['alt_mail'] = "E-mail";
 $langue['alt_profil'] = "Voir son profil";
 $langue['numero'] = "n°";
 $langue['medailles'] = "Médailles";
+$langue['avatar'] = "L'image";
 $langue['pouvoirs'] = "Pouvoirs";
 $langue['equipe'] = "Équipe";
 $langue['section'] = "Section";
@@ -664,12 +709,14 @@ $langue['inconnu'] = "Indéterminé";
 $langue['adr_exp'] = "Adresse expéditeur";
 $langue['adr_retour'] = "Adresse de retour";
 $langue['envoyer_a'] = "Envoyer à";
+$langue['apercu'] = "Prévisualisation";
 
 $langue['envoyer'] = "Envoyer";
 $langue['editer'] = "Editer";
 $langue['supprimer'] = "Supprimer";
 $langue['choisir'] = "Choisir";
 
+$langue['active'] = "Activer";
 $langue['desactive'] = "Désactiver";
 $langue['user'] = "Membre";
 $langue['admin'] = "Administrateur";

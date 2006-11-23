@@ -1,4 +1,5 @@
 <?php
+ob_start('ob_gzhandler'); 
 @include($root_path."config.php");
 include($root_path."conf/mysql.php");
 include($root_path."conf/session.php");
@@ -7,7 +8,6 @@ if (!defined('CL_INSTALL'))
 {// clanlite non installé, on y va alors
 	redirection($root_path.'install/install.php');
 }
-ob_start('ob_gzhandler'); 
 define('CL_AUTH', true);
 $rsql = new mysql();
 $config['securitee'] = "no";

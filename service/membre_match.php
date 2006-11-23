@@ -33,7 +33,7 @@ if (!empty($_POST['match']))
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
 		redirec_text("membre_match.php", $langue['user_envois_annule_demande'], "admin");
-		}
+	}
 }
 include($root_path."conf/frame_admin.php");
 $template = new Template($root_path."templates/".$config['skin']);
@@ -67,13 +67,15 @@ while ( ($list_user = $rsql->s_array($get_joueur)) )
 {
 	$liste_user_match[$list_user['id_match']][$list_user['statu']][$list_user['user']] = $list_user['user'];
 }
-$sql = "SELECT a.*, section.nom FROM ".$config['prefix']."match a LEFT JOIN ".$config['prefix']."section section ON section.id='".$session_cl['section']."' WHERE a.section ='".$session_cl['section']."' OR a.section ='0' OR section.limite ='0' ORDER BY a.date ASC";
+$sql = "SELECT a.*, section.nom FROM ".$config['prefix']."match a LEFT JOIN ".$config['prefix']."section section ON section.id='".$session_cl['section']."' WHERE a.section ='".$session_cl['section']."' OR a.section ='0' OR section.limite ='0' AND a.date > '".(time()-60*60*2) ."' ORDER BY a.date ASC";
 if (! ($get_match = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
 }
+$i=0;
 while ( ($list_match = $rsql->s_array($get_match)) )
 {
+	$i++;
 	$template->assign_block_vars('match', array( 
 		'FOR' => $list_match['id'],
 		'DATE' => date("j/n/Y", $list_match['date']),
@@ -98,6 +100,10 @@ while ( ($list_match = $rsql->s_array($get_match)) )
 		}
 	}
 } 
+if ($i == 0)
+{
+	$template->assign_block_vars('no_match', array('TXT' => $langue['no_futur_match']));
+}
 $template->pparse('body');
 include($root_path."conf/frame_admin.php");
 ?>

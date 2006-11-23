@@ -1,4 +1,7 @@
-<?
+<?php
+// -------------------------------------------------------------
+// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
+// -------------------------------------------------------------
 $action_membre= 'where_admin_edit_user';
 $niveau_secu = 8;
 $root_path = "./../";
@@ -31,7 +34,7 @@ if (!empty($_POST['Submit']))
 		section='".$_POST['section']."', 
 		images='".$_POST['perso']."',
 		langue='".$_POST['langue_form']."' 
-		WHERE id ='".$_POST['link']."'"; 
+		WHERE id ='".$_POST['id']."'"; 
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -39,18 +42,18 @@ if (!empty($_POST['Submit']))
 	redirec_text($root_path."service/liste-des-membres.php", $langue['user_envois_edit_profil'] , "admin");
 }
 include($root_path."conf/frame_admin.php");
-$template = new Template($root_path."templates/".$config['skin']);
-$template->set_filenames( array('body' => 'admin_edit_user.tpl'));
-$sql = "SELECT user.*, section.nom, section.id, equipe.nom, equipe.id FROM ".$config['prefix']."user AS user LEFT JOIN ".$config['prefix']."section AS section ON section.id = user.section LEFT JOIN ".$config['prefix']."équipe as equipe ON equipe.id = user.equipe WHERE user.id = '".$_POST['link']."' LIMIT 1";
+$sql = "SELECT user.*, section.nom, section.id, equipe.nom, equipe.id FROM ".$config['prefix']."user AS user LEFT JOIN ".$config['prefix']."section AS section ON section.id = user.section LEFT JOIN ".$config['prefix']."équipe as equipe ON equipe.id = user.equipe WHERE user.id = '".$_POST['id']."' LIMIT 1";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
 }
 if ( ($profil = $rsql->s_array($get)) )
 {
+	$template = new Template($root_path."templates/".$config['skin']);
+	$template->set_filenames( array('body' => 'admin_edit_user.tpl'));
 	$template->assign_vars(array( 
 		'TITRE' => $langue['titre_edit_user'],
-		'LINK' => $_POST['link'],
+		'ID' => $_POST['id'],
 		'ID' => $profil['0'],
 		'TXT_LANGUE' => $langue['form_langue'],
 		'TXT_CHOISIR' => $langue['choisir'],
@@ -90,7 +93,7 @@ if ( ($profil = $rsql->s_array($get)) )
 		'BT_ENVOYER' => $langue['envoyer'],
 	));
 	$template->assign_block_vars('admin', array(
-		'TITRE' => $langue['titre_admin_edit_user'],
+		'TITRE' => sprintf($langue['titre_admin_edit_user'], $profil['user']),
 		'TXT_POUVOIR' => $langue['pouvoirs'],
 		'TXT_EQUIPE' => $langue['equipe'],
 		'TXT_SECTION' => $langue['section'],
@@ -102,10 +105,33 @@ if ( ($profil = $rsql->s_array($get)) )
 		'ADMIN_SELECT' => ($profil['pouvoir'] == "admin")? 'selected="selected"' : '',
 		'TXT_ADMIN' => $langue['admin'],
 		'ROLE' => $profil['roles'],
-		'TXT_GRADE' => $langue['grade'],
-		'GRADE' => $profil['grade'],
 	)); 
-	// on fais la liste des équipe
+	if ($config['show_grade'] == 1)
+	{
+		$template->assign_block_vars('admin.grade', array(
+			'TXT_GRADE' => $langue['grade'],
+		));
+		// on fais la liste des grades
+		$sql = "SELECT * FROM ".$config['prefix']."grades ORDER BY ordre DESC";
+		if (! ($get = $rsql->requete_sql($sql)) )
+		{
+			sql_error($sql, $rsql->error, __LINE__, __FILE__);
+		}
+		while ( $liste_grades = $rsql->s_array($get) )
+		{
+			$template->assign_block_vars('admin.grade.grade_liste', array( 
+				'SELECTED' => ($profil['grade'] == $liste_grades['id'])? 'selected="selected"' : '',
+				'ID' => $liste_grades['id'],
+				'NOM' => $liste_grades['nom']
+			));
+		}
+	}
+	else
+	{
+		$template->assign_block_vars('admin.no_grade', array(
+			'GRADE' => $profil['grade'],
+		));
+	}// on fais la liste des équipe
 	$sql = "SELECT * FROM ".$config['prefix']."équipe";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
@@ -117,20 +143,6 @@ if ( ($profil = $rsql->s_array($get)) )
 			'SELECTED' => ($profil['equipe'] == $liste_équipe['id'])? 'selected="selected"' : '',
 			'ID' => $liste_équipe['id'],
 			'NOM' => $liste_équipe['nom']
-		));
-	}
-	// on fais la liste des grades
-	$sql = "SELECT * FROM ".$config['prefix']."grades ORDER BY ordre DESC";
-	if (! ($get = $rsql->requete_sql($sql)) )
-	{
-		sql_error($sql, $rsql->error, __LINE__, __FILE__);
-	}
-	while ( $liste_grades = $rsql->s_array($get) )
-	{
-		$template->assign_block_vars('admin.grades', array( 
-			'SELECTED' => ($profil['grade'] == $liste_grades['id'])? 'selected="selected"' : '',
-			'ID' => $liste_grades['id'],
-			'NOM' => $liste_grades['nom']
 		));
 	}
 	// on fais la liste des sections
@@ -212,11 +224,11 @@ if ( ($profil = $rsql->s_array($get)) )
 			closedir($dh);
 		}
 	}
+	$template->pparse('body');
 }
 else
 {
 	msg('erreur', $langue['erreur_profil_no_found']);
 }
-$template->pparse('body');
 include($root_path."conf/frame_admin.php");
 ?>

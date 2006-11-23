@@ -36,16 +36,7 @@ function lire_session($ou='')
 	}
 	else
 	{
-		$valeur_array = explode('|!*§|', $valeur_session['stock']);
-		$valeur_session = '';
-		foreach($valeur_array as $valeur)
-		{
-			$valeur_tmp = explode('|.=.|', $valeur);
-			if (!empty($valeur_tmp[0]) && !empty($valeur_tmp[1]))
-			{
-				$valeur_session[$valeur_tmp[0]] = $valeur_tmp[1];
-			}
-		}
+		$valeur_session = unserialize($valeur_session['stock']);
 	}
 	return $valeur_session;
 }
@@ -55,12 +46,7 @@ function save_session($valeur_session='')
 	$_COOKIE['session'] = (!empty($_COOKIE['session']))? $_COOKIE['session'] : $config['id_session'];
 	if (is_array($valeur_session))
 	{
-		$chaine = '';
-		foreach($valeur_session as $key=>$var)
-		{
-			$chaine .=$key."|.=.|".$var."|!*§|";
-		}
-		$sql = "UPDATE ".$config['prefix']."sessions SET stock = '".$chaine."', date = NOW() WHERE id = '".$_COOKIE['session']."'";
+		$sql = "UPDATE ".$config['prefix']."sessions SET stock = '".addslashes(serialize($valeur_session))."', date = NOW() WHERE id = '".$_COOKIE['session']."'";
 		$rsql->requete_sql($sql, 'session', 'Mise à jour des données de la session');
 	}
 	dell_old_session();

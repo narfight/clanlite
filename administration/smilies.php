@@ -43,7 +43,7 @@ include($root_path."conf/frame_admin.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'admin_smilies.tpl'));
 $template->assign_vars( array(
-	'ICI' => $_SERVER['PHP_SELF'],
+	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'TITRE' => $langue['titre_admin_smilies'],
 	'TITRE_GESTION' => $langue['titre_admin_smilies_gestion'],
 	'TITRE_LISTE' => $langue['titre_admin_smilies_list'],

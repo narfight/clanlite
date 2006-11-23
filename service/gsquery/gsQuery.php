@@ -2,8 +2,8 @@
 
 /*
  *  gsQuery - Querys game servers
- *  Copyright (c) 2003 Jeremias Reith <jr@terragate.net>
- *  http://gsquery.terragate.net
+ *  Copyright (c) 2002-2004 Jeremias Reith <jr@terragate.net>
+ *  http://www.gsquery.org
  *
  *  This file is part of the gsQuery library.
  *
@@ -31,15 +31,19 @@
  */
 
 /** 
+ * @example small_example.php 
+ * This is a simple example of how to use gsQuery
+ */
+
+/** 
  * @example example_usage.php 
  * This is a detailed example of how to use gsQuery
  */
 
-
 /**
  * @brief Abstract gsQuery base class
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: gsQuery.php,v 1.23 2004/03/30 09:29:25 jr Exp $
+ * @version $Id: gsQuery.php,v 1.28 2004/06/04 15:18:38 jr Exp $
  *
  * <p>The gsQuery package has one class for each protocol or game.
  * This class is abstract but due to the lack of real OO
@@ -80,6 +84,13 @@ class gsQuery
   /** @brief port to use for the query */
   var $queryport;
   
+  /** 
+   * @brief status of the server 
+   *
+   * TRUE: server online, FALSE: server offline
+   */
+  var $online;
+
   /** @brief the name of the game */
   var $gamename;
 
@@ -172,11 +183,12 @@ class gsQuery
    */
   function gsQuery($address, $queryport)
   {
-    $this->version = ereg_replace("[^0-9\\.]", "", "\$Revision: 1.23 $");
+    $this->version = ereg_replace("[^0-9\\.]", "", "\$Revision: 1.28 $");
     
     $this->address = $address;
     $this->queryport = $queryport;
     
+    $this->online = FALSE;
     $this->gamename = "";
     $this->hostport = 0;
     $this->gameversion = "";
@@ -213,8 +225,9 @@ class gsQuery
    *
    */
   function createInstance($protocol, $address, $port) {
-global $root_path;
-    // including the required class and create an instance of it 
+
+    global $root_path;
+	// including the required class and create an instance of it 
     switch($protocol) {
     // some aliases might be useful
     case("gsqp"):
@@ -234,12 +247,58 @@ global $root_path;
       // e.g.: $port="123); system(\"some nasty stuff\")";
       // normally this should be assured by the caller, but we are in reality
       if(ereg("^[A-Za-z0-9_-]+$", $protocol) && ereg("^[A-Za-z0-9\\.-]+$", $address) && is_numeric($port)) {
-	include_once($root_path."service/gsquery/".$protocol .".php");
+	include_once($root_path.$protocol .".php");
 	return eval("return new $protocol(\"$address\", $port);");
       } else {
 	return FALSE;
       }
     }
+  }
+
+  /**
+   * @brief Creates an instance out of an previously serialized string 
+   *
+   * Use this to restore a object that has been previously serialized with 
+   * serialize
+   *
+   * @param string serialized gsQuery object
+   * @return the deserialized object
+   */
+  function unserialize($string) 
+  {
+    global $root_path;
+	// extracting class name
+    $length = strlen($string);
+    for($i=0;$i<$length;$i++) {
+      if($string[$i] == ":") {
+	break;
+      }
+    }
+
+    $className = substr($string, 0, $i);
+
+    // we should be careful when using eval with supplied arguments
+	if(ereg("^[A-Za-z0-9_-]+$", $className)) {
+      include_once($root_path.'service/gsquery/'.$className .".php");
+	   return unserialize(base64_decode(substr($string, $i+1)));
+     } else {
+      return FALSE;
+    }    
+  }
+
+  /**
+   * @brief Retrieves a serialized object via HTTP and deserializes it
+   *
+   * Useful if UDP traffic isn't allowed
+   *
+   * @param url the URL of the object
+   * @return the deserialized object
+   */
+  function unserializeFromURL($url) 
+  {
+    global $root_path;
+	require_once($root_path.'service/gsquery/includes/HttpClient.class.php');
+    return gsQuery::unserialize(HttpClient::quickGet($url));
   }
 
   /**
@@ -285,6 +344,18 @@ global $root_path;
     return "gamejoin://". $this->gamename ."@". $this->address .":". $this->hostport ."/";
   }
 
+  /**
+   * @brief Returns a native join URI
+   *    
+   * Some games are registering an URI type to allow easy joining of games
+   * 
+   * @return a native join URI or false if not implemented for the game
+   */
+  function getNativeJoinURI()
+  {
+    return FALSE;
+  }
+
   /** 
    * @brief Querys the server
    *
@@ -296,7 +367,6 @@ global $root_path;
    */
   function query_server($getPlayers=TRUE,$getRules=TRUE)
   {       
-
     return FALSE;
   }
     
@@ -344,8 +414,20 @@ global $root_path;
    * @param string a raw string from the gameserver that might contain special chars
    * @return a html version of the given string
    */
-  function htmlize($string) {
+  function htmlize($string) 
+  {
     return htmlentities($string);
+  }
+
+
+  /**
+   * @brief serializes the object as string
+   * @return serialized object representation
+   *
+   */
+  function serialize() 
+  {   
+    return $this->_getClassName() .":". base64_encode(serialize($this));
   }
 
   // private member functions
@@ -420,13 +502,55 @@ global $root_path;
       } while ($socketstatus["unread_bytes"]);
       
       fclose($socket);
-      if(empty($result)) {
+      if(!isset($result)) {
 	$this->debug["Command send " . $command]="No response from game server received";
 	return FALSE;
       }
       $this->debug["Command send " . $command]="Answer received: " .$result;
       return $result;
     }
+  }
+
+  /**
+   * @brief returns the class name of the instance
+   * @return the class name of the instance
+   *
+   * Override this for mixed case class names and support for PHP <5
+   */
+  function _getClassName() 
+  {
+    return get_class($this);
+  }
+
+  /**
+   * @brief Serialization handler
+   * @return array of variable names to serialize
+   */
+  function __sleep()
+  {
+    // do not serialize debug info to keep the result small
+    return array('version',
+		 'address',
+		 'queryport',
+		 'gamename',
+		 'hostport',
+		 'online',
+		 'gameversion',
+		 'servertitle',
+		 'mapname',
+		 'maptitle',
+		 'gametype',
+		 'numplayers',
+		 'maxplayers',
+		 'password',
+		 'nextmap',
+		 'players',
+		 'playerkeys',
+		 'playerteams',
+		 'maplist',
+		 'rules',
+		 'errstr'
+		 );
   }
 }
 ?>

@@ -108,7 +108,7 @@ if (!empty($_POST['Submit']) && $inscription != 0)
 	{
 		// on formate l'heure en Mktime depuis 1970
 		$age = mktime ( 0 , 0 , 0 , $_POST['age_m'] , $_POST['age_d'] , $_POST['age_y']);
-		$sql = "INSERT INTO `".$config['prefix']."user` (`nom`, `user`, `mail`, `im`, `psw`, `pouvoir`, `sex`, `age`, `web`, `cri`, `last_connect`, `prénom`, `armes_préférées`, `equipe`, `histoire`, `roles`, `images`, `langue`) VALUES ('".$_POST['nom']."', '".$_POST['user1']."', '".$_POST['mail']."', '".$_POST['icq']."', '".md5($_POST['psw'])."', 'news', '".$_POST['sex']."', '".$age."', '".$_POST["web"]."', '".$_POST["texte"]."', '', '".$_POST['prenom']."', '".$_POST['arme']."', '', '".$_POST['histoire']."', '', '".$_POST['perso']."', '".$_POST['langue_form']."')"; 
+		$sql = "INSERT INTO `".$config['prefix']."user` (`nom`, `user`, `mail`, `im`, `psw`, `pouvoir`, `sex`, `age`, `web`, `cri`, `last_connect`, `prénom`, `armes_préférées`, `equipe`, `histoire`, `roles`, `images`, `langue`) VALUES ('".$_POST['nom']."', '".$_POST['user1']."', '".$_POST['mail']."', '".$_POST['icq']."', '".md5($_POST['psw'])."', 'news', '".$_POST['sex']."', '".$age."', '".((!empty($_POST["web"]) && eregi('http(s)?://',$_POST["web"]))? $_POST["web"] : 'http://'.$_POST["web"])."', '".$_POST["texte"]."', '', '".$_POST['prenom']."', '".$_POST['arme']."', '', '".$_POST['histoire']."', '', '".$_POST['perso']."', '".$_POST['langue_form']."')"; 
 		if (! $rsql->requete_sql($sql) )
 		{
 			sql_error($sql ,mysql_error(), __LINE__, __FILE__);

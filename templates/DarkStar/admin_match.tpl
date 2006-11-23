@@ -73,7 +73,7 @@
 		<!-- BEGIN match -->
 		<form method="post" action="match.php"> 
 			<input name="id_match" type="hidden" value="{match.FOR}"> 
-			<h2 class="toggle_titre" onClick="toggle('{match.FOR}')"><input type="submit" name="del" value="{match.SUPPRIMER}" />&nbsp;<input name="Editer" type="submit" value="{match.EDITER}" />&nbsp;{match.CONTRE} {match.CLAN}<a name="{match.FOR}"></a></h2>
+			<h2 class="toggle_titre" onClick="toggle('{match.FOR}')"><input type="submit" name="del" value="{match.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />&nbsp;<input name="Editer" type="submit" value="{match.EDITER}" />&nbsp;{match.CONTRE} {match.CLAN}<a name="{match.FOR}"></a></h2>
 		</form> 
 		<div id="toggle_{match.FOR}" style="display:none">
 			<ul class="header">
@@ -81,7 +81,7 @@
 				<li>{TXT_HEURE} :<span class="reponce">{match.HEURE}</span></li>
 				<li>{match.CONTRE} :<span class="reponce">{match.CLAN}</span></li>
 				<li>{TXT_NBR_JOUEUR} :<span class="reponce">{match.NB_JOUEURS}/{match.SUR}</span></li>
-				<li>{TXT_HEURE_CHAT} : <span class="reponce">{match.CHAT}</span></li>
+				<li>{TXT_HEURE_CHAT} :<span class="reponce">{match.CHAT}</span></li>
 				<li>{match.TXT_SECTION} :<span class="reponce">{match.SECTION}</span></li>
 			</ul>{match.INFO}
 			<h3>{match.TEAM_OK}</h3> 
@@ -107,6 +107,9 @@
 			<!-- END demande -->
 		  </div>
 		<!-- END match -->
+		<!-- BEGIN no_match -->
+		{no_match.TXT}
+		<!-- END no_match -->
 		</div>
 	</div>
 </div>

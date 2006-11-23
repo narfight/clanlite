@@ -14,7 +14,7 @@ if (empty($config['reglement']))
 }
 $template->assign_vars(array(
 	'TITRE' => $langue['titre_reglement'],
-	'TEXTE' => nl2br(bbcode($config['reglement'])),
+	'TEXTE' => nl2br(bbcode((empty($config['reglement']))? $langue['no_reglement'] : $config['reglement'])),
 ));
 $template->pparse('body');
 include($root_path."conf/frame.php"); 

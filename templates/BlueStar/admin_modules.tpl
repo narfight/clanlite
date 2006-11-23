@@ -24,13 +24,15 @@
 				<span><label for="position">{TXT_POSITION}&nbsp;:</label></span>
 				<span><select name="position" id="position" onBlur="formverif(this.id,'autre','')">
             <option value="">{TXT_CHOISIR}</option>
-            <option value="gauche" {SELECTED_GAUCHE}>{TXT_GAUCHE}</option>
-            <option value="droite" {SELECTED_DROITE}>{TXT_DROITE}</option>
+		    <option value="gauche" {SELECTED_GAUCHE} {DISABLED_G_D}>{TXT_GAUCHE}</option>
+            <option value="droite" {SELECTED_DROITE} {DISABLED_G_D}>{TXT_DROITE}</option>
+            <option value="centre" {SELECTED_CENTRE} {DISABLED_C}>{TXT_CENTRE}</option>
           </select></span>
 			</p>
 			<p>
-				<span><label for="activation">{TXT_ETAT}&nbsp;:</label></span>
-				<span><input id="activation" type="radio" name="activation" value="1" {ACTIVATION_1} />{TXT_ON} <input name="activation" type="radio" value="0" {ACTIVATION_0} />{TXT_OFF}</span>
+				<span><label for="activation_oui">{TXT_ETAT}&nbsp;:</label></span>
+				<span><input id="activation_oui" name="activation" type="radio" value="1" {ACTIVATION_ON} />
+				{TXT_ON} <input id="activation_non" name="activation" type="radio" value="0" {ACTIVATION_OFF} />{TXT_OFF}</span>
 			</p>
 			<p>
 				<span>
@@ -64,13 +66,31 @@
       <td>{liste_droite.ETAT}</td>
       <td>
     <form action="{ICI}" method="post">
-          <input name="Supprimer" type="submit" value="{liste_droite.SUPPRIMER}" />
+          <input name="Supprimer" type="submit" value="{liste_droite.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />
           <input name="for" type="hidden" value="{liste_droite.ID}" />
           <input name="call_page" type="hidden" value="{liste_droite.CALL_PAGE}" />
           <input name="Editer" type="submit" value="{liste_droite.EDITER}" />
           </form></td>
   </tr>
   <!-- END liste_droite -->
+   <tr>
+    <td colspan="4" class="table-titre">{TXT_CENTRE}</td>
+  </tr>
+  <!-- BEGIN liste_centre -->
+  <tr>
+    <td>{liste_centre.NUM}</td>
+    <td>{liste_centre.NOM}</td>
+      <td>{liste_centre.ETAT}</td>
+      <td>
+    <form action="{ICI}" method="post">
+          <input name="Supprimer" type="submit" value="{liste_centre.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />
+          <input name="for" type="hidden" value="{liste_centre.ID}" />
+          <input name="call_page" type="hidden" value="{liste_centre.CALL_PAGE}" />
+          <input name="centre" type="hidden" value="true" />
+          <input name="Editer" type="submit" value="{liste_centre.EDITER}" />
+          </form></td>
+  </tr>
+  <!-- END liste_centre -->
    <tr>
     <td colspan="4" class="table-titre">{TXT_GAUCHE}</td>
   </tr>
@@ -80,7 +100,7 @@
     <td>{liste_gauche.NOM}</td>
       <td>{liste_gauche.ETAT}</td>
       <td><form action="{ICI}" method="post">
-          <input name="Supprimer" type="submit" value="{liste_gauche.SUPPRIMER}" />
+          <input name="Supprimer" type="submit" value="{liste_gauche.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />
           <input name="call_page" type="hidden" value="{liste_gauche.CALL_PAGE}" />
           <input name="for" type="hidden" value="{liste_gauche.ID}" />
           <input name="Editer" type="submit" value="{liste_gauche.EDITER}" /></form>

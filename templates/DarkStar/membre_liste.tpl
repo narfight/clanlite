@@ -27,7 +27,7 @@
       <!-- BEGIN del --> 
       <form method="post" action="liste-des-membres.php"> 
         <td> <input name="del" type="submit" id="del" value=" X " /> 
-          <input name="id_user" type="hidden" value="{liste.ID}" /></td> 
+          <input name="id" type="hidden" value="{liste.ID}" /></td> 
       </form> 
       <!-- END del --> 
       <td>{liste.NOMBRE}</td> 
@@ -38,18 +38,18 @@
       <!-- BEGIN edit_profil --> 
       <form method="post" action="../administration/editer-user.php"> 
         <td><input type="submit" name="editer" value="editer" /> 
-          <input name="link" type="hidden" value="{liste.ID}" /></td> 
+          <input name="id" type="hidden" value="{liste.ID}" /></td> 
       </form> 
       <!-- END edit_profil --> 
       <!-- BEGIN edit_medail --> 
       <td><form method="post" action="../administration/editer-medail.php">
 	  	<input type="submit" name="editer" value="editer" /> 
-        <input name="id_user" type="hidden" value="{liste.ID}" /></form></td> 
+        <input name="id" type="hidden" value="{liste.ID}" /></form></td> 
       <!-- END edit_medail --> 
       <!-- BEGIN admin --> 
         <td><form method="post" action="../administration/pouvoir.php">
 			<input type="submit" name="editer" value="editer" /> 
-          <input name="id_user" type="hidden" value="{liste.ID}" /></form></td> 
+          <input name="id" type="hidden" value="{liste.ID}" /></form></td> 
        
       <!-- END admin --> 
     </tr> 

@@ -53,6 +53,7 @@ $template->set_filenames( array('body' => 'admin_alert.tpl'));
 liste_smilies(true, '', 25);
 $template->assign_vars( array(
 	'ICI' => $_SERVER['PHP_SELF'],
+	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'TITRE' => $langue['titre_alert'],
 	'TITRE_GESTION' => $langue['titre_alert_gestion'],
 	'TITRE_LIST' => $langue['titre_alert_list'],

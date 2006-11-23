@@ -34,10 +34,10 @@ body
 /* ceci definit la largeur du site en entier et de la partie admin*/
 .cadre_largeur , .cadre_largeur_admin
 {
-	float: left;
+	position: absolute;
 	width: 898px;
-	margin-left: auto;
-	margin-right: auto;
+	left: 50%;
+	margin-left: -449px;
 	background-color: #94938E;
 	background-image: url("../images/bg_cadre_largeur.gif");
 	background-repeat: repeat-y;
@@ -88,6 +88,7 @@ input:focus, textarea:focus, select:focus, option:hover
 	color: #000066;
 	background-color: #9DBBFF;
 	border: 1px solid black;
+	z-index: 5;
 }
 
 /* pour quand on survole un div ou on peux cliquer pour afficher des infos, que le sourit change de curseur */
@@ -110,6 +111,8 @@ input:focus, textarea:focus, select:focus, option:hover
 /* cadre avec les liens + les styles pour les liens */
 .menuliens
 {
+	width : 100%;
+	margin: 0px;
 	padding: 10px 0px 10px 0px;
 	background-image: url("../images/bg_menu.gif");
 	background-repeat: repeat-x;
@@ -120,7 +123,11 @@ input:focus, textarea:focus, select:focus, option:hover
 	border-bottom: 1px solid black;
 	text-align: center;
 }
-
+.menuliens li
+{
+	display: inline;
+	padding: 0px 5px 0px 5px;
+}
 /* endroit ou doit apparaitre les alertes */
 .cadre_alert
 {
@@ -270,7 +277,10 @@ cadre qui prendra le titre et le contenu du module */
 	background-image: url('../images/head_module.gif');
 	background-repeat: no-repeat;
 }
-
+.module p
+{
+	margin:0px;
+}
 /* titre du module */
 .module_titre
 {

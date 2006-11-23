@@ -23,11 +23,14 @@ CREATE TABLE `clanlite_config_sond` (
 
 CREATE TABLE `clanlite_custom_menu` (
   `id` mediumint(8) unsigned NOT NULL auto_increment,
-  `ordre` longtext NOT NULL,
-  `text` longtext NOT NULL,
+  `ordre` mediumint(8) NOT NULL default '0',
+  `text` varchar(255) NOT NULL default '',
   `url` longtext NOT NULL,
-  `bouge` longtext NOT NULL,
-  `frame` longtext NOT NULL,
+  `bouge` enum('1','0') NOT NULL default '0',
+  `frame` enum('1','0') NOT NULL default '0',
+  `module_central` enum('1','0') NOT NULL default '0',
+  `id_module` mediumint(8) unsigned NOT NULL default '0',
+  `default` enum('normal','1','0') NOT NULL default 'normal',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
@@ -129,7 +132,7 @@ CREATE TABLE `clanlite_match_rapport` (
 CREATE TABLE `clanlite_modules` (
   `id` mediumint(8) unsigned NOT NULL auto_increment,
   `ordre` mediumint(8) NOT NULL default '0',
-  `place` enum('gauche','droite') NOT NULL default 'gauche',
+  `place` enum('gauche','droite','centre') NOT NULL default 'gauche',
   `etat` enum('1','0') NOT NULL default '1',
   `nom` longtext NOT NULL,
   `call_page` longtext NOT NULL,
@@ -192,6 +195,7 @@ CREATE TABLE `clanlite_section` (
   `id` mediumint(8) unsigned NOT NULL auto_increment,
   `nom` longtext NOT NULL,
   `limite` enum('1','0') NOT NULL default '1',
+  `visible` enum('1','0') NOT NULL default '1',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
@@ -270,19 +274,7 @@ CREATE TABLE `clanlite_game_server_cache` (
   `maxplayers` tinyint(3) unsigned NOT NULL default '0',
   `numplayers` tinyint(3) unsigned NOT NULL default '0',
   `gametype` tinytext NOT NULL,
-  `array_name` longtext NOT NULL,
-  `array_value` longtext NOT NULL,
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM;
-
-CREATE TABLE `clanlite_game_server_players_cache` (
-  `id` mediumint(8) unsigned NOT NULL auto_increment,
-  `id_server` mediumint(8) unsigned NOT NULL default '0',
-  `name` text NOT NULL,
-  `score` varchar(255) NOT NULL default '',
-  `frags` varchar(255) NOT NULL default '',
-  `deaths` varchar(255) NOT NULL default '',
-  `honor` varchar(255) NOT NULL default '',
-  `time` varchar(255) NOT NULL default '',
+  `rules` longtext NOT NULL,
+  `players` longtext NOT NULL,
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;

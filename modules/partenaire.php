@@ -67,7 +67,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_partenaire_mod
 	if (!empty($_POST['Envoyer_partenaire_module']))
 	{ 
 		$_POST = pure_var($_POST);
-		$sql = "INSERT INTO `".$config['prefix']."module_partenaires_".$id_module."` (url, nom, image) VALUES ('".$_POST['url']."', '".$_POST['nom']."', '".$_POST['image']."')";
+		$sql = "INSERT INTO `".$config['prefix']."module_partenaires_".$id_module."` (url, nom, image) VALUES ('".((eregi('http(s)?://',$_POST["url"]))? $_POST["url"] : 'http://'.$_POST["url"])."', '".$_POST['nom']."', '".$_POST['image']."')";
 		if (! ($rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);

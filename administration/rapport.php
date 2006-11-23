@@ -61,7 +61,7 @@ $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'admin_rapport_match.tpl'));
 liste_smilies(true, '', 25);
 $template->assign_vars(array(
-	'ICI' => $_SERVER['PHP_SELF'],
+	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'TITRE' => $langue['titre_admin_rapport_match'],
 	'TITRE_GESTION' => $langue['titre_admin_rapport_match_gestion'],
 	'TITRE_LISTE' => $langue['titre_admin_rapport_match_list'],

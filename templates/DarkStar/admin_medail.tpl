@@ -48,7 +48,10 @@
 					</tr>
 				</table>
 				<p>
-					<span><input name="id_user" type="hidden" value="{ID}" /><input type="submit" name="Submit" value="{EDITER}" /></span>
+					<span>
+						<input name="id" type="hidden" value="{ID}" />
+						<input type="submit" name="Submit" value="{EDITER}" />
+					</span>
 				</p>
 			</div>
 		</div>

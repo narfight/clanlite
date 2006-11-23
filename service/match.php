@@ -9,7 +9,7 @@ include($root_path."conf/conf-php.php");
 include($root_path."conf/frame.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'match_publique.tpl'));
-$sql = "SELECT game.* FROM ".$config['prefix']."match AS game ORDER BY `date` DESC";
+$sql = "SELECT * FROM ".$config['prefix']."match WHERE date > '".(time()-60*60*2) ."' ORDER BY `date` DESC";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -21,9 +21,10 @@ $template->assign_vars(array(
 	'HEURE' => $langue['heure_defit'],
 ));
 // on fais la boucle pour les matchs
+$i=0;
 while ($liste = $rsql->s_array($get)) 
 { 
-	$nbr_match++;
+	$i++;
 	$template->assign_block_vars('match', array(
 		'DATE' => date("j/n/Y", $liste['date']),
 		'CLAN' => $liste['le_clan'],
@@ -32,7 +33,7 @@ while ($liste = $rsql->s_array($get))
 		'FOR' => $liste['id'],
 	));
 }
-if (empty($nbr_match))
+if ($i == 0)
 {
 	$template->assign_block_vars('no_match', array('TXT' => $langue['no_futur_match']));
 }

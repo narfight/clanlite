@@ -23,6 +23,16 @@
 				</span>
 			</p>
 			<p>
+				<span><label for="show_grade">{TXT_SHOW_GRADE}&nbsp;:</label></span>
+				<span>
+					<select name="show_grade" id="show_grade" onBlur="formverif(this.id,'autre','')" onChange="toggle_msg('limite_inscription_div', this.id, '2', 'value')"> 
+						<option value="">{TXT_CHOISIR}</option> 
+						<option value="1" {SHOW_GRADE_1}>{TXT_OUI}</option> 
+						<option value="0" {SHOW_GRADE_0}>{TXT_NON}</option> 
+					</select>
+				</span>
+			</p>
+			<p>
 				<span><label for="master_mail">{TXT_MAIL}&nbsp;:</label></span>
 				<span><input name="master_mail" type="text" id="master_mail" value="{MAIL}" onBlur="formverif(this.id,'mail','')" /></span>
 			</p>
@@ -139,19 +149,27 @@
 				<span><label for="objet_par_page">{TXT_OBJET_PAR_PAGE}&nbsp;:</label></span>
 				<span><input name="objet_par_page" type="text" id="objet_par_page" value="{OBJET_PAR_PAGE}" size="4" maxlength="3" onBlur="formverif(this.id,'chiffre','60')"> <img src="../images/smilies/question.gif" onmouseover="poplink('{TXT_HELP_OBJET_PAR_PAGE}',event)" onmouseout="kill_poplink()" alt="{ALT_AIDE}" /></span>
 			</p>
+			<p>
+				<span><label for="scan_game_server">{TXT_SCAN_GAME_SERVER}&nbsp;:</label></span>
+				<span>
+					<select name="scan_game_server" id="scan_game_server" onBlur="formverif(this.id,'autre','')">
+						<option value="">{TXT_CHOISIR}</option> 
+						<option value="udp" {SELECT_SCAN_UDP}>{TXT_SCAN_GAME_SERVER_UDP}</option>
+						<option value="http" {SELECT_SCAN_HTTP}>{TXT_SCAN_GAME_SERVER_HTTP}</option>
+					</select><img src="../images/smilies/question.gif" onmouseover="poplink('{TXT_HELP_SCAN_GAME_SERVER}',event)" onmouseout="kill_poplink()" alt="{ALT_AIDE}" />
+				</span>
+			</p>
 		</div>
 		<div class="big_cadre">
 			<h1>{TXT_SEND_MAIL_TITRE}</h1>
 			<p>
 				<span><label for="send_mail">{TXT_SEND_MAIL}&nbsp;:</label></span>
 				<span>
-				<span>
 					<select name="send_mail" id="send_mail" onBlur="formverif(this.id,'autre','')" onChange="toggle_msg('partie_smtp', this.id, 'smtp', 'value')">
 						<option value="">{TXT_CHOISIR}</option> 
 						<option value="php" {SEND_MAIL_PAR_PHP}>{TXT_SEND_PHP}</option>
 						<option value="smtp" {SEND_MAIL_PAR_SMTP}>{TXT_SEND_SMTP}</option>
 					</select>
-				</span>
 				</span>
 			</p>
 			<div id="partie_smtp">

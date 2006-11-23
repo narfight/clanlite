@@ -1,6 +1,5 @@
 // JavaScript Document
 // crée par Narfight (narfight@lna.be) pour ClanLite  -  http://clanlite.lna.be
-// affiche/cache des calques
 function trouve(id)
 {
 	if (!document.getElementById)
@@ -15,6 +14,10 @@ function trouve(id)
 	{
 		return document.getElementById(id);
 	}
+}
+function demande(txt)
+{
+    return (confirm(txt) ? true : false);
 }
 function toggle_msg(id,champ,condition,obj)
 {

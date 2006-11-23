@@ -110,7 +110,6 @@ if (!empty($_POST['Submit']))
 		$session_cl['mail'] = $_POST['mail'];
 		$session_cl['langue_user'] = $_POST['langue_form'];
 		save_session($session_cl);
-		$age = mktime (0 , 0 , 0 , $_POST['age_m'] , $_POST['age_d'] , $_POST['age_y']);
 		$sql = "UPDATE ".$config['prefix']."user SET 
 			cri='".$_POST['texte']."', 
 			im='".$_POST['icq']."', 
@@ -120,7 +119,7 @@ if (!empty($_POST['Submit']))
 			web='".$_POST['web']."',
 			".$code."
 			sex='".$_POST['sex']."', 
-			age='".$age."', 
+			age='".mktime (0 , 0 , 0 , $_POST['age_m'] , $_POST['age_d'] , $_POST['age_y'])."', 
 			prénom='".$_POST['prenom']."', 
 			armes_préférées='".$_POST['arme']."',
 			images='".$_POST['perso']."', 

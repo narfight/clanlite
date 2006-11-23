@@ -5,10 +5,10 @@
 $root_path = './../';
 $action_membre = '';
 $action_db = '';
-$news_version = '1.12.06.2004';
+$news_version = '1.07.07.2004';
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
-include($root_path."conf/frame.php");
+$template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames(array('body' => 'divers_text.tpl'));
 switch($config['version'])
 {
@@ -30,6 +30,33 @@ switch($config['version'])
 			'Cache game server players' => "CREATE TABLE `".$config['prefix']."game_server_players_cache` ( `id` mediumint(8) unsigned NOT NULL auto_increment, `id_server` mediumint(8) unsigned NOT NULL default '0', `name` text NOT NULL, `score` varchar(255) NOT NULL default '', `frags` varchar(255) NOT NULL default '', `deaths` varchar(255) NOT NULL default '', `honor` varchar(255) NOT NULL default '', `time` varchar(255) NOT NULL default '', PRIMARY KEY  (`id`)) TYPE=MyISAM;",
 			'détection de mise à jours' => "INSERT INTO `".$config['prefix']."config` ( `conf_nom` , `conf_valeur` ) VALUES ('get_version', '1')",
 		);
+	case '1.12.06.2004':
+		$action_db['1.12.06.2004'] = array (
+			'Query Server' => "INSERT INTO `".$config['prefix']."config` ( `conf_nom` , `conf_valeur` ) VALUES ('scan_game_server', 'udp')",
+			'Affiche ou non les grades' => "INSERT INTO `".$config['prefix']."config` VALUES ('show_grade', '1')",
+			'Changement du cache serveur 1' => "ALTER TABLE `".$config['prefix']."game_server_cache` CHANGE `array_value` players LONGTEXT NOT NULL",
+			'Changement du cache serveur 2' => "ALTER TABLE `".$config['prefix']."game_server_cache` CHANGE `array_name` `rules` LONGTEXT NOT NULL",
+			'Correction de la table user' => "ALTER TABLE `".$config['prefix']."user` CHANGE `web` `web` VARCHAR( 255 ) NOT NULL",
+			'Section visible en publique' => "ALTER TABLE `".$config['prefix']."section` ADD `visible` ENUM( '1', '0' ) DEFAULT '1' NOT NULL",
+			'Optimisation de table custom_menu 1' => "ALTER TABLE `".$config['prefix']."custom_menu` CHANGE `ordre` `ordre` MEDIUMINT( 8 ) NOT NULL",
+			'Optimisation de table custom_menu 2' => "ALTER TABLE `".$config['prefix']."custom_menu` CHANGE `text` `text` VARCHAR( 255 ) NOT NULL",
+			'Optimisation de table custom_menu 3' => "ALTER TABLE `".$config['prefix']."custom_menu` CHANGE `bouge` `bouge` ENUM( '1', '0' ) DEFAULT '0' NOT NULL",
+			'Optimisation de table custom_menu 4' => "ALTER TABLE `".$config['prefix']."custom_menu` CHANGE `frame` `frame` ENUM( '1', '0' ) DEFAULT '0' NOT NULL",
+			'Ajoute une colonne à la table custom_menu 1' => "ALTER TABLE `".$config['prefix']."custom_menu` ADD `module_central` ENUM( '1', '0' ) DEFAULT '0' NOT NULL",
+			'Ajoute une colonne à la table custom_menu 2' => "ALTER TABLE `".$config['prefix']."custom_menu` ADD `id_module` MEDIUMINT( 8 ) UNSIGNED NOT NULL",
+			'Ajoute une colonne à la table custom_menu 3' => "ALTER TABLE `".$config['prefix']."custom_menu` ADD `default` ENUM( 'normal', '1', '0' ) DEFAULT 'normal' NOT NULL AFTER `id_module`",
+			'Ajoute l\'option central dans les modules' => "ALTER TABLE `".$config['prefix']."modules` CHANGE `place` `place` ENUM( 'gauche', 'droite', 'centre' ) DEFAULT 'gauche' NOT NULL ",
+			'Ajoute le boutton News' => "INSERT INTO `".$config['prefix']."custom_menu` VALUES ('', 1, 'boutton_news', 'service/index_pri.php', '0', '0', '0', 0, '1');",
+			'Ajoute le boutton Membre' => "INSERT INTO `".$config['prefix']."custom_menu` VALUES ('', 2, 'boutton_liste_membres_groupe', 'service/liste-des-membres-groupe.php', '0', '0', '0', 0, '1');",
+			'Ajoute le boutton Forum' => "INSERT INTO `".$config['prefix']."custom_menu` VALUES ('', 3, 'boutton_forum', 'url_forum', '0', '0', '0', 0, '1');",
+			'Ajoute le boutton Match' => "INSERT INTO `".$config['prefix']."custom_menu` VALUES ('', 4, 'boutton_match', 'service/match.php', '0', '0', '0', 0, '0');",
+			'Ajoute le boutton Calendrier' => "INSERT INTO `".$config['prefix']."custom_menu` VALUES ('', 5, 'boutton_calendrier', 'service/calendrier.php', '0', '0', '0', 0, '1');",
+			'Ajoute le boutton Réglement' => "INSERT INTO `".$config['prefix']."custom_menu` VALUES ('', 6, 'boutton_reglement', 'service/reglement.php', '0', '0', '0', 0, '1');",
+			'Ajoute le boutton Résultat' => "INSERT INTO `".$config['prefix']."custom_menu` VALUES ('', 7, 'boutton_result_match', 'service/rapport_match.php', '0', '0', '0', 0, '1');",
+			'Ajoute le boutton Telechargement' => "INSERT INTO `".$config['prefix']."custom_menu` VALUES ('', 8, 'boutton_telecharger', 'service/download.php', '0', '0', '0', 0, '1');",
+			'Ajoute le boutton Liens' => "INSERT INTO `".$config['prefix']."custom_menu` VALUES ('', 9, 'boutton_liens', 'service/liens.php', '0', '0', '0', 0, '1');",
+			'Ajoute le boutton Rencontre' => "INSERT INTO `".$config['prefix']."custom_menu` VALUES ('', 10, 'boutton_org_rencontre', 'service/defier.php', '0', '0', '0', 0, '1');",
+		);
 	// sans break, metre case version a la suite, comme ca il fait toutes les mise à jours de la db de la version qu'il a jusqua la version actuelle
 	break;
 	case $news_version :
@@ -48,7 +75,7 @@ if (is_array($action_db) && empty($etat))
 	{
 		if (count($action) != 0)
 		{
-			$texte .= "<li>Mise a jours pour la version ".$version."</li>\n";
+			$texte .= "<li>Mise a jour pour la version ".$version."</li>\n";
 			$texte .= "	<ul>\n";
 			foreach ($action as $for => $sql)
 			{
@@ -64,9 +91,8 @@ if (is_array($action_db) && empty($etat))
 	$texte .= "</ul>\n";
 }
 $template->assign_vars(array(
-	'TITRE' => 'Mise à jours de ClanLite vers la version '.$news_version,
+	'TITRE' => 'Mise à jour de ClanLite vers la version '.$news_version,
 	'TEXTE' => (empty($etat))? $texte : $etat,
 ));
 $template->pparse('body');
-include($root_path."conf/frame.php"); 
 ?>

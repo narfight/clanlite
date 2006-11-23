@@ -57,7 +57,7 @@ if (!empty($_POST['submit']) )
 		// on envoys 	
 		// convertir la date en mktime
 		$date = mktime ( $_POST['heure'] , $_POST['min'] , 1 , $_POST['mois'] , $_POST['jours'] , date("Y"));
-		$sql = "INSERT INTO `".$config['prefix']."match_demande` (`clan`, `date`, `joueurs`, `mail_demande`, `msn_demandeur`, `url_clan`, `info`) VALUES ('".$_POST['clan']."', '".$date."', '".$_POST['joueurs']."', '".$_POST['mail_demande']."', '".$_POST['msn_demandeur']."', '".$_POST['url_clan']."', '".$_POST['info_match']."')"; 
+		$sql = "INSERT INTO `".$config['prefix']."match_demande` (`clan`, `date`, `joueurs`, `mail_demande`, `msn_demandeur`, `url_clan`, `info`) VALUES ('".$_POST['clan']."', '".$date."', '".$_POST['joueurs']."', '".$_POST['mail_demande']."', '".$_POST['msn_demandeur']."', '".(!empty($_POST['url_clan']) && eregi('http(s)?://',$_POST['url_clan']))? $_POST['url_clan'] : 'http://'.$_POST['url_clan']."', '".$_POST['info_match']."')"; 
 		if (! $rsql->requete_sql($sql) )
 		{
 			sql_error($sql ,mysql_error(), __LINE__, __FILE__);

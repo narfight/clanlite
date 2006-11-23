@@ -1,9 +1,9 @@
 <?php
 // compte le nombre de s pour executer une page du site
 function getmicrotime()
-{  
-	list($msec, $sec) = explode(" ",microtime());  
-	return ((float)$msec + (float)$sec); 
+{
+	list($msec, $sec) = explode(" ",microtime());
+	return ((float)$msec + (float)$sec);
 }
 
 //Prend les IP dans tout les cas
@@ -20,7 +20,6 @@ function get_ip()
 	return $_SERVER['REMOTE_ADDR'];
 }
 
-// décode les info des sessions (tres basic)
 function pure_var($var, $action='del')
 {
 	if ($action == 'del')
@@ -31,12 +30,12 @@ function pure_var($var, $action='del')
 			{
 				foreach($var as $key=>$val)
 				{ 
-					$var[$key] = addslashes($var[$key]);
+					$var[$key] = addslashes(trim(($key == 'for' || $key == 'id')? intval($var[$key]) : $var[$key]));
 				}
 			}
 			else
 			{
-				$var = addslashes($var);
+				$var = addslashes(trim($var));
 			}
 		}
 	}
@@ -93,7 +92,7 @@ function bbcode($fichier, $no_html=true)
 		"#\[url\]([a-z]+?://){1}([a-z0-9\-\.,\?!%\*_\#:;~\\&$@\/=\+\(\)]+)\[/url\]#si",
 		"#\[url\]([a-z0-9\-\.,\?!%\*_\#:;~\\&$@\/=\+\(\)]+)\[/url\]#si",
 		"#\[url=([a-z]+?://){1}([a-z0-9\-\.,\?!%\*_\#:;~\\&$@\/=\+\(\)]+)\](.*?)\[/url\]#si",
-		"#\[url=([a-z0-9\-\.,\?!%\*_\#:;~\\&$@\/=\+\(\)]+)\](.*?)\[/url\]#si"
+		"#\[url=([a-z0-9\-\.,\?!%\*_\#:;~\\&$@\/=\+\(\)]+)\](.*?)\[/url\]#si",
 	);
 	$bbcode_replace = array(
 		"<span style=\"font-size: \\1px;\">\\2</span>",
@@ -104,20 +103,23 @@ function bbcode($fichier, $no_html=true)
 		"<span style=\"text-decoration:underline\">\\1</span>",
 		"<img src=\"\\1\\2\" alt=\"\\1\\2\" />",
 		"<a href=\"mailto:\\1\\2@\\3\\4\">\\1\\2@\\3\\4</a>",
-		"<a href=\"\\1\\2\" onclick=\"window.open('\\1\\2\');return false;\">\\1\\2</a>",
-		"<a href=\"http://\\1\" onclick=\"window.open('http://\\1');return false;\">\\1</a>",
-		"<a href=\"\\1\\2\" onclick=\"window.open('\\1\\2');return false;\">\\3</a>",
-		"<a href=\"http://\\1\" onclick=\"window.open('http://\\1\');return false;\">\\2</a>"
+		"<a href=\"\\1\\2\">\\1\\2</a>",
+		"<a href=\"http://\\1\">\\1</a>",
+		"<a href=\"\\1\\2\">\\3</a>",
+		"<a href=\"http://\\1\">\\2</a>",
 	);
 	$fichier = preg_replace($bbcode_search, $bbcode_replace, $fichier);
 	while(ereg('\[list](.*)\[/list]', $fichier))
 	{
-		$fichier = preg_replace("#\[list](.*)\[/list]#Usi", "<ul>\\1</ul>", $fichier); 
+		$fichier = preg_replace("#\[list](.*)\[/list]#Usi", "<ul>\\1\n</li></ul>", $fichier); 
 	}
 	while(ereg('<ul>(.*)\[\*\](.*)</ul>', $fichier))
 	{
-		$fichier = preg_replace("#<ul>(.*)\[\*\](.*)</ul>#Usi", "<ul>\\1<li>\\2</li></ul>", $fichier);
+		$fichier = preg_replace("#<ul>(.*)\[\*\](.*)</ul>#Usi", "<ul>\\1</li><li>\\2</ul>", $fichier);
 	}
+	$fichier = str_replace('<ul></li>', '<ul>', $fichier);
+	$fichier = str_replace("
+</li><li>", "</li><li>", $fichier);
 	return $fichier;
 }
 
@@ -201,10 +203,10 @@ function sql_error($requete, $erreur, $line, $file)
 		));
 		$template->pparse('sql');
 		// vérifie si le site du constructeur est en ligne
-		$fp = @fsockopen("www.europubliweb.com", 80, $errno, $errstr, 30);
+		$fp = @fsockopen('www.europubliweb.com', 80, $errno, $errstr, 30);
 		if ($fp)
 		{
-			$out = "GET /born-to-up/serveur_central/com.php?rapport=oui&".urlencode($config['current_time']."|*|".$requete."|*|".$erreur."|*|".$file."|*|".$line."|*|".$config['site_domain'].$config['site_path']."|*|".$config['version'])." HTTP/1.1\r\n";
+			$out = "GET /born-to-up/serveur_central/com.php?rapport=".urlencode($requete."|*|".$erreur."|*|".$file."|*|".$line)." HTTP/1.1\r\n";
 			$out .= "Host: ".$_SERVER['HTTP_HOST']."\r\n";
 			$out .= "Referer: ".$config['site_domain'].$config['site_path']."\r\n";
 			$out .= "User-Agent: Clanlite ".$config['version']."\r\n";
@@ -213,18 +215,18 @@ function sql_error($requete, $erreur, $line, $file)
 			fwrite($fp, $out);
 			while (!feof($fp))
 			{
-				$tmp = fgets($fp, 128);
-				if("ok" == rtrim($tmp))
+				$tmp = rtrim(fgets($fp, 128));
+				if($tmp == 'ok')
 				{
 					break;
 				}
 			}
-			if ($tmp != 'ok')
-			{
-				$log = fopen($root_path."erreur_sql.txt" ,"a+");
-				fwrite($log, $config['current_time']."|*|".$requete."|*|".$erreur."|*|".$file."|*|".$line."|*|".$config['site_domain'].$config['site_path']."|*|".$config['version']." ".chr(10));
-				fclose($log);
-			}
+		}
+		elseif (!$fp || !empty($tmp) && $tmp != 'ok')
+		{
+			$log = fopen($root_path."erreur_sql.txt" ,"a");
+			fwrite($log, $config['current_time']."|*|".$requete."|*|".$erreur."|*|".$file."|*|".$line."|*|".$config['site_domain'].$config['site_path']."|*|".$config['version']." ".chr(10));
+			fclose($log);
 		}
 	}
 } 
@@ -341,7 +343,7 @@ function queryServer($address, $port, $protocol)
 	// vérifie qu'on a pas deja des info qui ne dépasse pas 2min sur le serveur
 	if (empty($config['game_server_cache']))
 	{
-		$sql = "SELECT server.*, players.name, players.id AS id_players, players.score, players.frags, players.deaths, players.honor, players.time FROM `".$config['prefix']."game_server_cache` AS server LEFT JOIN `".$config['prefix']."game_server_players_cache` AS players ON server.id = players.id_server";
+		$sql = "SELECT * FROM `".$config['prefix']."game_server_cache`";
 		if (! ($get_liste = $rsql->requete_sql($sql, 'site', 'Prend les infos en cache pour les serveurs de jeux')) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -352,15 +354,7 @@ function queryServer($address, $port, $protocol)
 			{
 				if (empty($config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']]) || !is_array($config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']]))
 				{// on crée l'entrée du serveur dans le array
-					$config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']] = array();
-					$serveur_game_cache['array_name'] = explode('|seprator_78aBµ|',$serveur_game_cache['array_name']);
-					$serveur_game_cache['array_value'] = explode('|seprator_78aBµ|',$serveur_game_cache['array_value']);
-					$serveur_game_cache['maplist'] = explode('|seprator_78aBµ|',$serveur_game_cache['maplist']);
-					 foreach ( $serveur_game_cache['array_name'] as $num_value => $array_name)
-					{
-						$rules[$serveur_game_cache['array_name'][$num_value]] = $serveur_game_cache['array_value'][$num_value];
-					}
-					$config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']] += array(
+					$config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']] = array(
 						'ip' => $serveur_game_cache['ip'],
 						'hostport' => $serveur_game_cache['hostport'],
 						'servertitle' => $serveur_game_cache['servertitle'],
@@ -372,31 +366,15 @@ function queryServer($address, $port, $protocol)
 						'nextmap' => $serveur_game_cache['nextmap'],
 						'gametype' => $serveur_game_cache['gametype'],
 						'password' => $serveur_game_cache['password'],
-						'rules' => $rules,
+						'rules' => unserialize($serveur_game_cache['rules']),
+						'maplist' => unserialize($serveur_game_cache['maplist']),
+						'players' => unserialize($serveur_game_cache['players']),
 					);
 				}
-				if (empty($config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']]['players'][$serveur_game_cache['id_players']]) || !is_array($config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']]['players'][$serveur_game_cache['id_players']]))
-				{
-					$config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']]['players'][$serveur_game_cache['id_players']] = array();
-				}
-				$config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']]['players'][$serveur_game_cache['id_players']] += array(
-					'name' => $serveur_game_cache['name'],
-					'score' => $serveur_game_cache['score'],
-					'frags' => $serveur_game_cache['frags'],
-					'deaths' => $serveur_game_cache['deaths'],
-					'honor' => $serveur_game_cache['honor'],
-					'time' => $serveur_game_cache['time'],
-				);
 			}
-			elseif (empty($dell[$serveur_game_cache['id']]))
+			else
 			{
-				$dell[$serveur_game_cache['id']] = true;
 				$sql = "DELETE FROM `".$config['prefix']."game_server_cache` WHERE id='".$serveur_game_cache['id']."'";
-				if (! ($rsql->requete_sql($sql, 'site', 'Supprime les infos en cache pour les serveurs de jeux dépassé')) )
-				{
-					sql_error($sql, $rsql->error, __LINE__, __FILE__);
-				}
-				$sql = "DELETE FROM `".$config['prefix']."game_server_players_cache` WHERE id_server='".$serveur_game_cache['id']."'";
 				if (! ($rsql->requete_sql($sql, 'site', 'Supprime les infos en cache pour les serveurs de jeux dépassé')) )
 				{
 					sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -410,7 +388,8 @@ function queryServer($address, $port, $protocol)
 	}
 	else
 	{
-		if(!$gameserver=gsQuery::createInstance($protocol, $address, $port))
+		$gameserver=($config['scan_game_server'] == 'udp')? gsQuery::createInstance($protocol, $address, $port) : gsQuery::unserializeFromURL('http://www.terragate.net/services/gsQuery/serializer.php?host='.$address.'&queryport='.$port.'&protocol='.$protocol);
+		if(!$gameserver)
 		{
 			return false;
 		}
@@ -418,40 +397,20 @@ function queryServer($address, $port, $protocol)
 		{ // fetch everything
 			return false;
 		}
-		$array_name = '';
-		$array_value = '';
-		$maplist = '';
-		foreach($gameserver->rules as $name => $value)
-		{
-			$array_name .= '|seprator_78aBµ|'.$name;
-			$array_value .= '|seprator_78aBµ|'.$value;
-		}
-		foreach($gameserver->maplist as $num => $name)
-		{
-			$maplist .= '|seprator_78aBµ|'.$name;
-		}
-		$sql = "INSERT INTO `".$config['prefix']."game_server_cache` (`date` , `ip` , `hostport` , `servertitle` , `gameversion` , `maplist` , `mapname` , `nextmap` , `password` , `maxplayers` , `numplayers` , `gametype` , `array_name` , `array_value` ) VALUES ( ".time()." , '".$address."' , \"".$port."\" , \"".addslashes($gameserver->htmlize($gameserver->servertitle))."\" , \"".$gameserver->gameversion."\" , \"".$maplist."\" , \"".$gameserver->mapname."\" , \"".$gameserver->nextmap."\" , \"".$gameserver->password."\" , \"".$gameserver->maxplayers."\" , \"".$gameserver->numplayers."\" , \"".$gameserver->gametype."\" , \"".$array_name."\" , \"".$array_value."\" )";
-		if (! ($rsql->requete_sql($sql, 'site', 'Insertion des informations sur le serveur de jeux dans le cache')) )
-		{
-			sql_error($sql, $rsql->error, __LINE__, __FILE__);
-		}
-		$id_serveur_cache = mysql_insert_id();
-		foreach($gameserver->players as $player)
-		{
-			$sql = 'INSERT INTO `'.$config['prefix'].'game_server_players_cache` ( `id_server` , `name` , `score` , `frags` , `deaths` , `honor` , `time` ) VALUES ( "'.$id_serveur_cache.'" , "'.addslashes($gameserver->htmlize($player['name'])).'" , "'.((empty($player['score']))? '' : $player['score']).'" , "'.((empty($player['frags']))? '' : $player['frags']).'" , "'.((empty($player['deaths']))? '' : $player['deaths']).'" , "'.((empty($player['honor']))? '' : $player['honor']).'" , "'.((empty($player['time']))? '' : $player['time']).'" )';
-			if (! ($rsql->requete_sql($sql, 'site', 'Insertion des informations sur le serveur de jeux dans le cache')) )
-			{
-				sql_error($sql, $rsql->error, __LINE__, __FILE__);
-			}
-		}
+		$gameserver->servertitle = $gameserver->htmlize($gameserver->servertitle);
 		foreach($gameserver->players as $id_player => $info)
 		{
 			$gameserver->players[$id_player]['name'] = $gameserver->htmlize($info['name']);
 		}
+		$sql = 'INSERT INTO `'.$config['prefix'].'game_server_cache` (`date` , `ip` , `hostport` , `servertitle` , `gameversion` , `maplist` , `mapname` , `nextmap` , `password` , `maxplayers` , `numplayers` , `gametype` , `players`, `rules` ) VALUES ( "'.time().'" , "'.$address.'" , "'.$port.'" , "'.addslashes($gameserver->servertitle).'" , "'.$gameserver->gameversion.'" , "'.addslashes(serialize($gameserver->maplist)).'" , "'.$gameserver->mapname.'" , "'.$gameserver->nextmap.'" , "'.$gameserver->password.'" , "'.$gameserver->maxplayers.'" , "'.$gameserver->numplayers.'" , "'.$gameserver->gametype.'" , "'.addslashes(serialize($gameserver->players)).'" , "'.addslashes(serialize($gameserver->rules)).'" )';
+		if (! ($rsql->requete_sql($sql, 'site', 'Insertion des informations sur le serveur de jeux dans le cache')) )
+		{
+			sql_error($sql, $rsql->error, __LINE__, __FILE__);
+		}
 		return array(
 			'ip' => $address,
 			'hostport' => $gameserver->hostport,
-			'servertitle' => $gameserver->htmlize($gameserver->servertitle),
+			'servertitle' => $gameserver->servertitle,
 			'gameversion' => $gameserver->gameversion,
 			'maxplayers' => $gameserver->maxplayers,
 			'numplayers' => $gameserver->numplayers,
@@ -510,7 +469,7 @@ function channelinfo($ip_serveur, $query_port, $port_serveur, $version_serveur)
 {
 	$cmd = "cl $port_serveur\nquit\n";
 
-	if ($connection = @fsockopen($ip_serveur, $query_port, &$errno, &$errstr))
+	if ($connection = @fsockopen($ip_serveur, $query_port, $errno, $errstr))
 	{
 		fputs($connection,$cmd, strlen($cmd));
 		while($channeldata = fgets($connection, 4096))
@@ -538,105 +497,64 @@ function channelinfo($ip_serveur, $query_port, $port_serveur, $version_serveur)
 		echo "Cannot connect: ($errno)-$errstr<br>";
 	}
 }
-function userinfo($ip_serveur, $query_port, $port_serveur, $version_serveur)
-{
-	$cmd = "pl $port_serveur\nquit\n";
-
-	if ($connection = @fsockopen($ip_serveur, $query_port, &$errno, &$errstr))
-	{
-		fputs($connection,$cmd, strlen($cmd));
-		while($userdata = fgets($connection, 4096))
-		{
-			$userdata = explode("	", $userdata);
-			if (is_numeric($userdata[0]))
-			{
-				$user_data[trim($userdata[0])] = array(
-					'pl_channelid'		=> (empty($userdata[1]))? '' : trim($userdata[1]),
-					'pl_pktssend'		=> (empty($userdata[2]))? '' : trim($userdata[2]),
-					'pl_bytessend'		=> (empty($userdata[3]))? '' : trim($userdata[3]),
-					'pl_pktsrecv'		=> (empty($userdata[4]))? '' : trim($userdata[4]),
-					'pl_bytesrecv'		=> (empty($userdata[5]))? '' : trim($userdata[5]),
-					'pl_pktloss'		=> (empty($userdata[6]))? '' : trim($userdata[6]),
-					'pl_ping'			=> (empty($userdata[7]))? '' : trim($userdata[7]),
-					'pl_logintime'		=> (empty($userdata[8]))? '' : trim($userdata[8]),
-					'pl_idletime'		=> (empty($userdata[9]))? '' : trim($userdata[9]),
-					'pl_channelprivileges'	=> (empty($userdata[10]))? '' : trim($userdata[10]),
-					'pl_playerprivileges'	=> (empty($userdata[11]))? '' : trim($userdata[11]),
-					'pl_playerflags'	=> (empty($userdata[12]))? '' : trim($userdata[12]),
-					'pl_ipaddress'		=> (empty($userdata[13]))? '' : trim($userdata[13]),
-					'pl_nickname'		=> ($version_serveur >= '201936')? addslashes(substr(substr((empty($userdata[14]))? '' : trim($userdata[14]), 1), 0, -1)) : addslashes((empty($userdata[14]))? '' : trim($userdata[14])),
-					'pl_loginname'		=> ($version_serveur >= '201936')? addslashes(substr(substr((empty($userdata[15]))? '' : trim($userdata[15]), 1), 0, -1)) : addslashes((empty($userdata[15]))? '' : trim($userdata[15])),
-				);
-			}
-		}
-		fclose($connection);
-		return $user_data;
-	}
-	else
-	{
-		echo "Cannot connect: ($errno)-$errstr<br>";
-	}
-}
 function decode_user($user_data)
 {
-	foreach($user_data as $id => $info)
+	if ($user_data['bs'] >= 1048576)
 	{
-		if ($user_data[$id]['pl_bytessend'] >= 1048576)
-		{
-			$user_data[$id]['pl_bytessend']=floor($user_data[$id]['pl_bytessend']/1048576).' Mo';
-		}
-		if ($user_data[$id]['pl_bytessend'] >= 1024)
-		{
-			$user_data[$id]['pl_bytessend']=floor($user_data[$id]['pl_bytessend']/1024).' Kb';
-		}
-		if ($user_data[$id]['pl_bytesrecv'] >= 1048576)
-		{
-			$user_data[$id]['pl_bytesrecv']=floor($user_data[$id]['pl_bytesrecv']/1048576).' Mo';
-		}
-		if ($user_data[$id]['pl_bytesrecv'] >= 1024)
-		{
-			$user_data[$id]['pl_bytesrecv']=floor($user_data[$id]['pl_bytesrecv']/1024).' Kb';
-		}
-		$valeur = '|';
-		if ($info['pl_playerflags'] >= 64)
-		{
-			$info['pl_playerflags']=$info['pl_playerflags']-64;
-			$valeur .= "rec|";
-		}
-		if ($info['pl_playerflags'] >= 32)
-		{
-			$info['pl_playerflags']=$info['pl_playerflags']-32;
-			$valeur .= "speakers off|";
-		}
-		if ($info['pl_playerflags'] >= 16)
-		{
-			$info['pl_playerflags']=$info['pl_playerflags']-16;
-			$valeur .= "microphone off|";
-		}
-		if ($info['pl_playerflags'] >= 8)
-		{
-			$info['pl_playerflags']=$info['pl_playerflags']-8;
-			$valeur .= "away|";
-		}
-		if ($info['pl_playerflags'] >= 4)
-		{
-			$info['pl_playerflags']=$info['pl_playerflags']-4;
-			$valeur .= "block whispers|";
-		}
-		if ($info['pl_playerflags'] >= 2)
-		{
-			$info['pl_playerflags']=$info['pl_playerflags']-2;
-			$valeur .= "request voice|";
-		}
-		if ($info['pl_playerflags'] >= 1)
-		{
-			$info['pl_playerflags']=$info['pl_playerflags']-1;
-			$valeur .= "channel admin|";
-		}
-		$user_data[$id]['pl_playerflags'] = $valeur;
+		$user_data['bs']=floor($user_data['bs']/1048576).' Mo';
 	}
+	if ($user_data['bs'] >= 1024)
+	{
+		$user_data['bs']=floor($user_data['bs']/1024).' Kb';
+	}
+	if ($user_data['br'] >= 1048576)
+	{
+		$user_data['br']=floor($user_data['br']/1048576).' Mo';
+	}
+	if ($user_data['br'] >= 1024)
+	{
+		$user_data['br']=floor($user_data['br']/1024).' Kb';
+	}
+	$valeur = '|';
+	if ($user_data['pflags'] >= 64)
+	{
+		$user_data['pflags']=$user_data['pflags']-64;
+		$valeur .= "rec|";
+	}
+	if ($user_data['pflags'] >= 32)
+	{
+		$user_data['pflags']=$user_data['pflags']-32;
+		$valeur .= "speakers off|";
+	}
+	if ($user_data['pflags'] >= 16)
+	{
+		$user_data['pflags']=$user_data['pflags']-16;
+		$valeur .= "microphone off|";
+	}
+	if ($user_data['pflags'] >= 8)
+	{
+		$user_data['pflags']=$user_data['pflags']-8;
+		$valeur .= "away|";
+	}
+	if ($user_data['pflags'] >= 4)
+	{
+		$user_data['pflags']=$user_data['pflags']-4;
+		$valeur .= "block whispers|";
+	}
+	if ($user_data['pflags'] >= 2)
+	{
+		$user_data['pflags']=$user_data['pflags']-2;
+		$valeur .= "request voice|";
+	}
+	if ($user_data['pflags'] >= 1)
+	{
+		$user_data['pflags']=$user_data['pflags']-1;
+		$valeur .= "channel admin|";
+	}
+	$user_data['pflags'] = $valeur;
 	return $user_data;
 }
+
 function decode_channel($channel_data)
 {
 	if (!is_array($channel_data))
@@ -768,39 +686,5 @@ function decode_channel($channel_data)
 		}
 	}
 	return $channel_data;
-}
-function show_serveur($channel_data, $user_data)
-{
-	foreach($channel_data as $id_channel => $info_channel)
-	{
-		if ($info_channel['parent'] == -1)
-		{
-			echo "* Channel : ".$info_channel['name']."<br />\n";
-			// cherche les connecté dans le channel
-			foreach($user_data as $id_user => $info_user)
-			{
-				if ($id_channel == $info_user['pl_channelid'])
-				{
-					echo "---* User : ".$info_user['pl_nickname']."<br />\n";
-				}
-			}
-			foreach($channel_data as $id_sub_channel => $info_sub_channel)
-			{
-				if ($info_sub_channel['parent'] == $id_channel)
-				{
-					echo "---* Sub Channel : ".$info_sub_channel['name']."<br />\n";
-					foreach($user_data as $id_user => $info_user)
-					{
-						if ($id_sub_channel == $info_user['pl_channelid'])
-						{
-							echo "------* User : ".$info_user['pl_nickname']."<br />\n";
-						}
-					}
-				}
-			}
-			// regarde si il a des subchannel
-		}
-	}
-	echo "\n</ul>";
 }
 ?>

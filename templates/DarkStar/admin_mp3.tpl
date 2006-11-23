@@ -33,14 +33,14 @@
 	</p>
 	<p>
 		<span>
-				<!-- BEGIN rajouter --> 
-				<input type="submit" name="Envoyer" value="{rajouter.ENVOYER}" /> 
-				<!-- END rajouter --> 
-				<!-- BEGIN edit --> 
-				<input type="submit" name="Editer" value="Editer" /> 
-				<!-- END edit --> 
-				<input name="for" type="hidden" id="for" value="{ID}" />
-</span>
+			<!-- BEGIN rajouter --> 
+			<input type="submit" name="Envoyer" value="{rajouter.ENVOYER}" /> 
+			<!-- END rajouter --> 
+			<!-- BEGIN edit --> 
+			<input type="submit" name="Editer" value="Editer" /> 
+			<!-- END edit --> 
+			<input name="for" type="hidden" id="for" value="{ID}" />
+		</span>
 	</p>
 	</div>
 </form>
@@ -58,7 +58,7 @@
     <td><a href="{liste.SRC}" onclick="window.open('{liste.SRC}');return false;">{liste.TITRE}</a></td> 
     <td>{liste.CHANTEUR}</td> 
       <td><form action="mp3.php" method="post"> 
-          <input name="dell" type="submit" value="{liste.SUPPRIMER}" /> 
+          <input name="dell" type="submit" value="{liste.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" /> 
           <input name="for" type="hidden" value="{liste.ID}" /> 
           <input name="edit" type="submit" value="{liste.EDITER}" /> 
           </form></td> 

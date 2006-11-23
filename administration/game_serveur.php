@@ -54,16 +54,17 @@ foreach(gsQuery::getSupportedProtocols($root_path."service/gsquery/") as $protoc
 	));
 }
 $template->assign_vars( array( 
+	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'ICI' => $_SERVER['PHP_SELF'],
 	'TITRE' => $langue['titre_game_server'],
 	'TITRE_GESTION' => $langue['titre_game_server_gestion'],
 	'TITRE_LISTE' => $langue['titre_game_server_list'],
 	'ACTION' => $langue['action'],
 	'TXT_CHOISIR' => $langue['choisir'],
-	'TXT_SERVEUR_GAME_PORT' => $langue['config_serveur_port'],
+	'TXT_SERVEUR_GAME_PORT' => $langue['config_serveur_game_port'],
 	'TXT_HELP_GAME_PORT' => $langue['config_help_port'],
-	'TXT_SERVEUR_GAME_IP' => $langue['config_serveur_ip'],
-	'TXT_SERVEUR_GAME_PROTOCOL' => $langue['config_serveur_protocol'],
+	'TXT_SERVEUR_GAME_IP' => $langue['config_serveur_game_ip'],
+	'TXT_SERVEUR_GAME_PROTOCOL' => $langue['config_serveur_game_protocol'],
 	'ALT_AIDE' => $langue['alt_aide'],
 	'TXT_IP' => $langue['ip'],
 	'TXT_PORT' => $langue['port'],

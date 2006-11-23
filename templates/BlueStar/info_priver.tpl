@@ -13,6 +13,7 @@
 		<ul> 
 			<li>{admin.TXT_NOMBRE_USER} :<span class="reponce">{admin.NOMBRE_USER}</span></li>
 			<li>{admin.TXT_NOMBRE_MATCH} :<span class="reponce">{admin.NOMBRE_MATCH}</span></li>
+			<li>{admin.TXT_NOMBRE_OLD_MATCH} :<span class="reponce">{admin.NOMBRE_OLD_MATCH}</span></li>
 			<li>{admin.TXT_NOMBRE_DEMANDE_MATCH} :<span class="reponce">{admin.NOMBRE_DEMANDE_MATCH}</span></li>
 		</ul> 
 		<h2>{admin.INFO_ADMIN_MEMBRE}</h2>
@@ -33,7 +34,7 @@
 				<td>
 					<form method="post" action="../administration/editer-user.php">
 						<input type="submit" name="editer" value="{admin.nul_part.BT_EDITER}" /> 
-						<input name="link" type="hidden" value="{admin.nul_part.ID}" />
+						<input name="id" type="hidden" value="{admin.nul_part.ID}" />
 					</form>
 				</td> 
 			</tr> 
