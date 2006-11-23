@@ -11,7 +11,7 @@ include($root_path."conf/frame.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'iframe.tpl'));
 // requette sql
-$sql = "SELECT url, text FROM ".$config['prefix']."custom_menu WHERE id ='".$HTTP_GET_VARS['id']."'";
+$sql = "SELECT url, text FROM ".$config['prefix']."custom_menu WHERE id ='".$_GET['id']."'";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql ,mysql_error(), __LINE__, __FILE__);

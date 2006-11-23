@@ -105,7 +105,7 @@ if ($user_pouvoir['particulier'] == "admin")
 		'PROFIL' => $langue['profil'],
 	));
 	// on regarde les membres sans equipe ou section
-	$sql = "SELECT id,user,sex,equipe,section,pouvoir FROM ".$config['prefix']."user WHERE equipe = '' OR section = '' OR pouvoir = 'a valider'";
+	$sql = "SELECT id,user,sex,equipe,section,pouvoir FROM ".$config['prefix']."user WHERE equipe = '' OR section = '' OR pouvoir = 'news'";
 	if (! ($get_vide = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
@@ -121,7 +121,7 @@ if ($user_pouvoir['particulier'] == "admin")
 			'SEX' => ( $liste_membre['sex'] == "Femme") ? "femme" : "homme",
 			'EQUIPE' => ( empty($liste_membre['equipe'])  &&  $liste_membre['equipe'] !== 0) ? $langue['user_verif'] : $langue['user_ok'],
 			'SECTION' => ( empty($liste_membre['section']) &&  $liste_membre['section'] !== 0) ? $langue['user_verif'] : $langue['user_ok'],
-			'PV' => ( $liste_membre['pouvoir'] == "a valider" || $liste_membre['pouvoir'] == "news" ) ? $langue['user_verif'] : $langue['user_ok'],
+			'PV' => ( $liste_membre['pouvoir'] == "news" ) ? $langue['user_verif'] : $langue['user_ok'],
 			'BT_EDITER' => $langue['editer'],
 		));
 	}

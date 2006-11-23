@@ -67,7 +67,7 @@
 	<span class="reponce">{objectif.OBJ_1_AXIS}<br />{objectif.OBJ_2_AXIS}<br />{objectif.OBJ_3_AXIS}</span>
 </p>
 <p>
-	<span>{objectif.TXT_ALLIER_AXIS} :</span>
+	<span>{objectif.TXT_OBJ_ALLIER} :</span>
 	<span class="reponce">{objectif.OBJ_1_ALLIER}<br />{objectif.OBJ_2_ALLIER}<br />{objectif.OBJ_3_ALLIER}</span>
 </p>
 <!-- END objectif --> 

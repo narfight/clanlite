@@ -1,6 +1,11 @@
 <form method="post" action="controle/entrer.php"> 
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
+	<!-- BEGIN erreur -->
+	<div class="news">
+		{erreur.TEXTE}
+	</div>
+	<!-- END erreur -->
 	<p>
 		<span><label for="user">{LOGIN}&nbsp;:</label></span>
 		<span><input name="user" type="text" id="user" value="{USER}" onBlur="formverif(this.id,'nbr','2')" /></span>
@@ -15,7 +20,10 @@
 		</span>
 	</p>
 	<p>
-		<span><input name="Submit" type="submit" class="boutton" value="{ENVOYER}" /></span>
+		<span>
+			<input name="Submit" type="submit" class="boutton" value="{ENVOYER}" />
+			<input name="goto" type="hidden" id="goto" value="{GOTO}" />
+		</span>
 		<span><a href='user/code-perdu.php'>{LOST}</a></span>
 	</p>
 </div>

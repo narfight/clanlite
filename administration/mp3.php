@@ -8,29 +8,29 @@ $niveau_secu = 17;
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
-if (!empty($HTTP_POST_VARS['dell']))
+if (!empty($_POST['dell']))
 {
-	$sql = "DELETE FROM ".$config['prefix']."config_sond WHERE id = '".$HTTP_POST_VARS['for']."'";
+	$sql = "DELETE FROM ".$config['prefix']."config_sond WHERE id = '".$_POST['for']."'";
 	if (! $rsql->requete_sql($sql) )
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 	}
 	redirec_text('mp3.php',$langue['redirection_admin_mp3_dell'],'admin');
 }
-if (!empty($HTTP_POST_VARS['Envoyer']))
+if (!empty($_POST['Envoyer']))
 { 
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$sql = "INSERT INTO `".$config['prefix']."config_sond` (SRC,AUTOPLAY,LOOP,titre,arstite) VALUES ('".$HTTP_POST_VARS['SRC']."', '".$HTTP_POST_VARS['AUTOPLAY']."', '".$HTTP_POST_VARS['LOOP']."', '".$HTTP_POST_VARS['titre']."', '".$HTTP_POST_VARS['chanteur']."')";
+	$_POST = pure_var($_POST);
+	$sql = "INSERT INTO `".$config['prefix']."config_sond` (SRC,AUTOPLAY,LOOP,titre,arstite) VALUES ('".$_POST['SRC']."', '".$_POST['AUTOPLAY']."', '".$_POST['LOOP']."', '".$_POST['titre']."', '".$_POST['chanteur']."')";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	redirec_text('mp3.php', $langue['redirection_admin_mp3_add'], 'admin');
 }
-if (!empty($HTTP_POST_VARS['Editer']))
+if (!empty($_POST['Editer']))
 {
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$sql = "UPDATE `".$config['prefix']."config_sond` SET SRC='".$HTTP_POST_VARS['SRC']."', AUTOPLAY='".$HTTP_POST_VARS['AUTOPLAY']."', LOOP='".$HTTP_POST_VARS['LOOP']."', titre='".$HTTP_POST_VARS['titre']."', arstite='".$HTTP_POST_VARS['chanteur']."' WHERE id='".$HTTP_POST_VARS['for']."'";
+	$_POST = pure_var($_POST);
+	$sql = "UPDATE `".$config['prefix']."config_sond` SET SRC='".$_POST['SRC']."', AUTOPLAY='".$_POST['AUTOPLAY']."', LOOP='".$_POST['LOOP']."', titre='".$_POST['titre']."', arstite='".$_POST['chanteur']."' WHERE id='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -57,9 +57,9 @@ $template->assign_vars(array(
 	'OUI' => $langue['oui'],
 	'NON' => $langue['non'],
 ));
-if (!empty($HTTP_POST_VARS['edit']))
+if (!empty($_POST['edit']))
 {
-	$sql = "SELECT * FROM `".$config['prefix']."config_sond` WHERE id='".$HTTP_POST_VARS['for']."'";
+	$sql = "SELECT * FROM `".$config['prefix']."config_sond` WHERE id='".$_POST['for']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);

@@ -7,22 +7,22 @@ $root_path = "./../";
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
-if (!empty($HTTP_POST_VARS['Submit']))
+if (!empty($_POST['Submit']))
 {
 	$forum_error = "";
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
+	$_POST = pure_var($_POST);
 	//on vérifie le formulaire point par point
-	if(empty($HTTP_POST_VARS['nom']))
+	if(empty($_POST['nom']))
 	{
 		$forum_error .= $langue['erreur_nom_vide'];
 	}
-	if(empty($HTTP_POST_VARS['user1']))
+	if(empty($_POST['user1']))
 	{
 		$forum_error .= $langue['erreur_user_vide'];
 	}
 	else
 	{
-		$sql = "SELECT user FROM ".$config['prefix']."user WHERE user = '".$HTTP_POST_VARS['user1']."' AND id != '".$session_cl['id']."'";
+		$sql = "SELECT user FROM ".$config['prefix']."user WHERE user = '".$_POST['user1']."' AND id != '".$session_cl['id']."'";
 		if (! ($get = $rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -32,27 +32,27 @@ if (!empty($HTTP_POST_VARS['Submit']))
 			$forum_error .= $langue['erreur_user_prit'];
 		}
 	}
-	if(empty($HTTP_POST_VARS['sex']))
+	if(empty($_POST['sex']))
 	{
 		$forum_error .= $langue['erreur_sex_vide'];
 	}
-	if(empty($HTTP_POST_VARS['age_y']) || empty($HTTP_POST_VARS['age_m']) || empty($HTTP_POST_VARS['age_d']))
+	if(empty($_POST['age_y']) || empty($_POST['age_m']) || empty($_POST['age_d']))
 	{
 		$forum_error .= $langue['erreur_naissance_vide'];
 	}
-	if(empty($HTTP_POST_VARS['mail']))
+	if(empty($_POST['mail']))
 	{
 		$forum_error .= $langue['erreur_mail_vide'];
 	}
 	else
 	{
-		if (!eregi("(.+)@(.+).([a-z]{2,4})$", $HTTP_POST_VARS['mail']))
+		if (!eregi("(.+)@(.+).([a-z]{2,4})$", $_POST['mail']))
 		{
 			$forum_error .= $langue['erreur_mail_invalide'];
 		}
 		else
 		{
-			$sql = "SELECT mail FROM ".$config['prefix']."user WHERE mail='".$HTTP_POST_VARS['mail']."' AND id != '".$session_cl['id']."'";
+			$sql = "SELECT mail FROM ".$config['prefix']."user WHERE mail='".$_POST['mail']."' AND id != '".$session_cl['id']."'";
 			if (! $get = $rsql->requete_sql($sql) )
 			{
 				sql_error($sql ,mysql_error(), __LINE__, __FILE__);
@@ -63,40 +63,40 @@ if (!empty($HTTP_POST_VARS['Submit']))
 			}
 		}
 	}
-	if(empty($HTTP_POST_VARS['icq']))
+	if(empty($_POST['icq']))
 	{
 		$forum_error .= $langue['erreur_msn_vide'];
 	}
-	else if (!eregi("(.+)@(.+).([a-z]{2,4})$", $HTTP_POST_VARS['icq']))
+	else if (!eregi("(.+)@(.+).([a-z]{2,4})$", $_POST['icq']))
 	{
 		$forum_error .= $langue['erreur_msn_invalide'];
 	}
-	if(empty($HTTP_POST_VARS['prenom']))
+	if(empty($_POST['prenom']))
 	{
 		$forum_error .= $langue['erreur_prenom_vide'];
 	}
-	if(empty($HTTP_POST_VARS['arme']) && $HTTP_POST_VARS['arme'] == "0.gif")
+	if(empty($_POST['arme']) && $_POST['arme'] == "0.gif")
 	{
 		$forum_error .= $langue['erreur_arme_vide'];
 	}
-	if(empty($HTTP_POST_VARS['perso']) && $HTTP_POST_VARS['perso'] == "0.gif")
+	if(empty($_POST['perso']) && $_POST['perso'] == "0.gif")
 	{
 		$forum_error .= $langue['erreur_perso_image_vide'];
 	}
-	if(empty($HTTP_POST_VARS['langue_form']))
+	if(empty($_POST['langue_form']))
 	{
 		$forum_error .= $langue['erreur_langue_vide'];
 	}
-	if (!empty($HTTP_POST_VARS['psw']) && !empty($HTTP_POST_VARS['psw2']))
+	if (!empty($_POST['psw']) && !empty($_POST['psw2']))
 	{
-		if ($HTTP_POST_VARS['psw'] != $HTTP_POST_VARS['psw2'])
+		if ($_POST['psw'] != $_POST['psw2'])
 		{
 			$forum_error .= $langue['erreur_code_différent'];
 		}
 		else
 		{
-			$code="psw='".md5($HTTP_POST_VARS['psw'])."', ";
-			$session_cl['psw'] = md5($HTTP_POST_VARS['psw']);
+			$code="psw='".md5($_POST['psw'])."', ";
+			$session_cl['psw'] = md5($_POST['psw']);
 		}
 	}
 	else
@@ -105,28 +105,28 @@ if (!empty($HTTP_POST_VARS['Submit']))
 	}
 	if ( empty($forum_error) )
 	{
-		$session_cl['user'] = $HTTP_POST_VARS['user1'];
-		$session_cl['sex'] = $HTTP_POST_VARS['sex'];
-		$session_cl['mail'] = $HTTP_POST_VARS['mail'];
-		$session_cl['langue_user'] = $HTTP_POST_VARS['langue_form'];
+		$session_cl['user'] = $_POST['user1'];
+		$session_cl['sex'] = $_POST['sex'];
+		$session_cl['mail'] = $_POST['mail'];
+		$session_cl['langue_user'] = $_POST['langue_form'];
 		save_session($session_cl);
-		$age = mktime (0 , 0 , 0 , $HTTP_POST_VARS['age_m'] , $HTTP_POST_VARS['age_d'] , $HTTP_POST_VARS['age_y']);
+		$age = mktime (0 , 0 , 0 , $_POST['age_m'] , $_POST['age_d'] , $_POST['age_y']);
 		$sql = "UPDATE ".$config['prefix']."user SET 
-			cri='".$HTTP_POST_VARS['texte']."', 
-			im='".$HTTP_POST_VARS['icq']."', 
-			nom='".$HTTP_POST_VARS['nom']."', 
-			user='".$HTTP_POST_VARS['user1']."', 
-			mail='".$HTTP_POST_VARS['mail']."', 
-			web='".$HTTP_POST_VARS['web']."',
+			cri='".$_POST['texte']."', 
+			im='".$_POST['icq']."', 
+			nom='".$_POST['nom']."', 
+			user='".$_POST['user1']."', 
+			mail='".$_POST['mail']."', 
+			web='".$_POST['web']."',
 			".$code."
-			sex='".$HTTP_POST_VARS['sex']."', 
+			sex='".$_POST['sex']."', 
 			age='".$age."', 
-			prénom='".$HTTP_POST_VARS['prenom']."', 
-			armes_préférées='".$HTTP_POST_VARS['arme']."',
-			images='".$HTTP_POST_VARS['perso']."', 
-			histoire='".$HTTP_POST_VARS['histoire']."', 
-			langue='".$HTTP_POST_VARS['langue_form']."', 
-			images='".$HTTP_POST_VARS['perso']."' 
+			prénom='".$_POST['prenom']."', 
+			armes_préférées='".$_POST['arme']."',
+			images='".$_POST['perso']."', 
+			histoire='".$_POST['histoire']."', 
+			langue='".$_POST['langue_form']."', 
+			images='".$_POST['perso']."' 
 			WHERE id ='".$session_cl['id']."'"; 
 		if (! ($rsql->requete_sql($sql)) )
 		{

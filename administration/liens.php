@@ -8,19 +8,19 @@ $action_membre= 'where_liens_admin';
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
-if (!empty($HTTP_POST_VARS['dell']))
+if (!empty($_POST['dell']))
 {
-	$sql = "DELETE FROM `".$config['prefix']."liens` WHERE id ='".$HTTP_POST_VARS['for']."'";
+	$sql = "DELETE FROM `".$config['prefix']."liens` WHERE id ='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	redirec_text("liens.php", $langue['redirection_liens_dell'], "admin");
 }
-if (!empty($HTTP_POST_VARS['Envoyer']))
+if (!empty($_POST['Envoyer']))
 { 
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$sql = "INSERT INTO `".$config['prefix']."liens` (nom_liens, url_liens, images) VALUES ('".$HTTP_POST_VARS['nom_liens']."', '".$HTTP_POST_VARS['url_liens']."', '".$HTTP_POST_VARS['url_image']."')";
+	$_POST = pure_var($_POST);
+	$sql = "INSERT INTO `".$config['prefix']."liens` (nom_liens, url_liens, images) VALUES ('".$_POST['nom_liens']."', '".$_POST['url_liens']."', '".$_POST['url_image']."')";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -30,10 +30,10 @@ if (!empty($HTTP_POST_VARS['Envoyer']))
 		redirec_text("liens.php", $langue['redirection_liens_add'], "admin");
 	}
 }
-if (!empty($HTTP_POST_VARS['Editer']))
+if (!empty($_POST['Editer']))
 {
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$sql = "UPDATE `".$config['prefix']."liens` SET nom_liens='".$HTTP_POST_VARS['nom_liens']."', url_liens='".$HTTP_POST_VARS['url_liens']."', images='".$HTTP_POST_VARS['url_image']."' WHERE id='".$HTTP_POST_VARS['for']."'";
+	$_POST = pure_var($_POST);
+	$sql = "UPDATE `".$config['prefix']."liens` SET nom_liens='".$_POST['nom_liens']."', url_liens='".$_POST['url_liens']."', images='".$_POST['url_image']."' WHERE id='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -47,7 +47,7 @@ include($root_path."conf/frame_admin.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'admin_liens.tpl'));
 $template->assign_vars( array(
-	'ICI' => $HTTP_SERVER_VARS['PHP_SELF'],
+	'ICI' => $_SERVER['PHP_SELF'],
 	'TITRE' => $langue['titre_liens_admin'],
 	'TITRE_GESTION' => $langue['titre_liens_admin_gestion'],
 	'TITRE_LISTE' => $langue['titre_liens_admin_list'],
@@ -56,9 +56,9 @@ $template->assign_vars( array(
 	'TXT_URL' => $langue['liens_url_site'],
 	'TXT_IMAGE' => $langue['liens_image_site'],
 ));
-if (!empty($HTTP_POST_VARS['edit']))
+if (!empty($_POST['edit']))
 {
-	$sql = "SELECT * FROM ".$config['prefix']."liens WHERE id='".$HTTP_POST_VARS['for']."'";
+	$sql = "SELECT * FROM ".$config['prefix']."liens WHERE id='".$_POST['for']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);

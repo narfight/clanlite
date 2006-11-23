@@ -7,10 +7,10 @@ $action_membre = 'where_match_prive';
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
-if (!empty($HTTP_POST_VARS['match']))
+if (!empty($_POST['match']))
 {
 	// on vérifie qu'il est pas deja dans le match
-	$sql = "SELECT COUNT(id) FROM `".$config['prefix']."match_inscription` WHERE user_id ='".$session_cl['id']."' AND id_match ='".$HTTP_POST_VARS['match']."'";
+	$sql = "SELECT COUNT(id) FROM `".$config['prefix']."match_inscription` WHERE user_id ='".$session_cl['id']."' AND id_match ='".$_POST['match']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -18,7 +18,7 @@ if (!empty($HTTP_POST_VARS['match']))
 	$verif_present = $rsql->s_array($get);
 	if ($verif_present['COUNT(id)'] == "0")
 	{
-		$sql = "INSERT INTO `".$config['prefix']."match_inscription` (id_match, user_id, statu) VALUES ('".$HTTP_POST_VARS['match']."', '".$session_cl['id']."', 'demande')";
+		$sql = "INSERT INTO `".$config['prefix']."match_inscription` (id_match, user_id, statu) VALUES ('".$_POST['match']."', '".$session_cl['id']."', 'demande')";
 		if (! ($rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -27,7 +27,7 @@ if (!empty($HTTP_POST_VARS['match']))
 	}
 	else
 	{
-		$sql = "DELETE FROM `".$config['prefix']."match_inscription` WHERE `id_match` = '".$HTTP_POST_VARS['match']."' AND `user_id` = '".$session_cl['id']."'";
+		$sql = "DELETE FROM `".$config['prefix']."match_inscription` WHERE `id_match` = '".$_POST['match']."' AND `user_id` = '".$session_cl['id']."'";
 		if (! ($list = $rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);

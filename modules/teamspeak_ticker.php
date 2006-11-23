@@ -74,7 +74,7 @@ if (defined('CL_AUTH'))
 	}
 	return;
 }
-if( !empty($HTTP_GET_VARS['config_modul_admin']) || !empty($HTTP_POST_VARS['Submit_module']) )
+if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module']) )
 {
 	$root_path = './../';
 	$action_membre= 'where_module_ticker_ts';
@@ -82,10 +82,10 @@ if( !empty($HTTP_GET_VARS['config_modul_admin']) || !empty($HTTP_POST_VARS['Subm
 	include($root_path."conf/template.php");
 	include($root_path."conf/conf-php.php");
 	include($root_path."controle/cook.php");
-	$id_module = (!empty($HTTP_POST_VARS['id_module']))? $HTTP_POST_VARS['id_module'] : $HTTP_GET_VARS['id_module'];
-	if ( !empty($HTTP_POST_VARS['Submit_module']) )
+	$id_module = (!empty($_POST['id_module']))? $_POST['id_module'] : $_GET['id_module'];
+	if ( !empty($_POST['Submit_module']) )
 	{
-		$sql = "UPDATE ".$config['prefix']."modules SET config='".$HTTP_POST_VARS['url']."|!|".$HTTP_POST_VARS['url_webpost']."' WHERE id ='".$id_module."'";
+		$sql = "UPDATE ".$config['prefix']."modules SET config='".$_POST['url']."|!|".$_POST['url_webpost']."' WHERE id ='".$id_module."'";
 		if (! ($rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);

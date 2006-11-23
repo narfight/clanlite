@@ -4,8 +4,8 @@
 // -------------------------------------------------------------
 function session_on()
 {
-	global $rsql,$config,$HTTP_COOKIE_VARS;
-	if (empty($HTTP_COOKIE_VARS['session']))
+	global $rsql,$config;
+	if (empty($_COOKIE['session']))
 	{// il a pas de trace de session chez le visiteur et donc on lui envois un cookies
 		$string="azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN1234567890"; 
 		$uid = '';
@@ -25,8 +25,8 @@ function session_on()
 }
 function lire_session($ou='')
 {
-	global $rsql,$config,$HTTP_COOKIE_VARS;
-	$ou = (!empty($ou))? $ou : (!empty($HTTP_COOKIE_VARS['session']))? $HTTP_COOKIE_VARS['session'] : $config['id_session'];
+	global $rsql,$config;
+	$ou = (!empty($ou))? $ou : (!empty($_COOKIE['session']))? $_COOKIE['session'] : $config['id_session'];
 	$sql = "SELECT stock FROM ".$config['prefix']."sessions WHERE id='".$ou."'";
 	$get = $rsql->requete_sql($sql, 'session', 'Prend les informations de la session');
 	if (!($valeur_session = $rsql->s_array($get)))
@@ -51,8 +51,8 @@ function lire_session($ou='')
 }
 function save_session($valeur_session='')
 {
-	global $rsql,$config,$HTTP_COOKIE_VARS;
-	$HTTP_COOKIE_VARS['session'] = (!empty($HTTP_COOKIE_VARS['session']))? $HTTP_COOKIE_VARS['session'] : $config['id_session'];
+	global $rsql,$config;
+	$_COOKIE['session'] = (!empty($_COOKIE['session']))? $_COOKIE['session'] : $config['id_session'];
 	if (is_array($valeur_session))
 	{
 		$chaine = '';
@@ -60,15 +60,15 @@ function save_session($valeur_session='')
 		{
 			$chaine .=$key."|.=.|".$var."|!*§|";
 		}
-		$sql = "UPDATE ".$config['prefix']."sessions SET stock = '".$chaine."', date = NOW() WHERE id = '".$HTTP_COOKIE_VARS['session']."'";
+		$sql = "UPDATE ".$config['prefix']."sessions SET stock = '".$chaine."', date = NOW() WHERE id = '".$_COOKIE['session']."'";
 		$rsql->requete_sql($sql, 'session', 'Mise à jour des données de la session');
 	}
 	dell_old_session();
 }
 function clear_session()
 {
-	global $rsql,$config,$HTTP_COOKIE_VARS;
-	$sql = "UPDATE ".$config['prefix']."sessions SET stock = '', date = NOW() WHERE id = '".$HTTP_COOKIE_VARS['session']."'";
+	global $rsql,$config;
+	$sql = "UPDATE ".$config['prefix']."sessions SET stock = '', date = NOW() WHERE id = '".$_COOKIE['session']."'";
 	if (! ($rsql->requete_sql($sql, 'session', 'Supprime la session')) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);

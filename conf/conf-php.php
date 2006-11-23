@@ -1,8 +1,12 @@
-<?
-include($root_path."config.php");
+<?php
+@include($root_path."config.php");
 include($root_path."conf/mysql.php");
 include($root_path."conf/session.php");
 include($root_path."conf/lib.php");
+if (!defined('CL_INSTALL'))
+{// clanlite non installé, on y va alors
+	redirection($root_path.'install/install.php');
+}
 ob_start('ob_gzhandler'); 
 define('CL_AUTH', true);
 $rsql = new mysql();
@@ -34,9 +38,9 @@ session_on();
 $session_cl = lire_session();
 //change le template si on le demande
 $config['skin'] = (!empty($session_cl['tpl_perso']) && is_dir($root_path.'templates/'.$session_cl['tpl_perso']))? $session_cl['tpl_perso'] : $config['skin'];
-if (!empty($HTTP_GET_VARS['change_tpl_perso']) || !empty($HTTP_POST_VARS['change_tpl_perso']))
+if (!empty($_GET['change_tpl_perso']) || !empty($_POST['change_tpl_perso']))
 {
-	$change_tpl_perso = (!empty($HTTP_GET_VARS['change_tpl_perso']))? $HTTP_GET_VARS['change_tpl_perso'] : $HTTP_POST_VARS['change_tpl_perso'];
+	$change_tpl_perso = (!empty($_GET['change_tpl_perso']))? $_GET['change_tpl_perso'] : $_POST['change_tpl_perso'];
 	if (is_dir($root_path.'templates/'.$change_tpl_perso))
 	{// le théme est valide
 		$user_tpl_perso = $change_tpl_perso;
@@ -45,9 +49,22 @@ if (!empty($HTTP_GET_VARS['change_tpl_perso']) || !empty($HTTP_POST_VARS['change
 	}
 }
 
-$session_cl['ip'] = $HTTP_SERVER_VARS["REMOTE_ADDR"];
+// change de langue si on le demande
+$config['langue'] = (!empty($session_cl['langue_user']) && is_dir($root_path.'langues/'.$session_cl['langue_user']))? $session_cl['langue_user'] : $config['langue'];
+if (!empty($_GET['change_langue_perso']) || !empty($_POST['change_langue_perso']))
+{
+	$change_langue_perso = (!empty($_GET['change_langue_perso']))? $_GET['change_langue_perso'] : $_POST['change_langue_perso'];
+	if (is_dir($root_path.'langues/'.$change_langue_perso))
+	{// la langue existe bien
+		$user_langue_perso = $change_langue_perso;
+		$config['langue'] = $change_langue_perso;
+		$session_cl['langue_user'] = $change_langue_perso;
+	}
+}
+
+$session_cl['ip'] = get_ip();
 $user_pouvoir['particulier'] = '';
-$nfo_cookies = (!empty($HTTP_COOKIE_VARS['auto_connect']))? explode("|*|", $HTTP_COOKIE_VARS['auto_connect']) : array(0 => "", 1 => "");
+$nfo_cookies = (!empty($_COOKIE['auto_connect']))? explode("|*|", $_COOKIE['auto_connect']) : array(0 => "", 1 => "");
 $user_connect = (!empty($session_cl['user']))? $session_cl['user'] : $nfo_cookies[0];
 $psw_connect = (!empty($session_cl['psw']))? $session_cl['psw'] : $nfo_cookies[1];
 if(!empty($user_connect) && !empty($psw_connect))
@@ -67,18 +84,17 @@ if(!empty($user_connect) && !empty($psw_connect))
 		$session_cl['psw'] = $psw_connect;
 		$session_cl['mail'] = $infouser['mail'];
 		$session_cl['section'] = $infouser['section'];
-		$session_cl['langue_user'] = $infouser['langue'];
+		$session_cl['langue_user'] = (!empty($change_langue_perso))? $change_langue_perso : $infouser['langue'];
 		$user_pouvoir['particulier'] = $infouser['pouvoir'];
 		for ($i = 1;$i < 26;$i++)
 		{
 			$user_pouvoir[$i] = $infouser['p'.$i];
 		}
-		$config['securitee'] = ($user_pouvoir['particulier'] == "news" || $user_pouvoir['particulier'] == "a valider")? "news" : "ok" ;
+		$config['securitee'] = ($user_pouvoir['particulier'] == "news")? "news" : "ok" ;
 	}
 }
 // on prend l'heure en format MKtime pour le site
 $config['current_time'] = time();
-$config['langue'] = (empty($session_cl['langue_user']))? $config['langue'] : $session_cl['langue_user'];
 if (file_exists($root_path."langues/".$config['langue']."/langue.php"))
 {
 	include($root_path."langues/".$config['langue']."/langue.php");

@@ -1,7 +1,14 @@
 <div class="big_cadre">
 	<h1>{TITRE_MATCH_RAPPORT}</h1>
-  <!-- BEGIN liste --> 
-  <div class="news"> 
+	<!-- BEGIN resume -->
+	<div class="news">
+		{resume.TXT_MATCH_WIN} : {resume.MATCH_WIN} ({resume.MATCH_WIN_PC}%)<br />
+		{resume.TXT_MATCH_LOST} : {resume.MATCH_LOST} ({resume.MATCH_LOST_PC}%)<br />
+		{resume.TXT_MATCH_NORM} : {resume.MATCH_NORM} ({resume.MATCH_NORM_PC}%)<br />
+	</div>
+	<!-- END resume -->
+	<!-- BEGIN liste --> 
+	<div class="news"> 
     <h2>{DATE} : {liste.DATE}</h2> 
     <ul class="header"> 
       <li>{TXT_SECTION} : <span class="reponce">{liste.SECTION}</span></li> 
@@ -11,5 +18,10 @@
     </ul>{liste.INFO}
     <div style="height: 42px; width: 1px"></div>
   </div> 
-  <!-- END liste --> 
+  <!-- END liste -->
+  <!-- BEGIN no_match -->
+	<div class="news">
+		{no_match.TXT}
+	</div>
+  <!-- END no_match -->
 </div>

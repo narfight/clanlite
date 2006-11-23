@@ -29,8 +29,23 @@
 	</p>
 	<p>
 		<span><label for="reaction">{FORM_MESSAGE}&nbsp;:</label></span>
-		<span><textarea name="reaction" id="reaction" cols="30" rows="5" wrap="VIRTUAL" onBlur="formverif(this.id,'nbr','2')">{REACTION}</textarea></span>
-    </p>
+	</p>
+	<p>
+		<div class="smilies">
+			<!-- BEGIN poste_smilies_liste -->
+			<a href="javascript:emoticon('{poste_smilies_liste.TXT}','reaction')"><img src="{poste_smilies_liste.IMG}" alt="{poste_smilies_liste.ALT}" width="{poste_smilies_liste.WIDTH}"  height="{poste_smilies_liste.HEIGHT}" /></a>
+			<!-- BEGIN more -->
+			<a href="javascript:toggle_msg('smilies_more', '', '')">{poste_smilies_liste.more.MORE_SMILIES}</a>
+			<div id="smilies_more" style="display: none;">
+				<!-- BEGIN liste -->
+				<a href="javascript:emoticon('{poste_smilies_liste.more.liste.TXT}','reaction')"><img src="{poste_smilies_liste.more.liste.IMG}" alt="{poste_smilies_liste.more.liste.ALT}" width="{poste_smilies_liste.more.liste.WIDTH}"  height="{poste_smilies_liste.more.liste.HEIGHT}" /></a>
+				<!-- END liste -->
+			</div>
+			<!-- END more -->
+			<!-- END poste_smilies_liste -->
+		</div>
+		<div class="big_texte"><textarea name="reaction" id="reaction" cols="40" rows="10" wrap="VIRTUAL" onBlur="formverif(this.id,'nbr','2')">{REACTION}</textarea></div>
+	</p>
 	<p>
         <input name="send" type="submit" id="send" value="{FORM_ENVOYER}" />	
         <input name="for" type="hidden" id="for" value="{FOR}" />

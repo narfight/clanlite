@@ -42,40 +42,23 @@ if (defined('CL_AUTH'))
 	}
 	if ( (!$gameserver=queryServer($module_game['ip'], $module_game['port'], $module_game['protocol'])) )
 	{
-		$template->assign_block_vars('serveur_off_line', 's');
+		$template->assign_block_vars("modules_".$modules['place'], array( 
+			'TITRE' => $modules['nom'],
+			'IN' => $langue['serveur_jeux_down']
+		));
 	}
 	else
 	{
-		// on regarde si nous avons des info en db sur la map actuelle
-		$sql = "SELECT * FROM `".$config['prefix']."server_map` WHERE nom_console LIKE '%$gameserver->mapname'";
-		if (! ($map_actu = $rsql->requete_sql($sql)) )
-		{
-			sql_error($sql, $rsql->error, __LINE__, __FILE__);
-		}
-		if (! ($map = $rsql->s_array($map_actu)) )
-		{
-			$map['nom'] = $gameserver->mapname;
-		}
-		// on regarde si nous avons des info en db sur la prochaine map
-		$sql = "SELECT * FROM `".$config['prefix']."server_map` WHERE nom_console = '".$gameserver->nextmap."'";
-		if (! ($map_next = $rsql->requete_sql($sql)) )
-		{
-			sql_error($sql, $rsql->error, __LINE__, __FILE__);
-		}
-		if (! ($next_map = $rsql->s_array($map_next)) )
-		{
-			$next_map['nom'] = $gameserver->nextmap;
-		}
 		// Turn template blocks into PHP assignment statements for the values of $match..
 		$tpl = preg_replace('#<!-- BEGIN (.*?) -->(.*?)<!-- END (.*?) -->#', "\n" . '$block[\'\\1\'] = \'\\2\';', $tpl);
 		eval($tpl);
 		
 		// liste des joueurs
 		$players=$gameserver->sortPlayers($gameserver->players,'name');
-		$serveur_jeux_boucle = "";
+		$serveur_jeux_boucle = '';
 		if(count($players))
 		{
-			$color = "";
+			$color = '';
 			foreach($players as $player)
 			{
 				$color = ($color == "table-cellule")? "table-cellule-2" : "table-cellule";
@@ -86,9 +69,9 @@ if (defined('CL_AUTH'))
 		$block['serveur_jeux'] = str_replace('{TXT_IP}', $langue['ip'], $block['serveur_jeux']);
 		$block['serveur_jeux'] = str_replace('{IP}', $module_game['ip']." : ".$module_game['port'], $block['serveur_jeux']);
 		$block['serveur_jeux'] = str_replace('{TXT_CURRENT_MAP}', $langue['map_serveur_jeux'], $block['serveur_jeux']);
-		$block['serveur_jeux'] = str_replace('{CURRENT_MAP}', $map['nom'], $block['serveur_jeux']);
+		$block['serveur_jeux'] = str_replace('{CURRENT_MAP}', scan_map($gameserver->mapname, 'nom'), $block['serveur_jeux']);
 		$block['serveur_jeux'] = str_replace('{TXT_NEXT_MAP}', $langue['next_map_serveur_jeux'], $block['serveur_jeux']);
-		$block['serveur_jeux'] = str_replace('{NEXT_MAP}', $next_map['nom'], $block['serveur_jeux']);
+		$block['serveur_jeux'] = str_replace('{NEXT_MAP}', scan_map($gameserver->nextmap, 'nom'), $block['serveur_jeux']);
 		$block['serveur_jeux'] = str_replace('{LISTE_PLAYER}', $langue['liste_joueur_serveur_jeux'], $block['serveur_jeux']);
 		$block['serveur_jeux'] = str_replace('{PLAYER}', $gameserver->numplayers, $block['serveur_jeux']);
 		$block['serveur_jeux'] = str_replace('{TXT_GAME_TYPE}', $langue['gametype_serveur_jeux'], $block['serveur_jeux']);
@@ -103,7 +86,7 @@ if (defined('CL_AUTH'))
 	}
 	return;
 }
-if( !empty($HTTP_GET_VARS['config_modul_admin']) || !empty($HTTP_POST_VARS['Submit_module']) )
+if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module']) )
 {
 	$root_path = './../';
 	$action_membre= 'where_module_serveur_game';
@@ -111,10 +94,10 @@ if( !empty($HTTP_GET_VARS['config_modul_admin']) || !empty($HTTP_POST_VARS['Subm
 	include($root_path."conf/template.php");
 	include($root_path."conf/conf-php.php");
 	include($root_path."controle/cook.php");
-	$id_module = (!empty($HTTP_POST_VARS['id_module']))? $HTTP_POST_VARS['id_module'] : $HTTP_GET_VARS['id_module'];
-	if ( !empty($HTTP_POST_VARS['Submit_module']) )
+	$id_module = (!empty($_POST['id_module']))? $_POST['id_module'] : $_GET['id_module'];
+	if ( !empty($_POST['Submit_module']) )
 	{
-		$sql = "UPDATE ".$config['prefix']."modules SET config='".$HTTP_POST_VARS['id_serveur']."' WHERE id ='".$id_module."'";
+		$sql = "UPDATE ".$config['prefix']."modules SET config='".$_POST['id_serveur']."' WHERE id ='".$id_module."'";
 		if (! ($rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);

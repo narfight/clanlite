@@ -1,7 +1,11 @@
 /* eviter des espace apres les formulaire et les liste */
-form, ul
+form
 {
 	margin: 0px;
+}
+ul
+{
+	margin-bottom : 0px;
 }
 
 /* eviter des ligne de couleur en dessou des images qui sont des liens */
@@ -30,6 +34,7 @@ body
 	background-color: #94938E;
 	background-image: url("../images/bg_cadre_largeur.gif");
 	background-repeat: repeat-y;
+	border: 1px solid black;
 }
 
 /* on change qq petit truc pour la partie admin */
@@ -46,6 +51,10 @@ input, textarea, select, option
 	background-color: #1191D1;
 	border: solid 1px #000000;
 	font-size:12px;
+}
+option
+{
+	text-align:center
 }
 input:focus, textarea:focus, select:focus, option:hover
 {
@@ -217,11 +226,11 @@ couleur des cadre pour le centre et d'autre endroit */
 	margin: 0;
 	font-size: 12px;
 	color: #C00000;
-	background-color: #FDD95E;
 	border-top: 1px solid #000000;
 	border-bottom: 1px solid #000000;
 	background-image: url("../images/titre_h2.gif");
 	background-repeat: repeat-x;
+	background-color: #FDD95E;
 }
 
 /* sous titre */
@@ -324,6 +333,22 @@ cadre qui prendra le titre et le contenu du module */
 	padding-right : 20px;
 }
 
+/* le cadre où sont les smilies */
+.smilies
+{
+	float: left;
+	width: 20%;
+	margin: 0px 5% 0px 5px;
+	padding: 2px;
+	background-color: #1191D1;
+	border: 1px solid black;
+}
+/* le cadre où on tape de grand message */
+.big_texte
+{
+	float : left;
+	width : 70%;
+}
 /* les liens */
 a:link, a:visited
 { 
@@ -448,6 +473,14 @@ a:link, a:visited
 .gsquery-white
 {
 	color:white
+}
+.gsquery-blue-night
+{
+	color:#7F7FFD
+}
+.gsquery-red-night
+{
+	color:#D06B6B
 }
 .gsquery-1 { color: #F02016;}
 .gsquery-2 { color: #A8BE7D;}

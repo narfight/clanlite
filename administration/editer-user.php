@@ -5,33 +5,33 @@ $root_path = "./../";
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
-if (!empty($HTTP_POST_VARS['Submit']))
+if (!empty($_POST['Submit']))
 {
-	$code = (!empty($HTTP_POST_VARS['psw']))? "psw='".md5($HTTP_POST_VARS['psw'])."', " : "";
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$age = mktime ( 0 , 0 , 0 , $HTTP_POST_VARS['age_m'] , $HTTP_POST_VARS['age_d'] , $HTTP_POST_VARS['age_y']);
+	$code = (!empty($_POST['psw']))? "psw='".md5($_POST['psw'])."', " : "";
+	$_POST = pure_var($_POST);
+	$age = mktime ( 0 , 0 , 0 , $_POST['age_m'] , $_POST['age_d'] , $_POST['age_y']);
 	$sql = "UPDATE ".$config['prefix']."user SET 
-		cri='".$HTTP_POST_VARS['texte']."', 
-		im='".$HTTP_POST_VARS['icq']."', 
-		nom='".$HTTP_POST_VARS['nom']."', 
-		user='".$HTTP_POST_VARS['user1']."', 
-		mail='".$HTTP_POST_VARS['mail']."',
-		web='".$HTTP_POST_VARS['web']."',
+		cri='".$_POST['texte']."', 
+		im='".$_POST['icq']."', 
+		nom='".$_POST['nom']."', 
+		user='".$_POST['user1']."', 
+		mail='".$_POST['mail']."',
+		web='".$_POST['web']."',
 		".$code."
-		sex='".$HTTP_POST_VARS['sex']."', 
+		sex='".$_POST['sex']."', 
 		age='".$age."', 
-		prénom='".$HTTP_POST_VARS['prenom']."', 
-		armes_préférées='".$HTTP_POST_VARS['arme']."',
-		images='".$HTTP_POST_VARS['perso']."', 
-		histoire='".$HTTP_POST_VARS['histoire']."', 
-		roles='".$HTTP_POST_VARS['roles']."', 
-		equipe='".$HTTP_POST_VARS['equipe']."', 
-		grade='".$HTTP_POST_VARS['grade']."', 
-		pouvoir='".$HTTP_POST_VARS['pv']."', 
-		section='".$HTTP_POST_VARS['section']."', 
-		images='".$HTTP_POST_VARS['perso']."',
-		langue='".$HTTP_POST_VARS['langue_form']."' 
-		WHERE id ='".$HTTP_POST_VARS['link']."'"; 
+		prénom='".$_POST['prenom']."', 
+		armes_préférées='".$_POST['arme']."',
+		images='".$_POST['perso']."', 
+		histoire='".$_POST['histoire']."', 
+		roles='".$_POST['roles']."', 
+		equipe='".$_POST['equipe']."', 
+		grade='".$_POST['grade']."', 
+		pouvoir='".$_POST['pv']."', 
+		section='".$_POST['section']."', 
+		images='".$_POST['perso']."',
+		langue='".$_POST['langue_form']."' 
+		WHERE id ='".$_POST['link']."'"; 
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -41,7 +41,7 @@ if (!empty($HTTP_POST_VARS['Submit']))
 include($root_path."conf/frame_admin.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'admin_edit_user.tpl'));
-$sql = "SELECT user.*, section.nom, section.id, equipe.nom, equipe.id FROM ".$config['prefix']."user AS user LEFT JOIN ".$config['prefix']."section AS section ON section.id = user.section LEFT JOIN ".$config['prefix']."équipe as equipe ON equipe.id = user.equipe WHERE user.id = '".$HTTP_POST_VARS['link']."' LIMIT 1";
+$sql = "SELECT user.*, section.nom, section.id, equipe.nom, equipe.id FROM ".$config['prefix']."user AS user LEFT JOIN ".$config['prefix']."section AS section ON section.id = user.section LEFT JOIN ".$config['prefix']."équipe as equipe ON equipe.id = user.equipe WHERE user.id = '".$_POST['link']."' LIMIT 1";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -50,7 +50,7 @@ if ( ($profil = $rsql->s_array($get)) )
 {
 	$template->assign_vars(array( 
 		'TITRE' => $langue['titre_edit_user'],
-		'LINK' => $HTTP_POST_VARS['link'],
+		'LINK' => $_POST['link'],
 		'ID' => $profil['0'],
 		'TXT_LANGUE' => $langue['form_langue'],
 		'TXT_CHOISIR' => $langue['choisir'],

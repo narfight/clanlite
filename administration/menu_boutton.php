@@ -8,24 +8,24 @@ $action_membre= 'where_custom_menu';
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
-if ( !empty($HTTP_POST_VARS['Envoyer']) )
+if ( !empty($_POST['Envoyer']) )
 {
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$bouge = (empty($HTTP_POST_VARS['bouge']))? '' : $HTTP_POST_VARS['bouge'];
-	$frame = (empty($HTTP_POST_VARS['frame']))? '' : $HTTP_POST_VARS['frame'];
-	$sql= "INSERT INTO `".$config['prefix']."custom_menu` (text, ordre, url, bouge, frame) VALUES ('".$HTTP_POST_VARS['text']."', '".$HTTP_POST_VARS['ordre']."', '".$HTTP_POST_VARS['url']."', '".$bouge."', '".$frame."')";
+	$_POST = pure_var($_POST);
+	$bouge = (empty($_POST['bouge']))? '' : $_POST['bouge'];
+	$frame = (empty($_POST['frame']))? '' : $_POST['frame'];
+	$sql= "INSERT INTO `".$config['prefix']."custom_menu` (text, ordre, url, bouge, frame) VALUES ('".$_POST['text']."', '".$_POST['ordre']."', '".$_POST['url']."', '".$bouge."', '".$frame."')";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 		redirec_text("menu_boutton.php",$langue['redirection_custom_menu_add'],"admin");
 }
-if ( !empty($HTTP_POST_VARS['Editer']) )
+if ( !empty($_POST['Editer']) )
 {
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$bouge = (empty($HTTP_POST_VARS['bouge']))? '' : $HTTP_POST_VARS['bouge'];
-	$frame = (empty($HTTP_POST_VARS['frame']))? '' : $HTTP_POST_VARS['frame'];
-	$sql = "UPDATE `".$config['prefix']."custom_menu` SET text='".$HTTP_POST_VARS['text']."', url='".$HTTP_POST_VARS['url']."', ordre='".$HTTP_POST_VARS['ordre']."', bouge='".$bouge."', frame='".$frame."' WHERE id='".$HTTP_POST_VARS['for']."'";
+	$_POST = pure_var($_POST);
+	$bouge = (empty($_POST['bouge']))? '' : $_POST['bouge'];
+	$frame = (empty($_POST['frame']))? '' : $_POST['frame'];
+	$sql = "UPDATE `".$config['prefix']."custom_menu` SET text='".$_POST['text']."', url='".$_POST['url']."', ordre='".$_POST['ordre']."', bouge='".$bouge."', frame='".$frame."' WHERE id='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -35,9 +35,9 @@ if ( !empty($HTTP_POST_VARS['Editer']) )
 		redirec_text("menu_boutton.php",$langue['redirection_custom_menu_edit'],"admin");
 	}
 }
-if ( !empty($HTTP_POST_VARS['dell']) )
+if ( !empty($_POST['dell']) )
 {
-	$sql = "DELETE FROM `".$config['prefix']."custom_menu` WHERE id ='".$HTTP_POST_VARS['for']."'";
+	$sql = "DELETE FROM `".$config['prefix']."custom_menu` WHERE id ='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -50,7 +50,7 @@ if ( !empty($HTTP_POST_VARS['dell']) )
 include($root_path."conf/frame_admin.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'admin_boutton.tpl'));
-$template->assign_vars( array('ICI' => $HTTP_SERVER_VARS['PHP_SELF']));
+$template->assign_vars( array('ICI' => $_SERVER['PHP_SELF']));
 $template->assign_vars(array( 
 	'TITRE' => $langue['titre_custom_menu'],
 	'TITRE_GESTION' => $langue['titre_custom_menu_gestion'],
@@ -65,10 +65,10 @@ $template->assign_vars(array(
 	'TXT_DEFILER' => $langue['custom_menu_défiler'],
 	'TXT_URL_LIGHT' => $langue['liens_url_site'],
 ));
-if ( !empty($HTTP_POST_VARS['edit']) )
+if ( !empty($_POST['edit']) )
 {
 	$template->assign_block_vars('editer', array('EDITER' => $langue['editer'])); 
-	$sql = "SELECT * FROM ".$config['prefix']."custom_menu WHERE id='".$HTTP_POST_VARS['for']."'";
+	$sql = "SELECT * FROM ".$config['prefix']."custom_menu WHERE id='".$_POST['for']."'";
 	if (! ($get_edit = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);

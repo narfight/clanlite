@@ -8,23 +8,23 @@ $action_membre= 'where_membre_liste';
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
-if ( !empty($HTTP_POST_VARS['del']) )
+if ( !empty($_POST['del']) )
 {
 	secu_level_test('22');
 	// supprime le membre
-	$sql = "DELETE FROM ".$config['prefix']."user WHERE id ='".$HTTP_POST_VARS['id_user']."'";
+	$sql = "DELETE FROM ".$config['prefix']."user WHERE id ='".$_POST['id_user']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	//supprime ces pouvoir
-	$sql = "DELETE FROM ".$config['prefix']."pouvoir  WHERE user_id ='".$HTTP_POST_VARS['id_user']."'";
+	$sql = "DELETE FROM ".$config['prefix']."pouvoir  WHERE user_id ='".$_POST['id_user']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	//supprime ces inscription au match
-	$sql = "DELETE FROM ".$config['prefix']."match_inscription WHERE user_id ='".$HTTP_POST_VARS['id_user']."'";
+	$sql = "DELETE FROM ".$config['prefix']."match_inscription WHERE user_id ='".$_POST['id_user']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);

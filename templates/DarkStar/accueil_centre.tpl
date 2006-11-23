@@ -7,8 +7,7 @@
       <li>{POSTE_LE} <span class="reponce">{news.DATE}</span></li> 
       <li>{PAR} <span class="reponce">{news.BY}</span></li> 
       <li><a href="reaction.php?for={news.FOR}">{news.COMMENTAIRE}</a></li> 
-    </ul>{news.TEXT}
-    <div style="height: 30px; width: 1px"></div>
+    </ul>{news.TEXT}<div style="height: 30px;"></div>
   </div> 
   <!-- END news --> 
 </div>

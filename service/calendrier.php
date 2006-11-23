@@ -9,8 +9,64 @@ include($root_path."conf/conf-php.php");
 include($root_path."conf/frame.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'calendrier.tpl'));
+$jour=date("d");
+$annee=(empty($_GET['annee']))? date("Y") : $_GET['annee'];
+$mois=(isset($_GET['mois']))? $_GET['mois'] : date("m");
+if ( $mois > 12)
+{
+	$annee++;
+	$mois=1;
+}
+if ( $mois < 1)
+{
+	$annee=$annee-1;
+	$mois=12;
+}
+switch($mois)
+{
+	case 01 :
+		$name_mois = $langue['janvier'];
+	break;
+	case 02 :
+		$name_mois = $langue['fevrier'];
+	break;
+	case 03 :
+		$name_mois = $langue['mars'];
+	break;
+	case 04 :
+		$name_mois = $langue['avril'];
+	break;
+	case 05 :
+		$name_mois = $langue['mai'];
+	break;
+	case 06 :
+		$name_mois = $langue['juin'];
+	break;
+	case 07 :
+		$name_mois = $langue['juillet'];
+	break;
+	case 08 :
+		$name_mois = $langue['aout'];
+	break;
+	case 09 :
+		$name_mois = $langue['septembre'];
+	break;
+	case 10 :
+		$name_mois = $langue['octobre'];
+	break;
+	case 11 :
+		$name_mois = $langue['novembre'];
+	break;
+	case 12 :
+		$name_mois = $langue['décembre'];
+	break;
+}
 $template->assign_vars(array(
 	'TITRE_CALENDRIER' => $langue['titre_calendrier'],
+	'CURRENT_MOIS' => $name_mois,
+	'CURRENT_ANNEE' => $annee,
+	'MOIS_MOINS' => $mois-1,
+	'MOIS_PLUS' => $mois+1,
 	'LUNDI' => $langue['lundi'],
 	'MARDI' => $langue['mardi'],
 	'MERCREDI' => $langue['mercredi'],
@@ -19,10 +75,6 @@ $template->assign_vars(array(
 	'SAMEDI' => $langue['samedi'],
 	'DIMANCHE' => $langue['dimanche'],
 ));
-
-$jour=date("d");
-$mois=date("m");
-$annee=date("y");
 
 // on va chercher les match, antrainement, anivairsaire des membres qu'on pourrait affichier dedans
 //match
@@ -34,7 +86,7 @@ if (! ($get = $rsql->requete_sql($sql)) )
 $match_date = "";
 for ($i=0;($match = $rsql->s_array($get));$i++)
 {
-	if ($mois == date("m", $match['date']) && $annee == date("y", $match['date']))
+	if ($mois == date("m", $match['date']) && $annee == date("Y", $match['date']))
 	{
 		$match_date[$i] = array(
 			'jours' => date("j", $match['date']),
@@ -55,7 +107,7 @@ if (! ($get = $rsql->requete_sql($sql)) )
 $entrai_date = "";
 for ($i=0;($entrai = $rsql->s_array($get));$i++)
 {
-	if ($mois == date("m", $entrai['date']) && $annee == date("y", $entrai['date']))
+	if ($mois == date("m", $entrai['date']) && $annee == date("Y", $entrai['date']))
 	{
 		$entrai_date[$i] = array('jours' => date("j", $entrai['date']));
 	}
@@ -118,26 +170,23 @@ for ($i=0;$i<date('t')+$jour_debut_mois;$i++)
 			$case[$horizontal][$verticale]['info'] .= "<li>".sprintf($langue['calendrier_annif'], $root_path, $annif_date[$ib]['id_user'], $annif_date[$ib]['user'])."</a></li>";
 		}
 	}
-	// change la couleur des case ou il a pas de chiffre dedans
 	$case[$horizontal][$verticale]['class'] = ($i<$jour_debut_mois)? "calendra-vide" : "calendra-normal";
-	// change la couleur pour le jours actuelle
 	$case[$horizontal][$verticale]['class'] = ($horizontal >= 6)? "calendra-wk" : $case[$horizontal][$verticale]['class'];
-	// change la couleur pour les wk
 	$case[$horizontal][$verticale]['class'] = ($to_days == $jour)? "calendra-today" : $case[$horizontal][$verticale]['class'];
 	$case[$horizontal][$verticale]['num'] = ($i<$jour_debut_mois)? "&nbsp;" : $to_days;
 	$horizontal++;
 	if ($horizontal == 8)
-	{// on retourne a la 1er case de la ligne suivant si on est au bout des 7 cases
+	{
 		$horizontal = 1;
-		// vérif si il faut faire une nouvelle ligne
-		if ($case[$horizontal][$verticale]['num']+7 < date('t'))
+		if ($case[$horizontal][$verticale]['num']+7 <= date('t'))
 		{
 			$verticale++;
 		}
 	}
 }
-while($horizontal < 8 && $horizontal != 1)
+while($horizontal < 9 && $horizontal != 1)
 {
+	$case[$horizontal][$verticale]['info'] = "";
 	$case[$horizontal][$verticale]['class'] = "calendra-vide";
 	$case[$horizontal][$verticale]['num'] = "&nbsp;";
 	$horizontal++;

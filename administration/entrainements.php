@@ -8,31 +8,31 @@ $action_membre= 'where_entrain';
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
-if ( !empty($HTTP_POST_VARS['Envoyer']) )
+if ( !empty($_POST['Envoyer']) )
 {
-	$date = mktime( $HTTP_POST_VARS['heure'], $HTTP_POST_VARS['minute'], 0, $HTTP_POST_VARS['mois'], $HTTP_POST_VARS['jours'], $HTTP_POST_VARS['annee']);
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$sql = "INSERT INTO `".$config['prefix']."entrainement` (info, date, user, priver) VALUES ('".$HTTP_POST_VARS['texte']."', '".$date."', '".$session_cl['user']."', '".$HTTP_POST_VARS['priver']."')";
+	$date = mktime( $_POST['heure'], $_POST['minute'], 0, $_POST['mois'], $_POST['jours'], $_POST['annee']);
+	$_POST = pure_var($_POST);
+	$sql = "INSERT INTO `".$config['prefix']."entrainement` (info, date, user, priver) VALUES ('".$_POST['texte']."', '".$date."', '".$session_cl['user']."', '".$_POST['priver']."')";
 	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql,mysql_error(), __LINE__, __FILE__);
 	}
 	redirec_text("entrainements.php", $langue['redirection_entrain_add'], "admin");
 }
-if ( !empty($HTTP_POST_VARS['Editer']) )
+if ( !empty($_POST['Editer']) )
 {
-	$date = mktime( $HTTP_POST_VARS['heure'], $HTTP_POST_VARS['minute'], 0, $HTTP_POST_VARS['mois'], $HTTP_POST_VARS['jours'], $HTTP_POST_VARS['annee']);
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$sql = "UPDATE `".$config['prefix']."entrainement` SET info='".$HTTP_POST_VARS['texte']."', date='".$date."', user='".$session_cl['user']."', priver='".$HTTP_POST_VARS['priver']."' WHERE id=".$HTTP_POST_VARS['for'];
+	$date = mktime( $_POST['heure'], $_POST['minute'], 0, $_POST['mois'], $_POST['jours'], $_POST['annee']);
+	$_POST = pure_var($_POST);
+	$sql = "UPDATE `".$config['prefix']."entrainement` SET info='".$_POST['texte']."', date='".$date."', user='".$session_cl['user']."', priver='".$_POST['priver']."' WHERE id=".$_POST['for'];
 	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql,mysql_error(), __LINE__, __FILE__);
 	}
 	redirec_text("entrainements.php", $langue['redirection_entrain_edit'], "admin");
 }
-if (!empty($HTTP_POST_VARS['dell']))
+if (!empty($_POST['dell']))
 {
-	$sql = "DELETE FROM `".$config['prefix']."entrainement` WHERE id ='".$HTTP_POST_VARS['for']."'";
+	$sql = "DELETE FROM `".$config['prefix']."entrainement` WHERE id ='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -42,6 +42,7 @@ if (!empty($HTTP_POST_VARS['dell']))
 include($root_path."conf/frame_admin.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'admin_entrainements.tpl'));
+liste_smilies(true, '', 25);
 $template->assign_vars( array( 
 	'TITRE' => $langue['titre_entrain'],
 	'TITRE_GESTION' => $langue['titre_entrain_gestion'],
@@ -53,9 +54,9 @@ $template->assign_vars( array(
 	'POSTEUR' => $langue['posteur'],
 	'ACTION' => $langue['action'],
 ));
-if ( !empty($HTTP_POST_VARS['edit']) )
+if ( !empty($_POST['edit']) )
 {
-	$sql = "SELECT * FROM ".$config['prefix']."entrainement WHERE id='".$HTTP_POST_VARS['for']."'";
+	$sql = "SELECT * FROM ".$config['prefix']."entrainement WHERE id='".$_POST['for']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql,mysql_error(), __LINE__, __FILE__);

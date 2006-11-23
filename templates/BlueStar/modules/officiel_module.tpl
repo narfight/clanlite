@@ -15,6 +15,6 @@
 	{TXT_CONTRE}: <span class="reponce">{CONTRE}</span><br />
 	{TXT_PT_NOUS}: <span class="reponce">{PT_NOUS}</span><br />
 	{TXT_PT_MECHANT}: <span class="reponce">{PT_MECHANT}</span><br />
-<a href="javascript:toggle_msg('last_match_resum', '', '')">{INFO_SHOW_INFO}</a>
-<div style="display: none;" id="last_match_resum">{INFO}</div>
+	<a href="javascript:toggle_msg('last_match_resum', '', '')">{INFO_SHOW_INFO}</a>
+	<div style="display: none;" id="last_match_resum">{INFO}</div>
 <!-- END last_match -->

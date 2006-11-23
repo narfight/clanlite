@@ -20,7 +20,7 @@ $template->assign_vars( array(
 	'ENTRAINEMENT' => $langue['titre_entrainement'],
 	'LISTE_MEMBRES' => $langue['titre_liste_membres'],
 	'CONNECTE' => $langue['titre_connecte'],
-	'ICI_SELF' => $config['site_domain'].$HTTP_SERVER_VARS['PHP_SELF'],
+	'ICI_SELF' => $config['site_domain'].$_SERVER['PHP_SELF'],
 	'ICI' => $config['site_domain'].$config['site_path'],
 	'MATCH' => $langue['titre_match'],
 	'EDITER_PROFIL' => $langue['titre_edit_user'],
@@ -28,6 +28,7 @@ $template->assign_vars( array(
 	'TITRE_USER' => $langue['menu_titre_user'],
 	'TITRE_GO_PUBLIQUE' => $langue['menu_titre_go_publique'],
 	'TITRE_GO_INDEX' => $langue['menu_titre_prive_entree'],
+	'TITRE_PAGE' => $langue['prive_titre_page'],
 ));
 if ( $user_pouvoir['particulier'] == "admin" || in_array('oui', $user_pouvoir))
 {
@@ -54,6 +55,7 @@ if ( $user_pouvoir['particulier'] == "admin" || in_array('oui', $user_pouvoir))
 		'SECTION' => $langue['titre_admin_section'],
 		'TELECHARGER' => $langue['titre_download_admin'],
 		'ENTRAINEMENT' => $langue['titre_entrain'],
+		'MAILLINGLISTE' => $langue['titre_admin_mailiste'],
 	));
 	$sql = "SELECT id,nom,place,call_page,config FROM `".$config['prefix']."modules`";
 	if (! ($get_module = $rsql->requete_sql($sql)) )

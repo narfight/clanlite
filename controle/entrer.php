@@ -6,8 +6,8 @@ $root_path = "../";
 include($root_path.'conf/template.php');
 include($root_path."conf/conf-php.php");
 //on converti son code en md5
-$psw = md5($HTTP_POST_VARS['psw']);
-$user = $HTTP_POST_VARS['user'];
+$psw = md5($_POST['psw']);
+$user = $_POST['user'];
 // on regarde si il veut sauvergarder son code/login pour une autoreconnection
 $sql = "SELECT nom, pouvoir, psw, id FROM `".$config['prefix']."user` WHERE user = '".$user."' AND psw = '".$psw."'";
 if (! ($get = $rsql->requete_sql($sql)) )
@@ -16,11 +16,11 @@ if (! ($get = $rsql->requete_sql($sql)) )
 }
 if (! ($info_connection = $rsql->s_array($get)) )
 {
-	redirection('../admin.php?erreur=1&user='.$user);
+	redirection('../admin.php?erreur=1');
 }
 else
 {
-	if (!empty($HTTP_POST_VARS['save_code_login']))
+	if (!empty($_POST['save_code_login']))
 	{
 		SetCookie("auto_connect", $user."|*|".$psw,time()+3600*24*31*12, $config['site_path']);
 	}
@@ -33,9 +33,9 @@ else
 	//pour le compteur de conecter
 	$session_cl['action_membre'] = 'titre_login';
 	save_session($session_cl);
-	if ($info_connection['pouvoir'] == "a valider" || $info_connection['pouvoir'] == "news")
+	if ($info_connection['pouvoir'] == "news")
 	{
-		redirection('../admin.php?erreur_news=news');
+		redirection('../admin.php?erreur=news');
 	}
 	// oki on envoys sur la page
 	else
@@ -44,13 +44,13 @@ else
 		$session_cl['user'] = $user;
 		$session_cl['psw'] = $psw;
 		save_session($session_cl);
-		if (empty($HTTP_POST_VARS['goto']))
+		if (empty($_POST['goto']))
 		{
 			redirection($root_path.'user/index.php');
 		}
 		else 
 		{
-			redirection($HTTP_POST_VARS['goto']);
+			redirection($_POST['goto']);
 		}
 	}
 }

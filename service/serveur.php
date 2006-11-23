@@ -21,26 +21,6 @@ if ( (!$gameserver=queryServer($config['serveur_game_ip'], $config['serveur_game
 else
 {
 	$template->set_filenames(array('body' => 'serveur_jeux.tpl'));
-	// on regarde si nous avons des info en db sur la map actuelle
-	$sql = "SELECT * FROM `".$config['prefix']."server_map` WHERE nom_console LIKE '%$gameserver->mapname'";
-	if (! ($map_actu = $rsql->requete_sql($sql)) )
-	{
-		sql_error($sql, $rsql->error, __LINE__, __FILE__);
-	}
-	if (! ($map = $rsql->s_array($map_actu)) )
-	{
-		$map['nom'] = $gameserver->mapname;
-	}
-	// on regarde si nous avons des info en db sur la prochaine map
-	$sql = "SELECT * FROM `".$config['prefix']."server_map` WHERE nom_console = '".$gameserver->nextmap."'";
-	if (! ($map_next = $rsql->requete_sql($sql)) )
-	{
-		sql_error($sql, $rsql->error, __LINE__, __FILE__);
-	}
-	if (! ($next_map = $rsql->s_array($map_next)) )
-	{
-		$next_map['nom'] = $gameserver->nextmap;
-	}
 	// on regarde si nous avons une image de la map en cour
 	$path = $root_path."images/pics_map/".$gameserver->mapname.".jpg";
 	switch($gameserver->password)
@@ -74,7 +54,7 @@ else
 		'TXT_GAME_TYPE' => $langue['gametype_serveur_jeux'],
 		'GAME_TYPE' => $gameserver->gametype,								
 		'TXT_CURRENT_MAP' => $langue['map_serveur_jeux'],
-		'CURRENT_MAP' => $map['nom'],
+		'CURRENT_MAP' => scan_map($gameserver->mapname, 'nom'),
 		'TXT_PASSWORD' => $langue['password_serveur_jeux'],
 		'PASSWORD' => $serveur_password,
 		'LISTE_JOUEUR' => $langue['liste_joueur_serveur_jeux'],
@@ -84,7 +64,7 @@ else
 	{
 		$template->assign_block_vars('next_map', array(
 			'TXT_NEXT_MAP' => $langue['next_map_serveur_jeux'],
-			'NEXT_MAP' => $next_map['nom'],
+			'NEXT_MAP' => scan_map($gameserver->nextmap, 'nom'),
 		));
 	}
 	if ( !empty($gameserver->rules['sv_maxPing']) || !empty($gameserver->rules['sv_minPing']) )
@@ -122,13 +102,7 @@ else
 				if (!empty($name))
 				{
 					// 3.on vérifie si nous avons des info sur la map dans la db
-					$sql = "SELECT * FROM ".$config['prefix']."server_map WHERE nom_console = '".$name."'";
-					if (! ($map = $rsql->requete_sql($sql)) )
-					{
-						sql_error($sql, $rsql->error, __LINE__, __FILE__);
-					}
-					$info_map = $rsql->s_array($map);
-					// on affiche
+					$info_map = scan_map($name);
 					$template->assign_block_vars('list_map.map', array('NOM' => ( !empty($info_map['nom']) ) ? $info_map['nom'] : $name));
 					if (!empty($info_map['url']))
 					{
