@@ -25,12 +25,12 @@
  *
  */
 
-include_once("gameSpy.php");
+require_once GSQUERY_DIR . 'gameSpy.php';
 
 /**
  * @brief Uses the gameSpy protocol
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: ut2004.php,v 1.3 2004/06/04 15:18:38 jr Exp $
+ * @version $Id: ut2004.php,v 1.5 2004/08/12 19:14:47 jr Exp $
  *
  * Adds UT2004 Color code support
  */
@@ -39,12 +39,12 @@ class ut2004 extends gameSpy
 
   function getGameJoinerURI()
   {
-    return "gamejoin://ut2004@". $this->address .":". $this->hostport ."/";
+    return 'gamejoin://ut2004@'. $this->address .':'. $this->hostport .'/';
   }
 
   function getNativeJoinURI()
   {
-    return "ut2004://". $this->address .":". $this->hostport ."/";
+    return 'ut2004://'. $this->address .':'. $this->hostport .'/';
   }
 
   /**
@@ -56,7 +56,7 @@ class ut2004 extends gameSpy
   function htmlize($string) 
   {
     $length = strlen($string);
-    $result = "";
+    $result = '';
     $numtags = 0;
     
     for($i=0;$i<$length;$i++) {

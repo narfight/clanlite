@@ -46,12 +46,12 @@ if (defined('CL_AUTH'))
 			eval($tpl);
 			
 			$block['entrain'] = str_replace('{TXT_DATE}', $langue['date_entrai'], $block['entrain']);
-			$block['entrain'] = str_replace('{DATE}', date("j/n/Y", $entrain['date']), $block['entrain']);
+			$block['entrain'] = str_replace('{DATE}', date('j/n/Y', $entrain['date']), $block['entrain']);
 			$block['entrain'] = str_replace('{TXT_HEURE}', $langue['heure_entrai'], $block['entrain']);
 			$block['entrain'] = str_replace('{HEURE}', date("H:i", $entrain['date']), $block['entrain']);
 			$block['entrain'] = str_replace('{TXT_INFO}', $langue['info_entrai'], $block['entrain']);
-			$block['entrain'] = str_replace('{INFO}', nl2br(bbcode($entrain['info'])), $block['entrain']);
-			$template->assign_block_vars("modules_".$modules['place'], array( 
+			$block['entrain'] = str_replace('{INFO}', bbcode($entrain['info']), $block['entrain']);
+			$template->assign_block_vars('modules_'.$modules['place'], array( 
 				'TITRE' => $modules['nom'],
 				'IN' => $block['entrain']
 			));

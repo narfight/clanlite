@@ -4,9 +4,9 @@
 // -------------------------------------------------------------
 $root_path = './../';
 $action_membre = 'where_reaction';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
-if ( !empty($_GET['action']) && ( $user_pouvoir[23] == "oui" || $user_pouvoir['particulier'] == "admin" ) )
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
+if ( !empty($_GET['action']) && ( $user_pouvoir[23] == "oui" || $user_pouvoir['particulier'] == 'admin' ) )
 {
 	$sql = "DELETE FROM `".$config['prefix']."reaction_news` WHERE id ='".$_GET['for']."'";
 	if (! ($list_news = $rsql->requete_sql($sql)) )
@@ -65,7 +65,7 @@ if ( !empty($_POST['send']) )
 		redirec_text($root_path.'service/index_pri.php', $langue['reaction_add'], 'user');
 	}
 } 
-include($root_path."conf/frame.php");
+include($root_path.'conf/frame.php');
 $for = (empty($_GET['for']))? $_POST['for'] : $_GET['for'];
 $sql = "SELECT date, titre, info, user FROM `".$config['prefix']."news` WHERE id = '".$for."'";
 if (! ($get = $rsql->requete_sql($sql)) )
@@ -79,7 +79,7 @@ if ($news = $rsql->s_array($get))
 		msg('erreur', $forum_error);
 		$_POST = pure_var($_POST, 'moin');
 	}
-	$template = new Template($root_path."templates/".$config['skin']);
+	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('body' => 'reactions.tpl'));
 	liste_smilies(true, '', 25);
 	$sql = "SELECT user.id, reaction.*, user.user FROM `".$config['prefix']."reaction_news` AS reaction LEFT JOIN ".$config['prefix']."user AS user ON reaction.nom = user.user WHERE id_news ='".$for."' ORDER BY reaction.id ASC";
@@ -91,13 +91,13 @@ if ($news = $rsql->s_array($get))
 	{ 
 		$template->assign_block_vars('reactions', array( 
 			'DATE' => date("j-n-y H:i", $reaction['date']),
-			'REACTION' => nl2br(bbcode($reaction['texte'])),
+			'REACTION' => bbcode($reaction['texte']),
 			'BY' => $reaction['nom'],
 			'BY_URL' => (!empty($reaction['user']))? 'profil.php?link='.$reaction[0]: 'mailto:'.$reaction['email'],
 			'FOR' => $for, 
 			'ID' => $reaction['id'],
 		));
-		if ($user_pouvoir['particulier'] == "admin")
+		if ($user_pouvoir['particulier'] == 'admin')
 		{
 			$template->assign_block_vars('reactions.admin', array(
 				'DELL_REACTION' => $langue['dell_reaction'],
@@ -121,7 +121,7 @@ if ($news = $rsql->s_array($get))
 		'PAR' => $langue['poste_par'],
 		'TITRE_NEWS' => $news['titre'],
 		'BY' => $news['user'],
-		'TEXT' => nl2br(bbcode($news['info'])),
+		'TEXT' => bbcode($news['info']),
 		'DATE' => date("j/n/y H:i", $news['date']),
 		'TITRE_REACTION' => $langue['titre_reaction'],
 		'ADD_COMMENTAIRE' => $langue['add_commentaire'],
@@ -139,5 +139,5 @@ else
 {
 	msg('erreur', $langue['erreur_news_no_found']);
 }
-include($root_path."conf/frame.php");
+include($root_path.'conf/frame.php');
 ?>

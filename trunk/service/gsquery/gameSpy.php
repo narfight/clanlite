@@ -25,12 +25,12 @@
  *
  */
 
-include_once("gsQuery.php");
+require_once GSQUERY_DIR . 'gsQuery.php';
 
 /**
  * @brief Uses the gameSpy protcol to communicate with the server
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: gameSpy.php,v 1.18 2004/06/02 10:11:12 jr Exp $
+ * @version $Id: gameSpy.php,v 1.22 2004/08/12 19:14:47 jr Exp $
  * @bug some games does not escape the backslash, so we have a problem when somebody has a backlsash in its name
  *
  * The following games have been tested with this class:
@@ -45,27 +45,27 @@ class gameSpy extends gsQuery
   function getGameJoinerURI()
   {
     switch($this->gamename) {
-    case "bfield1942":
-      return "gamejoin://bf1942@". $this->address .":". $this->hostport ."/";
+    case 'bfield1942':
+      return 'gamejoin://bf1942@'. $this->address .':'. $this->hostport .'/';
       break;
-    case "ut2":
-      return "gamejoin://ut2003@". $this->address .":". $this->hostport ."/";
+    case 'ut2':
+      return 'gamejoin://ut2003@'. $this->address .":". $this->hostport .'/';
       break;
     default:
-      return "gamejoin://". $this->gamename ."@". $this->address .":". $this->hostport ."/";
+      return 'gamejoin://'. $this->gamename .'@'. $this->address .':'. $this->hostport .'/';
     }
   }
 
   function query_server($getPlayers=TRUE,$getRules=TRUE)
   {       
-    $this->playerkeys=array();
-    $this->debug=array();
-    $this->errstr="";
-    $this->password=-1;
+    // flushing old data if necessary
+    if($this->online) {
+      $this->_init();
+    }
     
     $cmd="\\basic\\\\info\\";
     if(!($response=$this->_sendCommand($this->address, $this->queryport, $cmd))) {
-      $this->errstr="No reply received";
+      $this->errstr='No reply received';
       return FALSE;
     }    
     $this->_processServerInfo($response);
@@ -108,34 +108,35 @@ class gameSpy extends gsQuery
     $count=count($temp);
     for($i=1;$i<$count;$i++) {
       switch($temp[$i]) {
-      case "gamename":
+      case 'gamename':
+      case 'game_id':
 	$this->gamename = $temp[++$i];
 	break;
-      case "hostport":
+      case 'hostport':
 	$this->hostport = $temp[++$i];
 	break;
-      case "gamever":
+      case 'gamever':
 	$this->gameversion = $temp[++$i];
 	break;
-      case "hostname":
+      case 'hostname':
 	$this->servertitle = $temp[++$i];
 	break;
-      case "mapname":
+      case 'mapname':
 	$this->mapname = $temp[++$i];
 	break;
-      case "maptitle":
+      case 'maptitle':
 	$this->maptitle = $temp[++$i];
 	break;
-      case "gametype":
+      case 'gametype':
 	$this->gametype = $temp[++$i];
 	break;
-      case "numplayers":
+      case 'numplayers':
 	$this->numplayers = $temp[++$i];
 	break;
-      case "maxplayers":
+      case 'maxplayers':
 	$this->maxplayers = $temp[++$i];
 	break;
-      case "password":
+      case 'password':
 	if($temp[++$i] == 0 || $temp[$i] == 1) {
 	  $this->password = $temp[$i];
 	}
@@ -146,7 +147,7 @@ class gameSpy extends gsQuery
     }
 
     if(!$this->gamename) {
-      $this->gamename="unknown";
+      $this->gamename='unknown';
     }
 
     return TRUE;
@@ -161,16 +162,16 @@ class gameSpy extends gsQuery
   function _processPlayers($rawPlayerData) 
   {
     $temp=explode("\\", $rawPlayerData);
-    $this->playerkeys["name"]=TRUE;
+    $this->playerkeys['name']=TRUE;
     $count=count($temp);
     for($i=1;$i<$count;$i++) {
-      list($var, $playerid)=explode("_", $temp[$i]);
+      list($var, $playerid)=explode('_', $temp[$i]);
       switch($var) {
-      case "player":
-      case "playername":
-	$players[$playerid]["name"]=$temp[++$i];	    
+      case 'player':
+      case 'playername':
+	$players[$playerid]['name']=$temp[++$i];	    
 	break;
-      case "teamname":
+      case 'teamname':
 	$this->playerteams[$playerid]=$temp[++$i];	    
 	break;
       default:
@@ -193,10 +194,10 @@ class gameSpy extends gsQuery
     $temp=explode("\\",$rawData);
     $count=count($temp);
     for($i=1;$i<$count;$i++) { 
-      if($temp[$i]!="queryid" && $temp[$i]!="final" && $temp[$i]!="password") {
+      if($temp[$i]!='queryid' && $temp[$i]!='final' && $temp[$i]!='password') {
 	$this->rules[$temp[$i]]=$temp[++$i]; 
       } else {
-	if($temp[$i++]=="password") {
+	if($temp[$i++]=='password') {
 	  $this->password=$temp[$i];	  
 	}
       }
@@ -212,8 +213,8 @@ class gameSpy extends gsQuery
    */
   function _sortByQueryId($data)
   {
-    $result="";
-    $data=preg_replace("/\\\final\\\/", "", $data);
+    $result='';
+    $data=preg_replace("/\\\final\\\/", '', $data);
     $exploded_data=explode("\\queryid\\", $data);
     $count=count($exploded_data);
     for($i=0;$i<$count-1;$i++) { 
@@ -230,7 +231,7 @@ class gameSpy extends gsQuery
     // sort the hash
     ksort($sorted_data);
     foreach($sorted_data as $key => $value) {
-      $result.=isset($value) ? $value : "";
+      $result.=isset($value) ? $value : '';
     }
     return($result);
   }  
@@ -247,7 +248,7 @@ class gameSpy extends gsQuery
 
   function _getClassName() 
   {
-    return "gameSpy";
+    return 'gameSpy';
   }
 }
 

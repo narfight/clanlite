@@ -4,9 +4,9 @@
 // -------------------------------------------------------------
 $root_path = './../';
 $niveau_secu = 6;
-$action_membre= "Est dans la gestion des serveurs de jeux";
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+$action_membre= 'where_game_server';
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if (!empty($_POST['envoyer']))
 { 
@@ -16,7 +16,7 @@ if (!empty($_POST['envoyer']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("game_serveur.php", $langue['redirection_game_server_add'], "admin");
+	redirec_text("game_serveur.php", $langue['redirection_game_server_add'], 'admin');
 }
 if (!empty($_POST['envois_edit']))
 {
@@ -28,7 +28,7 @@ if (!empty($_POST['envois_edit']))
 	}
 	else
 	{
-		redirec_text("game_serveur.php", $langue['redirection_game_server_edit'], "admin");
+		redirec_text("game_serveur.php", $langue['redirection_game_server_edit'], 'admin');
 	}
 }
 if (!empty($_POST['dell']))
@@ -38,10 +38,10 @@ if (!empty($_POST['dell']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("game_serveur.php", $langue['redirection_game_server_dell'], "admin");
+	redirec_text("game_serveur.php", $langue['redirection_game_server_dell'], 'admin');
 }
 include($root_path."conf/frame_admin.php");
-$template = new Template($root_path."templates/".$config['skin']);
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_game_serveur.tpl'));
 // scan les protocols possible pour le scanner de serveur de jeux
 include($root_path."service/gsquery/gsQuery.php");

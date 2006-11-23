@@ -5,8 +5,8 @@
 $root_path = './../';
 $niveau_secu = 18;
 $action_membre= 'where_admin_news';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if (!empty($_POST['ajouter']))
 {
@@ -16,7 +16,7 @@ if (!empty($_POST['ajouter']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-		redirec_text("news.php",$langue['redirection_admin_news_add'],"admin");
+		redirec_text("news.php",$langue['redirection_admin_news_add'],'admin');
 }
 if (!empty($_POST['editer']))
 {
@@ -28,7 +28,7 @@ if (!empty($_POST['editer']))
 	}
 	else
 	{
-		redirec_text("news.php",$langue['redirection_admin_news_edit'],"admin");
+		redirec_text("news.php",$langue['redirection_admin_news_edit'],'admin');
 	}
 }
 if (!empty($_POST['dell']))
@@ -43,10 +43,10 @@ if (!empty($_POST['dell']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-		redirec_text("news.php",$langue['redirection_admin_news_dell'],"admin");
+		redirec_text("news.php",$langue['redirection_admin_news_dell'],'admin');
 }
 include($root_path."conf/frame_admin.php");
-$template = new Template($root_path."templates/".$config['skin']);
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_news.tpl'));
 liste_smilies(true, '', 25);
 $template->assign_vars(array( 
@@ -89,7 +89,7 @@ while ( $liste_news = $rsql->s_array($get_list) )
 	$template->assign_block_vars('liste', array( 
 		'ID' => $liste_news['id'],
 		'DATE' => date("j-n-y H:i", $liste_news['date']),
-		'INFO' => nl2br(bbcode($liste_news['info'])),
+		'INFO' => bbcode($liste_news['info']),
 		'TITRE' => $liste_news['titre'],
 		'POSTEUR' => $liste_news['user'],
 		'SUPPRIMER' => $langue['supprimer'],

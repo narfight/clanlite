@@ -2,6 +2,13 @@
 	<h1>{TITRE}</h1>
 	<form method="post" action="pouvoir.php">
 		<table class="table">
+			<thead>
+				<tr>
+					<th>{POUVOIR}</th>
+					<th>{ACTION}</th>
+				</tr>
+			</thead>
+			<tbody>
 			<!-- BEGIN liste -->
 			<tr>
 				<td>{liste.INFO_POUVOIR}</td>
@@ -11,7 +18,7 @@
 				</td>
 			</tr>
 			<!-- END liste -->
-			<tr> 
+			<tr>
 				<td colspan="2">
 					<input type="submit" name="envois_edit" value="{EDITER}" />
 					<input name="id" type="hidden" value="{ID}" />

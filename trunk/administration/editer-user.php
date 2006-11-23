@@ -5,8 +5,8 @@
 $action_membre= 'where_admin_edit_user';
 $niveau_secu = 8;
 $root_path = "./../";
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if (!empty($_POST['Submit']))
 {
@@ -39,7 +39,7 @@ if (!empty($_POST['Submit']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text($root_path."service/liste-des-membres.php", $langue['user_envois_edit_profil'] , "admin");
+	redirec_text($root_path."service/liste-des-membres.php", $langue['user_envois_edit_profil'] , 'admin');
 }
 include($root_path."conf/frame_admin.php");
 $sql = "SELECT user.*, section.nom, section.id, equipe.nom, equipe.id FROM ".$config['prefix']."user AS user LEFT JOIN ".$config['prefix']."section AS section ON section.id = user.section LEFT JOIN ".$config['prefix']."équipe as equipe ON equipe.id = user.equipe WHERE user.id = '".$_POST['id']."' LIMIT 1";
@@ -49,7 +49,7 @@ if (! ($get = $rsql->requete_sql($sql)) )
 }
 if ( ($profil = $rsql->s_array($get)) )
 {
-	$template = new Template($root_path."templates/".$config['skin']);
+	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('body' => 'admin_edit_user.tpl'));
 	$template->assign_vars(array( 
 		'TITRE' => $langue['titre_edit_user'],
@@ -102,7 +102,7 @@ if ( ($profil = $rsql->s_array($get)) )
 		'TXT_DESACTIVE' => $langue['desactive'],
 		'USER_SELECT' => ($profil['pouvoir'] == "user")? 'selected="selected"' : '',
 		'TXT_USER' => $langue['user'],
-		'ADMIN_SELECT' => ($profil['pouvoir'] == "admin")? 'selected="selected"' : '',
+		'ADMIN_SELECT' => ($profil['pouvoir'] == 'admin')? 'selected="selected"' : '',
 		'TXT_ADMIN' => $langue['admin'],
 		'ROLE' => $profil['roles'],
 	)); 

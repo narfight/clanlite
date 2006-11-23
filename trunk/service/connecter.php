@@ -5,11 +5,11 @@
 $root_path = './../';
 // on inclus la conf
 $action_membre = 'where_connecte';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 include($root_path."conf/frame_admin.php");
-$template = new Template($root_path."templates/".$config['skin']);
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'connecter.tpl'));
 
 $template->assign_vars(array( 
@@ -46,7 +46,7 @@ while ($liste = $rsql->s_array($get))
 		$template->assign_block_vars('connecter.no_membre_connect', array( 'vide' => 'vide' ));
 	}
 	$nombre++;
-	if ($user_pouvoir['particulier'] == "admin")
+	if ($user_pouvoir['particulier'] == 'admin')
 	{
 		$template->assign_block_vars('connecter.admin', array('IP' => $nfo_session['ip']));
 		// on limite cette parite a une fois

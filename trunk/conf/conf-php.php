@@ -13,7 +13,7 @@ $rsql = new mysql();
 $config['securitee'] = 'no';
 $rsql->mysql_connection($mysqlhost, $login, $password, $base);
 // on prend la config
-$sql = "SELECT * FROM ".$config['prefix']."config";
+$sql = 'SELECT * FROM `'.$config['prefix'].'config`';
 if (!($rsql->requete_sql($sql, 'site', 'prise de la configuration du site')))
 {
 	echo 'la configuration du site n\'a pu etre chargée :"'.mysql_error().'<br />';
@@ -23,12 +23,16 @@ while($donnees = $rsql->s_array($rsql->query))
 {
 	$config[$donnees['conf_nom']] = $donnees['conf_valeur'];
 }
+$config['nom_clan'] = htmlentities($config['nom_clan']);
+$config['tag'] = htmlentities($config['tag']);
+// definit quelque information pour la config
+$config['skin_default'] = $config['skin'];
 $config['time_cook'] = 60*$config['time_cook'];
 $config['nbr_recrutement'] = '';
 if ($config['inscription'] == 2)
 {
 	$config['nbr_recrutement'] = $config['limite_inscription'] - $config['nbr_membre'];
-	$inscription = ($config['nbr_recrutement'] < "1")? 0 : 2;
+	$inscription = ($config['nbr_recrutement'] < 1)? 0 : 2;
 }
 else 
 {
@@ -64,7 +68,7 @@ if (!empty($_GET['change_langue_perso']) || !empty($_POST['change_langue_perso']
 
 $session_cl['ip'] = get_ip();
 $user_pouvoir['particulier'] = '';
-$nfo_cookies = (!empty($_COOKIE['auto_connect']))? explode("|*|", $_COOKIE['auto_connect']) : array(0 => "", 1 => "");
+$nfo_cookies = (!empty($_COOKIE['auto_connect']))? explode('|*|', $_COOKIE['auto_connect']) : array(0 => "", 1 => "");
 $user_connect = (!empty($session_cl['user']))? $session_cl['user'] : $nfo_cookies[0];
 $psw_connect = (!empty($session_cl['psw']))? $session_cl['psw'] : $nfo_cookies[1];
 if(!empty($user_connect) && !empty($psw_connect))

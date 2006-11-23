@@ -3,13 +3,13 @@
 // LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
 // -------------------------------------------------------------
 $root_path = './../';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
-$template = new Template($root_path."templates/".$config['skin']);
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'lecteur_mp3.tpl'));
 if (isset($_GET['lecture']) || isset($session_cl['id_mp3']))
 {
-	$sql = "SELECT id, SRC, AUTOPLAY, LOOP FROM `".$config['prefix']."config_sond`";
+	$sql = "SELECT `id`, `SRC`, `AUTOPLAY`, `LOOP` FROM `".$config['prefix']."config_sond`";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);

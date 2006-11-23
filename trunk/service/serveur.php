@@ -4,9 +4,9 @@
 // -------------------------------------------------------------
 $root_path = './../';
 $action_membre = 'where_serveur_jeux';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
-include($root_path."conf/frame.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
+include($root_path.'conf/frame.php');
 require_once($root_path."service/gsquery/gsQuery.php");
 //on prend la config du serveur
 // on scan
@@ -22,7 +22,17 @@ else
 {
 	$template->set_filenames(array('body' => 'serveur_jeux.tpl'));
 	// on regarde si nous avons une image de la map en cour
-	$path = $root_path."images/pics_map/".$gameserver['mapname'].".jpg";
+	foreach(scandir($root_path.'images/pics_map/') as $id => $valeur)
+	{
+		if (ereg($gameserver['mapname'].'.(gif|jpg|jpeg|jfif|png|bmp|dib|tif|tiff)', $valeur))
+		{
+			$img_map = $valeur;
+			$taille_img_map = getimagesize($root_path.'images/pics_map/'.$valeur);
+			break;
+		}
+		$img_map = 'empty.jpg';
+		$taille_img_map = getimagesize($root_path.'images/pics_map/empty.jpg');
+	}
 	switch($gameserver['password'])
 	{
 		case "0":
@@ -35,12 +45,13 @@ else
 			$serveur_password = $langue['inconnu'];
 		break;
 	}
+	$current_map = scan_map($gameserver['mapname'], 'nom');
 	$template->assign_vars(array(
 		'TITRE_SERVEUR' =>  sprintf($langue['titre_serveur_jeux'], $config['tag'], $rsql->nb_req),
 		'TXT_IP' => $langue['ip'],
 		'IP' => $config['serveur_game_ip'],
 		'TXT_INFO' => $langue['info_serveur_jeux'],
-		'INFO' => nl2br(bbcode($config['serveur_game_info'])),
+		'INFO' => bbcode($config['serveur_game_info']),
 		'TXT_NAME' => $langue['nom_serveur_jeux'],
 		'NAME' => $gameserver['servertitle'],
 		'TXT_VERSION' => $langue['version_serveur_jeux'],
@@ -49,11 +60,13 @@ else
 		'PLACE' => $gameserver['maxplayers'],
 		'PLAYER' => $gameserver['numplayers'],
 		'PORT' => $gameserver['hostport'],
-		'PICS_MAP' => (file_exists($path))? $path : $root_path."images/pics_map/empty.jpg",
+		'PICS_MAP' => $root_path.'images/pics_map/'.$img_map,
+		'PICS_MAP_TAILLE' => $taille_img_map[3],
+		'ALT_PICS_MAP' => sprintf($langue['alt_img_map_serveur_jeux'], $current_map),
 		'TXT_GAME_TYPE' => $langue['gametype_serveur_jeux'],
 		'GAME_TYPE' => $gameserver['gametype'],
 		'TXT_CURRENT_MAP' => $langue['map_serveur_jeux'],
-		'CURRENT_MAP' => scan_map($gameserver['mapname'], 'nom'),
+		'CURRENT_MAP' => $current_map,
 		'TXT_PASSWORD' => $langue['password_serveur_jeux'],
 		'PASSWORD' => $serveur_password,
 		'LISTE_JOUEUR' => $langue['liste_joueur_serveur_jeux'],
@@ -100,7 +113,7 @@ else
 			{ 
 				if (!empty($name))
 				{
-					// 3.on vérifie si nous avons des info sur la map dans la db
+					// on vérifie si nous avons des info sur la map dans la db
 					$info_map = scan_map($name);
 					$template->assign_block_vars('list_map.map', array('NOM' => ( !empty($info_map['nom']) ) ? $info_map['nom'] : $name));
 					if (!empty($info_map['url']))
@@ -175,5 +188,5 @@ else
 	}
 }
 $template->pparse('body');
-include($root_path."conf/frame.php"); 
+include($root_path.'conf/frame.php'); 
 ?>

@@ -5,8 +5,8 @@
 $root_path = './../';
 $action_membre= 'where_admin_match';
 $niveau_secu = 14;
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if ( !empty($_POST['Submit']) )
 {
@@ -17,7 +17,7 @@ if ( !empty($_POST['Submit']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("match.php",$langue['redirection_admin_match_add'],"admin");
+	redirec_text("match.php",$langue['redirection_admin_match_add'],'admin');
 }
 if (!empty($_POST['del']))
 {
@@ -31,7 +31,7 @@ if (!empty($_POST['del']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("match.php",$langue['redirection_admin_match_dell'],"admin");
+	redirec_text("match.php",$langue['redirection_admin_match_dell'],'admin');
 }
 if (!empty($_POST['edit_save']))
 {
@@ -42,10 +42,10 @@ if (!empty($_POST['edit_save']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("match.php#".$_POST['id_match'],$langue['redirection_admin_match_edit'],"admin");
+	redirec_text("match.php#".$_POST['id_match'],$langue['redirection_admin_match_edit'],'admin');
 }
 include($root_path."conf/frame_admin.php");
-$template = new Template($root_path."templates/".$config['skin']);
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_match.tpl'));
 liste_smilies(true, '', 25);
 $template->assign_vars(array( 
@@ -141,10 +141,10 @@ while ( ($list_match = $rsql->s_array($get_match)) )
 		'SUPPRIMER' => $langue['supprimer'],
 		'CONTRE' => $langue['contre_qui'],
 		'FOR' => $list_match['id'],
-		'DATE' => date("j/n/Y", $list_match['date']),
+		'DATE' => date('j/n/Y', $list_match['date']),
 		'CLAN' => $list_match['le_clan'],
 		'SECTION' => (empty($list_match['nom']))? $langue['toutes_section'] : $list_match['nom'],
-		'INFO' => nl2br(bbcode($list_match['info'])),
+		'INFO' => bbcode($list_match['info']),
 		'SUR' => $list_match['nombre_de_joueur'],
 		'HEURE' => date("H:i", $list_match['date']),
 		'CHAT' => $list_match['heure_msn'],

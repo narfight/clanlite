@@ -5,14 +5,14 @@
 $root_path = './../';
 $niveau_secu = 16;
 $action_membre = 'where_module';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if (!empty($_POST['envoyer']))
 { 
 	if (empty($_POST['module']))
 	{
-		redirec_text("modules.php", $langue['redirection_module_erreur'], "admin");
+		redirec_text("modules.php", $langue['redirection_module_erreur'], 'admin');
 	}
 	$_POST = pure_var($_POST);
 	$central = false;
@@ -26,13 +26,13 @@ if (!empty($_POST['envoyer']))
 	}
 	$module_installtion = 1;
 	include($root_path."modules/".$_POST['module']);
-	redirec_text("modules.php", $langue['redirection_module_add'], "admin");
+	redirec_text("modules.php", $langue['redirection_module_add'], 'admin');
 }
 if (!empty($_POST['envois_edit']))
 {
 	if (empty($_POST['module']))
 	{
-		redirec_text("modules.php", $langue['redirection_module_erreur'], "admin");
+		redirec_text("modules.php", $langue['redirection_module_erreur'], 'admin');
 	}
 	$_POST = pure_var($_POST);
 	$sql = "UPDATE `".$config['prefix']."modules` SET nom='".$_POST['nom']."', ordre='".$_POST['num']."', place='".$_POST['position']."', call_page='".$_POST['module']."', etat='".(($_POST['activation'] != 0)? 1 : 0)."' WHERE id='".$_POST['for']."'";
@@ -42,7 +42,7 @@ if (!empty($_POST['envois_edit']))
 	}
 	else
 	{
-		redirec_text("modules.php", $langue['redirection_module_edit'], "admin");
+		redirec_text("modules.php", $langue['redirection_module_edit'], 'admin');
 	}
 }
 if (!empty($_POST['Supprimer']))
@@ -57,7 +57,7 @@ if (!empty($_POST['Supprimer']))
 	redirec_text("modules.php", $langue['redirection_module_dell'], 'admin');
 }
 include($root_path."conf/frame_admin.php");
-$template = new Template($root_path."templates/".$config['skin']);
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_modules.tpl'));
 if (!empty($_POST['Editer']))
 {

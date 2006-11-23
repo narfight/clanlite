@@ -29,9 +29,9 @@ if (defined('CL_AUTH'))
 	closedir($rep);
 	if (!empty($liste_tpl))
 	{
-		$template->assign_block_vars("modules_".$modules['place'], array( 
+		$template->assign_block_vars('modules_'.$modules['place'], array( 
 				'TITRE' => $modules['nom'],
-				'IN' => '<form method="post" action="" style="text-align: center;">'."\n".'<select name="change_tpl_perso" id="change_tpl_perso_module" size="'.$nombre_tpl.'" onChange="this.form.submit();">'."\n".$liste_tpl."\n".'</select>'."\n".'</form>'
+				'IN' => '<form method="post" action="" style="text-align: center;">'."\n".'<select name="change_tpl_perso" id="change_tpl_perso_module" size="'.$nombre_tpl.'" onchange="this.form.submit();">'."\n".$liste_tpl."\n".'</select>'."\n".'</form>'
 		));
 	}
 }

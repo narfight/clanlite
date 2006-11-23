@@ -25,12 +25,12 @@
  *
  */
 
-include_once("gameSpy.php");
+require_once GSQUERY_DIR . 'gameSpy.php';
 
 /**
  * @brief Extends the gameSpy protocol to support Vietkong
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: vietkong.php,v 1.5 2004/05/24 15:22:06 jr Exp $
+ * @version $Id: vietkong.php,v 1.7 2004/08/12 19:14:47 jr Exp $
  * @todo process rules
  *
  * Vietkong's default query port seems to be 15426.
@@ -43,14 +43,14 @@ class vietkong extends gameSpy
 
   function query_server($getPlayers=TRUE,$getRules=TRUE)
   {       
-    $this->playerkeys=array();
-    $this->debug=array();
-    $this->errstr="";
-    $this->password=-1;
+    // flushing old data if necessary
+    if($this->online) {
+      $this->_init();
+    }
 
     $cmd="\\status\\";
     if(!($response=$this->_sendCommand($this->address, $this->queryport, $cmd))) {
-      $this->errstr="No reply received";
+      $this->errstr='No reply received';
       return FALSE;
     }    
     $this->_processServerInfo($response);
@@ -67,7 +67,7 @@ class vietkong extends gameSpy
       $this->_processPlayers($response);
     }    
 
-    $this->gamename="vietkong";
+    $this->gamename='vietkong';
     return TRUE;
   }  
 

@@ -4,9 +4,9 @@
 // -------------------------------------------------------------
 $root_path = './../';
 $action_membre = 'where_serveur_list';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
-include($root_path."conf/frame.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
+include($root_path.'conf/frame.php');
 require_once($root_path."service/gsquery/gsQuery.php");
 $template->set_filenames(array('body' => 'liste_game_serveur.tpl'));
 $_GET['limite'] = (empty($_GET['limite']))? 0 : $_GET['limite'];
@@ -53,5 +53,5 @@ if ( ($gameserver=queryServer($info['ip'], $info['port'], $info['protocol'])) )
 }
 displayNextPreviousButtons($_GET['limite'],$total,"multi_page");
 $template->pparse('body');
-include($root_path."conf/frame.php"); 
+include($root_path.'conf/frame.php'); 
 ?>

@@ -1,4 +1,5 @@
 <!-- BEGIN serveur_jeux -->
+	{IMAGE_MAP}
 	{TXT_IP} : <span class="reponce">{IP}</span><br />
 	{TXT_CURRENT_MAP} : <span class="reponce">{CURRENT_MAP}</span><br />
 	{TXT_NEXT_MAP} : <span class="reponce">{NEXT_MAP}</span><br />
@@ -18,13 +19,23 @@
 <!-- BEGIN serveur_config -->
 	<form method="post" action="serveur_jeux.php">
 		<div class="big_cadre">
-		<h1>{serveur_config.TITRE}</h1>
+			<h1>{serveur_config.TITRE}</h1>
 			<p>
 				<span><label for="id_serveur">{serveur_config.TXT_SERVEUR}&nbsp;:</label></span>
-				<span><select name="id_serveur" id="id_serveur" onBlur="formverif(this.id,'autre','')">
-		    <option value="" >{serveur_config.CHOISIR}</option> 
-			{serveur_config.LISTE}
-		</select></span>
+				<span>
+					<select name="id_serveur" id="id_serveur" onblur="formverif(this.id,'autre','')">
+						<option value="" >{serveur_config.CHOISIR}</option> 
+						{serveur_config.LISTE}
+					</select>
+				</span>
+			</p>
+			<p>
+				<span><label for="liste">{serveur_config.TXT_LISTE}&nbsp;:</label></span>
+				<span><input name="liste" id="liste" type="checkbox" value="true" {serveur_config.LISTE_CHECKED} /></span>
+			</p>
+			<p>
+				<span><label for="image">{serveur_config.TXT_IMAGE}&nbsp;:</label></span>
+				<span><input name="image" id="image" type="checkbox" value="true" {serveur_config.IMAGE_CHECKED} /></span>
 			</p>
 			<p>
 				<span>

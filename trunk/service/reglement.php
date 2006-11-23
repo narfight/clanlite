@@ -4,9 +4,9 @@
 // -------------------------------------------------------------
 $root_path = './../';
 $action_membre = 'where_reglement';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
-include($root_path."conf/frame.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
+include($root_path.'conf/frame.php');
 $template->set_filenames(array('body' => 'divers_text.tpl'));
 if (empty($config['reglement']))
 {
@@ -14,8 +14,8 @@ if (empty($config['reglement']))
 }
 $template->assign_vars(array(
 	'TITRE' => $langue['titre_reglement'],
-	'TEXTE' => nl2br(bbcode((empty($config['reglement']))? $langue['no_reglement'] : $config['reglement'])),
+	'TEXTE' => bbcode((empty($config['reglement']))? $langue['no_reglement'] : $config['reglement']),
 ));
 $template->pparse('body');
-include($root_path."conf/frame.php"); 
+include($root_path.'conf/frame.php'); 
 ?>

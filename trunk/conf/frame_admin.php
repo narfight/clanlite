@@ -4,19 +4,19 @@
 // -------------------------------------------------------------
 if (!empty($page_frame_admin))
 {
-	$template = new Template($root_path."templates/".$config['skin']);
+	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('foot_admin' => 'bas_de_page_admin.tpl'));
 }
 else
 {
 	$debut = getmicrotime();
-	$template = new Template($root_path."templates/".$config['skin']);
+	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('head_admin' => 'haut_de_page_admin.tpl'));
 }
 // ce qui doit avoir soit dans le haut ou le bas de page admin
 $template->assign_vars( array( 
 	'PATH_ROOT' => $root_path,
-	'HEAD' => (!empty($frame_head))? $frame_head : "",
+	'HEAD' => (!empty($frame_head))? $frame_head : '',
 	'ENTRAINEMENT' => $langue['titre_entrainement'],
 	'LISTE_MEMBRES' => $langue['titre_liste_membres'],
 	'CONNECTE' => $langue['titre_connecte'],
@@ -24,13 +24,13 @@ $template->assign_vars( array(
 	'ICI' => $config['site_domain'].$config['site_path'],
 	'MATCH' => $langue['titre_match'],
 	'EDITER_PROFIL' => $langue['titre_edit_user'],
-	'LOGIN' => $langue['boutton_deconnect']."[".$session_cl['user']."]",
+	'LOGIN' => $langue['boutton_deconnect'].'['.$session_cl['user'].']',
 	'TITRE_USER' => $langue['menu_titre_user'],
 	'TITRE_GO_PUBLIQUE' => $langue['menu_titre_go_publique'],
 	'TITRE_GO_INDEX' => $langue['menu_titre_prive_entree'],
 	'TITRE_PAGE' => $langue['prive_titre_page'],
 ));
-if ( $user_pouvoir['particulier'] == "admin" || in_array('oui', $user_pouvoir))
+if ($user_pouvoir['particulier'] == 'admin' || in_array('oui', $user_pouvoir))
 {
 	$template->assign_block_vars('menu_admin', array( 
 		'TITRE_PAGE' => $langue['prive_titre_page'],
@@ -68,16 +68,16 @@ if ( $user_pouvoir['particulier'] == "admin" || in_array('oui', $user_pouvoir))
 	$get_nfo_module = 1;
 	while( $modules = $rsql->s_array($get_module) )
 	{
-		include($root_path."modules/".$modules['call_page']);
+		include($root_path.'modules/'.$modules['call_page']);
 		if ( !empty($filename) && !empty($nom) )
 		{
 			$template->assign_block_vars('menu_admin.list_module', array( 
-				'URL' => $root_path."modules/".$modules['call_page']."?config_modul_admin=oui&id_module=".$modules['id'],
+				'URL' => $root_path.'modules/'.$modules['call_page'].'?config_modul_admin=oui&id_module='.$modules['id'],
 				'NOM' => $modules['nom']
 			));
 		}
-		$filename = "";
-		$nom = "";
+		$filename = '';
+		$nom = '';
 	}
 	@closedir($dir);
 	$template->assign_block_vars('admin', array( 
@@ -90,7 +90,7 @@ if (!empty($page_frame_admin))
 		'VERSION' => $config['version'],
 		'COPYRIGHT' =>  sprintf($langue['copyright'], $config['version']),
 	));
-	if (!empty($user_pouvoir['particulier']) && $user_pouvoir['particulier'] == "admin")
+	if (!empty($user_pouvoir['particulier']) && $user_pouvoir['particulier'] == 'admin')
 	{
 	}
 	$template->pparse('foot_admin');
@@ -98,6 +98,6 @@ if (!empty($page_frame_admin))
 else
 {
 	$template->pparse('head_admin');
-	$page_frame_admin = "foot";
+	$page_frame_admin = 'foot';
 }
 ?>

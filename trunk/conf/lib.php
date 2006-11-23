@@ -20,11 +20,31 @@ function get_ip()
 	return $_SERVER['REMOTE_ADDR'];
 }
 
-function pure_var($var, $action='del')
+// si c'est moins récent que PHP5, on crée la function
+if (version_compare(phpversion(),'5') === -1)
 {
-	if ($action == 'del')
+	function scandir($rep)
 	{
-		if( !get_magic_quotes_gpc() )
+		if (is_dir($rep))
+		{
+			if ($dh = opendir($rep))
+			{
+				while (($file = readdir($dh)) !== false)
+				{
+					$liste[] = $file;
+				}
+        		closedir($dh);
+				return $liste;
+			}
+		}
+		return false;
+	}
+}
+function pure_var($var, $action='del', $force=false)
+{
+	if ($action === 'del')
+	{
+		if( !get_magic_quotes_gpc() || $force )
 		{
 			if (is_array($var))
 			{
@@ -39,7 +59,7 @@ function pure_var($var, $action='del')
 			}
 		}
 	}
-	elseif( get_magic_quotes_gpc() )
+	elseif( get_magic_quotes_gpc() || $force )
 	{
 		if (is_array($var))
 		{
@@ -47,12 +67,14 @@ function pure_var($var, $action='del')
 			{ 
 				$var = str_replace('\\\\', '\\', $var);
 				$var  = str_replace('\\\'', '\'', $var);
+				$var = str_replace('\\\\', '\\', $var);
+				$var  = str_replace('\\"', '"', $var);
 			} 
 		}
 		else
 		{
 			$var = str_replace('\\\\', '\\', $var);
-			$var  = str_replace('\\\'', '\'', $var);
+			$var  = str_replace('\\"', '"', $var);
 		}
 	}
 	return $var;
@@ -80,6 +102,16 @@ function bbcode($fichier, $no_html=true)
 	{
 		$fichier = str_replace(($no_html)? htmlspecialchars($info_smilies['text']) : $info_smilies['text'], "<img src=\"".$root_path."images/smilies/".$info_smilies['img']."\" alt=\"".$info_smilies['def']."\" width=\"".$info_smilies['width']."\" height=\"".$info_smilies['height']."\"  />", $fichier);
 	}
+	while(ereg('\[list](.*)\[/list]', $fichier))
+	{
+		$fichier = preg_replace("#\[list](.*)\[/list]#Usi", "<ul>\\1\n</li></ul>", $fichier); 
+	}
+	while(ereg('<ul>(.*)\[\*\](.*)</ul>', $fichier))
+	{
+		$fichier = preg_replace("#<ul>(.*)\[\*\](.*)</ul>#Usi", "<ul>\\1</li><li>\\2</ul>", $fichier);
+	}
+	$fichier = str_replace('<ul></li>', '<ul>', $fichier);
+	$fichier = str_replace(chr(10).'</li><li>', '</li><li>', $fichier);
 	$bbcode_search = array(
 		"#\[size=([1-2]?[0-9])]([^]]*)\[/size]#si",
 		"#\[color=(\#[0-9A-F]{6}|[a-z]+)]([^]]*)\[/color]#si",
@@ -93,6 +125,9 @@ function bbcode($fichier, $no_html=true)
 		"#\[url\]([a-z0-9\-\.,\?!%\*_\#:;~\\&$@\/=\+\(\)]+)\[/url\]#si",
 		"#\[url=([a-z]+?://){1}([a-z0-9\-\.,\?!%\*_\#:;~\\&$@\/=\+\(\)]+)\](.*?)\[/url\]#si",
 		"#\[url=([a-z0-9\-\.,\?!%\*_\#:;~\\&$@\/=\+\(\)]+)\](.*?)\[/url\]#si",
+		"#\[(swf|flash) width=([0-9]+?) height=([0-9]+?)\]([a-z]+?://){1}([a-z0-9\-\.,\?!%\*_\#:;~\\&$@\/=\+\(\)]+).swf\[\/(swf|flash)\]#si",
+		//"#\[quote]([^]]*)\[quote]#si",
+		//"#\[php](.*)\[/php]#sie",
 	);
 	$bbcode_replace = array(
 		"<span style=\"font-size: \\1px;\">\\2</span>",
@@ -107,19 +142,15 @@ function bbcode($fichier, $no_html=true)
 		"<a href=\"http://\\1\">\\1</a>",
 		"<a href=\"\\1\\2\">\\3</a>",
 		"<a href=\"http://\\1\">\\2</a>",
+		"<object type=\"application/x-shockwave-flash\" width=\"\\1\" height=\"\\2\" data=\"\\3.swf\"><param name=\"movie\" value=\"\\3.swf\" /></object>",
+		//"",
+		//"'<samp>'.highlight_string(html_entity_decode('\\1'), true).'</samp>'",
 	);
 	$fichier = preg_replace($bbcode_search, $bbcode_replace, $fichier);
-	while(ereg('\[list](.*)\[/list]', $fichier))
+	if ($no_html)
 	{
-		$fichier = preg_replace("#\[list](.*)\[/list]#Usi", "<ul>\\1\n</li></ul>", $fichier); 
+		$fichier = nl2br($fichier);
 	}
-	while(ereg('<ul>(.*)\[\*\](.*)</ul>', $fichier))
-	{
-		$fichier = preg_replace("#<ul>(.*)\[\*\](.*)</ul>#Usi", "<ul>\\1</li><li>\\2</ul>", $fichier);
-	}
-	$fichier = str_replace('<ul></li>', '<ul>', $fichier);
-	$fichier = str_replace("
-</li><li>", "</li><li>", $fichier);
 	return $fichier;
 }
 
@@ -189,7 +220,7 @@ function sql_error($requete, $erreur, $line, $file)
 	global $config, $root_path, $langue;
 	if ( $config['raport_error'] == 1 )
 	{
-		$template = new Template($root_path."templates/".$config['skin']);
+		$template = new Template($root_path.'templates/'.$config['skin']);
 		$template->set_filenames( array('sql' => 'msg.tpl'));
 		$template->assign_block_vars('sql', array( 
 			'ROOT_PATH' => $root_path,
@@ -203,12 +234,12 @@ function sql_error($requete, $erreur, $line, $file)
 		));
 		$template->pparse('sql');
 		// vérifie si le site du constructeur est en ligne
-		$fp = @fsockopen('www.europubliweb.com', 80, $errno, $errstr, 30);
+		$fp = @fsockopen('services.clanlite.org', 80, $errno, $errstr, 30);
 		if ($fp)
 		{
-			$out = "GET /born-to-up/serveur_central/com.php?rapport=".urlencode($requete."|*|".$erreur."|*|".$file."|*|".$line)." HTTP/1.1\r\n";
-			$out .= "Host: ".$_SERVER['HTTP_HOST']."\r\n";
-			$out .= "Referer: ".$config['site_domain'].$config['site_path']."\r\n";
+			$out = "GET /com.php?rapport=".urlencode($requete."|*|".$erreur."|*|".$file."|*|".$line)." HTTP/1.1\r\n";
+			$out .= "Host: services.clanlite.org\r\n";
+			$out .= "Referer: ".$config['site_domain'].$config['site_path']."(".$_SERVER['HTTP_HOST'].")\r\n";
 			$out .= "User-Agent: Clanlite ".$config['version']."\r\n";
 			$out .= "Connection: Close\r\n\r\n";
 		
@@ -225,7 +256,7 @@ function sql_error($requete, $erreur, $line, $file)
 		elseif (!$fp || !empty($tmp) && $tmp != 'ok')
 		{
 			$log = fopen($root_path."erreur_sql.txt" ,"a");
-			fwrite($log, $config['current_time']."|*|".$requete."|*|".$erreur."|*|".$file."|*|".$line."|*|".$config['site_domain'].$config['site_path']."|*|".$config['version']." ".chr(10));
+			fwrite($log, $config['current_time']."|*|".$requete."|*|".$erreur."|*|".$file."|*|".$line."|*|".$config['site_domain'].$config['site_path']."|*|".$config['version'].chr(10));
 			fclose($log);
 		}
 	}
@@ -241,7 +272,7 @@ function secu($goto)
 function secu_level_test($level_page)
 {
 	global $config, $root_path, $user_pouvoir, $langue;
-	if ( (empty($level_page) || $user_pouvoir[$level_page] != "oui") && $user_pouvoir['particulier'] != "admin")
+	if ( (empty($level_page) || $user_pouvoir[$level_page] != "oui") && $user_pouvoir['particulier'] != 'admin')
 	{
 		secu($_SERVER['PHP_SELF']);
 	}
@@ -264,7 +295,7 @@ function redirec_text($url,$txt,$for)
 	global $root_path, $config, $rsql, $inscription, $langue, $template, $user_pouvoir, $session_cl;
 	$frame_head = '
 		<meta http-equiv="refresh" content="3;URL='.$url.'" />';
-	$frame_where = ($for == "admin")? $root_path."conf/frame_admin.php" : $root_path."conf/frame.php";
+	$frame_where = ($for == 'admin')? $root_path."conf/frame_admin.php" : $root_path."conf/frame.php";
 	include($frame_where);
 	$template->set_filenames(array('body' => 'divers_text.tpl'));
 	$template->assign_vars(array(
@@ -388,7 +419,7 @@ function queryServer($address, $port, $protocol)
 	}
 	else
 	{
-		$gameserver=($config['scan_game_server'] == 'udp')? gsQuery::createInstance($protocol, $address, $port) : gsQuery::unserializeFromURL('http://www.terragate.net/services/gsQuery/serializer.php?host='.$address.'&queryport='.$port.'&protocol='.$protocol);
+		$gameserver=($config['scan_game_server'] == 'udp')? gsQuery::createInstance($protocol, $address, $port) : gsQuery::unserializeFromURL('http://services.clanlite.org/gsquery.php?host='.$address.'&queryport='.$port.'&protocol='.$protocol);
 		if(!$gameserver)
 		{
 			return false;
@@ -462,7 +493,11 @@ function scan_map($map_console, $info='array')
 			}
 		}
 	}
-	return $map_console;
+	if ($info != 'array')
+	{
+		return $map_console;
+	}
+	return array($map_console);
 }
 // pour les serveurs TeamSpeak
 function channelinfo($ip_serveur, $query_port, $port_serveur, $version_serveur)

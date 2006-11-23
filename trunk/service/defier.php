@@ -4,8 +4,8 @@
 // -------------------------------------------------------------
 $root_path = './../';
 $action_membre = 'where_defier';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 if (!empty($_POST['submit']) )
 	{
 	$forum_error = "";
@@ -81,8 +81,8 @@ if (!empty($_POST['submit']) )
 		redirec_text("index_pri.php", $langue['user_envois_defit'], "user");
 	}
 }
-include($root_path."conf/frame.php");
-$template = new Template($root_path."templates/".$config['skin']);
+include($root_path.'conf/frame.php');
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'defier.tpl'));
 liste_smilies(true, '', 25);
 $template->assign_vars(array( 
@@ -134,5 +134,5 @@ for($i=1;$i <= $config['nbr_membre'];$i++)
 
 }
 $template->pparse('body');
-include($root_path."conf/frame.php"); 
+include($root_path.'conf/frame.php'); 
  ?>

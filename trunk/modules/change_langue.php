@@ -29,9 +29,9 @@ if (defined('CL_AUTH'))
 	closedir($rep);
 	if (!empty($liste_langue))
 	{
-		$template->assign_block_vars("modules_".$modules['place'], array( 
+		$template->assign_block_vars('modules_'.$modules['place'], array( 
 				'TITRE' => $modules['nom'],
-				'IN' => '<form method="post" style="text-align: center;">'."\n".'<select name="change_langue_perso" id="change_langue_perso_module" size="'.$nombre_langue.'" onChange="this.form.submit();">'."\n".$liste_langue."\n".'</select>'."\n".'</form>'
+				'IN' => '<form method="post" action="" style="text-align: center;">'."\n".'<select name="change_langue_perso" id="change_langue_perso_module" size="'.$nombre_langue.'" onchange="this.form.submit();">'."\n".$liste_langue."\n".'</select>'."\n".'</form>'
 		));
 	}
 }

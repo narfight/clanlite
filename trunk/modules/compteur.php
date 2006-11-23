@@ -19,7 +19,7 @@ if (defined('CL_AUTH'))
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 	}
 	$nombre_connecte = $rsql->s_array($get_connecte);
-	$template->assign_block_vars("modules_".$modules['place'], array( 
+	$template->assign_block_vars('modules_'.$modules['place'], array( 
 		'TITRE' => $modules['nom'],
 		'IN' => sprintf($langue['module_compteur'], $config['compteur'], $nombre_connecte['COUNT(*)'])
 	));

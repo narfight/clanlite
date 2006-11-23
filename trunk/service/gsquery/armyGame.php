@@ -25,12 +25,12 @@
  *
  */
 
-include_once("gameSpy.php");
+require_once GSQUERY_DIR . 'gameSpy.php';
 
 /**
  * @brief Extends the gameSpy protocol to support America's Army
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: armyGame.php,v 1.5 2004/05/24 15:22:06 jr Exp $
+ * @version $Id: armyGame.php,v 1.9 2004/08/12 19:14:47 jr Exp $
  *
  * This is a quick hack to support the changed America's Army protocol.
  * It is slow, incomplete and ugly. Does anyone have the protocol specs?
@@ -41,44 +41,119 @@ class armyGame extends gameSpy
 
   function query_server($getPlayers=TRUE,$getRules=TRUE)
   {       
-    $this->playerkeys=array();
-    $this->debug=array();
-    $this->errstr="";
-    $this->password=-1;
+    // flushing old data if necessary
+    if($this->online) {
+      $this->_init();
+    }
     
     $command="\\status\\";
     if(!($result=$this->_sendCommand($this->address, $this->queryport, $command))) {
-      $this->errstr="No reply received";
+      $this->errstr='No reply received';
       return FALSE;
     }
 
     $this->online = TRUE;
 
+    $cmd="\\basic\\\\info\\";
+    if(!($response=$this->_sendCommand($this->address, $this->queryport, $cmd))) {
+      $this->errstr='No reply received';
+      return FALSE;
+    }
+    
     // xxx: not a nice way 
-    ereg("^(.*)(\\\\player_0.*)$", $result, $matches);
+    ereg("^(.*)(\\\\leader_0.*)$", $result, $matches);
+    
     // get rid of the team scores
-    $matches[2]=preg_replace("/\\\score_t\d.\d/e", "", $matches[2]);
+    $matches[2]=preg_replace("/\\\score_t\d.\d/e", '', $matches[2]);
 
-    $this->_processServerInfo($matches[1]); 
+    $this->_processServerInfo($response);
     $this->_processPlayers($matches[2]);   
+ 
+   if($matches[1] <> '') {
+      $this->_processRules($matches[1]);
+    } else {
+      $this->_processRules($response);
+    }
+    
+    return TRUE;
+  } 
+
+  function _processPlayers($rawPlayerData)
+  {
+    $temp=explode("\\", $rawPlayerData);
+    $this->playerkeys['name']=TRUE;
+    $this->playerkeys['leader']=TRUE;
+    $this->playerkeys['goal']=TRUE;
+    $this->playerkeys['score']=TRUE;
+    $this->playerkeys['ping']=TRUE;
+    $this->playerkeys['roe']=TRUE;
+    $this->playerkeys['kia']=TRUE;
+    $this->playerkeys['enemy']=TRUE;
+    
+    $count=count($temp);
+    for($i=1;$i<$count;$i++) {
+      list($var, $playerid)=explode('_', $temp[$i]);
+      switch($var) {
+      case 'player':
+      case 'playername':
+	$players[$playerid]['name']=$temp[++$i];
+	break;
+      case 'honor':
+	$players[$playerid]['score']=$temp[++$i];
+	break;
+      default:
+	$players[$playerid][$var]=$temp[++$i];
+	$this->playerkeys[$var]=TRUE;
+      }
+    }
+    $this->players=$players;
+    return TRUE;
+  }
+  
+  function _processServerInfo($rawdata)
+  {    
+    $temp=explode("\\",$rawdata);
+    $count=count($temp);
+    for($i=1;$i<$count;$i++) {
+      $data[$temp[$i]]=$temp[++$i];
+    }
+    
+    if ($data['gamename'] <> '') {$this->gamename = $data['gamename'];} {}
+    if ($data['game_id'] <> '') {$this->gamename = $data['game_id'];} {}
+    $this->hostport = $data['hostport'];
+    $this->gameversion = $data['gamever'];
+    $this->servertitle = $data['hostname'];
+    $this->maptitle = isset($data['maptitle']) ? $data['maptitle'] : '';
+    $this->mapname = $data['mapname'];
+    $this->gametype = $data['gametype'];
+    $this->numplayers = $data['numplayers'];
+    $this->maxplayers = $data['maxplayers'];
+    $this->rules['reservedslots'] = $data['reservedslots'];
+    if(isset($data['password']) && ($data['password']==0 || $data['password']==1)) {
+      $this->password=$data['password'];
+    }
+    
+    if(!$this->gamename) {
+      $this->gamename='unknown';
+    }
 
     return TRUE;
   }  
 
-  function sortPlayers($players, $sortkey="name") 
+  function sortPlayers($players, $sortkey='name') 
   {
     if(!sizeof($players)) {
       return array();
     }
     switch($sortkey) {
-    case "roe":
-      uasort($players, array("armyGame", "_sortbyRoe"));
+    case 'roe':
+      uasort($players, array('armyGame', '_sortbyRoe'));
       break;
-    case "kia":
-      uasort($players, array("armyGame", "_sortbyKia"));
+    case 'kia':
+      uasort($players, array('armyGame', '_sortbyKia'));
       break;
-    case "enemy":
-      uasort($players, array("armyGame", "_sortbyEnemy"));
+    case 'enemy':
+      uasort($players, array('armyGame', '_sortbyEnemy'));
       break;
     default:
       $players=parent::sortPlayers($players, $sortkey);
@@ -91,28 +166,28 @@ class armyGame extends gameSpy
 
   function _sortbyRoe($a, $b) 
   {
-    if($a["roe"]==$b["roe"]) { return 0; } 
-    elseif($a["roe"]<$b["roe"]) { return 1; }
+    if($a['roe']==$b['roe']) { return 0; } 
+    elseif($a['roe']<$b['roe']) { return 1; }
     else { return -1; }
   }
 
   function _sortbyKia($a, $b) 
   {
-    if($a["kia"]==$b["kia"]) { return 0; } 
-    elseif($a["kia"]<$b["kia"]) { return 1; }
+    if($a['kia']==$b['kia']) { return 0; } 
+    elseif($a['kia']<$b['kia']) { return 1; }
     else { return -1; }
   }
 
   function _sortbyEnemy($a, $b) 
   {
-    if($a["enemy"]==$b["enemy"]) { return 0; } 
-    elseif($a["enemy"]<$b["enemy"]) { return 1; }
+    if($a['enemy']==$b['enemy']) { return 0; } 
+    elseif($a['enemy']<$b['enemy']) { return 1; }
     else { return -1; }
   }  
 
   function _getClassName() 
   {
-    return "armyGame";
+    return 'armyGame';
   }
 }
 

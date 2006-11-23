@@ -5,8 +5,8 @@
 $root_path = './../';
 $niveau_secu = 13;
 $action_membre= 'where_liens_admin';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if (!empty($_POST['dell']))
 {
@@ -15,7 +15,7 @@ if (!empty($_POST['dell']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("liens.php", $langue['redirection_liens_dell'], "admin");
+	redirec_text("liens.php", $langue['redirection_liens_dell'], 'admin');
 }
 if (!empty($_POST['Envoyer']))
 { 
@@ -27,7 +27,7 @@ if (!empty($_POST['Envoyer']))
 	}
 	else
 	{
-		redirec_text("liens.php", $langue['redirection_liens_add'], "admin");
+		redirec_text("liens.php", $langue['redirection_liens_add'], 'admin');
 	}
 }
 if (!empty($_POST['Editer']))
@@ -40,11 +40,11 @@ if (!empty($_POST['Editer']))
 	}
 	else
 	{
-		redirec_text("liens.php", $langue['redirection_liens_edit'], "admin");
+		redirec_text("liens.php", $langue['redirection_liens_edit'], 'admin');
 	}
 }
 include($root_path."conf/frame_admin.php");
-$template = new Template($root_path."templates/".$config['skin']);
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_liens.tpl'));
 $template->assign_vars( array(
 	'TXT_CON_DELL' => $langue['confirm_dell'],

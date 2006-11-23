@@ -5,8 +5,8 @@
 $root_path = './../';
 // on inclus la conf
 $action_membre= 'where_membre_liste';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if ( !empty($_POST['del']) )
 {
@@ -36,10 +36,10 @@ if ( !empty($_POST['del']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("liste-des-membres.php","Le membres est supprimé", "admin");
+	redirec_text("liste-des-membres.php","Le membres est supprimé", 'admin');
 }
 include($root_path."conf/frame_admin.php");
-$template = new Template($root_path."templates/".$config['skin']);
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'membre_liste.tpl'));
 // connection Mysql
 $template->assign_vars(array( 
@@ -49,53 +49,54 @@ $template->assign_vars(array(
 	'NOM_SEX' => $langue['nom/sex'],
 	'MSN' => $langue['msn'],
 ));
-$sql = "SELECT sex,id,user,im FROM ".$config['prefix']."user ORDER BY id ASC";
+$sql = "SELECT sex,id,user,im,pouvoir FROM ".$config['prefix']."user ORDER BY id ASC";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 }
-$nombre = "";
+$nombre = 0;
 while ($liste = $rsql->s_array($get))
 { 
 	$nombre++;
-	if ( ( $user_pouvoir['particulier'] == "admin" || $user_pouvoir[8] == "oui") && $nombre == 1)
+	if ( ( $user_pouvoir['particulier'] == 'admin' || $user_pouvoir[8] == "oui") && $nombre == 1)
 	{
 		$template->assign_block_vars('profil_tete', array('PROFIL' => $langue['profil']));
 	}
-	if ( ($user_pouvoir['particulier'] == "admin" || $user_pouvoir[7] == "oui") && $nombre == 1)
+	if ( ($user_pouvoir['particulier'] == 'admin' || $user_pouvoir[7] == "oui") && $nombre == 1)
 	{
 		$template->assign_block_vars('medail_tete', array('MEDAILLES' => $langue['medailles']));
 	}
-	if ( ($user_pouvoir['particulier'] == "admin" || $user_pouvoir[22] == "oui") && $nombre == 1)
+	if ( ($user_pouvoir['particulier'] == 'admin' || $user_pouvoir[22] == "oui") && $nombre == 1)
 	{
 		$template->assign_block_vars('del_tete', array('SUPPRIMER' => $langue['supprimer']));
 	}
-	if ($user_pouvoir['particulier'] == "admin" && $nombre == 1)
+	if ($user_pouvoir['particulier'] == 'admin' && $nombre == 1)
 	{
 		$template->assign_block_vars('admin_tete', array('POUVOIRS' => $langue['pouvoirs']));
 	}
 	$template->assign_block_vars('liste', array( 
 		'NOMBRE' => $nombre,
 		'ID' => $liste['id'],
-		'SEX' => ($liste['sex'] == 'Femme')? "femme" : "homme",
+		'SEX' => ($liste['sex'] == 'Femme')? 'femme' : 'homme',
 		'USER' => $liste['user'],
-		'MSN' => $liste['im']
+		'MSN' => $liste['im'],
+		'EDITER' => $langue['editer']
 	));
-	if ( $user_pouvoir['particulier'] == "admin" || $user_pouvoir[8] == "oui")
+	if ( $user_pouvoir['particulier'] == 'admin' || $user_pouvoir[8] == 'oui')
 	{
 		$template->assign_block_vars('liste.edit_profil', array( 'vide' => 'vide'));
 	}
-	if ( $user_pouvoir['particulier'] == "admin" || $user_pouvoir[7] == "oui")
+	if ( $user_pouvoir['particulier'] == 'admin' || $user_pouvoir[7] == "oui")
 	{
 		$template->assign_block_vars('liste.edit_medail', array( 'vide' => 'vide'));
 	}
-	if ( $user_pouvoir['particulier'] == "admin" || $user_pouvoir[7] == "oui")
+	if ( $user_pouvoir['particulier'] == 'admin' || $user_pouvoir[7] == "oui")
 	{
 		$template->assign_block_vars('liste.del', array( 'vide' => 'vide'));
 	}
-	if ($user_pouvoir['particulier'] == "admin")
+	if ($user_pouvoir['particulier'] == 'admin')
 	{
-		$template->assign_block_vars('liste.admin', array( 'vide' => 'vide'));
+		$template->assign_block_vars('liste.admin', array('DISABLED' => ($liste['pouvoir'] == 'admin')? 'disabled="disabled"' : ''));
 	}
 }
 $template->pparse('body');

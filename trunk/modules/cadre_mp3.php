@@ -27,7 +27,7 @@ if (defined('CL_AUTH'))
 	{
 		$modules_in = $langue['module_mp3_no_info'];
 	}
-	$template->assign_block_vars("modules_".$modules['place'], array( 
+	$template->assign_block_vars('modules_'.$modules['place'], array( 
 			'TITRE' => $modules['nom'],
 			'IN' => $modules_in
 	));

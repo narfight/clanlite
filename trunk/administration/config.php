@@ -5,8 +5,8 @@
 $root_path = './../';
 $action_membre= 'where_config_site';
 $niveau_secu = 2;
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if( !empty($_POST['Submit']) )
 {
@@ -31,12 +31,12 @@ if( !empty($_POST['Submit']) )
 	unset($langue);
 	// on redifinit les varriables importante pour le bon déroulement du script
 	$config['time_cook'] = 60*$config['time_cook'];
-	$config['langue'] = (empty($session_cl['langue_user']))? $config['langue'] : $session_cl['langue_user'];
-	include ($root_path."langues/".$config['langue']."/langue.php");
-	redirec_text("config.php", $langue['redirection_config_ok'] , "admin");
+	$config['langue'] = (!empty($session_cl['langue_user']) && is_dir($root_path.'langues/'.$session_cl['langue_user']))? $session_cl['langue_user'] : $config['langue'];
+	include ($root_path.'langues/'.$config['langue'].'/langue.php');
+	redirec_text('config.php', $langue['redirection_config_ok'] , 'admin');
 }
 include($root_path."conf/frame_admin.php");
-$template = new Template($root_path."templates/".$config['skin']);
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_config.tpl'));
 // on fait la liste des membres
 $sql = "SELECT id,user FROM ".$config['prefix']."user";
@@ -97,7 +97,7 @@ if (is_dir($dir))
 				$template->assign_block_vars('skin', array(
 					'NAME' => $file,
 					'VALUE' => $file,
-					'SELECTED' => ( $config['skin'] == $file) ? 'selected="selected"' : '',
+					'SELECTED' => ( $config['skin_default'] == $file) ? 'selected="selected"' : '',
 				));
 			}
 		}

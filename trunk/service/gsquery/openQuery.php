@@ -2,7 +2,6 @@
 
 /*
  *  gsQuery - Querys various game servers
- *  Copyright (c) 2004 Curtis Brown <webmaster@2dementia.com>
  *  Copyright (c) 2004 Jeremias Reith <jr@terragate.net>
  *  http://www.gsquery.org
  *
@@ -26,13 +25,13 @@
  *
  */
 
-
-include_once("gsQuery.php");
+require_once GSQUERY_DIR . 'gsQuery.php';
 
 /**
  * @brief Uses the openQuery protcol to communicate with the server
- * @author Curtis Brown
- * 
+ * @author Curtis Brown <webmaster@2dementia.com>
+ * @version $Revision: 1.7 $
+ *
  * The openQuery protocol comes from UDP Soft (creators of 'The All Seeing Eye')
  */
 class openQuery extends gsQuery
@@ -41,121 +40,163 @@ class openQuery extends gsQuery
   
   function query_server($getPlayers=TRUE,$getRules=TRUE)
   {
+    // flushing old data if necessary
+    if($this->online) {
+      $this->_init();
+    }
     $this->playerteams = array('red', 'blue');
-    $this->playerkeys = array();
-    $this->debug = array();
-    $this->errstr = "";
-    $this->password = -1;
     
-    $cmd="s";
+    $cmd='s';
     if(!($response=$this->_sendCommand($this->address, $this->queryport, $cmd))) {
-      $this->errstr="No reply received";
+      $this->errstr='No reply received';
       return FALSE;
     }
 
-    $players = explode("?",$response);
+   
     $gamearray = array();
-    $pos = 1;
-    $gamearray[0] = substr($players[0],0,4);
-    for($i=4;$i<strlen($players[0]);$i++) {
-      $gamearray[$pos] = substr($players[0],$i+1,ord(substr($players[0],$i,1))-1);
-      $i = $i + ord(substr($players[0],$i,1))-1;
-      $pos = $pos + 1;
+    $pos = 4;
+    $gamearray[0] = substr($response,0,4);
+    for($i = 1;$i < 10;$i++) {
+      $gamearray[$i] = substr($response,$pos+1,ord(substr($response,$pos,1))-1);
+      $pos = $pos + ord(substr($response,$pos,1));
     }
-    array_pop($gamearray); // \x01 is no rule 
 
     $this->numplayers=$gamearray[8];
     $this->maxplayers=$gamearray[9];
     $this->gametype=$gamearray[1];
     $this->gamename=$gamearray[1];
-    $this->gameversion="1.1"; // Queries weren't supported before 1.1, version not supplied.
+    $this->gameversion='1.1'; // Queries weren't supported before 1.1
     $this->servertitle=$gamearray[3];
     $this->mapname=$gamearray[5];
     $this->hostport=$gamearray[2];
     $this->gametype=$gamearray[4];
+    $this->password=$gamearray[7];
     
     // get rules and basic infos
-    for($i=10;$i<count($gamearray);$i++) {      
-      switch ($gamearray[$i++]) {
-      case "gr_NextMap":
-	$this->nextmap=$gamearray[$i];
-	break;
-      default:
-	$gamearray[$i-1]=$gamearray[$i-1]; 
-	$this->rules[$gamearray[$i-1]] = $gamearray[$i];
-      }
+    $endrules=0;
+    if(ord(substr($response,$pos,1))!=1) { //skip rules
+      do {
+	$rulename= substr($response,$pos+1,ord(substr($response,$pos,1))-1);
+	$pos = $pos + ord(substr($response,$pos,1));
+	$rulevalue=substr($response,$pos+1,ord(substr($response,$pos,1))-1);
+	$pos = $pos + ord(substr($response,$pos,1));
+             
+	switch ($rulename) {
+	case 'gr_ScoreLimit': 
+	  $this->scorelimit=$rulevalue;
+	  break;
+	case 'gr_NextMap':
+	  $this->nextmap=$rulevalue;
+	  break;
+	default:
+	  //save the rule
+	  $this->rules[$rulename] = $rulevalue;
+	  break;
+	}
+	
+      } while(ord(substr($response,$pos,1))!=1); // the \x01 at the end indicates transfer to player list.
     }
-
-    $this->_processPlayers($players);
+    $pos++;  //align to the beginning of player data
+   
+    $playerdata=substr($response,$pos,strlen($response));
+    if($playerdata!=NULL) $this->_processPlayers($playerdata);
     $this->online=TRUE;
     return TRUE;
   }
-
+  
 
   /**
    * @internal 
    * @brief Extracts the players out of the given data
    *
-   * @param rawPlayerData data with players
+   * @param rawchunk data with players
    * @return TRUE on success
    * @todo Add spectators
    */
-  function _processPlayers($rawPlayerData)
+  function _processPlayers($rawchunk)
   {
-    $this->playerkeys["name"]=TRUE;
-    $this->playerkeys["ping"]=TRUE;
-    $this->playerkeys["score"]=TRUE;
-    $this->playerkeys["time"]=TRUE;
-    //$this->playerkeys["skin"]=TRUE; //no skin at the moment
-    $this->playerkeys["team"]=TRUE;
 
-    $numPlayers = 0;
+    $pos=0;$endplayers=0;$i=0;$skipread=0;
 
-    for ($i=1;$i<count($rawPlayerData);$i++) {
-      $atmp = preg_split("/[\x01-\x1f]/", $rawPlayerData[$i]);      
+    do {
+      $delimiter=ord($rawchunk{$pos++}); // this is a flag byte
+      /*
+         the flag byte is broken down the following way:
+   
+         XX111111
+         ||||||||
+         |||||||-----   Name is present
+         ||||||------   Team Info is present
+         |||||-------   Skin Info is present
+         ||||--------   Score Info is present
+         |||---------   Ping Info is present
+         ||----------   Time Info is present
+         |-----------   Undefined
+         ------------   Undefined
+   
+      */
 
-      if($atmp[2] == 'spectators') {
-	continue; // ignoring spectators for the moment
-      } 
+      // there are 6 possible data types, cycle through and grab each if present
+      for($j=0;$j<6;$j++) {
+        $flag=($delimiter & (1<<$j));
 
-      $this->players[$numPlayers]["name"]=$atmp[1];
-      //$this->players[$i]["skin"]=$atmp[3];
-      $this->players[$numPlayers]["score"]=$atmp[4];
-      $this->players[$numPlayers]["ping"]=$atmp[5];
-      $this->players[$numPlayers]["time"]=$atmp[6];
-      
-      switch ($atmp[2]) {
-      case "red":
-	$this->players[$numPlayers]["team"]=1;
-	break;
-      case "blue":
-	$this->players[$numPlayers]["team"]=2;
-	break;
-      case "players":
-	// non team based play?
-      default:
-      }
-      $numPlayers++;
-    }
+        switch($flag) {
+	case 1: // name
+          $datname='name';
+	  break;
+	case 2: // team info
+          $datname='team';
+	  break;
+	case 4: // skin
+          $datname='skin';
+	  break;
+	case 8: // score
+          $datname='score';
+	  break;
+	case 16:// ping
+          $datname='ping';
+	  break;
+	case 32:// time
+          $datname='time';
+	  break;
+	default:// item not supported
+          $skipread=1;
+	  break;
+	}
+	// read the data
+        if(!$skipread) {
+          $this->playerkeys[$datname]=TRUE;
+          $this->players[$i][$datname] = substr($rawchunk,$pos+1,ord(substr($rawchunk,$pos,1))-1);
+          $pos = $pos + ord(substr($rawchunk,$pos,1));
+	}
+        $skipread=0;
+
+      } // end for
+      $i++; //next player
+
+      if($i==$this->numplayers) $endplayers++;   // we have reached the max # of players, stop looping.
+
+    } while(!$endplayers);
+
     return TRUE;
   }
   
   
-  function htmlize($str) 
+  function htmlize($string) 
   {
-    $colors = array("black", "white", "blue", "green", "red", "light-blue", "yellow", "pink", "orange", "grey");
+    $colors = array('black', 'white', 'blue', 'green', 'red', 'light-blue', 'yellow', 'pink', 'orange', 'grey');
     
-    $str = htmlentities($str);
-    $num_tags = preg_match_all("/\\$(\d)/", $str, $matches);
-    $str = preg_replace("/\\$(\d)/e", "'<span class=\"gsquery-'. \$colors[\$1] .'\">'", $str);
+    $string = htmlentities($string);
+    $num_tags = preg_match_all("/\\$(\d)/", $string, $matches);
+    $string = preg_replace("/\\$(\d)/e", "'<span class=\"gsquery-'. \$colors[\$1] .'\">'", $string);
     
-    return $str . str_repeat("</span>", $num_tags);
+    return $string . str_repeat('</span>', $num_tags);
   }
 
 
   function _getClassName()
   {
-      return "openQuery";
+      return 'openQuery';
   }
 } 
 

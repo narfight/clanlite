@@ -4,10 +4,10 @@
 // -------------------------------------------------------------
 $root_path = './../';
 $action_membre = 'where_news';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
-include($root_path."conf/frame.php");
-$template = new Template($root_path."templates/".$config['skin']);
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
+include($root_path.'conf/frame.php');
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'accueil_centre.tpl'));
 // on prend le nombre de news pour les news/page
 $_GET['limite'] = (empty($_GET['limite']))? 0 : $_GET['limite'];
@@ -42,11 +42,11 @@ while ( $recherche = $rsql->s_array($list_news) )
 		'COMMENTAIRE' => $reaction,
 		'DATE'  => date("j/n/y H:i", $recherche['date']),
 		'FOR' => $recherche['id'],
-		'TEXT' => nl2br(bbcode($recherche['info'])),
+		'TEXT' => bbcode($recherche['info']),
 		'TITRE' => $recherche['titre']
 	));
 }
 displayNextPreviousButtons($_GET['limite'],$total,"multi_page");
 $template->pparse('body');
-include($root_path."conf/frame.php");
+include($root_path.'conf/frame.php');
 ?>

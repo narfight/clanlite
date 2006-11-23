@@ -5,13 +5,13 @@
 $root_path = "./";
 $action_membre= 'where_login';
 include($root_path.'conf/template.php');
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/conf-php.php');
 if (!empty($session_cl['user']))
 {
 	redirection($root_path.'user/index.php');
 }
-include($root_path."conf/frame.php");
-$template = new Template($root_path."templates/".$config['skin']);
+include($root_path.'conf/frame.php');
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'accueil_admin.tpl'));
 $template->assign_vars(array( 
 	'TITRE' => $langue['titre_login'],
@@ -38,5 +38,5 @@ if (!empty($_GET['erreur']))
 	}
 }
 $template->pparse('body');
-include($root_path."conf/frame.php");
+include($root_path.'conf/frame.php');
 ?>

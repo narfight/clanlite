@@ -5,13 +5,13 @@
 if (!empty($page_frame))
 {
 	// pour le bas de page
-	$template = new Template($root_path."templates/".$config['skin']);
+	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('foot' => 'bas_de_page.tpl'));
 	if (!empty($module_droite_nfo))
 	{
 		foreach($module_droite_nfo as $key=>$val)
 		{
-			$val = explode("|*|", $val);
+			$val = explode('|*|', $val);
 			$modules['nom'] = $val[1];
 			$modules['id'] = $val[2];
 			$modules['config'] = $val[3];
@@ -25,7 +25,7 @@ else
 {
 	// pour le haut de page
 	$debut = getmicrotime();
-	$template = new Template($root_path."templates/".$config['skin']);
+	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('head' => 'haut_de_page.tpl'));
 	$sql = "SELECT id,nom,place,call_page,config FROM `".$config['prefix']."modules` WHERE etat = '1' AND place != 'centre' ORDER BY `ordre` ASC";
 	if (! ($get_module = $rsql->requete_sql($sql, 'site', 'Listage des modules a afficher')) )
@@ -66,7 +66,7 @@ else
 		}
 		elseif ($boutton['frame'] == 1)
 		{
-			$target_u = $root_path."service/iframe.php?id=".$boutton['id'];
+			$target_u = $root_path.'service/iframe.php?id='.$boutton['id'];
 		}
 		$template->assign_block_vars('bouttons', array( 
 			  'BOUTTON_U' => $target_u, 
@@ -79,7 +79,7 @@ else
 		}
 	}
 	// popup
-	$sql = "SELECT * FROM ".$config['prefix']."alert";
+	$sql = "SELECT * FROM ".$config['prefix'].'alert';
 	if(! ($get_alert = $rsql->requete_sql($sql, 'site', 'Prise de la liste des alertes')) )
 	{
 		sql_error($sql,mysql_error(), __LINE__, __FILE__);
@@ -90,18 +90,18 @@ else
 	{
 		switch ($config['inscription'])
 		{
-			case "0":
+			case 0:
 				$liste_alert[$nombre] = $langue['recrute_pas'];
 			break;
-			case "1":
+			case 1:
 				$liste_alert[$nombre] = $langue['recrute'];
 			break;
-			case "2":
-				if ($config['nbr_recrutement'] == "1")
+			case 2:
+				if ($config['nbr_recrutement'] == 1)
 				{
 					$liste_alert[$nombre] = $langue['recrute_s'];
 				}
-				elseif ($config['nbr_recrutement'] < "1")
+				elseif ($config['nbr_recrutement'] < 1)
 				{
 					$liste_alert[$nombre] = $langue['recrute_pas'];
 				}
@@ -113,7 +113,7 @@ else
 		}
 	}
 	// detect le navigateur et alert si il est "bon"
-	if (ereg('MSIE', $_SERVER["HTTP_USER_AGENT"]))
+	if (ereg('MSIE', $_SERVER['HTTP_USER_AGENT']))
 	{
 		$liste_alert[] = $langue['alert_ie'];
 	}
@@ -127,7 +127,7 @@ else
 				sql_error($sql, $rsql->error, __LINE__, __FILE__);
 			}
 		}
-		elseif ($list_alert['date'] > $config['current_time'] || $list_alert['auto_del'] != "oui")
+		elseif ($list_alert['date'] > $config['current_time'] || $list_alert['auto_del'] != 'oui')
 		{
 			$liste_alert[] = $list_alert['info'];
 		}
@@ -142,7 +142,7 @@ else
 		foreach($liste_alert as $text_alert)
 		{
 			$template->assign_block_vars('popup.list', array( 
-				'TEXT' => nl2br(bbcode($text_alert)),
+				'TEXT' => bbcode($text_alert),
 			));
 		}
 	}
@@ -156,7 +156,7 @@ if ($config['serveur'] == 1)
 	)); 
 }
 //on vérifie si il faut metre le boutton liste des serveurs de jeux
-if ($config['list_game_serveur'] == "oui") 
+if ($config['list_game_serveur'] == 'oui') 
 {
 	$template->assign_block_vars('bouttons', array(
 		'BOUTTON_L' => $langue['boutton_liste_game'],
@@ -172,7 +172,7 @@ if ($inscription != 0)
 	)); 
 }
 $template->assign_vars( array( 
-	'HEAD' => (!empty($frame_head))? $frame_head : "",
+	'HEAD' => (!empty($frame_head))? $frame_head : '',
 	'PATH_ROOT' => $root_path,
 	'COPYRIGHT' => sprintf($langue['copyright'], $config['version']),
 	'B_PRIVE' => $langue['boutton_connect'],
@@ -183,16 +183,17 @@ $template->assign_vars( array(
 if (!empty($user_connect))
 {
 	$template->assign_block_vars('connecter', array( 
-		'LOGIN' => $langue['boutton_deconnect']."[".$session_cl['user']."]",
-		'LOGIN_URL' => $root_path."controle/die-cook.php?where=".$root_path."admin.php"
+		'LOGIN' => $langue['boutton_deconnect'].'['.$session_cl['user'].']',
+		'LOGIN_URL' => $root_path.'controle/die-cook.php?where='.$root_path.'admin.php',
 	));
 }
 if (!empty($page_frame))
 {
-	if (!empty($user_pouvoir['particulier']) && $user_pouvoir['particulier'] == "admin")
+	if (!empty($user_pouvoir['particulier']) && $user_pouvoir['particulier'] == 'admin')
 	{
 		$template->assign_block_vars('admin', array( 
-			'TIME_EXECUT_NBR_SQL' =>  sprintf($langue['exec_time_rsql'], getmicrotime() - $debut, $rsql->nb_req)
+			'TIME_EXECUT_NBR_SQL' =>  sprintf($langue['exec_time_rsql'], getmicrotime() - $debut, $rsql->nb_req),
+			'ADMINISTRATION' => $langue['menu_titre_admin'],
 		));
 	}
 	//$rsql->debug();
@@ -201,6 +202,6 @@ if (!empty($page_frame))
 else
 {
 	$template->pparse('head');
-	$page_frame = "foot";
+	$page_frame = 'foot';
 }
 ?>

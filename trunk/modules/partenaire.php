@@ -40,7 +40,7 @@ if (defined('CL_AUTH'))
 	{ 
 		$module_in .= '<a href="'.$liste['url'].'" onclick="window.open(\''.$liste['url'].'\');return false;"><img src="'.$liste['image'].'" alt="'.$liste['nom'].'" /></a><br />'."\n";
 	}
-	$template->assign_block_vars("modules_".$modules['place'], array( 
+	$template->assign_block_vars('modules_'.$modules['place'], array( 
 		'TITRE' => $modules['nom'],
 		'IN' => '<div style="text-align: center">'.$module_in.'</div>',
 	));
@@ -52,8 +52,8 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_partenaire_mod
 	$root_path = './../';
 	$niveau_secu = 16;
 	$action_membre= 'where_module_partenaire';
-	include($root_path."conf/template.php");
-	include($root_path."conf/conf-php.php");
+	include($root_path.'conf/template.php');
+	include($root_path.'conf/conf-php.php');
 	include($root_path."controle/cook.php");
 	if (!empty($_POST['dell_partenaire_module']))
 	{
@@ -62,7 +62,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_partenaire_mod
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
-		redirec_text("partenaire.php?config_modul_admin=oui&id_module=".$id_module, $langue['redirection_module_partenaire_dell'], "admin");
+		redirec_text("partenaire.php?config_modul_admin=oui&id_module=".$id_module, $langue['redirection_module_partenaire_dell'], 'admin');
 	}
 	if (!empty($_POST['Envoyer_partenaire_module']))
 	{ 
@@ -74,7 +74,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_partenaire_mod
 		}
 		else
 		{
-			redirec_text("partenaire.php?config_modul_admin=oui&id_module=".$id_module, $langue['redirection_module_partenaire_add'], "admin");
+			redirec_text("partenaire.php?config_modul_admin=oui&id_module=".$id_module, $langue['redirection_module_partenaire_add'], 'admin');
 		}
 	}
 	if (!empty($_POST['Editer_partenaire_module']))
@@ -87,11 +87,11 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_partenaire_mod
 		}
 		else
 		{
-			redirec_text("partenaire.php?config_modul_admin=oui&id_module=".$id_module, $langue['redirection_module_partenaire_edit'], "admin");
+			redirec_text("partenaire.php?config_modul_admin=oui&id_module=".$id_module, $langue['redirection_module_partenaire_edit'], 'admin');
 		}
 	}
 	include($root_path."conf/frame_admin.php");
-	$template = new Template($root_path."templates/".$config['skin']."/modules");
+	$template = new Template($root_path.'templates/'.$config['skin']."/modules");
 	$template->set_filenames( array('body_module' => 'partenaires.tpl'));
 	$template->assign_vars( array(
 		'ICI' => $_SERVER['PHP_SELF'],

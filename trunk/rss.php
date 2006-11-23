@@ -5,8 +5,8 @@
 $root_path = './';
 header("Content-Type: text/xml\n");
 $action_membre = 'where_rss';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 
 $sql = "SELECT id,date,titre FROM `".$config['prefix']."news` ORDER BY id DESC";
 if (! ($list_news = $rsql->requete_sql($sql)) )

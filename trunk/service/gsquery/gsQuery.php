@@ -25,6 +25,11 @@
  *
  */
 
+// define path to gsQuery if not done yet
+if(!defined('GSQUERY_DIR')) {
+  define('GSQUERY_DIR', dirname(__FILE__) . DIRECTORY_SEPARATOR);
+}
+
 /**
  * @mainpage gsQuery
  * @htmlinclude readme.html
@@ -43,7 +48,7 @@
 /**
  * @brief Abstract gsQuery base class
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: gsQuery.php,v 1.28 2004/06/04 15:18:38 jr Exp $
+ * @version $Id: gsQuery.php,v 1.33 2004/08/12 19:14:47 jr Exp $
  *
  * <p>The gsQuery package has one class for each protocol or game.
  * This class is abstract but due to the lack of real OO
@@ -54,10 +59,10 @@
  * Generic usage:
  * <pre>
  *   // including gsQuery
- *   include_once("path/to/gsQuery/gsQuery.php");
+ *   include_once('path/to/gsQuery/gsQuery.php');
  * 
  *   // create a gsQuery instance
- *   $gameserver = gsQuery::createInstance("gameSpy", "myserver.com", 1234)
+ *   $gameserver = gsQuery::createInstance('gameSpy', 'myserver.com', 1234)
  *
  *   // query the server
  *   $status = $gameserver->query_server();
@@ -136,7 +141,7 @@ class gsQuery
    *
    * Hash with player ids as key.
    * The containing value will be another hash with the infos of the player.
-   * To access a player name use <code>players[$playerid]["name"]</code>.
+   * To access a player name use <code>players[$playerid]['name']</code>.
    * Check playerkeys to get the keys available
    */
   var $players;
@@ -183,33 +188,12 @@ class gsQuery
    */
   function gsQuery($address, $queryport)
   {
-    $this->version = ereg_replace("[^0-9\\.]", "", "\$Revision: 1.28 $");
+    $this->version = ereg_replace("[^0-9\\.]", '', '$Revision: 1.33 $');
     
     $this->address = $address;
     $this->queryport = $queryport;
-    
-    $this->online = FALSE;
-    $this->gamename = "";
-    $this->hostport = 0;
-    $this->gameversion = "";
-    $this->servertitle = "";
-    $this->hostport = "";
-    $this->mapname = "";
-    $this->maptitle = "";
-    $this->gametype = "";
-    $this->numplayers = 0;
-    $this->maxplayers = 0;
-    $this->password = -1;
-    $this->nextmap="";
-
-    $this->players = array();
-    $this->playerkeys = array();
-    $this->playerteams = array();
-    $this->maplist = array();
-    $this->rules = array();
-    $this->debug = array();
-    
-    $this->errstr="";
+   
+    $this->_init();
   }
   
   /**
@@ -226,29 +210,24 @@ class gsQuery
    */
   function createInstance($protocol, $address, $port) {
 
-    global $root_path;
-	// including the required class and create an instance of it 
+    // including the required class and create an instance of it 
     switch($protocol) {
     // some aliases might be useful
-    case("gsqp"):
-      include_once($root_path."service/gsquery/gameSpy.php");
+    case('gsqp'):
+      require_once GSQUERY_DIR . 'gameSpy.php';
       return new gameSpy($address, $port);
-     case "halflife":
-     case "hlife":
-      include_once($root_path."service/gsquery/hlife.php");
+    case 'halflife':
+      require_once GSQUERY_DIR . 'hlife.php';
       return new hlife($address, $port);
-    case "q3a":
-       include_once($root_path."service/gsquery/q3a.php");
-      return new q3a($address, $port);
-     case "ravenshield":
-      include_once($root_path."service/gsquery/rvnshld.php");
+     case 'ravenshield':
+      require_once GSQUERY_DIR . 'rvnshld.php';
       return new rvnshld($address, $port);
     default:
       // we should be careful when using eval with supplied arguments
       // e.g.: $port="123); system(\"some nasty stuff\")";
       // normally this should be assured by the caller, but we are in reality
       if(ereg("^[A-Za-z0-9_-]+$", $protocol) && ereg("^[A-Za-z0-9\\.-]+$", $address) && is_numeric($port)) {
-	include_once($root_path.$protocol .".php");
+	require_once(GSQUERY_DIR . $protocol .'.php');
 	return eval("return new $protocol(\"$address\", $port);");
       } else {
 	return FALSE;
@@ -267,11 +246,10 @@ class gsQuery
    */
   function unserialize($string) 
   {
-    global $root_path;
 	// extracting class name
     $length = strlen($string);
     for($i=0;$i<$length;$i++) {
-      if($string[$i] == ":") {
+      if($string[$i] == ':') {
 	break;
       }
     }
@@ -279,9 +257,9 @@ class gsQuery
     $className = substr($string, 0, $i);
 
     // we should be careful when using eval with supplied arguments
-	if(ereg("^[A-Za-z0-9_-]+$", $className)) {
-      include_once($root_path.'service/gsquery/'.$className .".php");
-	   return unserialize(base64_decode(substr($string, $i+1)));
+    if(ereg("^[A-Za-z0-9_-]+$", $className)) {
+      include_once($className .'.php');
+       return unserialize(base64_decode(substr($string, $i+1)));
      } else {
       return FALSE;
     }    
@@ -297,8 +275,7 @@ class gsQuery
    */
   function unserializeFromURL($url) 
   {
-    global $root_path;
-	require_once($root_path.'service/gsquery/includes/HttpClient.class.php');
+    require_once('includes/HttpClient.class.php');
     return gsQuery::unserialize(HttpClient::quickGet($url));
   }
 
@@ -307,21 +284,19 @@ class gsQuery
    *
    * This method is static.
    * There should be no other php files in the gsQuery directory
-   * @todo finding a way to get the path automatically from PHP
    *
-   * @param path path to gsQuery root directory
    * @return An array with names of the supported protocols
    */
-  function getSupportedProtocols($path) 
+  function getSupportedProtocols() 
   {
-    if(!$handle=opendir($path)) {
+    if(!$handle=opendir(GSQUERY_DIR)) {
        return FALSE;
     }
 
     $result=array();
 
     while(false!==($curfile=readdir($handle))) {
-      if($curfile!="gsQuery.php" && $curfile!="index.php" && ereg("^(.*)\.php$", $curfile, $matches)) {
+      if($curfile!='gsQuery.php' && $curfile!='index.php' && ereg("^(.*)\.php$", $curfile, $matches)) {
 	array_push($result, $matches[1]);
       }
     }
@@ -342,7 +317,7 @@ class gsQuery
    */
   function getGameJoinerURI()
   {
-    return "gamejoin://". $this->gamename ."@". $this->address .":". $this->hostport ."/";
+    return 'gamejoin://'. $this->gamename .'@'. $this->address .':'. $this->hostport .'/';
   }
 
   /**
@@ -380,30 +355,30 @@ class gsQuery
    * @param sortkey sort by the given key
    * @return sorted player hash 
    */
-  function sortPlayers($players, $sortkey="name") 
+  function sortPlayers($players, $sortkey='name') 
   {
     if(!sizeof($players)) {
       return array();
     }
     switch($sortkey) {
     default:
-    case "name":
-      uasort($players, array("gsQuery", "_sortbyName"));
+    case 'name':
+      uasort($players, array('gsQuery', '_sortbyName'));
       break;
-    case "score":
-      uasort($players, array("gsQuery", "_sortbyScore"));
+    case 'score':
+      uasort($players, array('gsQuery', '_sortbyScore'));
       break;
-    case "frags":
-      uasort($players, array("gsQuery", "_sortbyFrags"));
+    case 'frags':
+      uasort($players, array('gsQuery', '_sortbyFrags'));
       break;
-    case "deaths":
-      uasort($players, array("gsQuery", "_sortbyDeaths"));
+    case 'deaths':
+      uasort($players, array('gsQuery', '_sortbyDeaths'));
       break;
-    case "honor":
-      uasort($players, array("gsQuery", "_sortbyHonor"));
+    case 'honor':
+      uasort($players, array('gsQuery', '_sortbyHonor'));
       break;
-    case "time":
-      uasort($players, array("gsQuery", "_sortbyTime"));
+    case 'time':
+      uasort($players, array('gsQuery', '_sortbyTime'));
       break;	
     }
     return ($players);
@@ -420,6 +395,16 @@ class gsQuery
     return htmlentities($string);
   }
 
+  /**
+   * @brief converts the raw string to ascii
+   *
+   * @param string a raw string from the gameserver that might contain special chars
+   * @return a plain text version of the given string
+   */
+  function textify($string) 
+  {
+    return $string;
+  }
 
   /**
    * @brief serializes the object as string
@@ -428,7 +413,7 @@ class gsQuery
    */
   function serialize() 
   {   
-    return $this->_getClassName() .":". base64_encode(serialize($this));
+	return $this->_getClassName() .':'. base64_encode(serialize($this));
   }
 
   // private member functions
@@ -436,37 +421,70 @@ class gsQuery
   // better idea?
   function _sortbyName($a, $b) 
   {
-    return(strcasecmp($a["name"], $b["name"]));
+    return(strcasecmp($a['name'], $b['name']));
   }  
 
   function _sortbyScore($a, $b) 
   {
-    if($a["score"]==$b["score"]) { return 0; } 
-    elseif($a["score"]<$b["score"]) { return 1; }
+    if($a['score']==$b['score']) { return 0; } 
+    elseif($a['score']<$b['score']) { return 1; }
     else { return -1; }
   }  
 
   function _sortbyFrags($a, $b) 
   {
-    if($a["frags"]==$b["frags"]) { return 0; } 
-    elseif($a["frags"]<$b["frags"]) { return 1; }
+    if($a['frags']==$b['frags']) { return 0; } 
+    elseif($a['frags']<$b['frags']) { return 1; }
     else { return -1; }
   }  
 
   function _sortbyDeaths($a, $b) 
   {
-    if($a["deaths"]==$b["deaths"]) { return 0; } 
-    elseif($a["deaths"]<$b["deaths"]) { return 1; }
+    if($a['deaths']==$b['deaths']) { return 0; } 
+    elseif($a['deaths']<$b['deaths']) { return 1; }
     else { return -1; }
   }  
 
   function _sortbyTime($a, $b) 
   {
-    if($a["time"]==$b["time"]) { return 0; } 
-    elseif($a["time"]<$b["time"]) { return 1; }
+    if($a['time']==$b['time']) { return 0; } 
+    elseif($a['time']<$b['time']) { return 1; }
     else { return -1; }
   }  
     
+  /**
+   * @internal @brief This method deletes all fetched data 
+   *
+   * This method should be called if an instance is used for multiple querys
+   */
+  function _init()
+  {
+    $this->online = FALSE;
+    $this->gamename = '';
+    $this->hostport = 0;
+    $this->gameversion = '';
+    $this->servertitle = '';
+    $this->hostport = '';
+    $this->mapname = '';
+    $this->maptitle = '';
+    $this->gametype = '';
+    $this->numplayers = 0;
+    $this->maxplayers = 0;
+    $this->password = -1;
+    $this->nextmap='';
+
+    $this->players = array();
+    $this->playerkeys = array();
+    $this->playerteams = array();
+    $this->maplist = array();
+    $this->rules = array();
+    $this->debug = array();
+    
+    $this->errstr='';    
+  }
+
+
+
   /**
    * @internal @brief sends a command to a server and returns the answer
    * 
@@ -479,9 +497,9 @@ class gsQuery
    */
   function _sendCommand($address, $port, $command, $timeout=500000)
   {
-    if(!$socket=@fsockopen("udp://".$address, $port)) {
-      $this->debug["While trying to open a socket"]="Couldn't reach server";
-      $this->errstr="Cannot open a socket!";
+    if(!$socket=@fsockopen('udp://'.$address, $port)) {
+      $this->debug['While trying to open a socket']='Couldn\'t reach server';
+      $this->errstr='Cannot open a socket!';
       return FALSE;
     } else {
       socket_set_blocking($socket, true);
@@ -491,23 +509,23 @@ class gsQuery
       // send command
       if(fwrite($socket, $command, strlen($command))==-1) {
 	fclose($socket);
-	$this->debug["While trying to write on a open socket"]="Unable to write on open socket!";
-	$this->errstr="Unable to write on open socket!";
+	$this->debug['While trying to write on a open socket']='Unable to write on open socket!';
+	$this->errstr='Unable to write on open socket!';
 	return FALSE;
       }
       
-      $result="";
+      $result='';
       do {
 	$result .= fread($socket, 128);
 	$socketstatus = socket_get_status($socket);
-      } while ($socketstatus["unread_bytes"]);
+      } while ($socketstatus['unread_bytes']);
       
       fclose($socket);
       if(!isset($result)) {
-	$this->debug["Command send " . $command]="No response from game server received";
+	$this->debug['Command send ' . $command]='No response from game server received';
 	return FALSE;
       }
-      $this->debug["Command send " . $command]="Answer received: " .$result;
+      $this->debug['Command send ' . $command]='Answer received: ' .$result;
       return $result;
     }
   }

@@ -25,29 +25,29 @@
  *
  */
 
-include_once("gsQuery.php");
-
+require_once 'quake.php';
 
 /**
  * @brief Uses the Quake 3 protcol to communicate with the server
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: q3a.php,v 1.23 2004/06/01 06:38:41 jr Exp $
+ * @version $Id: q3a.php,v 1.30 2004/08/12 19:14:47 jr Exp $
  *
  * This class can communicate with most games based on the Quake 3
  * engine.
  */
-class q3a extends gsQuery
+class q3a extends quake
 {
 
   function query_server($getPlayers=TRUE,$getRules=TRUE)
   { 
-    $this->playerkeys=array();
-    $this->debug=array();
-    $this->password=-1;
+    // flushing old data if necessary
+    if($this->online) {
+      $this->_init();
+    }
       
     $command="\xFF\xFF\xFF\xFF\x02getstatus\x0a\x00";
     if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
-      $this->errstr="No reply received";
+      $this->errstr='No reply received';
       return FALSE;
     }
       
@@ -57,39 +57,39 @@ class q3a extends gsQuery
     // get rules and basic infos
     for($i=0;$i< count($rawdata);$i++) {
       switch ($rawdata[$i++]) {
-      case "g_gametypestring":
+      case 'g_gametypestring':
 	$this->gametype=$rawdata[$i];
 	break;
-      case "gamename":
+      case 'gamename':
 	$this->gametype=$rawdata[$i];
 	
-	$this->gamename="q3a_" . preg_replace("/[ ]/", "_", strtolower($rawdata[$i]));
+	$this->gamename='q3a_' . preg_replace('/[ ]/', '_', strtolower($rawdata[$i]));
 	break;
-      case "version":
+      case 'version':
 	$this->gameversion=$rawdata[$i];
 	break;
       // for CoD
-      case "shortversion":
+      case 'shortversion':
         $this->gameversion=$rawdata[$i];
         break; 
-      case "sv_hostname":
+      case 'sv_hostname':
 	$this->servertitle=$rawdata[$i];
 	break;
-      case "mapname":
+      case 'mapname':
 	$this->mapname=$rawdata[$i];
 	break;
-      case "g_needpass":
+      case 'g_needpass':
 	$this->password=$rawdata[$i];
 	break;
       // for CoD
-      case "pswrd":
+      case 'pswrd':
         $this->password=$rawdata[$i];
         break; 
-      case "sv_maplist":
-	$this->maplist=explode(" ", $rawdata[$i]);
+      case 'sv_maplist':
+	$this->maplist=explode(' ', $rawdata[$i]);
 	break;
-      case "sv_privateclients":
-	$this->rules["sv_privateClients"]=$rawdata[$i];
+      case 'sv_privateclients':
+	$this->rules['sv_privateClients']=$rawdata[$i];
 	break; 
       default:
 	$this->rules[$rawdata[$i-1]] = $rawdata[$i];
@@ -97,8 +97,8 @@ class q3a extends gsQuery
     }
 
     // for MoHAA
-    if(!$this->gamename && eregi("Medal of Honor", $this->gameversion)) {
-      $this->gamename="mohaa";
+    if(!$this->gamename && eregi('Medal of Honor', $this->gameversion)) {
+      $this->gamename='mohaa';
     }
     
     if(!empty($this->maplist)) {
@@ -108,10 +108,10 @@ class q3a extends gsQuery
     }
     
     //for MoHAA
-    $this->mapname=preg_replace("/.*\//", "", $this->mapname);
+    $this->mapname=preg_replace('/.*\//', '', $this->mapname);
     
     $this->hostport = $this->queryport;
-    $this->maxplayers = $this->rules["sv_maxclients"]-$this->rules["sv_privateClients"];
+    $this->maxplayers = $this->rules['sv_maxclients']-$this->rules['sv_privateClients'];
     
     //get playerdata
     $temp=substr($result,strlen($temp[0])+strlen($temp[1])+1,strlen($result));
@@ -126,39 +126,39 @@ class q3a extends gsQuery
 	  if($curplayer[3]>2) {
 	    next; // ignore spectators
 	  }
-	  $players[$i-1]["name"]=$curplayer[4];
-	  $players[$i-1]["score"]=$curplayer[1];
-	  $players[$i-1]["ping"]=$curplayer[2];	
-	  $players[$i-1]["team"]=$curplayer[3];
+	  $players[$i-1]['name']=$curplayer[4];
+	  $players[$i-1]['score']=$curplayer[1];
+	  $players[$i-1]['ping']=$curplayer[2];	
+	  $players[$i-1]['team']=$curplayer[3];
 	  $teamInfo=TRUE;
 	  $pingOnly=FALSE;
 	} elseif(preg_match("/(\d+)[^0-9](\d+)[^0-9]\"(.*)\"/", $allplayers[$i], $curplayer)) {
-	  $players[$i-1]["name"]=$curplayer[3];
-	  $players[$i-1]["score"]=$curplayer[1];
-	  $players[$i-1]["ping"]=$curplayer[2];	
+	  $players[$i-1]['name']=$curplayer[3];
+	  $players[$i-1]['score']=$curplayer[1];
+	  $players[$i-1]['ping']=$curplayer[2];	
 	  $pingOnly=FALSE;
 	  $teamInfo=FALSE;
 	}
 	else {
 	  if(preg_match("/(\d+).\"(.*)\"/", $allplayers[$i], $curplayer)) {
-	    $players[$i-1]["name"]=$curplayer[2];
-	    $players[$i-1]["ping"]=$curplayer[1];
+	    $players[$i-1]['name']=$curplayer[2];
+	    $players[$i-1]['ping']=$curplayer[1];
 	    $pingOnly=TRUE; // for MoHAA
 	  }
 	  else {
-	    $this->errstr="Could not extract player infos!";
+	    $this->errstr='Could not extract player infos!';
 	    return FALSE;
 	  }
 	}
       }
-      $this->playerkeys["name"]=TRUE;
+      $this->playerkeys['name']=TRUE;
       if(!$pingOnly) {
-	$this->playerkeys["score"]=TRUE;
+	$this->playerkeys['score']=TRUE;
 	if($teamInfo) {
-	  $this->playerkeys["team"]=TRUE;
+	  $this->playerkeys['team']=TRUE;
 	}
       }
-      $this->playerkeys["ping"]=TRUE;
+      $this->playerkeys['ping']=TRUE;
       $this->players=$players;
     }
 
@@ -168,24 +168,6 @@ class q3a extends gsQuery
 
 
   /**
-   * @brief Sends a rcon command to the game server
-   * 
-   * @param command the command to send
-   * @param rcon_pwd rcon password to authenticate with
-   * @return the result of the command or FALSE on failure
-   */
-  function rcon_query_server($command, $rcon_pwd)
-  {
-    $command="\xFF\xFF\xFF\xFF\x02rcon ".$rcon_pwd." ".$command."\x0a\x00";
-    if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
-      $this->errstr="Error sending rcon command";
-      return FALSE;
-    } else {
-      return $result;
-    }
-  } 
-
-  /**
    * @brief htmlizes the given raw string
    *
    * @param var a raw string from the gameserver that might contain special chars
@@ -193,17 +175,123 @@ class q3a extends gsQuery
    */
   function htmlize($var) 
   {
-    $var = htmlspecialchars($var);
-    while(ereg('\^([0-9])', $var)) {
-      foreach(array('black', 'red', 'darkgreen', 'yellow', 'blue', 'cyan', 'pink', 'white', 'blue-night', 'red-night') as $num_color => $name_color) {
-	if (ereg('\^([0-9])(.*)\^([0-9])', $var)) {
-	  $var = preg_replace("#\^".$num_color."(.*)\^([0-9])#Usi", "<span class=\"gsquery-".$name_color."\">$1</span>^$2", $var);
-	} else {
-	  $var = preg_replace("#\^".$num_color."(.*)$#Usi", "<span class=\"gsquery-".$name_color."\">$1</span>", $var);
+    $len = strlen($var);
+    $numTags = 0;
+    $result = '';
+    $var .= '  '; // padding
+    $colortag = '<span class="gsquery-%s-%s">';   
+
+    switch($this->gamename) {
+    case 'q3a_Call_of_Duty':
+    case 'q3a_sof2':
+      $csstype = 'q3a_exdended';
+      break;
+    default:
+      $csstype = 'q3a';
+    }
+
+    for($i=0;$i<$len;$i++) {
+      // checking for a color code
+      if($var[$i] == '^') {
+	$numTags++; // count tags
+	switch($var[++$i]) {
+	// a lot of special chars that can't be used for css names
+	case '<':
+	  $result .= sprintf($colortag, $csstype, 'less');
+	  break;
+	case '>':
+	  $result .= sprintf($colortag, $csstype, 'greater');
+	  break;
+	case '&':
+	  $result .= sprintf($colortag, $csstype, 'and');
+	  break;
+	case '\'':
+	  $result .= sprintf($colortag, $csstype, 'tick');
+	  break;
+	case '=':
+	  $result .= sprintf($colortag, $csstype, 'equal');
+	  break;
+	case '?':
+	  $result .= sprintf($colortag, $csstype, 'questionmark');
+	  break;
+	case '.':
+	  $result .= sprintf($colortag, $csstype, 'point');
+	  break;
+	case ',':
+	  $result .= sprintf($colortag, $csstype, 'comma');
+	  break;
+	case '!':
+	  $result .= sprintf($colortag, $csstype, 'exc');
+	  break;
+	case '*':
+	  $result .= sprintf($colortag, $csstype, 'star');
+	  break;
+	case '$':
+	  $result .= sprintf($colortag, $csstype, 'dollar');
+	  break;
+	case '#':
+	  $result .= sprintf($colortag, $csstype, 'pound');
+	  break;
+	case '(':
+	  $result .= sprintf($colortag, $csstype, 'lparen');
+	  break;
+	case ')':
+	  $result .= sprintf($colortag, $csstype, 'rparen');
+	  break;
+	case '@':
+	  $result .= sprintf($colortag, $csstype, 'at');
+	  break;
+	case '%':
+	  $result .= sprintf($colortag, $csstype, 'percent');
+	  break;
+	case '+':
+	  $result .= sprintf($colortag, $csstype, 'plus');
+	  break;
+	case '|':
+	  $result .= sprintf($colortag, $csstype, 'bar');
+	  break;
+	case '{':
+	  $result .= sprintf($colortag, $csstype, 'lbracket');
+	  break;
+	case '}':
+	  $result .= sprintf($colortag, $csstype, 'rbracket');
+	  break;
+	case '"':
+	  $result .= sprintf($colortag, $csstype, 'quote');
+	  break;
+	case ':':
+	  $result .= sprintf($colortag, $csstype, 'colon');
+	  break;
+	case '[':
+	  $result .= sprintf($colortag, $csstype, 'lsqr');
+	  break;
+	case ']':
+	  $result .= sprintf($colortag, $csstype, 'rsqr');
+	  break;
+	case '\\':
+	  $result .= sprintf($colortag, $csstype, 'lslash');
+	  break;
+	case '/':
+	  $result .= sprintf($colortag, $csstype, 'rslash');
+	  break;
+	case ';':
+	  $result .= sprintf($colortag, $csstype, 'semic');
+	  break;
+	case '^': // double color code
+	  $result .= '^<span class="gsquery-'. $csstype .'-'. $var[++$i] .'">';
+	  break;
+	default:
+	  // normal color code
+	  $result .= sprintf($colortag, $csstype, $var[$i]);
 	}
+      } else {
+	// normal char
+	$result .= htmlentities($var[$i]);
       }
     }
-    return $var;
+
+    // appending numTags spans
+    return $result . str_repeat('</span>', $numTags); 
   }
 }
 ?>

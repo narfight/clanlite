@@ -5,8 +5,8 @@
 $root_path = './../';
 $niveau_secu = 19;
 $action_membre= 'where_admin_rapport_match';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 // envoyer le formulaire rempli
 if ( !empty($_POST['envoyer']) )
@@ -33,7 +33,7 @@ if ( !empty($_POST['envoyer']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("rapport.php", $langue['redirection_admin_rapport_match_add'], "admin");
+	redirec_text("rapport.php", $langue['redirection_admin_rapport_match_add'], 'admin');
 }
 if ( !empty($_POST['supprimer']) )
 {
@@ -42,7 +42,7 @@ if ( !empty($_POST['supprimer']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("rapport.php", $langue['redirection_admin_rapport_match_dell'], "admin");
+	redirec_text("rapport.php", $langue['redirection_admin_rapport_match_dell'], 'admin');
 }
 // envoyer le formulaire rempli pour editer
 if ( !empty($_POST['edit']) )
@@ -54,10 +54,10 @@ if ( !empty($_POST['edit']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("rapport.php", $langue['redirection_admin_rapport_match_edit'], "admin");
+	redirec_text("rapport.php", $langue['redirection_admin_rapport_match_edit'], 'admin');
 }
 include($root_path."conf/frame_admin.php");
-$template = new Template($root_path."templates/".$config['skin']);
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_rapport_match.tpl'));
 liste_smilies(true, '', 25);
 $template->assign_vars(array(
@@ -87,7 +87,7 @@ while ( ($liste_match = $rsql->s_array($get)) )
 {
 	$template->assign_block_vars('liste_match', array( 
 		'ID_MATCH' => $liste_match['id'],
-		'NOM_MATCH' => date("j/n/Y", $liste_match[1])." -- contre les ".$liste_match[3]
+		'NOM_MATCH' => date('j/n/Y', $liste_match[1])." -- contre les ".$liste_match[3]
 	));
 }
 if ( !empty($_POST['importation']) )
@@ -144,10 +144,10 @@ while ($liste_rapport = $rsql->s_array($get))
 {
 	$template->assign_block_vars('liste', array( 
 		'ID' => $liste_rapport['id'],
-		'DATE' => date("j/n/Y", $liste_rapport['date']),
+		'DATE' => date('j/n/Y', $liste_rapport['date']),
 		'TEAM' => (empty($liste_rapport['nom']))? $langue['toutes_section'] : $liste_rapport['nom'],
 		'CLAN' => $liste_rapport['contre'],
-		'INFO' => nl2br(bbcode($liste_rapport['info'])),
+		'INFO' => bbcode($liste_rapport['info']),
 		'SCORE_NOUS' => $liste_rapport['score_nous'],
 		'SCORE_MECHANT' => $liste_rapport['score_eux'],
 		'SUPPRIMER' => $langue['supprimer'],

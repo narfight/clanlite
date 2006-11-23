@@ -4,8 +4,8 @@
 <title>ClanLite - {NOM_CLAN}</title>
 <link rel="SHORTCUT ICON" href="{PATH_ROOT}templates/DarkStar/images/favicon.gif">
 </head>
-<frameset rows="*,16" cols="*" style="border: 0">
-  <frame src="{ROOT_PATH}service/index_pri.php" scrolling="yes" id="site" style="border: 0">
-  <frame src="{ROOT_PATH}service/lecteur_mp3.php" scrolling="no" id="mp3" style="border: 0">
-</frameset><noframes></noframes>
+<frameset rows="*,16" cols="*">
+  <frame src="{ROOT_PATH}service/index_pri.php" scrolling="yes" id="site">
+  <frame src="{ROOT_PATH}service/lecteur_mp3.php" scrolling="no" id="mp3">
+</frameset><noframes>Click <a href="{ROOT_PATH}service/index_pri.php">here</a> to enter the site.</noframes>
 </html>

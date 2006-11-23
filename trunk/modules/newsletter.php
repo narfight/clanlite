@@ -49,7 +49,7 @@ if (defined('CL_AUTH'))
 	$block['newsletter'] = str_replace('{ID}', $modules['id'], $block['newsletter']);
 	$block['newsletter'] = str_replace('{ENVOYER}', $langue['envoyer'], $block['newsletter']);
 	$block['newsletter'] = str_replace('{DELL}', $langue['newsletter_deinscription'], $block['newsletter']);
-	$template->assign_block_vars("modules_".$modules['place'], array( 
+	$template->assign_block_vars('modules_'.$modules['place'], array( 
 		'TITRE' => $modules['nom'],
 		'IN' => $block['newsletter']
 	));
@@ -60,9 +60,9 @@ if(!empty($_POST['Submit_newsletter']) && !empty($_POST['id']))
 	unset($_POST['Submit_newsletter']);
 	$root_path = './../';
 	$action_membre= 'where_newsletter';
-	include($root_path."conf/template.php");
-	include($root_path."conf/conf-php.php");
-	include($root_path."conf/frame.php");
+	include($root_path.'conf/template.php');
+	include($root_path.'conf/conf-php.php');
+	include($root_path.'conf/frame.php');
 	$_POST = pure_var($_POST);
 	if (!empty($_POST['mail_ns']) && eregi("(.+)@(.+).([a-z]{2,4})$", $_POST['mail_ns']))
 	{
@@ -108,7 +108,7 @@ if(!empty($_POST['Submit_newsletter']) && !empty($_POST['id']))
 		'TITRE' => $langue['titre_newsletter']
 	));
 	$template->pparse('body_module');
-	include($root_path."conf/frame.php");
+	include($root_path.'conf/frame.php');
 	return;
 }
 ?>

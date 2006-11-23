@@ -5,8 +5,8 @@
 $root_path = './../';
 $niveau_secu = 10;
 $action_membre= 'where_entrain';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if ( !empty($_POST['Envoyer']) )
 {
@@ -17,7 +17,7 @@ if ( !empty($_POST['Envoyer']) )
 	{
 		sql_error($sql,mysql_error(), __LINE__, __FILE__);
 	}
-	redirec_text("entrainements.php", $langue['redirection_entrain_add'], "admin");
+	redirec_text("entrainements.php", $langue['redirection_entrain_add'], 'admin');
 }
 if ( !empty($_POST['Editer']) )
 {
@@ -28,7 +28,7 @@ if ( !empty($_POST['Editer']) )
 	{
 		sql_error($sql,mysql_error(), __LINE__, __FILE__);
 	}
-	redirec_text("entrainements.php", $langue['redirection_entrain_edit'], "admin");
+	redirec_text("entrainements.php", $langue['redirection_entrain_edit'], 'admin');
 }
 if (!empty($_POST['dell']))
 {
@@ -37,10 +37,10 @@ if (!empty($_POST['dell']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("entrainements.php", $langue['redirection_entrain_dell'], "admin");
+	redirec_text("entrainements.php", $langue['redirection_entrain_dell'], 'admin');
 }
 include($root_path."conf/frame_admin.php");
-$template = new Template($root_path."templates/".$config['skin']);
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_entrainements.tpl'));
 liste_smilies(true, '', 25);
 $template->assign_vars( array( 
@@ -88,8 +88,8 @@ while ($liste = $rsql->s_array($query))
 {
 	$template->assign_block_vars('liste', array(
 		'ID' => $liste['id'],
-		'INFO' => nl2br(bbcode($liste['info'])),
-		'PRIVER' => nl2br(bbcode($liste['priver'])),
+		'INFO' => bbcode($liste['info']),
+		'PRIVER' => bbcode($liste['priver']),
 		'POSTEUR' => $liste['user'],
 		'DATE' =>  date('H:i j/n/Y', $liste['date']),
 		'SUPPRIMER' => $langue['supprimer'],

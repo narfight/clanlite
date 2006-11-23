@@ -5,8 +5,8 @@
 $root_path = './../';
 $action_membre= 'where_download_admin';
 $niveau_secu = 4;
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if (!empty($_POST['Envoyer_group']))
 {
@@ -16,7 +16,7 @@ if (!empty($_POST['Envoyer_group']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("download.php", $langue['redirection_group_dl_add'], "admin");
+	redirec_text("download.php", $langue['redirection_group_dl_add'], 'admin');
 }
 if (!empty($_POST['Supprimer_group']))
 {
@@ -34,11 +34,11 @@ if (!empty($_POST['Supprimer_group']))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
-		redirec_text("download.php", $langue['redirection_group_dl_dell'], "admin");
+		redirec_text("download.php", $langue['redirection_group_dl_dell'], 'admin');
 	}
 	else
 	{
-		redirec_text("download.php", $langue['redirection_group_dl_pasvide'], "admin");
+		redirec_text("download.php", $langue['redirection_group_dl_pasvide'], 'admin');
 	}
 }
 if (!empty($_POST['Edit_group']))
@@ -49,7 +49,7 @@ if (!empty($_POST['Edit_group']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("download.php", $langue['redirection_group_dl_edit'], "admin");
+	redirec_text("download.php", $langue['redirection_group_dl_edit'], 'admin');
 }
 if ( !empty($_POST['Envoyer_fichier']) )
 {
@@ -59,7 +59,7 @@ if ( !empty($_POST['Envoyer_fichier']) )
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 	}
-	redirec_text("download.php", $langue['redirection_dl_add'], "admin");
+	redirec_text("download.php", $langue['redirection_dl_add'], 'admin');
 }
 if ( !empty($_POST['Supprimer_fichier']) )
 {
@@ -68,7 +68,7 @@ if ( !empty($_POST['Supprimer_fichier']) )
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 	}
-	redirec_text("download.php", $langue['redirection_dl_dell'], "admin");
+	redirec_text("download.php", $langue['redirection_dl_dell'], 'admin');
 }
 if ( !empty($_POST['Edit_fichier']) )
 {
@@ -78,10 +78,10 @@ if ( !empty($_POST['Edit_fichier']) )
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 	}
-	redirec_text("download.php", $langue['redirection_dl_edit'], "admin");
+	redirec_text("download.php", $langue['redirection_dl_edit'], 'admin');
 }
 include($root_path."conf/frame_admin.php");
-$template = new Template($root_path."templates/".$config['skin']);
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_dl_fichiers.tpl'));
 liste_smilies(true, '', 25);
 $template->assign_vars( array(
@@ -188,7 +188,7 @@ if ( !empty($liste_group))
 					'URL' => $array_fichier['url_dl'],
 					'COTE' => floor($cote),
 					'MODIF' => date('j-m-Y' , $array_fichier['modifier_a']),
-					'INFO' => nl2br(bbcode($array_fichier['info_en_plus'])),
+					'INFO' => bbcode($array_fichier['info_en_plus']),
 					'FOR' => $fichier_id,
 					'EDITER' => $langue['editer'],
 					'SUPPRIMER' => $langue['supprimer'],		

@@ -42,7 +42,7 @@ if (defined('CL_AUTH'))
 	}
 	srand ((float) microtime() * 10000000);
 	$module_in_id = array_rand($donnees);
-	$template->assign_block_vars("modules_".$modules['place'], array( 
+	$template->assign_block_vars('modules_'.$modules['place'], array( 
 		'TITRE' => $modules['nom'],
 		'IN' => '<div style="text-align: center">'.bbcode($donnees[$module_in_id], false).'</div>',
 	));
@@ -54,17 +54,18 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_aléatoire_modu
 	$root_path = './../';
 	$niveau_secu = 16;
 	$action_membre= 'where_module_aléatoire';
-	include($root_path."conf/template.php");
-	include($root_path."conf/conf-php.php");
+	include($root_path.'conf/template.php');
+	include($root_path.'conf/conf-php.php');
 	include($root_path."controle/cook.php");
 	if (!empty($_POST['dell_aléatoire_module']))
 	{
+		$_POST = pure_var($_POST);
 		$sql = "DELETE FROM `".$config['prefix']."module_aléatoire_".$id_module."` WHERE id ='".$_POST['for_aléatoire_module']."'";
 		if (! ($rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
-		redirec_text("aleatoire.php?config_modul_admin=oui&id_module=".$id_module, $langue['redirection_module_aléatoire_dell'], "admin");
+		redirec_text("aleatoire.php?config_modul_admin=oui&id_module=".$id_module, $langue['redirection_module_aléatoire_dell'], 'admin');
 	}
 	if (!empty($_POST['Envoyer_aléatoire_module']))
 	{ 
@@ -76,7 +77,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_aléatoire_modu
 		}
 		else
 		{
-			redirec_text("aleatoire.php?config_modul_admin=oui&id_module=".$id_module, $langue['redirection_module_aléatoire_add'], "admin");
+			redirec_text("aleatoire.php?config_modul_admin=oui&id_module=".$id_module, $langue['redirection_module_aléatoire_add'], 'admin');
 		}
 	}
 	if (!empty($_POST['Editer_aléatoire_module']))
@@ -89,11 +90,11 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_aléatoire_modu
 		}
 		else
 		{
-			redirec_text("aleatoire.php?config_modul_admin=oui&id_module=".$id_module, $langue['redirection_module_aléatoire_edit'], "admin");
+			redirec_text("aleatoire.php?config_modul_admin=oui&id_module=".$id_module, $langue['redirection_module_aléatoire_edit'], 'admin');
 		}
 	}
 	include($root_path."conf/frame_admin.php");
-	$template = new Template($root_path."templates/".$config['skin']."/modules");
+	$template = new Template($root_path.'templates/'.$config['skin']."/modules");
 	$template->set_filenames( array('body_module' => 'aléatoire.tpl'));
 	liste_smilies(true, '', 25);
 	$template->assign_vars( array(

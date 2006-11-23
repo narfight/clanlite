@@ -25,11 +25,11 @@
 			</p>
 			<p>
 				<span><label for="subject">{TXT_SUBJECT}&nbsp;:</label></span>
-				<span><input name="subject" id="subject" type="text" value="{SUBJECT}" onBlur="formverif(this.id,'nbr','3')" /></span>
+				<span><input name="subject" id="subject" type="text" value="{SUBJECT}" onblur="formverif(this.id,'nbr','3')" /></span>
 			</p>
 			<p>
 				<span><label for="corps">{TXT_CORPS}&nbsp;:</label></span>
-				<span><textarea name="corps" cols="40" rows="10" id="corps" onBlur="formverif(this.id,'nbr','10')">{CORPS}</textarea></span>
+				<span><textarea name="corps" cols="40" rows="10" id="corps" onblur="formverif(this.id,'nbr','10')">{CORPS}</textarea></span>
 			</p>
 			<p>
 				<span><input type="submit" name="Envoyer" value="{ENVOYER}" /> <input type="submit" name="Apercu" value="{APERCU}" /></span>

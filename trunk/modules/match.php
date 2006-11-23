@@ -6,7 +6,7 @@ if (defined('CL_AUTH'))
 {
 	if( !empty($get_nfo_module) )
 	{
-		$nom = "Prochain match";
+		$nom = 'Prochain match';
 		return;
 	}
 	if( !empty($module_installtion) || !empty($module_deinstaller) )
@@ -33,27 +33,27 @@ if (defined('CL_AUTH'))
 	{
 		if ( empty($match['nom']) )
 		{
-			$match['nom'] = "Tous";
+			$match['nom'] = $langue['toutes_section'];
 		}
 		// Turn template blocks into PHP assignment statements for the values of $match..
 		$tpl = preg_replace('#<!-- BEGIN (.*?) -->(.*?)<!-- END (.*?) -->#', "\n" . '$block[\'\\1\'] = \'\\2\';', $tpl);
 		eval($tpl);
 		
 		$block['match'] = str_replace('{TXT_DATE}', $langue['date_defit'], $block['match']);
-		$block['match'] = str_replace('{DATE}', date("j/n/Y", $match['date']), $block['match']);
+		$block['match'] = str_replace('{DATE}', date('j/n/Y', $match['date']), $block['match']);
 		$block['match'] = str_replace('{TXT_HEURE}', $langue['heure_defit'], $block['match']);
 		$block['match'] = str_replace('{HEURE}', date("H:i", $match['date']), $block['match']);
 		$block['match'] = str_replace('{SECTION}', $match['nom'], $block['match']);
 		$block['match'] = str_replace('{CONTRE}', $match['le_clan'], $block['match']);
-		$block['match'] = str_replace('{INFO}', nl2br(bbcode($match['info'])), $block['match']);
-		$template->assign_block_vars("modules_".$modules['place'],array(
+		$block['match'] = str_replace('{INFO}', bbcode($match['info']), $block['match']);
+		$template->assign_block_vars('modules_'.$modules['place'],array(
 			'TITRE' => $modules['nom'],
 			'IN' => $block['match']
 		));
 	}
 	else
 	{
-		$template->assign_block_vars("modules_".$modules['place'],array(
+		$template->assign_block_vars('modules_'.$modules['place'],array(
 			'TITRE' => $modules['nom'],
 			'IN' => $langue['no_futur_match']
 		));
