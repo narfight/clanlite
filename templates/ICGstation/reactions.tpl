@@ -46,7 +46,12 @@
 			<span><label for="reaction">{FORM_MESSAGE}&nbsp;:</label></span>
 		</p>
 		<p>
-		<div class="smilies">
+			<div class="bt-bbcode">
+				<!-- BEGIN bt_bbcode_liste -->
+				<input type="button" onmouseup="bbcode_insert('{bt_bbcode_liste.START}','{bt_bbcode_liste.END}', 'reaction');" title="{bt_bbcode_liste.HELP}"  value="{bt_bbcode_liste.INDEX}" />
+				<!-- END bt_bbcode_liste -->				
+			</div>
+			<div class="smilies">
 				<!-- BEGIN poste_smilies_liste -->
 				<a href="javascript:emoticon('{poste_smilies_liste.TXT}','reaction')"><img src="{poste_smilies_liste.IMG}" alt="{poste_smilies_liste.ALT}" width="{poste_smilies_liste.WIDTH}"  height="{poste_smilies_liste.HEIGHT}" /></a>
 				<!-- BEGIN more -->

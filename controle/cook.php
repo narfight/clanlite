@@ -11,10 +11,10 @@
  ***************************************************************************/
 if ($config['securitee'] !== 'ok' || empty($session_cl['user']))
 {
-	secu($_SERVER['PHP_SELF']);
+	secu($_SERVER['REQUEST_URI']);
 }
 else if ( ($config['securitee'] !== 'ok' || $session_cl['pouvoir_particulier']  != 'admin') && (!empty($niveau_secu) && $user_pouvoir[$niveau_secu] != 'oui'))
 {
-	secu($config['site_domain'].$_SERVER['PHP_SELF']);
+	secu($config['site_domain'].$_SERVER['REQUEST_URI']);
 }
 ?>

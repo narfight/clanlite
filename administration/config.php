@@ -101,7 +101,7 @@ if (is_dir($dir))
 		closedir($dh);
 	}
 }
-liste_smilies(true, '', 25);
+liste_smilies_bbcode(true, '', 25);
 $template->assign_vars(array( 
 	'ICI' => session_in_url('config.php'),
 	'TITRE' => $langue['titre_config_site'],

@@ -79,7 +79,15 @@ while ( ($list_user = $rsql->s_array($get_joueur)) )
 {
 	$liste_user_match[$list_user['id_match']][$list_user['statu']][$list_user['user']] = $list_user['user'];
 }
-$sql = "SELECT a.*, server_map.url, match_map.id_map, match_map.nom AS nom_map, server_map.nom AS nom_map_actu, section.nom FROM `".$config['prefix']."match` AS a LEFT JOIN `".$config['prefix']."match_map` AS match_map ON match_map.id_match = a.id LEFT JOIN `".$config['prefix']."server_map` AS server_map ON server_map.id = match_map.id_map LEFT JOIN `".$config['prefix']."section` section ON a.section = section.id WHERE (a.section ='".$session_cl['section']."' OR a.section ='0' OR section.limite ='0') AND a.date > '".(time()-60*60*2) ."' ORDER BY repertoire, a.date ASC";
+if ($session_cl['limite_match'] == 1)
+{
+	$sql = "SELECT a.*, server_map.url, match_map.id_map, match_map.nom AS nom_map, server_map.nom AS nom_map_actu, section.nom FROM `".$config['prefix']."match` AS a LEFT JOIN `".$config['prefix']."match_map` AS match_map ON match_map.id_match = a.id LEFT JOIN `".$config['prefix']."server_map` AS server_map ON server_map.id = match_map.id_map LEFT JOIN `".$config['prefix']."section` section ON a.section = section.id WHERE (a.section ='".$session_cl['section']."' OR a.section ='0') AND a.date > '".(time()-60*60*2) ."' ORDER BY repertoire, a.date ASC";
+}
+else
+{
+	$sql = "SELECT a.*, server_map.url, match_map.id_map, match_map.nom AS nom_map, server_map.nom AS nom_map_actu, section.nom FROM `".$config['prefix']."match` AS a LEFT JOIN `".$config['prefix']."match_map` AS match_map ON match_map.id_match = a.id LEFT JOIN `".$config['prefix']."server_map` AS server_map ON server_map.id = match_map.id_map LEFT JOIN `".$config['prefix']."section` section ON a.section = section.id WHERE a.date > '".(time()-60*60*2) ."' ORDER BY repertoire, a.date ASC";
+}
+
 if (! ($get_match = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -190,6 +198,11 @@ if (!empty($info_match) && is_array($info_match))
 				}
 			}
 		}
+	}
+	// on regarde si il veut regarder un match bien spécifique
+	if (isset($_GET['regarder']))
+	{
+		$template->assign_block_vars('regarder', array('FOR' => $_GET['regarder']));
 	}
 }
 else

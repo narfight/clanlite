@@ -36,7 +36,7 @@ p,ul,td {font-size:10pt;}
 		<td align="center" width="100%" valign="middle">INSTALLATION de ClanLite 2</tr>
 </table>
 
-<p align="center"><b>Merci de lire ce document en entier avant de procéder à l'installation.</b></p>
+<p align="center"><strong>Merci de lire ce document en entier avant de procéder à l'installation.</strong></p>
 <ol>
 <li><a href="#quickinstall">Installation rapide</a></li>
 <li><a href="#require">Pré-requis</a></li>
@@ -67,7 +67,6 @@ p,ul,td {font-size:10pt;}
 </ol>
 
 <p>Si vous rencontrez des problèmes ou doutez de la marche à suivre pour une des étapes ci-dessus, consultez le reste de la document.</p>
-
 </li>
 <li><a name="require"></a><span class="titre2">Pré-requis</span>
 
@@ -79,21 +78,20 @@ p,ul,td {font-size:10pt;}
 </ul>
 
 <p>Si votre serveur ou votre compte ne remplit pas les pré-requis ci-dessus, il est à craindre que ClanLite 2.0 ne soit pas pour vous.</p>
-
 </li>
 <li><a name="install"></a><span class="titre2">Nouvelles Installations</span>
 
 <p>L'installation de ClanLite 2 dépend de votre serveur et votre gestionnaire de base de données. Si vous disposez d'un <i>accès shell</i> à votre compte (via telnet ou ssh par exemple) vous avez la possibilité de télécharger le fichier archive de ClanLite 2 (en mode binaire!) dans un répertoire de votre hôte afin de le décompresser.</p>
 
-<p>Si vous n'avez pas d'accès shell ou ne désirez pas l'utiliser, vous devez décompresser le fichier archive de ClanLite 2 dans un répertoire local de votre système à l'aide de votre utilitaire favori (winzip, rar, zip, etc.) Ensuite, vous téléchargez via FTP <b>tous</b> les fichiers qui en sont extraits (en gardant la structure de répertoires et les noms des fichiers!) dans le répertoire approprié de votre hôte. Assurez-vous que la casse des noms de fichiers soit inchangée, <b>NE</b> forcez <b>PAS</b> tous les noms de fichiers en majuscules ou minuscules car cela entraînera des erreurs par la suite.</p>
+<p>Si vous n'avez pas d'accès shell ou ne désirez pas l'utiliser, vous devez décompresser le fichier archive de ClanLite 2 dans un répertoire local de votre système à l'aide de votre utilitaire favori (winzip, rar, zip, etc.) Ensuite, vous téléchargez via FTP <strong>tous</strong> les fichiers qui en sont extraits (en gardant la structure de répertoires et les noms des fichiers!) dans le répertoire approprié de votre hôte. Assurez-vous que la casse des noms de fichiers soit inchangée, <strong>NE</strong> forcez <strong>PAS</strong> tous les noms de fichiers en majuscules ou minuscules car cela entraînera des erreurs par la suite.</p>
 
-<p>Tous les fichiers se terminant par .php, .inc, .sql, .cfg et .htm doivent être transférés en mode <b>ascii</b>, tandis que les fichiers images doivent l'être en mode <b>binary</b> (binaire). Si vous ne maîtrisez pas ces notions, merci de consulter la documentation de votre utilitaire client ftp. Dans la plupart des cas, tout ceci vous sera rendu transparent par votre utilitaire client ftp mais si vous rencontrez des problèmes par la suite, assurez-vous que les fichiers ont été transférés conformément à ce qui est décrit dans ce chapitre.</p>
+<p>Tous les fichiers se terminant par .php, .inc, .sql, .cfg et .htm doivent être transférés en mode <strong>ascii</strong>, tandis que les fichiers images doivent l'être en mode <strong>binary</strong> (binaire). Si vous ne maîtrisez pas ces notions, merci de consulter la documentation de votre utilitaire client ftp. Dans la plupart des cas, tout ceci vous sera rendu transparent par votre utilitaire client ftp mais si vous rencontrez des problèmes par la suite, assurez-vous que les fichiers ont été transférés conformément à ce qui est décrit dans ce chapitre.</p>
 
 <p>Une fois tous les fichiers téléchargés sur votre site, vous devez faire pointer votre explorateur à l'endroit choisi en ajoutant install/install.php. Par exemple, si le nom de votre domaine est <i>www.mydomain.tld</i> et que vous avez placé ClanLite 2 dans le répertoire /ClanLite2 situé à la racine, vous devez entrer <i>http://www.mydomain.tld/ClanLite2/install/install.php</i> dans l'explorateur. L'écran d'installation de ClanLite 2 devrait alors apparaître.</p>
 
 <ol type="i"><li><a name="ClanLite1x"></a><span class="titre3">Installation à partir d'une version ClanLite 1.x</span>
 
-<p><b>ATTENTION</b>, <b>NE</b> placez <b>PAS</b> les fichiers ClanLite 2 dans le même répertoire que les fichiers de ClanLite 1.x précédemment installée! Créer un nouveau dossier (ou déplacez l'ancien ClanLite 1.x), ne pas le faire vous expose à des erreurs d'exécution (runtime errors). Copiez ensuite le fichier config.php de la version 1 pour le m&egrave;tre dans le r&eacute;pertoire de la version 2, une fois que cela est fait, vous pouvez lancer le fichier <i>http://www.mydomain.tld/ClanLite2/install/update.php</i> pour m&egrave;tre &agrave; jour vos bases de donn&eacute;es</p>
+<p><strong>ATTENTION</strong>, <strong>NE</strong> placez <strong>PAS</strong> les fichiers ClanLite 2 dans le même répertoire que les fichiers de ClanLite 1.x précédemment installée! Créer un nouveau dossier (ou déplacez l'ancien ClanLite 1.x), ne pas le faire vous expose à des erreurs d'exécution (runtime errors). Copiez ensuite le fichier config.php de la version 1 pour le m&egrave;tre dans le r&eacute;pertoire de la version 2, une fois que cela est fait, vous pouvez lancer le fichier <i>http://www.mydomain.tld/ClanLite2/install/update.php</i> pour m&egrave;tre &agrave; jour vos bases de donn&eacute;es</p>
 </li><li><a name="requireddata"></a><span class="titre3">Saisie des données nécessaires</span>
 
 <p>Une fois que vous avez atteint la page d'installation, vous avez à saisir plusieurs champs.  Si vous ne disposez pas du <u><span>Serveur MySQL</span></u>, <u>Type de base de donnée</u>, etc. contactez votre hébergeur.</p>
@@ -108,7 +106,7 @@ p,ul,td {font-size:10pt;}
 
 <p>Pendant la procédure d'installation de ClanLite 2 une vérification de la disponibilité du module de base de données de PHP est effectuée et le processus s'arrête si ce n'est pas le cas. Pour éviter cela, vérifiez que vous avez sélectionné la base de données correcte et/ou demandez conseil à votre hébergeur.</p>
 
-<p><b>Ne</b> poursuivez <b>pas</b> avant de terminer correctement l'installation et (si nécessaire) d'avoir recharger le fichier <u>config.php</u> mis à jour.</p>
+<p><strong>Ne</strong> poursuivez <strong>pas</strong> avant de terminer correctement l'installation et (si nécessaire) d'avoir recharger le fichier <u>config.php</u> mis à jour.</p>
 
 
 
@@ -116,19 +114,24 @@ p,ul,td {font-size:10pt;}
 </li>
 <li><a name="upgradeSTABLE"></a><span class="titre2">Mise à jour depuis une précédente version de ClanLite 2</span>
 
-<p>Si vous utilisez actuellement une précédente version stable de ClanLite 2, la mise à jour est directe. Vous devez télécharger un pack. <b>Attention</b>: avant de mettre à jour, nous recommandons vivement de faire une <u>sauvegarde complète de votre base de données et des fichiers ClanLite2</u>! Si vous n'êtes pas sûr de la manière de procéder pour le faire, demandez conseil à votre hébergeur.</p>
+<p>Si vous utilisez actuellement une précédente version stable de ClanLite 2, la mise à jour est directe. <strong>Attention</strong>: avant de mettre à jour, nous recommandons vivement de faire une <u>sauvegarde complète de votre base de données et des fichiers ClanLite2</u>! Si vous n'êtes pas sûr de la manière de procéder pour le faire, demandez conseil à votre hébergeur.</p>
 
-<p>Si vous disposez de packs de langues différents du fran&ccedil;ais, vous devez vérifier si une nouvelle version est disponible <b>de même pour les thèmes</b> au risque de ne plus voir certaine fonction. Un certain nombre de phrases manquantes ont été ajoutées, ce qui, même si ce n'est pas essentiel, profitera à vos utilisateurs. Notez que tous les packs de langues n'ont pas été mis à jour, préparez vous à vérifier périodiquement leur disponibilité.</p>
+<p>Si vous disposez de packs de langues différents du fran&ccedil;ais, vous devez vérifier si une nouvelle version est disponible <strong>de même pour les thèmes</strong> au risque de ne plus voir certaine fonction. Un certain nombre de phrases manquantes ont été ajoutées, ce qui, même si ce n'est pas essentiel, profitera à vos utilisateurs. Notez que tous les packs de langues n'ont pas été mis à jour, préparez vous à vérifier périodiquement leur disponibilité.</p>
 
+<p>La mise à jour de ClanLite 2 dépend de votre serveur et votre gestionnaire de base de données. Si vous disposez d'un <i>accès shell</i> à votre compte (via telnet ou ssh par exemple) vous avez la possibilité de télécharger le fichier archive de ClanLite 2 (en mode binaire!) dans un répertoire de votre hôte afin de le décompresser.</p>
+
+<p>Si vous n'avez pas d'accès shell ou ne désirez pas l'utiliser, vous devez décompresser le fichier archive de ClanLite 2 dans un répertoire local de votre système à l'aide de votre utilitaire favori (winzip, rar, zip, etc.) Ensuite, vous téléchargez via FTP <strong>tous</strong> les fichiers qui en sont extraits (en gardant la structure de répertoires et les noms des fichiers!) dans le répertoire approprié de votre hôte. Assurez-vous que la casse des noms de fichiers soit inchangée, <strong>NE</strong> forcez <strong>PAS</strong> tous les noms de fichiers en majuscules ou minuscules car cela entraînera des erreurs par la suite. <strong>Attention</strong>: Pour facilit&eacute; la mise &agrave; jours de ClanLite2, il est  recommand&eacute; de <strong>ne pas envoyer sur le FTP le fichier config.php</strong>. Si vous le faites  malgr&eacute; tout, la mise &agrave; jour sera alors d&eacute;but&eacute; par une &eacute;tapes suppl&eacute;mentaire  pour vous demander des informations pratiques. </p>
+
+<p>Une fois tous les fichiers téléchargés sur votre site, vous devez faire pointer votre explorateur à l'endroit choisi en ajoutant install/update.php. Par exemple, si le nom de votre domaine est <i>www.mydomain.tld</i> et que vous avez placé ClanLite 2 dans le répertoire /ClanLite2 situé à la racine, vous devez entrer <i>http://www.mydomain.tld/ClanLite2/install/update.php</i> dans l'explorateur. L'écran de mise &agrave; jour de ClanLite 2 devrait alors apparaître.</p>
 </li>
 <li><a name="postinstall"></a><span class="titre2">Tâches importantes à réaliser après toute installation</span>
-  <p>Connectez vous en tant qu'administrateur (celui que vous avez spécifié pendant l'installation) et cliquez sur le lien "<b>Administration</b>" en bas de n'importe quelle page. Assurez-vous que les informations affichées dans Administration -> "Configuration générale" sont correctes !</p>
-
-</li><li><a name="disclaimer"></a><span class="titre2">Copier/Editer/Distribuer ?</span>
+  <p>Connectez vous en tant qu'administrateur (celui que vous avez spécifié pendant l'installation) et cliquez sur le lien "<strong>Administration</strong>" en bas de n'importe quelle page. Assurez-vous que les informations affichées dans Administration -> "Configuration générale" sont correctes !</p>
+  </li>
+<li><a name="disclaimer"></a><span class="titre2">Copier/Editer/Distribuer ?</span>
 
 <p>Cette application est un logiciel opensource sous licence <a href="http://www.gnu.org/licenses/gpl.html" target="_new">GPL</a>. Merci de lire le code source et les fichiers du dossier Docs pour plus de détails. </p>
 
-<p align="center">Cette page issue du site <a href="http://www.phpbb.biz/">phpbb.biz</a> par <b>Darthbob</b> (et adapt&eacute; &agrave; ClanLite 2) est soumise &agrave; la licence GNU FDL. <br>
+<p align="center">Cette page issue du site <a href="http://www.phpbb.biz/">phpbb.biz</a> par <strong>Darthbob</strong> (et adapt&eacute; &agrave; ClanLite 2) est soumise &agrave; la licence GNU FDL. <br>
   Permission vous est donn&eacute;e de distribuer, modifier des copies de cette page tant que cette note appara&icirc;t clairement.</p>
 </li></ol>
 </body>

@@ -23,7 +23,7 @@ if (defined('CL_AUTH'))
 	
 	$block = module_tpl('officiel_module.tpl');
 
-	$sql = "SELECT a.*, section.nom  FROM `".$config['prefix']."match` a LEFT JOIN ".$config['prefix']."section section ON a.section = section.id WHERE a.date > '".(time()-60*60*2) ."' ORDER BY a.date ASC LIMIT 1";
+	$sql = "SELECT a.*, section.nom, section.limite AS limite_match  FROM `".$config['prefix']."match` a LEFT JOIN ".$config['prefix']."section section ON a.section = section.id WHERE a.date > '".(time()-60*60*2) ."' ORDER BY a.date ASC LIMIT 1";
 	if (! ($get = $rsql->requete_sql($sql, 'module', 'Prend le prochain match')) )
 	{
 		sql_error($sql , $rsql->error, __LINE__, __FILE__);
@@ -42,6 +42,18 @@ if (defined('CL_AUTH'))
 		$block['match'] = str_replace('{SECTION}', $match['nom'], $block['match']);
 		$block['match'] = str_replace('{CONTRE}', $match['le_clan'], $block['match']);
 		$block['match'] = str_replace('{INFO}', bbcode($match['info']), $block['match']);
+		// on regarde si la personne à droit au match
+		if (isset($session_cl['section']) && ($session_cl['section'] == $match['section'] || $match['section'] == 0 || $session_cl['limite_match'] == 0))
+		{
+			echo '(isset('.$session_cl['section'].') && ('.$session_cl['section'].' == '.$match['section'].' || '.$match['section'].' == 0 || '.$session_cl['limite_match'].' == 0))';
+			$block['match_liens_membres'] = str_replace('{URL}', $root_path.'service/membre_match.php?regarder='.$match['id'], $block['match_liens_membres']);
+			$block['match_liens_membres'] = str_replace('{TEXTE}', $langue['ajouter/supprimer_demande_match'], $block['match_liens_membres']);
+			$block['match'] = str_replace('{LIENS_MEMBRES}', $block['match_liens_membres'], $block['match']);
+		}
+		else
+		{
+			$block['match'] = str_replace('{LIENS_MEMBRES}', '', $block['match']);
+		}
 		$template->assign_block_vars('modules_'.$modules['place'],array(
 			'TITRE' => $modules['nom'],
 			'IN' => $block['match']

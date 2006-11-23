@@ -28,19 +28,19 @@
 				<div class="big_texte"><textarea name="text" cols="40" rows="10" id="text" onblur="formverif(this.id,'nbr','10')">{TEXT}</textarea></div>
 			</p>
 			<p>
-				<span><label for="auto_del">{TXT_AUTO_DEL}&nbsp;:</label></span>
-				<span><input name="auto_del" id="auto_del" {AUTO_DEL} type="checkbox" value="oui" onchange="toggle_msg('auto_del_div', this.id, 'true', 'checked')"></span>
+				<span><label for="cyclique">{TXT_CYCLIQUE}&nbsp;:</label></span>
+				<span><input name="cyclique" id="cyclique" {CYCLIQUE} type="checkbox" value="1"></span>
 			</p>
-			<div id="auto_del_div">
-				<p>
-					<span><label for="jour">{TXT_DEL_DATE}&nbsp;:</label></span>
-					<span><input name="jour" type="text" id="jour" value="{JOUR}" size="2" maxlength="2" onblur="formverif(this.id,'chiffre','31')" />/<input name="mois" type="text" id="mois" value="{MOIS}" size="2" maxlength="2" onblur="formverif(this.id,'chiffre','12')" />/<input name="annee" type="text" id="year" value="{ANNEE}" size="4" maxlength="4" onblur="formverif(this.id,'chiffre','')" />(mm/jj/yyyy)</span>
-				</p>
-				<p>
-					<span><label for="heure">{TXT_DEL_HEURE}&nbsp;:</label></span>
-					<span><input name="heure" type="text" id="heure" value="{HEURE}" size="2" maxlength="2" onblur="formverif(this.id,'chiffre','24')" />H<input name="minute" type="text" id="minute" value="{MINUTE}" size="2" maxlength="2" onblur="formverif(this.id,'chiffre','60')" /></span>
-				</p>
-			</div>
+			<p>
+				<span><label for="jour">{TXT_DATE}&nbsp;:</label>
+				</span>
+				<span><input name="jour" type="text" id="jour" value="{JOUR}" size="2" maxlength="2" onblur="formverif(this.id,'chiffre','31')" />/<input name="mois" type="text" id="mois" value="{MOIS}" size="2" maxlength="2" onblur="formverif(this.id,'chiffre','12')" />/<input name="annee" type="text" id="year" value="{ANNEE}" size="4" maxlength="4" onblur="formverif(this.id,'chiffre','')" />(mm/jj/yyyy)</span>
+			</p>
+			<p>
+				<span><label for="heure">{TXT_HEURE}&nbsp;:</label>
+				</span>
+				<span><input name="heure" type="text" id="heure" value="{HEURE}" size="2" maxlength="2" onblur="formverif(this.id,'chiffre','24')" />H<input name="minute" type="text" id="minute" value="{MINUTE}" size="2" maxlength="2" onblur="formverif(this.id,'chiffre','60')" /></span>
+			</p>
 			<p>
 				<span>
 					<!-- BEGIN editer --> 
@@ -54,11 +54,6 @@
 			</p>
 		</form>
 	</div>
-	<SCRIPT language="JavaScript">
-	<!--
-		toggle_msg('auto_del_div', 'auto_del', 'true', 'checked');
-	-->
-	</script> 
 	<div class="big_cadre">
 		<h1>{TITRE_LIST}</h1>
 		<div class="news">
@@ -66,6 +61,7 @@
 				<thead>
 					<tr>
 						<th>{DATE}</th>
+						<th>{TXT_CYCLIQUE_SORT}</th>
 						<th>{TXT_TEXT}</th>
 						<th>{ACTION}</th>
 					</tr>
@@ -74,6 +70,7 @@
 					<!-- BEGIN liste -->
 					<tr>
 						<td>{liste.DATE}</td>
+						<td>{liste.CYCLIQUE}</td>
 						<td>{liste.TEXT}</td>
 						<td>
 							<form action="{ICI}" method="post">

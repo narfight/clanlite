@@ -77,7 +77,7 @@ function show_list_map($selected, $where, $nbr_map=false)
 // envoyer le formulaire rempli
 if ( !empty($_POST['envoyer']) )
 {
-	if ( !empty($_POST['del_match']) )
+	if (isset($_POST['del_match']))
 	{
 		// on enleve des listes des match
 		$sql = "DELETE FROM `".$config['prefix']."match` WHERE id ='".$_POST['id_match_imp']."'";
@@ -101,7 +101,7 @@ if ( !empty($_POST['envoyer']) )
 
 	$date = adodb_mktime( 1, 1, 1 ,$_POST['mm'] , $_POST['jj'] , $_POST['aaaa'] , 1 );
 	$_POST = pure_var($_POST);
-	$sql = "INSERT INTO `".$config['prefix']."match_rapport` (`date`, `section`, `contre`, `info`, `score_nous`, `score_eux`) VALUES ('".$date."', '".$_POST['section']."', '".$_POST['clan']."', '".$_POST['information']."', '".$_POST['score_clan']."', '".$_POST['score_mechant']."')";
+	$sql = "INSERT INTO `".$config['prefix']."match_rapport` (`date`, `repertoire`, `section`, `contre`, `info`, `score_nous`, `score_eux`) VALUES ('".$date."', '".$_POST['class']."', '".$_POST['section']."', '".$_POST['clan']."', '".$_POST['information']."', '".$_POST['score_clan']."', '".$_POST['score_mechant']."')";
 
 	if (!$rsql->requete_sql($sql))
 	{
@@ -149,7 +149,7 @@ if ( !empty($_POST['edit']) )
 {
 	$_POST = pure_var($_POST);
 	$date = adodb_mktime( 1 , 1 , 1 , $_POST['mm'] , $_POST['jj'] , $_POST['aaaa'] , 1 );
-	$sql = "UPDATE `".$config['prefix']."match_rapport` SET `date`='".$date."', `section`='".$_POST['section']."', `contre`='".$_POST['clan']."', `info`='".$_POST['information']."', `score_nous`='".$_POST['score_clan']."', `score_eux`='".$_POST['score_mechant']."' WHERE id='".$_POST['for']."'";
+	$sql = "UPDATE `".$config['prefix']."match_rapport` SET `repertoire`='".$_POST['class']."', `date`='".$date."', `section`='".$_POST['section']."', `contre`='".$_POST['clan']."', `info`='".$_POST['information']."', `score_nous`='".$_POST['score_clan']."', `score_eux`='".$_POST['score_mechant']."' WHERE id='".$_POST['for']."'";
 	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -190,7 +190,7 @@ while ($nfo = $rsql->s_array($get))
 require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$session_cl['skin']);
 $template->set_filenames( array('body' => 'admin_rapport_match.tpl'));
-liste_smilies(true, '', 25);
+liste_smilies_bbcode(true, '', 25);
 // gestion des maps
 //on vérifie que c'est un array, si non, on le crée mais vide
 if (!isset($_POST['liste_map']) || !is_array($_POST['liste_map']))
@@ -233,6 +233,9 @@ $template->assign_vars(array(
 	'PT_EUX' => $langue['score_eux'],
 	'TXT_ADD_MAP' => $langue['add_map_menu_liste'],
 	'TXT_ADD_MAP_URL' => session_in_url($root_path.'administration/server_map.php'),
+	'TXT_MATCH_CLASS' => $langue['match_class'],
+	'OPTIONNEL' => $langue['optionnel'],
+	'CHOISIR_CLASS' => $langue['match-last-class'],
 ));
 
 // on fais la liste des match
@@ -288,7 +291,9 @@ if ( isset($_POST['Submit']) )
 				'AAAA' => adodb_date('Y', $import_match['date']),
 				'CLAN' => $import_match['le_clan'],
 				'INFO' => $import_match['info'],
+				'CLASS' => $import_match['repertoire'],
 				'SELECTED_ALL' => ($import_match['section'] == 0)? 'selected="selected"' : '',
+				'ID_MATCH_IMP' => (isset($_POST['id_match_imp']))? $_POST['id_match_imp'] : '',
 				'CHECKED' => (isset($_POST['del_match']))? 'checked="checked"' : '',
 			));
 		}
@@ -318,6 +323,7 @@ if (!empty($_POST['Editer']) || (!isset($_POST['for']) && ((isset($_POST['add_ma
 			'SELECTED_ALL' => (isset($_POST['section']) && $_POST['section'] == 0)? 'selected="selected"' : '',
 			'CHECKED' => (isset($_POST['del_match']))? 'checked="checked"' : '',
 			'ID_MATCH_IMP' => (isset($_POST['id_match_imp']))? $_POST['id_match_imp'] : '',
+			'CLASS' => (isset($_POST['class']))? $_POST['class'] : '',
 			'ID' => (isset($_POST['for']))? $_POST['for'] : '',
 		));
 	}
@@ -353,6 +359,7 @@ if (!empty($_POST['Editer']) || (!isset($_POST['for']) && ((isset($_POST['add_ma
 			'AAAA' => adodb_date('Y', $info_rapport_edit['date']),
 			'CLAN' => $info_rapport_edit['contre'],
 			'INFO' => $info_rapport_edit['info'],
+			'CLASS' => $info_rapport_edit['repertoire'],
 			'SCORE_NOUS' => $info_rapport_edit['score_nous'],
 			'SCORE_MECHANT' => $info_rapport_edit['score_eux'],
 			'SELECTED_ALL' => ($info_rapport_edit['section'] == 0)? 'selected="selected"' : '',
@@ -361,6 +368,8 @@ if (!empty($_POST['Editer']) || (!isset($_POST['for']) && ((isset($_POST['add_ma
 }
 else
 {
+	if (!isset($_POST['Submit']))
+	{
 		$template->assign_vars(array(
 			'JJ' => (isset($_POST['jj']))? $_POST['jj'] : '',
 			'MM' => (isset($_POST['mm']))? $_POST['mm'] : '',
@@ -372,11 +381,14 @@ else
 			'SELECTED_ALL' => (isset($_POST['section']) && $_POST['section'] == 0)? 'selected="selected"' : '',
 			'CHECKED' => (isset($_POST['del_match']))? 'checked="checked"' : '',
 			'ID_MATCH_IMP' => (isset($_POST['id_match_imp']))? $_POST['id_match_imp'] : '',
+			'CLASS' => (isset($_POST['class']))? $_POST['class'] : '',
 			'ID' => (isset($_POST['for']))? $_POST['for'] : '',
 		));
+	}
 	$template->assign_block_vars('rajouter', array('ENVOYER' => $langue['envoyer']));
 }
 
+// on liste tout les rapports
 $sql = "SELECT rapport.*, section.nom FROM ".$config['prefix']."match_rapport AS rapport LEFT JOIN ".$config['prefix']."section AS section ON rapport.section = section.id ORDER BY `id` DESC";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
@@ -384,7 +396,8 @@ if (! ($get = $rsql->requete_sql($sql)) )
 }
 while ($liste_rapport = $rsql->s_array($get))
 {
-	$template->assign_block_vars('liste', array(
+	// on les stokes dans un Array trié par classification
+	$liste_rapport_out[$liste_rapport['repertoire']][$liste_rapport['id']] =  array(
 		'ID' => $liste_rapport['id'],
 		'DATE' => adodb_date('j/n/Y', $liste_rapport['date']),
 		'SECTION' => (empty($liste_rapport['nom']))? $langue['toutes_section'] : $liste_rapport['nom'],
@@ -394,10 +407,23 @@ while ($liste_rapport = $rsql->s_array($get))
 		'SCORE_MECHANT' => $liste_rapport['score_eux'],
 		'SUPPRIMER' => $langue['supprimer'],
 		'EDITER' => $langue['editer'],
-	));
+	);
 }
+// On regarde si il a bien eu des rapports et on affiche
+if (isset($liste_rapport_out) && is_array($liste_rapport_out))
+{
+	foreach ($liste_rapport_out as $class => $info)
+	{
+		$template->assign_block_vars('class', array( 'TITRE' => (empty($class))? $langue['match-sans-class'] : $class));
+		foreach ($info as $rapport_out)
+		{
+			$template->assign_block_vars('class.liste', $rapport_out);
+		}
+	}
+}
+
 // on fais la liste des sections
-$sql = "SELECT * FROM ".$config['prefix']."section";
+$sql = 'SELECT * FROM '.$config['prefix'].'section';
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);

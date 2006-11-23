@@ -85,6 +85,37 @@ $template->assign_vars(array(
 ));
 
 // on va chercher les match, antrainement, anivairsaire des membres qu'on pourrait affichier dedans
+//evenement
+$sql = 'SELECT `date`, `text`, `cyclique` FROM `'.$config['prefix'].'calendrier`';
+if (! ($get = $rsql->requete_sql($sql)) )
+{
+	sql_error($sql , $rsql->error, __LINE__, __FILE__);
+}
+$evenements_date = array();
+while ($evenements = $rsql->s_array($get))
+{
+	if ($evenements['cyclique'] == 1)
+	{
+		if ($mois == adodb_date('n', $evenements['date']+$session_cl['correction_heure']))
+		{
+			$evenements_date[$match['id']] = array(
+				'jours' => adodb_date('j', $evenements['date']+$session_cl['correction_heure']),
+				'text' => $evenements['text']
+			);
+		}
+	}
+	else
+	{
+		if ($mois == adodb_date('n', $evenements['date']+$session_cl['correction_heure']) && $annee == adodb_date('Y', $evenements['date']+$session_cl['correction_heure']))
+		{
+			$evenements_date[$match['id']] = array(
+				'jours' => adodb_date('j', $evenements['date']+$session_cl['correction_heure']),
+				'text' => $evenements['text']
+			);
+		}
+	}
+}
+
 //match
 $sql = 'SELECT `id`, `date`, `le_clan` FROM `'.$config['prefix'].'match`';
 if (! ($get = $rsql->requete_sql($sql)) )
@@ -173,16 +204,24 @@ for ($i=0;$i<adodb_date('t', $mk_time_date)+$jour_debut_mois;$i++)
 	{
 		if(($info_tmp['jours'] == $to_days) && $to_days > 0)
 		{
-			$case[$horizontal][$verticale]['info'] .= '<li>'.sprintf($langue['calendrier_annif'], $root_path, $info_tmp['id_user'], $info_tmp['user'])."</a></li>";
+			$case[$horizontal][$verticale]['info'] .= '<li>'.sprintf($langue['calendrier_annif'], $root_path, $info_tmp['id_user'], $info_tmp['user']).'</a></li>';
 		}
 	}
 	foreach ($annif_entree_date as $info_tmp)
 	{
 		if(($info_tmp['jours'] == $to_days) && $to_days > 0)
 		{
-			$case[$horizontal][$verticale]['info'] .= '<li>'.sprintf($langue['calendrier_annif_date'], $root_path, $info_tmp['id_user'], $info_tmp['user'])."</a></li>";
+			$case[$horizontal][$verticale]['info'] .= '<li>'.sprintf($langue['calendrier_annif_date'], $root_path, $info_tmp['id_user'], $info_tmp['user']).'</a></li>';
 		}
 	}
+	foreach ($evenements_date as $info_tmp)
+	{
+		if(($info_tmp['jours'] == $to_days) && $to_days > 0)
+		{
+			$case[$horizontal][$verticale]['info'] .= '<li>'.bbcode($info_tmp['text']).'</li>';
+		}
+	}
+
 	$case[$horizontal][$verticale]['class'] = ($i<$jour_debut_mois)? 'calendra-vide' : 'calendra-normal';
 	$case[$horizontal][$verticale]['class'] = ($horizontal >= 6)? 'calendra-wk' : $case[$horizontal][$verticale]['class'];
 	$case[$horizontal][$verticale]['class'] = ($to_days == $jour && (adodb_date('m-Y', $config['current_time']+$session_cl['correction_heure']) == adodb_date('m-Y',$mk_time_date)))? 'calendra-today' : $case[$horizontal][$verticale]['class'];

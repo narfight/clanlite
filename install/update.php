@@ -11,7 +11,7 @@
  ***************************************************************************/
 $root_path = './../';
 $action_db = '';
-$news_version = '2.2006.05.20';
+$news_version = '2.2006.11.07';
 
 require($root_path.'conf/template.php');
 
@@ -267,6 +267,11 @@ switch($config['version'])
 			'Supprime un module inutile' => 'DELETE FROM `'.$config['prefix'].'modules` WHERE `call_page`=\'cadre_mp3\'',
 		);
 	case '2.2006.04.24':
+	case '2.2006.05.20':
+		$action_db['2.2006.05.20'] = array(
+			'Ajoute un systéme de repertoire pour les rapports des matchs' => 'ALTER TABLE `'.$config['prefix'].'match_rapport` ADD `repertoire` VARCHAR( 255 ) NOT NULL AFTER `id`',
+			'Ajoute d\'une table pour les informations dans le calendrier' => 'CREATE TABLE `'.$config['prefix'].'calendrier` (`id` MEDIUMINT( 8 ) UNSIGNED NOT NULL AUTO_INCREMENT ,`date` DECIMAL( 12 ) NOT NULL ,`text` MEDIUMTEXT NOT NULL ,`cyclique` ENUM( \'1\', \'0\' ) NOT NULL ,UNIQUE (`id`)) TYPE = MYISAM ;',
+		);
 	// sans break, metre case version a la suite, comme ca il fait toutes les mise à jours de la db de la version qu'il a jusqua la version actuelle
 	$maj = true;
 	break;

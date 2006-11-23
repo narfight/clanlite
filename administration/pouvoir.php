@@ -19,11 +19,11 @@ if (!empty($_POST['envois_edit']))
 {
 	$_POST = pure_var($_POST);
 	$requette = '';
-	for ($i = 1;$i < 24;$i++)
+	for ($i = 1;$i < 25;$i++)
 	{
 		$requette .="p".$i."='".(($_POST['activation'.$i] != 'oui')? 'non' : 'oui')."', ";
 	}
-	$requette .="p".$i."='".$_POST['activation'.$i]."' ";
+	$requette .="p".$i."='".(($_POST['activation'.$i] != 'oui')? 'non' : 'oui')."' ";
 	$sql = "UPDATE `".$config['prefix']."pouvoir` SET ".$requette." WHERE user_id='".$_POST['id']."'";
 	if (!$rsql->requete_sql($sql))
 	{
@@ -69,7 +69,7 @@ if ($info_user = $rsql->s_array($get))
 					sql_error($sql, $rsql->error, __LINE__, __FILE__);
 				}
 			}
-			for ($i = 1;$i < 25;$i++)
+			for ($i = 1;$i < 26;$i++)
 			{
 				$template->assign_block_vars('liste', array( 
 					'INFO_POUVOIR' => $langue['pv_num_'.$i],

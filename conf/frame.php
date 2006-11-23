@@ -163,7 +163,7 @@ $template->assign_vars( array(
 	'B_PRIVE' => $langue['boutton_connect'],
 	'NOM_CLAN' => $config['nom_clan'],
 	'NEWS' => $langue['news_titre'],
-	'ICI_SELF' => $config['site_domain'].$_SERVER['PHP_SELF'],
+	'ICI_SELF' => $config['site_domain'].$_SERVER['REQUEST_URI'],
 	'ICI' => $config['site_domain'].$config['site_path'],
 	'ADMINISTRATION' => $langue['menu_titre_admin'],
 	'ADMINISTRATION_U' => session_in_url($root_path.'user/index.php'),

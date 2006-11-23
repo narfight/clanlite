@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
  *	Fichier		: langue.php												*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Copyright	: (C) 2006 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -32,6 +32,7 @@ $langue['boutton_liens'] = "Liens";
 $langue['boutton_org_rencontre'] = "Proposer une rencontre";
 $langue['boutton_liste_membres_groupe'] = "Les membres";
 $langue['bien_venu_site'] = "Bienvenue sur le site des %1\$s.";
+
 $langue['error_sql_titre'] = "Erreur de requête SQL.";
 $langue['error_sql_requette'] = "Requête";
 $langue['error_sql_erreur'] = "Erreur reçue";
@@ -377,6 +378,7 @@ $langue['menu_titre_module'] = "Module";
 $langue['menu_titre_module_center'] = "Module central";
 $langue['menu_titre_go_publique'] = "Partie publique";
 $langue['menu_titre_prive_entree'] = "Retour à la page d'entrée de la partie privée";
+
 $langue['titre_alert'] = "Les alertes";
 $langue['where_alert'] = "Modifie les alertes";
 $langue['titre_alert_gestion'] = "Gestion des alertes";
@@ -388,6 +390,16 @@ $langue['date_dell_alert'] = "Date de suppresion";
 $langue['heure_dell_alert'] = "Heure de suppresion";
 $langue['opt_auto_dell_alert'] = "Supprimer automatiquement à une date";
 $langue['opt_auto_dell_desactiver'] = "Aucune";
+
+$langue['titre_calendrier'] = "Calendrier";
+$langue['where_calendrier'] = "Modifie les événement du calendrier";
+$langue['titre_calendrier_gestion'] = "Gestion du calendrier";
+$langue['titre_calendrier_list'] = "Liste des événement";
+$langue['redirection_calendrier_add'] = "L'événement a été ajouté";
+$langue['redirection_calendrier_edit'] = "L'événement a été mis à jour";
+$langue['redirection_calendrier_dell'] = "L'événement a été supprimé";
+$langue['cyclique_calendrier'] = "Répéter l’événement chaque année";
+$langue['cyclique_calendrier_sort'] = "Cyclique";
 
 $langue['titre_config_site'] = "Configuration générale";
 $langue['config_site_base_titre'] = "Configuration de base";
@@ -538,6 +550,7 @@ $langue['add_map_liste'] = "Ajouter une map à la rotation";
 $langue['dell_map_liste'] = "Supprimer la dernière map";
 $langue['match_class'] = "Classification du match";
 $langue['match-last-class'] = "Classe déjà entré";
+$langue['match-sans-class'] = "Sans classification";
 
 $langue['where_custom_menu'] = "Est dans l'administration du menu";
 $langue['titre_custom_menu'] = "Modification du menu";
@@ -622,6 +635,7 @@ $langue['pv_num_21'] = "Gestion des sections";
 $langue['pv_num_22'] = "Supprimer un membre";
 $langue['pv_num_23'] = "Gestion des smileys";
 $langue['pv_num_24'] = "Envoi mail de masse";
+$langue['pv_num_25'] = "Gestion du calendrier";
 $langue['redirection_pouvoir_edit'] = "les pouvoirs ont été mis a jour, vous allez être redirigé sur la liste des membres";
 $langue['erreur_admin_and_pouvoir'] = "Vous ne pouvez pas changer les pouvoirs d'un administrateur. Changez le niveau de cet utilisateur avant de modifier ses pouvoir";
 
@@ -629,7 +643,7 @@ $langue['where_admin_rapport_match'] = "Est dans l'administration des rapports d
 $langue['titre_admin_rapport_match'] = "Les rapports de match";
 $langue['titre_admin_rapport_match_gestion'] = "Gestion des rapports";
 $langue['titre_admin_rapport_match_list'] = "La liste des rapports";
-$langue['redirection_admin_rapport_match_add'] = "Le rapport de match à ajouter";
+$langue['redirection_admin_rapport_match_add'] = "Le rapport de match est ajouter";
 $langue['redirection_admin_rapport_match_edit'] = "Le rapport de match a été mis à jour";
 $langue['redirection_admin_rapport_match_dell'] = "Le rapport de match est bien supprimé";
 $langue['rapport_match_importation'] = "Importer un match";
@@ -683,6 +697,17 @@ $langue['redirection_admin_smilies_dell'] = "Le smilie de match est bien supprim
 $langue['smilie_images'] = "Le smilies";
 $langue['smilie_text'] = "Commande";
 $langue['smilie_def'] = "Définition";
+
+$langue['bt_bbcode']['b'] = 'Mettre en gras le texte. Syntaxe : [b]texte[/b]';
+$langue['bt_bbcode']['i'] = 'Mettre en italique le texte. Syntaxe : [i]texte[/i]';
+$langue['bt_bbcode']['u'] = 'Souligner le texte. Syntaxe : [u]texte[/u]';
+$langue['bt_bbcode']['url'] = 'Insérer un lien. Syntaxe : [url=http://www.lesite.com/]nom du lien[/url]';
+$langue['bt_bbcode']['liste'] = 'Liste d\'éléments. Syntaxe : [list][*]item 1[*]item 2[/list]';
+$langue['bt_bbcode']['centrer'] = 'Aligne le texte. Syntaxe : [center]texte[/center]';
+$langue['bt_bbcode']['size'] = 'Définir la taille du texte. Syntaxe : [size=14]texte[/size]';
+$langue['bt_bbcode']['img'] = 'Mettre une image. Syntaxe : [img]http://www.lesite.com/image.png[/img]';
+$langue['bt_bbcode']['video'] = 'Mettre une video. Syntaxe : [video]http://www.lesite.com/film.avi[/video]';
+$langue['bt_bbcode']['swf'] = 'Mettre une animation flash. Syntaxe : [swf width=12 height=14]http://www.lesite.com/animation.swf[/swf]';
 
 $langue['where_admin_mailiste'] = "Envoit un mail de masse";
 $langue['titre_admin_mailiste'] = "Mail de masse";

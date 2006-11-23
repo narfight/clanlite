@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
  *	Fichier		: lib.php													*
- *	Copyright	: (C) 2005 ClanLite											*
+ *	Copyright	: (C) 2006 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -254,65 +254,25 @@ function msg($type, $texte)
 function bbcode($fichier)
 {
 	global $config, $root_path, $rsql;
+	require_once($root_path.'conf/bbcode.php');
+	
 	$fichier = htmlspecialchars($fichier);
-	liste_smilies(false);
+	liste_smilies_bbcode(false);
+	
 	//prend les smilies
 	foreach($config['smilies_liste'] as $info_smilies)
 	{
 		$fichier = str_replace(htmlspecialchars($info_smilies['text']), '<img src="'.$root_path.'images/smilies/'.$info_smilies['img'].'" alt="'.$info_smilies['def'].'" width="'.$info_smilies['width'].'" height="'.$info_smilies['height'].'"  />', $fichier);
 	}
-	while(ereg('\[list](.*)\[/list]', $fichier))
-	{
-		$fichier = preg_replace("#\[list](.*)\[/list]#Usi", "<ul>\\1\n</li></ul>", $fichier); 
-	}
-	while(ereg('<ul>(.*)\[\*\](.*)</ul>', $fichier))
-	{
-		$fichier = preg_replace("#<ul>(.*)\[\*\](.*)</ul>#Usi", "<ul>\\1</li><li>\\2</ul>", $fichier);
-	}
-	$fichier = str_replace('<ul></li>', '<ul>', $fichier);
-	$fichier = str_replace(chr(10).'</li><li>', '</li><li>', $fichier);
-	$bbcode_search = array(
-		"#\[size=([1-2]?[0-9])]([^]]*)\[/size]#si",
-		"#\[color=(\#[0-9A-F]{6}|[a-z]+)]([^]]*)\[/color]#si",
-		"#\[center](.*)\[/center]#si",
-		"#\[b]([^]]*)\[/b]#si",
-		"#\[i]([^]]*)\[/i]#si",
-		"#\[u]([^]]*)\[/u]#si",
-		"#\[img\]([a-z]+?://)([^\r\n\t<\"]*?)\[/img\]#i",
-		"#([0-9a-zA-Z]+?)([0-9a-zA-Z._-]+)@([0-9a-zA-Z_-]+).([0-9a-zA-Z]+)#i",
-		"#\[url\]([a-z]+?://){1}([a-z0-9\-\.,\?!%\*_\#:;~\\&$@\/=\+\(\)]+)\[/url\]#si",
-		"#\[url\]([a-z0-9\-\.,\?!%\*_\#:;~\\&$@\/=\+\(\)]+)\[/url\]#si",
-		"#\[url=([a-z]+?://){1}([a-z0-9\-\.,\?!%\*_\#:;~\\&$@\/=\+\(\)]+)\](.*?)\[/url\]#si",
-		"#\[url=([a-z0-9\-\.,\?!%\*_\#:;~\\&$@\/=\+\(\)]+)\](.*?)\[/url\]#si",
-		"#\[(swf|flash) width=([0-9]+?) height=([0-9]+?)\]([a-z]+?://){1}([a-z0-9\-\.,\?!%\*_\#:;~\\&$@\/=\+\(\)]+).swf\[\/(swf|flash)\]#si",
-		"#\[video\](([a-z]+?)://([^, \n\r]+))\[/video\]#si"
-	);
 	
-	$bbcode_replace = array(
-		"<span style=\"font-size: \\1px;\">\\2</span>",
-		"<span style=\"color: \\1\">\\2</span>",
-		"<div style=\"text-align: center\">\\1</div>",
-		"<strong>\\1</strong>",
-		"<span style=\"font-style: italic\">\\1</span>",
-		"<span style=\"text-decoration:underline\">\\1</span>",
-		"<img src=\"\\1\\2\" alt=\"\\1\\2\" />",
-		"<a href=\"mailto:\\1\\2@\\3.\\4\">\\1\\2@\\3.\\4</a>",
-		"<a href=\"\\1\\2\">\\1\\2</a>",
-		"<a href=\"http://\\1\">\\1</a>",
-		"<a href=\"\\1\\2\">\\3</a>",
-		"<a href=\"http://\\1\">\\2</a>",
-		"<object type=\"application/x-shockwave-flash\" width=\"\\1\" height=\"\\2\" data=\"\\3.swf\"><param name=\"movie\" value=\"\\3.swf\" /></object>",
-		"<object type=\"video/x-ms-asf-plugin\" data=\"\\1\" width=\"320\" height=\"320\">\n<param name=\"src\" value=\"\\1\" />\n<param name=\"autoplay\" value=\"false\" />\n<param name=\"loop\" value=\"false\" />\n</object>"
-	);
-	$fichier = preg_replace($bbcode_search, $bbcode_replace, $fichier);
-
-	return nl2br($fichier);
+	return nl2br(bbcode_exec($fichier));
 }
 
 // liste des smilies
-function liste_smilies($show, $tpl_ou='', $limite=-1)
+function liste_smilies_bbcode($show, $tpl_ou='', $limite=-1)
 {
 	global $config, $rsql, $template, $root_path, $langue;
+	require_once($root_path.'conf/bbcode.php');
 	if (!isset($config['smilies_liste']))
 	{
 		$sql = "SELECT * FROM `".$config['prefix']."smilies`";
@@ -333,6 +293,9 @@ function liste_smilies($show, $tpl_ou='', $limite=-1)
 	{
 		return true;
 	}
+	// affiche les bouttons du bbcode
+	bbcode_build_bt();
+	
 	// on fait la liste des smilies ... si il en a !!!
 	if (isset($config['smilies_liste']) && is_array($config['smilies_liste']))
 	{
@@ -376,9 +339,26 @@ function liste_smilies($show, $tpl_ou='', $limite=-1)
 // en cas d'erreur sql
 function sql_error($requete, $erreur, $line, $file) 
 { 
-	global $config, $root_path, $langue, $session_cl;
+	global $config, $root_path, $langue, $session_cl, $rsql, $page_frame_admin, $page_frame, $debut, $inscription;
+	// rapport_error est là pour les mise à jours et autre pour ne pas arreter le script en cas d'erreur
+	// et non pour ne pas envoyé l'erreur !!!
 	if ( $config['raport_error'] == 1 )
 	{
+		// il a une erreur !!!, on coupe le system et on vérifie qu'il a le header et le pied de page
+		//detection si il a déja eu un header et si oui, le quelle (afmin/user)
+		if (isset($page_frame_admin))
+		{
+			$inclure = 'admin';
+		}
+		elseif (isset($page_frame))
+		{
+			$inclure = 'user';
+		}
+		else
+		{
+			require($root_path.'conf/frame.php');
+			$inclure = 'user';
+		}
 		$template = new Template($root_path.'templates/'.$session_cl['skin']);
 		$template->set_filenames( array('sql' => 'msg.tpl'));
 		$template->assign_block_vars('sql', array( 
@@ -419,6 +399,34 @@ function sql_error($requete, $erreur, $line, $file)
 			fwrite($log, $config['current_time'].'|*|'.$requete.'|*|'.$erreur.'|*|'.$file.'|*|'.$line.'|*|'.$config['site_domain'].$config['site_path'].'|*|'.$config['version'].chr(10));
 			fclose($log);
 		}
+		if ($inclure == 'admin')
+		{
+			$template = new Template($root_path.'templates/'.$session_cl['skin']);
+			$template->set_filenames( array('foot_admin' => 'bas_de_page_admin.tpl'));
+			$template->assign_vars(array(
+				'VERSION' => $config['version'],
+				'COPYRIGHT' =>  sprintf($langue['copyright'], $config['version']),
+			));
+			$rsql->mysql_deconnection();
+			$template->assign_block_vars('admin', array( 
+				'TIME_EXECUT_NBR_SQL' =>  sprintf($langue['exec_time_rsql'], getmicrotime() - $debut, $rsql->nb_req)
+			));
+			$template->pparse('foot_admin');
+		}
+		else
+		{
+			$template = new Template($root_path.'templates/'.$session_cl['skin']);
+			$template->set_filenames( array('foot' => 'bas_de_page.tpl'));
+			if (!empty($session_cl['pouvoir_particulier']) && $session_cl['pouvoir_particulier'] == 'admin')
+			{
+				$rsql->mysql_deconnection();
+				$template->assign_block_vars('admin', array( 
+					'TIME_EXECUT_NBR_SQL' =>  sprintf($langue['exec_time_rsql'], getmicrotime() - $debut, $rsql->nb_req),
+				));
+			}
+			$template->pparse('foot');
+		}
+		exit();
 	}
 } 
 
@@ -434,7 +442,7 @@ function secu_level_test($level_page)
 	global $user_pouvoir, $session_cl;
 	if ( (empty($level_page) || $user_pouvoir[$level_page] != 'oui') && $session_cl['pouvoir_particulier'] != 'admin')
 	{
-		secu($_SERVER['PHP_SELF']);
+		secu($_SERVER['REQUEST_URI']);
 	}
 }
 

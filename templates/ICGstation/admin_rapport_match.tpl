@@ -1,3 +1,22 @@
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+	function actu_point()
+	{
+		var pt_nous = 0;
+		var pt_eux = 0;
+		<!-- BEGIN liste_map -->
+		pt_nous += Number(trouve('pt_nous[{liste_map.ID}]').value);
+		pt_eux += Number(trouve('pt_eux[{liste_map.ID}]').value);
+		<!-- END liste_map -->
+		<!-- BEGIN liste_map_last -->
+		pt_nous += Number(trouve('pt_nous[{liste_map_last.ID}]').value);
+		pt_eux += Number(trouve('pt_eux[{liste_map_last.ID}]').value);
+		<!-- END liste_map_last -->
+		trouve('score_clan').value = pt_nous;
+		trouve('score_mechant').value = pt_eux;
+	}
+//--><!]]>
+</script>
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
 	<div class="big_cadre">
@@ -28,6 +47,20 @@
 				<span><input name="del_match" type="checkbox" id="del_match" value="oui" {CHECKED} /></span>
 			</p>
 			<p>
+				<span>
+					<label for="class">{TXT_MATCH_CLASS}&nbsp;:</label>
+				</span>
+				<span>
+					<input name="class" type="text" id="class" value="{CLASS}" onblur="formverif(this.id,'nbr','3')" />
+					<select name="pre-class" id="pre-class" onchange="trouve('class').value = this.value;">
+						<option value="">{CHOISIR_CLASS}</option>
+						<!-- BEGIN liste_class -->
+						<option value="{liste_class.VALEUR}">{liste_class.VALEUR}</option>
+						<!-- END liste_class -->
+					</select> ({OPTIONNEL})
+				</span>
+			</p>
+			<p>
 				<span><label for="jj">{DATE}&nbsp;:</label></span>
 				<span><input name="jj" type="text" id="jj" value="{JJ}" size="2" onblur="formverif(this.id,'chiffre','31')" />/<input name="mm" type="text" id="mm" value="{MM}" size="2" onblur="formverif(this.id,'chiffre','12')" />/<input name="aaaa" type="text" id="aaaa" value="{AAAA}" size="4" onblur="formverif(this.id,'chiffre','')" /></span>
 			</p>
@@ -50,8 +83,8 @@
 								<option value="{liste_map.map_select.ID}" {liste_map.map_select.SELECTED}>{liste_map.map_select.VALEUR}</option> 
 								<!-- END map_select --> 
 							</select><br />
-							{PT_NOUS} : <input name="pt_nous[{liste_map.ID}]" type="text" id="pt_nous[{liste_map.ID}]" onblur="formverif(this.id,'chiffre','')" value="{liste_map.PT_NOUS}" size="4" maxlength="4" />
-							{PT_EUX} : <input name="pt_eux[{liste_map.ID}]" type="text" id="pt_eux[{liste_map.ID}]" value="{liste_map.PT_EUX}" onblur="formverif(this.id,'chiffre','')" size="4" maxlength="4" />
+							{PT_NOUS} : <input name="pt_nous[{liste_map.ID}]" type="text" id="pt_nous[{liste_map.ID}]" onblur="formverif(this.id,'chiffre','');actu_point();" value="{liste_map.PT_NOUS}" size="4" maxlength="4" />
+							{PT_EUX} : <input name="pt_eux[{liste_map.ID}]" type="text" id="pt_eux[{liste_map.ID}]" value="{liste_map.PT_EUX}" onblur="formverif(this.id,'chiffre','');actu_point();" size="4" maxlength="4" />
 						</li>
 						<!-- END liste_map -->
 						<!-- BEGIN liste_map_last -->
@@ -62,8 +95,8 @@
 								<option value="{liste_map_last.map_select.ID}" {liste_map_last.map_select.SELECTED}>{liste_map_last.map_select.VALEUR}</option> 
 								<!-- END map_select --> 
 							</select><br />
-							{PT_NOUS} : <input name="pt_nous[{liste_map_last.ID}]" type="text" id="pt_nous[{liste_map_last.ID}]" onblur="formverif(this.id,'chiffre','')" value="{liste_map_last.PT_NOUS}" size="4" maxlength="4" />
-							{PT_EUX} : <input name="pt_eux[{liste_map_last.ID}]" type="text" id="pt_eux[{liste_map_last.ID}]" value="{liste_map_last.PT_EUX}" onblur="formverif(this.id,'chiffre','')" size="4" maxlength="4" /><br />
+							{PT_NOUS} : <input name="pt_nous[{liste_map_last.ID}]" type="text" id="pt_nous[{liste_map_last.ID}]" onblur="formverif(this.id,'chiffre','');actu_point();" value="{liste_map_last.PT_NOUS}" size="4" maxlength="4" />
+							{PT_EUX} : <input name="pt_eux[{liste_map_last.ID}]" type="text" id="pt_eux[{liste_map_last.ID}]" value="{liste_map_last.PT_EUX}" onblur="formverif(this.id,'chiffre','');actu_point();" size="4" maxlength="4" /><br />
 							<input type="submit" name="add_map" value="{liste_map_last.ADD}" /><input type="submit" name="dell_map" value="{liste_map_last.DELL}" />
 						</li>
 						<!-- END liste_map_last -->
@@ -74,7 +107,12 @@
 				<span><label for="information">{DETAILS}&nbsp;:</label></span>
 			</p>
 			<p>
-		  <div class="smilies">
+				<div class="bt-bbcode">
+					<!-- BEGIN bt_bbcode_liste -->
+					<input type="button" onmouseup="bbcode_insert('{bt_bbcode_liste.START}','{bt_bbcode_liste.END}', 'information');" title="{bt_bbcode_liste.HELP}"  value="{bt_bbcode_liste.INDEX}" />
+					<!-- END bt_bbcode_liste -->				
+				</div>
+				<div class="smilies">
 					<!-- BEGIN poste_smilies_liste -->
 					<a href="javascript:emoticon('{poste_smilies_liste.TXT}','information')"><img src="{poste_smilies_liste.IMG}" alt="{poste_smilies_liste.ALT}" width="{poste_smilies_liste.WIDTH}"  height="{poste_smilies_liste.HEIGHT}" /></a>
 					<!-- BEGIN more -->
@@ -86,7 +124,7 @@
 					</div>
 					<!-- END more -->
 					<!-- END poste_smilies_liste -->
-		  </div>
+				</div>
 				<div class="big_texte"><textarea name="information" cols="40" rows="10" id="information" onblur="formverif(this.id,'nbr','10')">{INFO}</textarea></div>
 			</p>
 			<p>
@@ -121,6 +159,8 @@
 	<div class="big_cadre">
 		<h1>{TITRE_LISTE}</h1>
 		<div class="news">
+		<!-- BEGIN class -->
+		<h2>{class.TITRE}</h2>
 			<table class="table">
 				<thead>
 					<tr>
@@ -134,21 +174,22 @@
 				<tbody>
 					<!-- BEGIN liste -->
 					<tr>
-						<td>{liste.DATE}</td>
-						<td>{liste.CLAN} -- {liste.SECTION}</td>
-						<td>{liste.SCORE_MECHANT} -- {liste.SCORE_NOUS}</td>
-						<td>{liste.INFO}</td>
+						<td>{class.liste.DATE}</td>
+						<td>{class.liste.CLAN} -- {class.liste.SECTION}</td>
+						<td>{class.liste.SCORE_MECHANT} -- {class.liste.SCORE_NOUS}</td>
+						<td>{class.liste.INFO}</td>
 						<td>
 							<form method="post" action="{ICI}">
-								<input name="supprimer" type="submit" id="Supprimer" value="{liste.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" />
-								<input name="id" type="hidden" id="id" value="{liste.ID}" />
-								<input name="Editer" type="submit" id="Editer" value="{liste.EDITER}" />
+								<input name="supprimer" type="submit" id="Supprimer" value="{class.liste.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" />
+								<input name="id" type="hidden" id="id" value="{class.liste.ID}" />
+								<input name="Editer" type="submit" id="Editer" value="{class.liste.EDITER}" />
 							</form>
 						</td>
 					</tr>
 					<!-- END liste -->
 				</tbody>
 			</table>
+			<!-- END class -->
 		</div>
 	</div>
 </div>

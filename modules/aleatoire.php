@@ -107,7 +107,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_aléatoire_modu
 	require($root_path.'conf/frame_admin.php');
 	$template = new Template(find_module_tpl('aléatoire.tpl', true));
 	$template->set_filenames( array('body_module' => 'aléatoire.tpl'));
-	liste_smilies(true, '', 25);
+	liste_smilies_bbcode(true, '', 25);
 	$template->assign_vars( array(
 		'ICI' => session_in_url('aleatoire.php'),
 		'ID_MODULE' => $id_module,

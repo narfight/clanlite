@@ -13,7 +13,7 @@ $root_path = './';
 $action_membre= 'where_login';
 require($root_path.'conf/template.php');
 require($root_path.'conf/conf-php.php');
-if (!empty($session_cl['user']))
+if (isset($session_cl['user']) && !isset($_GET['goto']))
 {
 	redirection($root_path.'user/index.php');
 }

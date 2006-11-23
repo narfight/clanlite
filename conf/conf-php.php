@@ -91,7 +91,7 @@ if (!empty($_COOKIE['auto_connect']) && (empty($session_cl['user']) || empty($se
 
 if(!empty($session_cl['user']) && !empty($session_cl['psw']))
 { 
-	$sql = "SELECT a.id, a.nom, a.section, a.langue, a.psw, a.user, a.mail, a.pouvoir, b.*, a.sex, a.time_zone, a.heure_ete FROM ".$config['prefix']."user AS a LEFT JOIN ".$config['prefix']."pouvoir AS b ON b.user_id = a.id WHERE a.user ='".$session_cl['user']."' AND a.psw ='".$session_cl['psw']."'";
+	$sql = "SELECT a.id, a.nom, a.section, a.langue, a.psw, a.user, a.mail, a.pouvoir, b.*, a.sex, a.time_zone, a.heure_ete, section.limite AS limite_match FROM ".$config['prefix']."user AS a LEFT JOIN ".$config['prefix']."pouvoir AS b ON b.user_id = a.id LEFT JOIN ".$config['prefix']."section AS section ON a.section = section.id WHERE a.user ='".$session_cl['user']."' AND a.psw ='".$session_cl['psw']."'";
 	if (!($rsql->requete_sql($sql, 'site', 'Vérifie que le cookies est valide')))
 	{
 		die('Erreur dans la demande des information d\'un membre pour la session : '.$rsql->error);
@@ -104,6 +104,7 @@ if(!empty($session_cl['user']) && !empty($session_cl['psw']))
 		$session_cl['nom'] = $infouser['nom'];
 		$session_cl['mail'] = $infouser['mail'];
 		$session_cl['section'] = $infouser['section'];
+		$session_cl['limite_match'] = $infouser['limite_match'];
 		$session_cl['langue_user'] = (!empty($session_cl['langue_user']))? $session_cl['langue_user'] : $infouser['langue'];
 		$session_cl['correction_heure'] = (3600*$infouser['heure_ete']*date('I'))+(3600*$infouser['time_zone']);
 		$session_cl['pouvoir_particulier'] = $infouser['pouvoir'];
