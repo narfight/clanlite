@@ -21,11 +21,11 @@
 	<h1>{teamspeak_connection_config.TITRE}</h1>
 		<p>
 			<span><label for="ip_vocal">{teamspeak_connection_config.TXT_IP}&nbsp;:</label></span>
-			<span><input name="ip_vocal" type="text" id="ip_vocal" value="{teamspeak_connection_config.IP}" onBlur="formverif(this.id,'nbr','3')"></span>
+			<span><input name="ip_vocal" type="text" id="ip_vocal" value="{teamspeak_connection_config.IP}" onblur="formverif(this.id,'nbr','3')"></span>
 		</p>
 		<p>
 			<span><label for="port_vocal">{teamspeak_connection_config.TXT_PORT}&nbsp;:</label></span>
-			<span><input name="port_vocal" type="text" id="port_vocal" value="{teamspeak_connection_config.PORT}" onBlur="formverif(this.id,'chiffre','')"></span>
+			<span><input name="port_vocal" type="text" id="port_vocal" value="{teamspeak_connection_config.PORT}" onblur="formverif(this.id,'chiffre','')"></span>
 		</p>
 		<p>
 			<span>

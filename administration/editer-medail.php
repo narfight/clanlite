@@ -5,8 +5,8 @@
 $root_path = './../';
 $action_membre= 'where_medaille';
 $niveau_secu = 7;
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if ( !empty($_POST['Submit']) )
 {
@@ -25,7 +25,7 @@ if (! ($get = $rsql->requete_sql($sql)) )
 }
 if ($recherche = $rsql->s_array($get))
 {
-	$template = new Template($root_path."templates/".$config['skin']);
+	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('body' => 'admin_medail.tpl'));
 	// on affiche ou pas la medaille, si il a ou pas
 	$medail=explode(",", $recherche['medail']);

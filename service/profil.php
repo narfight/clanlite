@@ -4,10 +4,10 @@
 // -------------------------------------------------------------
 $root_path = './../';
 $action_membre= 'where_profil';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
-include($root_path."conf/frame.php");
-$template = new Template($root_path."templates/".$config['skin']);
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
+include($root_path.'conf/frame.php');
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'profile.tpl'));
 $sql = "SELECT user.*,user.nom AS user_nom, equipe.nom AS equipe_nom, section.nom AS section_nom, grade.nom AS grade_nom FROM ".$config['prefix']."user AS user LEFT JOIN ".$config['prefix']."section AS section ON section.id = user.section LEFT JOIN ".$config['prefix']."équipe as equipe ON equipe.id = user.equipe LEFT JOIN ".$config['prefix']."grades as grade ON grade.id = user.grade WHERE user.id = '".$_GET['link']."'";
 if (! ($get_p = $rsql->requete_sql($sql)) )
@@ -37,7 +37,7 @@ if ( ($profil = $rsql->s_array($get_p)) )
 		'TXT_WEB' => $langue['site_web'],
 		'TEXT' => $profil['cri'],
 		'TXT_TEXT' => $langue['cri_guerre'],
-		'LASTCONNECT' => date("j/n/Y", $profil['last_connect']),
+		'LASTCONNECT' => date('j/n/Y', $profil['last_connect']),
 		'TXT_LASTCONNECT' => $langue['last_connection'],
 		'PRENOM' => $profil['prénom'],
 		'TXT_PRENOM' => $langue['prenom'],
@@ -76,7 +76,11 @@ if ( ($profil = $rsql->s_array($get_p)) )
 		$boucle++;
 		if (!empty($medail[$boucle]))
 		{
-			$template->assign_block_vars('nombre_md_titre', array('NOMBRE_MD' => $nombre_md));
+			$taille = getimagesize($root_path.'images/medailles/medaille'.$nombre_md.'.gif');
+			$template->assign_block_vars('nombre_md_titre', array(
+				'NOMBRE_MD' => $nombre_md,
+				'TAILLE' => $taille[3],
+			));
 		}
 	}
 }
@@ -85,5 +89,5 @@ else
 	msg('erreur', $langue['erreur_profil_no_found']);
 }
 $template->pparse('body');
-include($root_path."conf/frame.php");
+include($root_path.'conf/frame.php');
 ?>

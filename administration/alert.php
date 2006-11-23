@@ -5,8 +5,8 @@
 $root_path = './../';
 $niveau_secu = 1;
 $action_membre= 'where_alert';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if ( !empty($_POST['Envoyer']) )
 {
@@ -18,7 +18,7 @@ if ( !empty($_POST['Envoyer']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-		redirec_text("alert.php",$langue['redirection_alert_add'],"admin");
+		redirec_text("alert.php",$langue['redirection_alert_add'],'admin');
 }
 if ( !empty($_POST['Editer']) )
 {
@@ -32,7 +32,7 @@ if ( !empty($_POST['Editer']) )
 	}
 	else
 	{
-		redirec_text("alert.php",$langue['redirection_alert_edit'],"admin");
+		redirec_text("alert.php",$langue['redirection_alert_edit'],'admin');
 	}
 }
 if ( !empty($_POST['dell']) )
@@ -44,11 +44,11 @@ if ( !empty($_POST['dell']) )
 	}
 	else
 	{
-		redirec_text("alert.php",$langue['redirection_alert_dell'],"admin");
+		redirec_text("alert.php",$langue['redirection_alert_dell'],'admin');
 	}
 }
 include($root_path."conf/frame_admin.php");
-$template = new Template($root_path."templates/".$config['skin']);
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_alert.tpl'));
 liste_smilies(true, '', 25);
 $template->assign_vars( array(
@@ -106,7 +106,7 @@ while ($list = $rsql->s_array($get_list))
 	$template->assign_block_vars('liste', array( 
 		'ID' => $list['id'],
 		'DATE' => ($list['date'] == -1)? $langue['opt_auto_dell_desactiver'] : date("j/n/Y à H:i", $list['date']),
-		'TEXT' => nl2br(bbcode($list['info'])), 
+		'TEXT' => bbcode($list['info']), 
 	));
 }
 $template->pparse('body');

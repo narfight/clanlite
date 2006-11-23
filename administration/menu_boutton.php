@@ -5,8 +5,8 @@
 $root_path = './../';
 $niveau_secu = 15;
 $action_membre= 'where_custom_menu';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if ( !empty($_POST['Envoyer']) )
 {
@@ -16,38 +16,38 @@ if ( !empty($_POST['Envoyer']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-		redirec_text("menu_boutton.php",$langue['redirection_custom_menu_add'],"admin");
+		redirec_text("menu_boutton.php",$langue['redirection_custom_menu_add'],'admin');
 }
 if ( !empty($_POST['Editer']) )
 {
 	$_POST = pure_var($_POST);
-	$edit_default = (!empty($_POST['liens_default']))? " ,`default`='".((empty($_POST['activation_non']))? 1 : 0)."' " : ' ';
+	$edit_default = (!empty($_POST['liens_default']))? " ,`default`='".((empty($_POST['activation']) && $_POST['activation'] == 0)? 0 : 1)."' " : ' ';
 	$edit_central = ((empty($_POST['module_central']) && empty($_POST['liens_default']))? "url='".$_POST['url']."', " : '');
 	$edit_liens_default = ((empty($_POST['liens_default']) && empty($_POST['module_central']))? "text='".$_POST['text']."', ": '');
-	echo $sql = "UPDATE `".$config['prefix']."custom_menu` SET ".$edit_liens_default.$edit_central."ordre='".$_POST['ordre']."', bouge='".((empty($_POST['bouge']))? '0' : 1)."', frame='".((empty($_POST['frame']))? 1 : 0)."' ".$edit_default."WHERE id='".$_POST['for']."'";
+	$sql = "UPDATE `".$config['prefix']."custom_menu` SET ".$edit_liens_default.$edit_central."ordre='".$_POST['ordre']."', bouge='".((empty($_POST['bouge']))? '0' : 1)."', frame='".((empty($_POST['frame']))? 1 : 0)."' ".$edit_default."WHERE id='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	else
 	{
-		//redirec_text("menu_boutton.php",$langue['redirection_custom_menu_edit'],"admin");
+		redirec_text("menu_boutton.php",$langue['redirection_custom_menu_edit'],'admin');
 	}
 }
 if ( !empty($_POST['dell']) )
 {
-	$sql = "DELETE FROM `".$config['prefix']."custom_menu` WHERE module_central = 0 AND id ='".$_POST['for']."'";
+	$sql = "DELETE FROM `".$config['prefix']."custom_menu` WHERE module_central != 1 AND `default` ='normal' AND id ='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	else
 	{
-		redirec_text("menu_boutton.php",$langue['redirection_custom_menu_dell'],"admin");
+		redirec_text("menu_boutton.php",$langue['redirection_custom_menu_dell'],'admin');
 	}
 }
 include($root_path."conf/frame_admin.php");
-$template = new Template($root_path."templates/".$config['skin']);
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_boutton.tpl'));
 $template->assign_vars(array( 
 	'TXT_CON_DELL' => $langue['confirm_dell'],

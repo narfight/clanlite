@@ -38,7 +38,7 @@ $langue['recrute_pas'] = "Nous ne sommes pas à la recherche de nouveaux joueurs.
 $langue['alert_ie'] = "[b]Avertissement :[/b] vous affichez cette page avec un navigateur Web non pris en charge. Ce site Web fonctionne de manière optimale avec [url=http://frenchmozilla.org/firefox/pourquoi/]Mozilla FireFox[/url] ou version ultérieure, ou Mozilla 1.6 ou version ultérieure";
 
 $langue['exec_time_rsql'] = "Page exécutée en %fs || %d requêtes sql";
-$langue['copyright'] = "Powered by <a href=\"mailto:narfight@lna.be\">Narfight</a>, <a href=\"http://clanlite.lna.be\" onclick=\"window.open('http://clanlite.lna.be');return false;\">ClanLite</a> V%1\$s © 2000-2004";
+$langue['copyright'] = "Crée par <a href=\"mailto:narfight@clanlite.org\">Narfight</a>, <a href=\"http://www.clanlite.org\" onclick=\"window.open('http://www.clanlite.org');return false;\">ClanLite</a> V%1\$s © 2000-2004";
 $langue['deconect_login'] = "Votre session est férmée<br />Vous ne serez plus automatiquement reconnu par le site à présent";
 
 $langue['where_unknow'] = "Vient de se connecter au site";
@@ -179,6 +179,7 @@ $langue['gametype_serveur_jeux'] = "Type de partie";
 $langue['ip_min_max_serveur_jeux'] = "Votre IP doit être dans une fourchette de";
 $langue['nbr_place_serveur_jeux'] = "Nombre de places sur le serveur";
 $langue['map_serveur_jeux'] = "Map actuelle";
+$langue['alt_img_map_serveur_jeux'] = "aperçu de la map %s";
 $langue['rotation_map_serveur_jeux'] = "Rotation des maps";
 $langue['next_map_serveur_jeux'] = "Prochaine map";
 $langue['info_serveur_jeux'] = "Information supplémentaire";
@@ -232,7 +233,7 @@ $langue['info_entrai'] = "Information publique";
 $langue['info_prive_entrai'] = "Information privée";
 
 $langue['admin_news_cl_titre'] = "Mise à jours de ClanLite";
-$langue['admin_news_cl_on'] = "Une nouvelle version de Clan Lite est disponible<br />( votre version: %1\$s, version disponible: %2\$s )";
+$langue['admin_news_cl_on'] = "Une nouvelle version de Clanlite est disponible<br />( votre version: %1\$s, version disponible: %2\$s )";
 $langue['admin_news_cl_off'] = "Recherche désactivée";
 $langue['admin_news_cl_toggle'] = "Activer/Désactiver la détection de nouvelle mise à jours";
 
@@ -299,6 +300,8 @@ $langue['module_last_match_affiche_info'] = "Voir/cacher le résumer";
 $langue['where_module_serveur_game'] = "Gère le module serveur de jeux";
 $langue['titre_module_serveur_game'] = "Serveur de jeux [Module]";
 $langue['clanserveur_module_serveur_game'] = "Serveur du clan";
+$langue['image_map_module_serveur_game'] = "Afficher la map qui tourne sur le serveur";
+$langue['liste_module_serveur_game'] = "Afficher la liste des joueurs";
 $langue['redirection_module_serveur_game_edit'] = "Le serveur de jeux à afficher a été changé";
 
 $langue['titre_newsletter'] = "Newsletter";
@@ -314,10 +317,10 @@ $langue['server_teamspeak_webpost'] = "Serveur Teamspeak qui envoit des infos";
 $langue['where_cl_module_webpost'] = "Regarde un Webpost";
 $langue['titre_module_webpost'] = "TeamSpeak Webpost [Module]";
 $langue['module_webpost_titre_aide'] = "Configurer le serveur TeamSpeak";
-$langue['module_webpost_txt_aide'] = "Dans l'administration web de votre serveur TeamSpeak, dirigez-vous sur \"Server settings\" et remplicez le champ \"Server WebPost PostUrl\" comme ceci : %s<br />\nL'affichage serra actualisé toutes les 5minutes par le serveur si il est bien configurer";
+$langue['module_webpost_txt_aide'] = "Dans l'administration web de votre serveur TeamSpeak, dirigez-vous sur \"Server settings\" et remplissez le champ \"Server WebPost PostUrl\" comme ceci : %s<br />\nL'affichage serra actualisé toutes les 5minutes par le serveur si il est bien configuré";
 $langue['erreur_webpost_bad_port'] = "Le serveur TeamSpeak dit que votre serveur n'existe pas, vérifiez votre port";
 $langue['erreur_webpost_no_reply'] = "Le serveur TeamSpeak ne répond pas, vérifiez votre IP";
-$langue['module_webpost_add'] = "Attendez quelques minutes pour que le serveur envoit les informations de bases";
+$langue['module_webpost_add'] = "Attendez quelques minutes pour que le serveur envoi les informations de bases";
 
 // partie administration de CL
 $langue['prive_titre_page'] = "Partie privée du site";
@@ -561,6 +564,7 @@ $langue['pv_num_22'] = "Supprimer un membre";
 $langue['pv_num_23'] = "Gestion des smilies";
 $langue['pv_num_24'] = "Envois mail de masse";
 $langue['redirection_pouvoir_edit'] = "les pouvoirs ont été mis a jours, vous allez etre rediriger sur la liste des membres";
+$langue['erreur_admin_and_pouvoir'] = "Vous ne pouvez pas changer les pouvoirs d'un administrateur. Changez le niveau de cet utilisateur avant d'editer ses pouvoir";
 
 $langue['where_admin_rapport_match'] = "Est dans l'administration des rapports de match";
 $langue['titre_admin_rapport_match'] = "Les rapports de match";

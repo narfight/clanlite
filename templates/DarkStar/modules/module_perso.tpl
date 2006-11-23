@@ -18,7 +18,7 @@
 				<!-- END more -->
 				<!-- END poste_smilies_liste -->
 			</div>
-			<div class="big_texte"><textarea name="contenu" cols="40" rows="10" id="contenu" onBlur="formverif(this.id,'nbr','10')">{CONTENU}</textarea></div>
+			<div class="big_texte"><textarea name="contenu" cols="40" rows="10" id="contenu" onblur="formverif(this.id,'nbr','10')">{CONTENU}</textarea></div>
 		</p>
 		<p>
 			<span>

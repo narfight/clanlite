@@ -5,8 +5,8 @@
 $root_path = './../';
 $niveau_secu = 12;
 $action_membre = 'where_admin_smilies';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if (!empty($_POST['envoyer']))
 { 
@@ -17,7 +17,7 @@ if (!empty($_POST['envoyer']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("smilies.php", $langue['redirection_admin_smilies_add'], "admin");
+	redirec_text("smilies.php", $langue['redirection_admin_smilies_add'], 'admin');
 }
 if (!empty($_POST['envois_edit']))
 {
@@ -28,7 +28,7 @@ if (!empty($_POST['envois_edit']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("smilies.php", $langue['redirection_admin_smilies_edit'], "admin");
+	redirec_text("smilies.php", $langue['redirection_admin_smilies_edit'], 'admin');
 }
 if (!empty($_POST['Supprimer']))
 {
@@ -37,10 +37,10 @@ if (!empty($_POST['Supprimer']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("smilies.php", $langue['redirection_admin_smilies_dell'], "admin");
+	redirec_text("smilies.php", $langue['redirection_admin_smilies_dell'], 'admin');
 }
 include($root_path."conf/frame_admin.php");
-$template = new Template($root_path."templates/".$config['skin']);
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_smilies.tpl'));
 $template->assign_vars( array(
 	'TXT_CON_DELL' => $langue['confirm_dell'],

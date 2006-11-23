@@ -37,21 +37,24 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_p_centra
 	$root_path = './../';
 	$action_membre= 'where_module_module_custom';
 	$niveau_secu = 16;
-	include($root_path."conf/template.php");
-	include($root_path."conf/conf-php.php");
+	include($root_path.'conf/template.php');
+	include($root_path.'conf/conf-php.php');
 	include($root_path."controle/cook.php");
 	$id_module = (!empty($_POST['id_module']))? $_POST['id_module'] : $_GET['id_module'];
 	if ( !empty($_POST['Submit_module_p_centrale']) )
 	{
-		$sql = "UPDATE ".$config['prefix']."modules SET config='".serialize(array('contenu' => $_POST['contenu'], 'titre' => $_POST['titre']))."' WHERE id ='".$id_module."'";
+		$_POST = pure_var($_POST, 'total');
+		$serialisation = pure_var(serialize(array('contenu' => $_POST['contenu'], 'titre' => $_POST['titre'])), 'del', true);
+		$_POST = pure_var($_POST, 'del', true);
+		$sql = "UPDATE ".$config['prefix']."modules SET config='".$serialisation."' WHERE id ='".$id_module."'";
 		if (! ($rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
-		redirec_text($root_path."administration/modules.php" ,$langue['redirection_module_custom_edit'], "admin");
+		//redirec_text($root_path."administration/modules.php" ,$langue['redirection_module_custom_edit'], 'admin');
 	}
 	include($root_path."conf/frame_admin.php");
-	$template = new Template($root_path."templates/".$config['skin']);
+	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('body' => 'modules/module_perso_central.tpl'));
 	liste_smilies(true, '', 25);
 	$sql = "SELECT config FROM ".$config['prefix']."modules WHERE id ='".$id_module."'";
@@ -78,9 +81,9 @@ if (!empty($_GET['from']))
 {
 	$root_path = './../';
 	$action_membre = 'where_module_central';
-	include($root_path."conf/template.php");
-	include($root_path."conf/conf-php.php");
-	include($root_path."conf/frame.php");
+	include($root_path.'conf/template.php');
+	include($root_path.'conf/conf-php.php');
+	include($root_path.'conf/frame.php');
 	$template->set_filenames(array('body' => 'divers_text.tpl'));
 	$sql = "SELECT config FROM ".$config['prefix']."modules WHERE id ='".intval($_GET['from'])."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
@@ -91,9 +94,9 @@ if (!empty($_GET['from']))
 	$recherche = unserialize($recherche['config']);
 	$template->assign_vars(array(
 		'TITRE' => $recherche['titre'],
-		'TEXTE' => nl2br(bbcode($recherche['contenu'], true)),
+		'TEXTE' => bbcode($recherche['contenu'], false),
 	));
 	$template->pparse('body');
-	include($root_path."conf/frame.php"); 
+	include($root_path.'conf/frame.php'); 
 }
 ?>

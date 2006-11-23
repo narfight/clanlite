@@ -1,28 +1,28 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-	<form method="post" action="match.php"> 
+	<form method="post" action="match.php">
 		<div class="big_cadre">
 			<h1>{TITRE_GESTION}</h1>
 			<p>
 				<span><label for="clan">{TXT_CONTRE}&nbsp;:</label></span>
-				<span><input name="clan" id="clan" type="text" value="{TEAM_ADV}" onBlur="formverif(this.id,'nbr','2')" /></span>
+				<span><input name="clan" id="clan" type="text" value="{TEAM_ADV}" onblur="formverif(this.id,'nbr','2')" /></span>
 			</p>
 			<p>
 				<span><label for="date1">{TXT_DATE}&nbsp;:</label></span>
-				<span><input name="date1" id="date1" type="text" value="{JOURS}" size="2" maxlength="2"onBlur="formverif(this.id,'chiffre','31')" />/<input name="date2" id="date2" type="text" value="{MOIS}" size="2" maxlength="2"onBlur="formverif(this.id,'chiffre','12')" />/<input name="date3" id="date3" type="text" value="{ANNEE}" size="4" maxlength="4"onBlur="formverif(this.id,'chiffre','')" /></span>
+				<span><input name="date1" id="date1" type="text" value="{JOURS}" size="2" maxlength="2"onblur="formverif(this.id,'chiffre','31')" />/<input name="date2" id="date2" type="text" value="{MOIS}" size="2" maxlength="2"onblur="formverif(this.id,'chiffre','12')" />/<input name="date3" id="date3" type="text" value="{ANNEE}" size="4" maxlength="4"onblur="formverif(this.id,'chiffre','')" /></span>
 			</p>
 			<p>
 				<span><label for="heure_match">{TXT_HEURE}&nbsp;:</label></span>
-				<span><input name="heure_match" id="heure_match" type="text" value="{HH}" size="2" maxlength="2" onBlur="formverif(this.id,'chiffre','24')" />H<input name="minute_match" id="minute_match" type="text" value="{MM}" size="2" maxlength="2" onBlur="formverif(this.id,'chiffre','60')" /></span>
+				<span><input name="heure_match" id="heure_match" type="text" value="{HH}" size="2" maxlength="2" onblur="formverif(this.id,'chiffre','24')" />H<input name="minute_match" id="minute_match" type="text" value="{MM}" size="2" maxlength="2" onblur="formverif(this.id,'chiffre','60')" /></span>
 			</p>
 			<p>
 				<span><label for="heure_msn">{TXT_HEURE_CHAT}&nbsp;:</label></span>
-				<span><input name="heure_msn" id="heure_msn" type="text" value="{HEURE_CHAT}" onBlur="formverif(this.id,'nbr','2')" /></span>
+				<span><input name="heure_msn" id="heure_msn" type="text" value="{HEURE_CHAT}" onblur="formverif(this.id,'nbr','2')" /></span>
 			</p>
 			<p>
 				<span><label for="section">{TXT_SECTION}&nbsp;:</label></span>
 				<span>
-					<select name="section" id="section" onBlur="formverif(this.id,'change','-1')"> 
+					<select name="section" id="section" onblur="formverif(this.id,'change','-1')"> 
 					<option value="-1">{CHOISIR}</option> 
 					<option value="0" {SELECTED_ALL}>{ALL_SECTION}</option> 
 					<!-- BEGIN section --> 
@@ -33,7 +33,7 @@
 			</p>
 			<p>
 				<span><label for="joueur">{TXT_NBR_JOUEUR}&nbsp;:</label></span>
-				<span><input name="joueur" id="joueur" type="text" value="{NOMBRE_J}" size="2" maxlength="2" onBlur="formverif(this.id,'nbr','2')" /></span>
+				<span><input name="joueur" id="joueur" type="text" value="{NOMBRE_J}" size="2" maxlength="2" onblur="formverif(this.id,'nbr','2')" /></span>
 			</p>
 			<p>
 				<span><label for="infoe">{TXT_DETAILS}&nbsp;:</label></span>
@@ -52,7 +52,7 @@
 					<!-- END more -->
 					<!-- END poste_smilies_liste -->
 				</div>
-				<div class="big_texte"><textarea name="infoe" cols="40" rows="10" id="infoe" onBlur="formverif(this.id,'nbr','10')">{INFO}</textarea></div>
+				<div class="big_texte"><textarea name="infoe" cols="40" rows="10" id="infoe" onblur="formverif(this.id,'nbr','10')">{INFO}</textarea></div>
 			</p>
 			<p>
 				<span>
@@ -113,4 +113,3 @@
 		</div>
 	</div>
 </div>
-

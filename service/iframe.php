@@ -4,11 +4,11 @@
 // -------------------------------------------------------------
 $root_path = './../';
 $action_membre= 'where_iframe';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 
-include($root_path."conf/frame.php");
-$template = new Template($root_path."templates/".$config['skin']);
+include($root_path.'conf/frame.php');
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'iframe.tpl'));
 // requette sql
 $sql = "SELECT url, text FROM ".$config['prefix']."custom_menu WHERE id ='".$_GET['id']."'";
@@ -27,5 +27,5 @@ else
 	msg('erreur', $langue['frame_erreur_id']);
 }
 $template->pparse('body');
-include($root_path."conf/frame.php");
+include($root_path.'conf/frame.php');
 ?>

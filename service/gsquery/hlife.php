@@ -25,70 +25,69 @@
  *
  */
 
-
-include_once("gsQuery.php");
+require_once GSQUERY_DIR . 'quake.php';
 
 /**
  * @brief Querys a halflife server
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: hlife.php,v 1.14 2004/06/01 06:23:15 jr Exp $
- * @bug negative scores are not shown correctly 
- * @todo extract time field out of the player data
-
+ * @version $Id: hlife.php,v 1.18 2004/08/12 19:14:47 jr Exp $
+ *
  * Code is very ugly at the moment.
  * Does anyone have the protocol specs?<br>
  *
- * This class works with Halflife only. 
+ * This class works with Halflife only.
  */
-class hlife extends gsQuery
+class hlife extends quake
 {
   function getGameJoinerURI()
   {
-    return "gamejoin://hlife@". $this->address .":". $this->hostport ."/". $this->gametype;
+    return 'gamejoin://hlife@'. $this->address .':'. $this->hostport .'/'. $this->gametype;
   }
 
-  function query_server($protocol="gsqp",$getPlayers=TRUE,$getRules=TRUE)
-  {      
-    $this->playerkeys=array();
-    $this->debug=array();
-    $this->password=-1;
-            
+  function query_server($getPlayers=TRUE,$getRules=TRUE)
+  {     
+    // flushing old data if necessary
+    if($this->online) {
+      $this->_init();
+    }
+    
     $command="\xFF\xFF\xFF\xFFinfostring\n";
     if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
       return FALSE;
     }
     
+    
     $exploded_data = explode("\\", $result);
     for($i=1;$i<count($exploded_data);$i++) {
       switch($exploded_data[$i++]) {
-      case "address":
+      case 'address':
 	if ($exploded_data[$i] == 'loopback') {
 	  $this->hostport = $this->queryport;
 	} else {
-	  list($ip, $this->hostport) = explode(":", $exploded_data[$i]);
+	  list($ip, $this->hostport) = explode(':', $exploded_data[$i]);
 	}
 	break;
-      case "hostname":
+      case 'hostname':
 	$this->servertitle = $exploded_data[$i];
 	break;
-      case "map":
+      case 'map':
 	$this->mapname = $exploded_data[$i];
 	break;
-      case "players":
+      case 'players':
 	$this->numplayers = $exploded_data[$i];
 	break;
-      case "max":
+      case 'max':
 	$this->maxplayers = $exploded_data[$i];
 	break;
-      case "protocol":
+      case 'protocol':
 	$this->gameversion = ($exploded_data[$i] == 47)? '1.6' : '1.5';
 	break;
-      case "gamedir":
-	$this->gamename = "hlife_" . $exploded_data[$i];
+      case 'gamedir':
+	$this->gamename = 'hlife_' . $exploded_data[$i];
 	$this->gametype = $exploded_data[$i];
 	break;
       }
-    } 
+    }
     
     // get players
     if($this->numplayers && $getPlayers) {
@@ -97,25 +96,31 @@ class hlife extends gsQuery
 	return FALSE;
       }
       
-      $exploded_data = explode("\x00", substr($result, 4, strlen($result)));
-      $players[0]["name"]=substr($exploded_data[0], 3, strlen($exploded_data[0]));
-      $players[0]["score"]=hexdec(bin2hex(substr($exploded_data[1],0,1))); 
-      // correction to signed short (is there a better way in PHP to do that?)
-      if($players[0]["score"]>128) {
-	$players[0]["score"]-=256;
+      // Process Player Data
+      $j=7;  //pointer into player data string.  We start at 7 (past header bytes)
+      $listedplayers=ord($result{5}); // Number of players actually being listed
+      for($i=0;$i<$listedplayers;$i++) {       
+	while($result[$j]!=chr(0)) $players[$i]['name'].=$result[$j++];
+	$j++;
+	$t= ord($result{$j}) | (ord($result{$j+1})<<8) | (ord($result{$j+2})<<16) | (ord($result{$j+3})<<24);
+	$players[$i]['score']=$t;
+	if($players[$i]['score']>128) {
+	  $players[$i]['score']-=256;
+	}
+	
+	$j+=4;
+	$t= unpack('ftime', substr($result, $j, 4));
+	$t= mktime(0, 0, $t['time']);
+	$players[$i]['time'] = date('H:i:s', $t);
+	$j+=5;  
       }
       
-      for($i=1;$i<count($exploded_data);$i++) {
-	if(strlen($exploded_data[$i])>4) {
-	  $players[$i]["name"]=substr($exploded_data[$i], 5, strlen($exploded_data[$i]));
-	  $players[$i]["score"]=hexdec(bin2hex(substr($exploded_data[$i+1],0,1)));
-	}
-      }
-      $this->playerkeys["name"]=TRUE;
-      $this->playerkeys["score"]=TRUE;
+      $this->playerkeys['name']=TRUE;
+      $this->playerkeys['score']=TRUE;
+      $this->playerkeys['time']=TRUE;
       $this->players=$players;
     }
-   $this->gametype = ($this->gametype == 'cstrike') ? $this->gametype.' '.$this->gameversion : $this->gametype;
+    $this->gametype = ($this->gametype == 'cstrike') ? $this->gametype.' '.$this->gameversion : $this->gametype;
     
     // get rules
     $command="\xFF\xFF\xFF\xFFrules\n";
@@ -123,18 +128,37 @@ class hlife extends gsQuery
       return FALSE;
     }
     
+    // rules can be in multiple packets, we have to sort it out
+    // First packet has a 16 byte header, subsequent packet has an 8 byte header.
+    $str="/\xFE\xFF\xFF\xFF/";// packet signature (both first and second start with this)
+    
+    $block=preg_split($str,$result,-1,PREG_SPLIT_NO_EMPTY);
+    
+    $str="/\xFF\xFF\xFF\xFF/"; // first packet signature (only first packet matches this)
+    
+    if(!empty($block[0]) && !empty($block[1])) {
+      if(preg_match($str, $block[0])) {
+	$result = substr($block[0], 12, strlen($block[0])).substr($block[1], 5, strlen($block[1]));      
+      } elseif(preg_match($str, $block[1])) {
+	$result = substr($block[1], 12, strlen($block[1])).substr($block[0], 5, strlen($block[1])).substr($block[0], 5, strlen($block[0]));
+      }
+    } elseif (!empty($block[0])) {
+      $result = substr($block[0], 5, strlen($block[0]));
+    }
+
+
     $exploded_data = explode("\x00", $result);
     $this->password = -1;
 
-    for($i=1;$i<count($exploded_data);$i++) {
+    for($i=0;$i<count($exploded_data);$i++) {
       switch($exploded_data[$i++]) {
-      case "sv_password":
+      case 'sv_password':
 	$this->password=$exploded_data[$i];
 	break;
-      case "amx_nextmap":
+      case 'amx_nextmap':
 	$this->nextmap=$exploded_data[$i];
 	break;
-      case "cm_nextmap":
+      case 'cm_nextmap':
 	$this->nextmap=$exploded_data[$i];
 	break;
       default:
@@ -144,36 +168,9 @@ class hlife extends gsQuery
       }
     }
     $this->online = TRUE;
-    return TRUE; 
+    return TRUE;
   }
-  
-  /**
-   * @brief Sends a rcon command to the game server
-   * 
-   * @param command the command to send
-   * @param rcon_pwd rcon password to authenticate with
-   * @return the result of the command or FALSE on failure
-   */
-  function rcon_query_server($command, $rcon_pwd) 
-  {
-    $get_challenge="\xFF\xFF\xFF\xFFchallenge rcon\n";
-    if(!($challenge_rcon=$this->_sendCommand($this->address,$this->queryport,$get_challenge))) {
-      $this->debug["Command send " . $command]="No challenge rcon received";
-      return FALSE;
-    }
-    if (!ereg('challenge rcon ([0-9]+)', $challenge_rcon)) {
-      $this->debug["Command send " . $command]="No valid challenge rcon received";
-      return FALSE;
-    }
-    $challenge_rcon=substr($challenge_rcon, 19,10);
-    $command="\xFF\xFF\xFF\xFFrcon \"".$challenge_rcon."\" ".$rcon_psw." ".$command."\n";
-    if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
-      $this->debug["Command send " . $command]="No reply received";
-      return FALSE;
-    } else {
-      return substr($result, 5);
-    }
-  }
+ 
 }
 
 ?>

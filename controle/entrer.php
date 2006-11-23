@@ -4,7 +4,7 @@
 // -------------------------------------------------------------
 $root_path = "../";
 include($root_path.'conf/template.php');
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/conf-php.php');
 //on converti son code en md5
 $psw = md5($_POST['psw']);
 $user = $_POST['user'];

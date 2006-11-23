@@ -4,10 +4,10 @@
 // ------------------------------------------------------------- 
 $root_path = "./../";
 $action_membre = 'where_liens';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
-include($root_path."conf/frame.php");
-$template = new Template($root_path."templates/".$config['skin']);
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
+include($root_path.'conf/frame.php');
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'liens.tpl'));
 $template->assign_vars(array( 
 	'TITRE_LIENS' => $langue['titre_liens'],
@@ -29,5 +29,5 @@ while ($info = $rsql->s_array($get))
 	}
 }
 $template->pparse('body');
-include($root_path."conf/frame.php");
+include($root_path.'conf/frame.php');
 ?>

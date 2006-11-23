@@ -86,9 +86,24 @@ input:focus, textarea:focus, select:focus, option:hover
 	position: absolute;
 	visibility: hidden;
 	font-size: 12px;
-	color: #000066;
-	background-color: #9DBBFF;
+	color: #EDEDED;
+	background-color: #848484;
 	border: 1px solid black;
+	z-index: 5;
+}
+
+/* pour le module de matck*/
+.match_null
+{
+	background-color: #FFFFFF;
+}
+.match_win
+{
+	background-color: #00CC00;
+}
+.match_lost
+{
+	background-color: #CC3333;
 }
 
 /* pour quand on survole un div ou on peux cliquer pour afficher des infos, que le sourit change de curseur */
@@ -211,11 +226,14 @@ input:focus, textarea:focus, select:focus, option:hover
 
 /* pour les bloques du centre
 couleur des cadre pour le centre et d'autre endroit */
-.news , .sous-cellule
+.news , .sous-cellule th
 {
 	font-size: 12px;
 	color: #000066;
 	background-color: #B8B4B4;
+	background-image: none;
+	text-align: left;
+	font-weight: normal;
 }
 
 /* definit la couleur des ligne du tableau */
@@ -235,7 +253,7 @@ tr
 }
 
 /* titre dans les bloques du centre */
-.news h2, .table-titre
+.news h2, .table-titre, thead tr
 {
 	margin: 0;
 	font-size: 12px;
@@ -456,103 +474,149 @@ a:link, a:visited
 }
 
 /* pour les couleurs du nom des serveurs de jeux et des nom des joueurs dessus */
-.gsquery-black
-{
-	color:black
-}
-.gsquery-red
-{
-	color:red
-}
-.gsquery-darkgreen
-{
-	color:#006400
-}
-.gsquery-yellow
-{
-	color:yellow
-}
-.gsquery-blue
-{
-	color:blue
-}
-.gsquery-cyan
-{
-	color:#00FFFF
-}
-.gsquery-pink
-{
-	color:#FFC0CB
-}
-.gsquery-white
-{
-	color:white
-}
-.gsquery-1 { color: #F02016;}
-.gsquery-2 { color: #A8BE7D;}
-.gsquery-3 { color: #F1F429;}
-.gsquery-4 { color: #4B48DF;}
-.gsquery-5 { color: #07F7EC;}
-.gsquery-6 { color: #F30AF1;}
-.gsquery-7 { color: #EAE9E5;}
-.gsquery-8 { color: #680ABA;}
-.gsquery-9, .gsquery-a { color: #48D9B2;}
-.gsquery-0 { color: #030102;}
-.gsquery-b { color: #D39741;}
-.gsquery-c { color: #C14CB7;}
-.gsquery-d { color: #6993B9;}
-.gsquery-e { color: #BD0C76;}
-.gsquery-f { color: #6FC1CC;}
-.gsquery-g { color: #94E258;}
-.gsquery-h { color: #7E0622;}
-.gsquery-i { color: #264798;}
-.gsquery-j { color: #59C522;}
-.gsquery-k { color: #D1AF82;}
-.gsquery-l { color: #9DC0E0;}
-.gsquery-m { color: #A932AA;}
-.gsquery-n { color: #527B39;}
-.gsquery-o { color: #A26E70;}
-.gsquery-p { color: #328D6C;}
-.gsquery-q { color: #AA979D;}
-.gsquery-r { color: #A95CAE;}
-.gsquery-s { color: #2E057F;}
-.gsquery-t { color: #680728;}
-.gsquery-u { color: #381F94;}
-.gsquery-v { color: #20B041;}
-.gsquery-w { color: #020400;}
-.gsquery-x { color: #050A27;}
-.gsquery-y { color: #208FC7;}
-.gsquery-z { color: #AC8037;}
-.gsquery-A { color: #4807E7;}
-.gsquery-B { color: #44D436;}
-.gsquery-C { color: #D25831;}
-.gsquery-D { color: #384C71;}
-.gsquery-E { color: #75A93A;}
-.gsquery-F { color: #022869;}
-.gsquery-G { color: #569B3E;}
-.gsquery-H { color: #90697E;}
-.gsquery-I { color: #5ABFDD;}
-.gsquery-J { color: #9AAC9C;}
-.gsquery-K { color: #ACD88B;}
-.gsquery-M { color: #03D37F;}
-.gsquery-N { color: #D48C14;}
-.gsquery-O { color: #B6BDF1;}
-.gsquery-P { color: #1DEB0F;}
-.gsquery-Q { color: #EE52B5;}
-.gsquery-R { color: #3D41C6;}
-.gsquery-S { color: #4EEE36;}
-.gsquery-T { color: #A95C4C;}
-.gsquery-U { color: #804AC6;}
-.gsquery-V { color: #89C6B4;}
-.gsquery-W { color: #73109F;}
-.gsquery-X { color: #37B4AE;}
-.gsquery-Y { color: #82CB1A;}
-.gsquery-Z { color: #A997D3;}
-.gsquery-& { color: #0000F9;}
-.gsquery-' { color: #FBF235;}
-.gsquery-- { color: #1B1811;}
-.gsquery-_ { color: #B21617;}
-.gsquery-) { color: #15F4FB;}
-.gsquery-= { color: #A0CDB9;}
-.gsquery-? { color: #88D551;}
-.gsquery-. { color: #5F499E;}
+/* generic colors */
+.gsquery-black { color: black; }
+.gsquery-red { color: red; }
+.gsquery-yellow { color: #E6E600; }
+.gsquery-darkgreen { color: darkgreen; }
+.gsquery-blue { color: blue; }
+.gsquery-cyan { color: cyan; }
+.gsquery-pink { color: pink; }
+.gsquery-white { color: darkgrey; }
+.gsquery-blue-night { color: #7F7FFD; }
+.gsquery-red-night { color: #D06B6B; }
+
+/* colors for FarCry */ 
+.gsquery-light-blue { color: #00FFFF; }
+.gsquery-green { color: green; }
+.gsquery-orange { color: #FF9600; }
+.gsquery-grey { color: #000099; }
+
+/* colors for q3a */
+
+.gsquery-q3a-1, .gsquery-q3a-9, .gsquery-q3a-a, .gsquery-q3a-i, .gsquery-q3a-q, .gsquery-q3a-y, .gsquery-q3a-A, .gsquery-q3a-I., .gsquery-q3a-Q, .gsquery-q3a-Y 
+{ color:#FF0000; }
+
+.gsquery-q3a-2, .gsquery-q3a-b, .gsquery-q3a-j, .gsquery-q3a-r, .gsquery-q3a-z, .gsquery-q3a-B, .gsquery-q3a-J, .gsquery-q3a-R, .gsquery-q3a-Z
+{ color:#00FF00; }
+
+.gsquery-q3a-3, .gsquery-q3a-c, .gsquery-q3a-k, .gsquery-q3a-s, .gsquery-q3a-C, .gsquery-q3a-K, .gsquery-q3a-S
+{ color:#FFFF00; }
+
+.gsquery-q3a-4, .gsquery-q3a-d, .gsquery-q3a-l, .gsquery-q3a-t, .gsquery-q3a-D, .gsquery-q3a-L, .gsquery-q3a-T
+{ color:#4444FF; }
+
+.gsquery-q3a-5, .gsquery-q3a-e, .gsquery-q3a-m, .gsquery-q3a-u, .gsquery-q3a-E, .gsquery-q3a-M, .gsquery-q3a-U
+{ color:#00FFFF; }
+
+.gsquery-q3a-6, .gsquery-q3a-f, .gsquery-q3a-n, .gsquery-q3a-v, .gsquery-q3a-F, .gsquery-q3a-N, .gsquery-q3a-V
+{ color:#FF00FF; }
+
+.gsquery-q3a-7, .gsquery-q3a-g, .gsquery-q3a-o, .gsquery-q3a-w, .gsquery-q3a-G, .gsquery-q3a-O, .gsquery-q3a-W
+{ color:#CCCCCC; }
+
+.gsquery-q3a-8, .gsquery-q3a-0, .gsquery-q3a-h, .gsquery-q3a-p, .gsquery-q3a-x, .gsquery-q3a-H, .gsquery-q3a-P, .gsquery-q3a-X
+{ color:#777777; }
+
+/* todo: add to color blocks above */
+.gsquery-q3a-exc { color:#FF0000; }
+.gsquery-q3a-at { color:#00FF00; }
+.gsquery-q3a-pound { color:#FFFF00; }
+.gsquery-q3a-dollar { color:#4444FF; }
+.gsquery-q3a-percent { color:#00FFFF; }
+.gsquery-q3a-and { color:#FF00FF; }
+.gsquery-q3a-star { color:#CCCCCC; }
+.gsquery-q3a-lparen { color:#777777; }
+.gsquery-q3a-rparen { color:#FF0000; }
+.gsquery-q3a-_ { color:#CCCCCC; }
+.gsquery-q3a-plus { color:#00FFFF; }
+.gsquery-q3a-lbracket { color:#FFFF00; }
+.gsquery-q3a-rbracket { color:#00FFFF; }
+.gsquery-q3a-bar { color:#4444FF; }
+.gsquery-q3a-colon { color:#FFFF00; }
+.gsquery-q3a-less { color:#4444FF; }
+.gsquery-q3a-greater { color:#FF00FF; }
+.gsquery-q3a-questionmark { color:#CCCCCC; }
+
+.gsquery-q3a-- { color:#00FFFF; }
+.gsquery-q3a-equal { color:#00FFFF; }
+.gsquery-q3a-lsqr { color:#FFFF00; }
+.gsquery-q3a-rsqr { color:#00FFFF; }
+.gsquery-q3a-lslash { color:#4444FF; }
+.gsquery-q3a-comma { color:#4444FF; }
+.gsquery-q3a-point { color:#FF00FF; }
+.gsquery-q3a-rslash { color:#CCCCCC; }
+.gsquery-q3a-tick { color:#CCCCCC; }
+.gsquery-q3a-quote { color:#00FF00; }
+.gsquery-q3a-semic { color:#FFFF00; } 
+
+
+/* colors for SOF2 */
+.gsquery-sof2-1 { color: #F02016; }
+.gsquery-sof2-2 { color: #A8BE7D; }
+.gsquery-sof2-3 { color: #F1F429; }
+.gsquery-sof2-4 { color: #4B48DF; }
+.gsquery-sof2-5 { color: #07F7EC; }
+.gsquery-sof2-6 { color: #F30AF1; }
+.gsquery-sof2-7 { color: #EAE9E5; }
+.gsquery-sof2-8 { color: #680ABA; }
+.gsquery-sof2-9, .gsquery-sof2-a { color: #48D9B2; }
+.gsquery-sof2-0 { color: #030102; }
+.gsquery-sof2-b { color: #D39741; }
+.gsquery-sof2-c { color: #C14CB7; }
+.gsquery-sof2-d { color: #6993B9; }
+.gsquery-sof2-e { color: #BD0C76; }
+.gsquery-sof2-f { color: #6FC1CC; }
+.gsquery-sof2-g { color: #94E258; }
+.gsquery-sof2-h { color: #7E0622; }
+.gsquery-sof2-i { color: #264798; }
+.gsquery-sof2-j { color: #59C522; }
+.gsquery-sof2-k { color: #D1AF82; }
+.gsquery-sof2-l { color: #9DC0E0; }
+.gsquery-sof2-m { color: #A932AA; }
+.gsquery-sof2-n { color: #527B39; }
+.gsquery-sof2-o { color: #A26E70; }
+.gsquery-sof2-p { color: #328D6C; }
+.gsquery-sof2-q { color: #AA979D; }
+.gsquery-sof2-r { color: #A95CAE; }
+.gsquery-sof2-s { color: #2E057F; }
+.gsquery-sof2-t { color: #680728; }
+.gsquery-sof2-u { color: #381F94; }
+.gsquery-sof2-v { color: #20B041; }
+.gsquery-sof2-w { color: #020400; }
+.gsquery-sof2-x { color: #050A27; }
+.gsquery-sof2-y { color: #208FC7; }
+.gsquery-sof2-z { color: #AC8037; }
+.gsquery-sof2-A { color: #4807E7; }
+.gsquery-sof2-B { color: #44D436; }
+.gsquery-sof2-C { color: #D25831; }
+.gsquery-sof2-D { color: #384C71; }
+.gsquery-sof2-E { color: #75A93A; }
+.gsquery-sof2-F { color: #022869; }
+.gsquery-sof2-G { color: #569B3E; }
+.gsquery-sof2-H { color: #90697E; }
+.gsquery-sof2-I { color: #5ABFDD; }
+.gsquery-sof2-J { color: #9AAC9C; }
+.gsquery-sof2-K { color: #ACD88B; }
+.gsquery-sof2-M { color: #03D37F; }
+.gsquery-sof2-N { color: #D48C14; }
+.gsquery-sof2-O { color: #B6BDF1; }
+.gsquery-sof2-P { color: #1DEB0F; }
+.gsquery-sof2-Q { color: #EE52B5; }
+.gsquery-sof2-R { color: #3D41C6; }
+.gsquery-sof2-S { color: #4EEE36; }
+.gsquery-sof2-T { color: #A95C4C; }
+.gsquery-sof2-U { color: #804AC6; }
+.gsquery-sof2-V { color: #89C6B4; }
+.gsquery-sof2-W { color: #73109F; }
+.gsquery-sof2-X { color: #37B4AE; }
+.gsquery-sof2-Y { color: #82CB1A; }
+.gsquery-sof2-Z { color: #A997D3; }
+.gsquery-sof2-and { color: #0000F9; }
+.gsquery-sof2-tick { color: #FBF235; }
+.gsquery-sof2-- { color: #1B1811; }
+.gsquery-sof2-_ { color: #B21617; }
+.gsquery-sof2-cbracket { color: #15F4FB; }
+.gsquery-sof2-equal { color: #A0CDB9; }
+.gsquery-sof2-questionmark { color: #88D551; }
+.gsquery-sof2-point { color: #5F499E; }

@@ -5,10 +5,10 @@
 $root_path = './../';
 $action_membre = '';
 $action_db = '';
-$news_version = '1.07.08.2004';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
-$template = new Template($root_path."templates/".$config['skin']);
+$news_version = '1.13.09.2004';
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames(array('body' => 'divers_text.tpl'));
 switch($config['version'])
 {
@@ -62,7 +62,22 @@ switch($config['version'])
 		$action_db['1.07.07.2004'] = array(
 			'Activation d\'un liens' => "UPDATE `".$config['prefix']."custom_menu` SET `default` = '1' WHERE `text` = 'boutton_match' LIMIT 1 ;"
 		);
+	case '1.07.08.2004':
+		$action_db['1.07.08.2004'] = array(
+			'correction du liens "Un Bug !?"' => "UPDATE `".$config['prefix']."custom_menu` SET `url` = 'http://mantis.clanlite.org/' WHERE `url` = 'http://mantis.lna.be/' LIMIT 1 ;"
+		);
+		$sql = "SELECT id, config FROM ".$config['prefix']."modules WHERE `call_page` = 'serveur_jeux.php'";
+		if (! ($get = $rsql->requete_sql($sql)) )
+		{
+			sql_error($sql, $rsql->error, __LINE__, __FILE__);
+		}
+		while ($liste = $rsql->s_array($get))
+		{
+			$action_db['1.07.08.2004']['Configuration du module id '.$liste['id']] = "UPDATE `".$config['prefix']."modules` SET `config` = '".serialize(array('serveur' => $liste['config'], 'image' => false, 'liste' => true))."' WHERE `id` = '".$liste['id']."' LIMIT 1 ;";
+		}
+	
 	// sans break, metre case version a la suite, comme ca il fait toutes les mise à jours de la db de la version qu'il a jusqua la version actuelle
+	$maj = true;
 	break;
 	case $news_version :
 		$etat = 'Votre ClanLite est déjà mis à jour';
@@ -71,7 +86,7 @@ switch($config['version'])
 		$action_db = '';
 		$etat = 'La version de Votre ClanLite est inconnue';
 }
-if (is_array($action_db) && empty($etat))
+if (is_array($action_db) && empty($etat) || $maj)
 {
 	// on ajoute automatiquement le changement de version dans la db
 	$action_db[$config['version']]['Mise à jours du numero de version'] = "UPDATE `".$config['prefix']."config` SET `conf_valeur` = '".$news_version."' WHERE `conf_nom` = 'version' AND `conf_valeur` = '".$config['version']."' LIMIT 1";

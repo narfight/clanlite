@@ -20,7 +20,7 @@
 					<!-- END more -->
 					<!-- END poste_smilies_liste -->
 				</div>
-				<div class="big_texte"><textarea name="txt" cols="40" rows="10" id="txt" onBlur="formverif(this.id,'nbr','10')">{INFO}</textarea></div>
+				<div class="big_texte"><textarea name="txt" cols="40" rows="10" id="txt" onblur="formverif(this.id,'nbr','10')">{INFO}</textarea></div>
 			</p>
 			<p>
 				<span>

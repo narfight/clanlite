@@ -1,11 +1,11 @@
 <!-- BEGIN msg -->
 <div class="big_cadre">
 	<h1>{msg.TYPE}</h1>
-  <div class="news">{msg.TEXTE}</div>
+	<div class="news">{msg.TEXTE}</div>
 </div>
 <!-- END msg -->
 <!-- BEGIN sql -->
-<link rel='stylesheet' href='{sql.ROOT_PATH}templates/DarkStar/Library/styles.css' type='text/css'> 
+<link rel="stylesheet" href="{sql.ROOT_PATH}templates/DarkStar/Library/styles.css" type="text/css" />
 <div class="big_cadre">
 	<h1>{sql.TITRE}</h1>
 		<p>

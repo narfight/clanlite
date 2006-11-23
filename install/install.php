@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL);
 // -------------------------------------------------------------
 // LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
 // Correction de Dolordo <dolordo@free.fr>

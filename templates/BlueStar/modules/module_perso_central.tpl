@@ -3,7 +3,7 @@
 	<h1>{TITRE}</h1>
 		<p>
 			<span><label for="titre">{TXT_TITRE}&nbsp;:</label></span>
-			<span><input name="titre" type="text" id="titre" value="{TITRE}" onBlur="formverif(this.id,'nbr','3')" /></span>
+			<span><input name="titre" type="text" id="titre" value="{TITRE}" onblur="formverif(this.id,'nbr','3')" /></span>
 		</p>
 		<p>
 			<span><label for="contenu">{TXT_CONTENU}&nbsp;:</label></span>
@@ -22,7 +22,7 @@
 				<!-- END more -->
 				<!-- END poste_smilies_liste -->
 			</div>
-			<div class="big_texte"><textarea name="contenu" cols="40" rows="10" id="contenu" onBlur="formverif(this.id,'nbr','10')">{CONTENU}</textarea></div>
+			<div class="big_texte"><textarea name="contenu" cols="40" rows="10" id="contenu" onblur="formverif(this.id,'nbr','10')">{CONTENU}</textarea></div>
 		</p>
 		<p>
 			<span>

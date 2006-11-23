@@ -35,7 +35,7 @@ if (defined('CL_AUTH'))
 		$block['connection'] = str_replace('{CODE}', $langue['form_psw'], $block['connection']);
 		$block['connection'] = str_replace('{SAVE}', $langue['save_code_login'], $block['connection']);
 		$block['connection'] = str_replace('{ENVOYER}', $langue['envoyer'], $block['connection']);
-		$template->assign_block_vars("modules_".$modules['place'],array(
+		$template->assign_block_vars('modules_'.$modules['place'],array(
 			'TITRE' => $modules['nom'],
 			'IN' => $block['connection']
 		));

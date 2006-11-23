@@ -5,15 +5,15 @@
 		<h1>{TITRE_GESTION}</h1>
 			<p>
 				<span><label for="nom">{TXT_NOM}&nbsp;:</label></span>
-				<span><input name="nom" type="text" id="nom" value="{NOM}" onBlur="formverif(this.id,'nbr','3')" /></span>
+				<span><input name="nom" type="text" id="nom" value="{NOM}" onblur="formverif(this.id,'nbr','3')" /></span>
 			</p>
 			<p>
 				<span><label for="url">{TXT_URL}&nbsp;:</label></span>
-				<span><input name="url" type="text" id="url" value="{URL}" onBlur="formverif(this.id,'nbr','3')" /></span>
+				<span><input name="url" type="text" id="url" value="{URL}" onblur="formverif(this.id,'nbr','3')" /></span>
 			</p>
 			<p>
 				<span><label for="image">{TXT_IMAGE}&nbsp;:</label></span>
-				<span><input name="image" type="text" id="image" value="{IMAGE}" onBlur="formverif(this.id,'nbr','3')" /></span>
+				<span><input name="image" type="text" id="image" value="{IMAGE}" onblur="formverif(this.id,'nbr','3')" /></span>
 			</p>
 			<p>
 				<span>

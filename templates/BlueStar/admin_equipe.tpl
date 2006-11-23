@@ -5,7 +5,7 @@
 			<h1>{TITRE_GESTION}</h1>
 			<p>
 				<span><label for="nom">{TXT_NOM}&nbsp;:</label></span>
-				<span><input name="nom" type="text" id="nom" value="{NOM}" onBlur="formverif(this.id,'nbr','3')" /></span>
+				<span><input name="nom" type="text" id="nom" value="{NOM}" onblur="formverif(this.id,'nbr','3')" /></span>
 			</p>
 			<p>
 				<span><label for="info">{TXT_DETAILS}&nbsp;:</label></span>
@@ -24,7 +24,7 @@
 					<!-- END more -->
 					<!-- END poste_smilies_liste -->
 				</div>
-				<div class="big_texte"><textarea name="info" cols="40" rows="10" id="info" onBlur="formverif(this.id,'nbr','10')">{INFO}</textarea></div>
+				<div class="big_texte"><textarea name="info" cols="40" rows="10" id="info" onblur="formverif(this.id,'nbr','10')">{INFO}</textarea></div>
 			</p>
 			<p>
 				<span>
@@ -42,23 +42,29 @@
 	<div class="big_cadre">
 		<h1>{TITRE_LISTE}</h1>
 		<div class="news">
-			<table class="table"> 
-			  <tr class="table-titre"> 
-				<td>{TXT_NOM}</td> 
-				<td>{TXT_DETAILS}</td> 
-				<td>{ACTION}</td> 
-			  </tr> 
-			  <!-- BEGIN liste --> 
-			  <tr> 
-				<td>{liste.NOM}</td> 
-				<td>{liste.INFO}</td> 
-				  <td><form action="{ICI}" method="post"> 
-					  <input name="dell" type="submit" value="{liste.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" /> 
-					  <input name="for" type="hidden" value="{liste.ID}" /> 
-					  <input name="edit" type="submit" value="{liste.EDITER}" /> 
-					  </form></td> 
-			  </tr> 
-			  <!-- END liste --> 
+			<table class="table">
+				<thead>
+					<tr>
+						<th>{TXT_NOM}</th>
+						<th>{TXT_DETAILS}</th>
+						<th>{ACTION}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- BEGIN liste -->
+					<tr>
+						<td>{liste.NOM}</td>
+						<td>{liste.INFO}</td>
+						<td>
+							<form action="{ICI}" method="post">
+								<input name="dell" type="submit" value="{liste.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />
+								<input name="for" type="hidden" value="{liste.ID}" />
+								<input name="edit" type="submit" value="{liste.EDITER}" />
+							</form>
+						</td>
+					</tr>
+					<!-- END liste -->
+				</tbody>
 			</table>
 		</div>
 	</div>

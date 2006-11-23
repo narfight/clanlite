@@ -5,8 +5,8 @@
 $root_path = './../';
 $niveau_secu = 24;
 $action_membre = 'where_admin_mailiste';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 $_POST = pure_var($_POST, 'no');
 if (!empty($_POST['Envoyer']))
@@ -80,10 +80,10 @@ if (!empty($_POST['Envoyer']))
 			$mailer->clear_address();
 		}
 	}
-	redirec_text("mailiste.php", $langue['redirection_admin_mailiste_add'], "admin");
+	redirec_text("mailiste.php", $langue['redirection_admin_mailiste_add'], 'admin');
 }
 include($root_path."conf/frame_admin.php");
-$template = new Template($root_path."templates/".$config['skin']);
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_mailiste.tpl'));
 $template->assign_vars( array(
 	'TITRE' => $langue['titre_admin_mailiste'],

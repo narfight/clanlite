@@ -4,8 +4,8 @@
 // -------------------------------------------------------------
 $root_path = './../';
 $action_membre = 'where_download';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 if ( !empty($_POST['dll']) )
 {// on envois le fichier a télécharger si il a
 	$sql = "SELECT url_dl,telecharger FROM ".$config['prefix']."download_fichier WHERE id='".$_POST['for']."' LIMIT 1";
@@ -39,8 +39,8 @@ if ( !empty($_POST['send_vote']) )
 	}
 	redirec_text("download.php", $langue['user_envois_vote'], "user");
 }
-include($root_path."conf/frame.php");
-$template = new Template($root_path."templates/".$config['skin']);
+include($root_path.'conf/frame.php');
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'dl_fichiers.tpl'));
 $template->assign_vars(array( 
 	'TITRE_DOWNLOAD' => $langue['titre_download'],
@@ -72,7 +72,7 @@ else
 			$template->assign_block_vars('tete.group', array( 
 				'FOP_REP' => $info_group['id'],
 				'INFO_GROUP'  => $info_group['nom']." (".$info_group['COUNT(fichiers.id_rep)'].")",
-				'INFO_GROUP_DETAIL' => nl2br(bbcode($info_group['comentaire']))
+				'INFO_GROUP_DETAIL' => bbcode($info_group['comentaire'])
 			));
 		
 		}
@@ -132,7 +132,7 @@ else
 				'TXT_NB_TELECHARGER' => $langue['download_nombre'],
 				'LAST_MODIF' => date('j-m-Y' , $actuelle['modifier_a']), 
 				'COTE'  => $cote,
-				'DETAIL' => nl2br(bbcode($actuelle['info_en_plus'])),
+				'DETAIL' => bbcode($actuelle['info_en_plus']),
 				'NB_TELECHARGER' => $actuelle['telecharger'],
 				'FOR_REP' => $_GET['for_rep'],
 				'FOR' => $actuelle['id']
@@ -145,5 +145,5 @@ else
 	} 
 }
 $template->pparse('body');
-include($root_path."conf/frame.php");
+include($root_path.'conf/frame.php');
 ?>

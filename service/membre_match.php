@@ -4,8 +4,8 @@
 // -------------------------------------------------------------
 $root_path = './../';
 $action_membre = 'where_match_prive';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
 if (!empty($_POST['match']))
 {
@@ -16,14 +16,14 @@ if (!empty($_POST['match']))
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	$verif_present = $rsql->s_array($get);
-	if ($verif_present['COUNT(id)'] == "0")
+	if ($verif_present['COUNT(id)'] === 0)
 	{
 		$sql = "INSERT INTO `".$config['prefix']."match_inscription` (id_match, user_id, statu) VALUES ('".$_POST['match']."', '".$session_cl['id']."', 'demande')";
 		if (! ($rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
-		redirec_text("membre_match.php", $langue['user_envois_demande_ok'], "admin");
+		redirec_text("membre_match.php", $langue['user_envois_demande_ok'], 'admin');
 	}
 	else
 	{
@@ -32,11 +32,11 @@ if (!empty($_POST['match']))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
-		redirec_text("membre_match.php", $langue['user_envois_annule_demande'], "admin");
+		redirec_text("membre_match.php", $langue['user_envois_annule_demande'], 'admin');
 	}
 }
 include($root_path."conf/frame_admin.php");
-$template = new Template($root_path."templates/".$config['skin']);
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'match_membre.tpl'));
 $sql = "SELECT nom FROM ".$config['prefix']."section WHERE id ='".$session_cl['section']."'";
 if (! ($get = $rsql->requete_sql($sql)) )
@@ -78,10 +78,10 @@ while ( ($list_match = $rsql->s_array($get_match)) )
 	$i++;
 	$template->assign_block_vars('match', array( 
 		'FOR' => $list_match['id'],
-		'DATE' => date("j/n/Y", $list_match['date']),
+		'DATE' => date('j/n/Y', $list_match['date']),
 		'CLAN' => $list_match['le_clan'],
 		'SECTION' => (empty($list_match['nom']))? $langue['toutes_section'] : $list_match['nom'],
-		'INFO' => nl2br(bbcode($list_match['info'])),
+		'INFO' => bbcode($list_match['info']),
 		'SUR' => $list_match['nombre_de_joueur'],
 		'HEURE' => date("H:i", $list_match['date']),
 		'CHAT' => $list_match['heure_msn'],

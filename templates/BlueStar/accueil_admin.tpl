@@ -8,11 +8,11 @@
 		<!-- END erreur -->
 		<p>
 			<span><label for="user">{LOGIN}&nbsp;:</label></span>
-			<span><input name="user" type="text" id="user" value="{USER}" onBlur="formverif(this.id,'nbr','2')" /></span>
+			<span><input name="user" type="text" id="user" value="{USER}" onblur="formverif(this.id,'nbr','2')" /></span>
 		</p>
 		<p>
 			<span><label for="psw">{CODE}&nbsp;:</label></span>
-			<span><input name="psw" type="password" id="psw" onBlur="formverif(this.id,'nbr','4')" /></span>
+			<span><input name="psw" type="password" id="psw" onblur="formverif(this.id,'nbr','4')" /></span>
 		</p>
 		<p>
 			<span><label for="save_code_login">{SAVE}&nbsp;:</label></span>
@@ -23,7 +23,7 @@
 				<input name="Submit" type="submit" value="{ENVOYER}" />
 				<input name="goto" type="hidden" id="goto" value="{GOTO}" />
 			</span>
-			<span><a href='user/code-perdu.php'>{LOST}</a></span>
+			<span><a href="user/code-perdu.php">{LOST}</a></span>
 		</p>
 	</div>
 </form>

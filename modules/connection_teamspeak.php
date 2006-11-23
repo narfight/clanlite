@@ -40,7 +40,7 @@ if (defined('CL_AUTH'))
 	$block['teamspeak_connection'] = str_replace('{IP}', $nfo_module[0], $block['teamspeak_connection']);
 	$block['teamspeak_connection'] = str_replace('{PORT}', $nfo_module[1], $block['teamspeak_connection']);
 	$block['teamspeak_connection'] = str_replace('{NAME}', (empty($session_cl['user']))? "" : $config['tag'].$session_cl['user'], $block['teamspeak_connection']);
-	$template->assign_block_vars("modules_".$modules['place'], array( 
+	$template->assign_block_vars('modules_'.$modules['place'], array( 
 		'TITRE' => $modules['nom'],
 		'IN' => $block['teamspeak_connection']
 	));
@@ -51,9 +51,9 @@ if(!empty($_POST['teamspeak_connection_envois'])  )
 	$_POST['teamspeak_connection_envois'] = "";
 	$root_path = './../';
 	$action_membre= 'where_connection_ts';
-	include($root_path."conf/template.php");
-	include($root_path."conf/conf-php.php");
-	include($root_path."conf/frame.php");
+	include($root_path.'conf/template.php');
+	include($root_path.'conf/conf-php.php');
+	include($root_path.'conf/frame.php');
 	$template->set_filenames(array('body_module' => 'divers_text.tpl'));
 	$login = (!empty($_POST['teamspeak_connection_login']))? $_POST['teamspeak_connection_login'] : "";
 	$code = (!empty($_POST['teamspeak_connection_code']))? $_POST['teamspeak_connection_code'] : "";
@@ -64,7 +64,7 @@ if(!empty($_POST['teamspeak_connection_envois'])  )
 		'TITRE' => "Connection au serveur Vocal"
 	));
 	$template->pparse('body_module');
-	include($root_path."conf/frame.php");
+	include($root_path.'conf/frame.php');
 	return;
 }
 if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_connect_ts_module']) )
@@ -72,8 +72,8 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_connect_ts_modu
 	$root_path = './../';
 	$action_membre= 'where_module_connect_ts';
 	$niveau_secu = 16;
-	include($root_path."conf/template.php");
-	include($root_path."conf/conf-php.php");
+	include($root_path.'conf/template.php');
+	include($root_path.'conf/conf-php.php');
 	include($root_path."controle/cook.php");
 	$id_module = (!empty($_POST['id_module']))? $_POST['id_module'] : $_GET['id_module'];
 	if ( !empty($_POST['Submit_connect_ts_module']) )
@@ -83,10 +83,10 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_connect_ts_modu
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
-		redirec_text($root_path."administration/modules.php" ,$langue['redirection_module_connect_ts_edit'], "admin");
+		redirec_text($root_path."administration/modules.php" ,$langue['redirection_module_connect_ts_edit'], 'admin');
 	}
 	include($root_path."conf/frame_admin.php");
-	$template = new Template($root_path."templates/".$config['skin']);
+	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('body' => 'modules/teamspeak_connection.tpl'));
 	$sql = "SELECT config FROM ".$config['prefix']."modules WHERE id ='".$id_module."'";
 	if (! ($get = $rsql->requete_sql($sql)) )

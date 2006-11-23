@@ -4,13 +4,13 @@
 // -------------------------------------------------------------
 $root_path = './../';
 $action_membre = 'where_calendrier';
-include($root_path."conf/template.php");
-include($root_path."conf/conf-php.php");
-include($root_path."conf/frame.php");
-$template = new Template($root_path."templates/".$config['skin']);
+include($root_path.'conf/template.php');
+include($root_path.'conf/conf-php.php');
+include($root_path.'conf/frame.php');
+$template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'calendrier.tpl'));
 $jour=date("d");
-$annee=(empty($_GET['annee']))? date("Y") : $_GET['annee'];
+$annee=(empty($_GET['annee']))? date('Y') : $_GET['annee'];
 $mois=(isset($_GET['mois']))? $_GET['mois'] : date('n');
 $mk_time_date = mktime( 1, 1, 1, $mois, 1, $annee);
 if ( $mois > 12)
@@ -207,5 +207,5 @@ for ($i=1;$i<$verticale+1;$i++)
 	));
 }
 $template->pparse('body');
-include($root_path."conf/frame.php");
+include($root_path.'conf/frame.php');
 ?>
