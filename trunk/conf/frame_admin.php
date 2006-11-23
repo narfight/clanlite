@@ -24,7 +24,7 @@ else
 $template->assign_vars( array( 
 	'PATH_ROOT' => $root_path,
 	'HEAD' => (!empty($frame_head))? $frame_head : '',
-	'ICI_SELF' => $config['site_domain'].$_SERVER['PHP_SELF'],
+	'ICI_SELF' => $config['site_domain'].$_SERVER['REQUEST_URI'],
 	'ICI' => $config['site_domain'].$config['site_path'],
 	'TITRE_PAGE' => $langue['prive_titre_page'],
 	'ENTRAINEMENT' => $langue['titre_entrainement'],
@@ -55,6 +55,8 @@ if ($session_cl['pouvoir_particulier'] == 'admin' || in_array('oui', $user_pouvo
 		'TITRE_MODULE_CENTER' => $langue['menu_titre_module_center'],
 		'ALERT' => $langue['titre_alert'],
 		'ALERT_U' => session_in_url($root_path.'administration/alert.php'),
+		'CALENDRIER' => $langue['titre_calendrier'],
+		'CALENDRIER_U' => session_in_url($root_path.'administration/calendrier.php'),
 		'CONFIGURE' => $langue['titre_config_site'],
 		'CONFIGURE_U' => session_in_url($root_path.'administration/config.php'),
 		'DEMANDE_MATCH' => $langue['titre_defit_admin'],

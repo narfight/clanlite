@@ -10,8 +10,6 @@
  *   (at your option) any later version.									*
  ***************************************************************************/
 	
-$_NB_TUMB = 5; //nombre de miniature (toujours impair)
-	
 if (defined('CL_AUTH'))
 {
 /******************************************************************************
@@ -289,55 +287,46 @@ if (!empty($_GET['from']))
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	
-	if (!empty($_GET['id']))
+	$i = 1;
+	while ( $liste = $rsql->s_array($get) )
 	{
-		$current_img=$_GET['id'];
+		$template->assign_block_vars('liste', array(
+			'TITRE' => $liste['lb_commentaire'],
+			'MIN' => $liste['url_image_mini'],
+			'NORM' => $liste['url_image_norm'],
+		));
+		if ($i < 4)
+		{
+			$je_t_aime_anne_sophie[$i] = $liste;
+		}
+		$i++;
 	}
-	else
+	$i--;
+	// vérifie qu'il a au moins 3 images
+	switch($i)
 	{
-		$current_img=1;
+		case 0:
+			$je_t_aime_anne_sophie[1]['url_image_min'] = 'images/logo_rss.gif';
+			$je_t_aime_anne_sophie[2]['url_image_norm'] = 'images/logo_rss.gif';
+			$je_t_aime_anne_sophie[3]['url_image_mini'] = 'images/logo_rss.gif';
+		break;
+		case 1:
+			$je_t_aime_anne_sophie[2]['url_image_norm'] = $je_t_aime_anne_sophie[1]['url_image_norm'];
+			$je_t_aime_anne_sophie[3]['url_image_mini'] = $je_t_aime_anne_sophie[1]['url_image_mini'];
+		break;
+		case 2:
+			$je_t_aime_anne_sophie[3]['url_image_mini'] = $je_t_aime_anne_sophie[2]['url_image_mini'];
+		break;
 	}
-	
-	$u = 1;
-	while ( $liste[$u++] = $rsql->s_array($get) );
-	
-	$currentimg_info = $liste[$current_img];
-	
-	/*** Image en cours		 ***/
-	$img_size = get_new_size(array(
-		$currentimg_info['nb_largeur'],
-		$currentimg_info['nb_hauteur']),
-		$config['img_width'],
-		$config['img_height']
-	);
-	
+
 	$template->assign_vars(array(
 		'TITRE' => $langue['gallery'],
-		'SRC_IMG' => $currentimg_info['url_image_norm'],
-		'COM_IMG' => $currentimg_info['lb_commentaire'],
-		'IMG_H' => $img_size['height'],
-		'IMG_W' => $img_size['width']
+		'COM_IMG' => $je_t_aime_anne_sophie[1]['lb_commentaire'],
+		'SRC_MIN_1' => $je_t_aime_anne_sophie[1]['url_image_mini'],
+		'SRC' => $je_t_aime_anne_sophie[2]['url_image_norm'],
+		'SRC_MIN_2' => $je_t_aime_anne_sophie[3]['url_image_mini'],
 	));
-	
-	/*** Listage des miniatures ***/
-	$j = 1;
-	for( $i = ($current_img-(($_NB_TUMB-1)/2)); $i <= ($current_img+(($_NB_TUMB-1)/2)); $i++)
-	{
-		if( ($i > 0) && ($i < count($liste)) )
-		{
-			$img_info = $liste[$i];
-			$tumb_size = get_new_size(array($img_info['nb_largeur'],$img_info['nb_hauteur']), $config['tumb_width'], $config['tumb_height']);
-			$template->assign_vars(array(
-				'SRC_TUMB'.$j => $img_info['url_image_mini'],
-				'COM_TUMB'.$j => $img_info['lb_commentaire'],
-				'TID_TUMB'.$j => session_in_url($root_path.'modules/gallery.php?id='.$i.'&from='.$_GET['from']),
-				'TUMB_H' => $tumb_size['height'],
-				'TUMB_W' => $tumb_size['width']
-			));
-		}
-		$j++;
-	}
-	
+
 	$template->pparse('body');
 	require($root_path.'conf/frame.php');
 }

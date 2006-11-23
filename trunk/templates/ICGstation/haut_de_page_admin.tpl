@@ -39,6 +39,7 @@
 						<a href="{menu_admin.NEWS_U}">{menu_admin.NEWS}</a><br />
 						<a href="{menu_admin.SMILIE_U}">{menu_admin.SMILIE}</a><br />
 						<a href="{menu_admin.ALERT_U}">{menu_admin.ALERT}</a><br />
+						<a href="{menu_admin.CALENDRIER_U}">{menu_admin.CALENDRIER}</a><br />
 						<a href="{menu_admin.MP3_U}">{menu_admin.MP3}</a><br/ >
 						<a href="{menu_admin.ENTRAINEMENT_U}">{menu_admin.ENTRAINEMENT}</a><br />
 						<a href="{menu_admin.MENU_EDIT_U}">{menu_admin.MENU_EDIT}</a><br />

@@ -161,7 +161,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_webpost_
 	require($root_path.'conf/frame_admin.php');
 	$template = new Template($root_path.'templates/'.$session_cl['skin']);
 	$template->set_filenames( array('body' => 'modules/ts_webpost.tpl'));
-	liste_smilies(true, '', 25);
+	liste_smilies_bbcode(true, '', 25);
 	$sql = "SELECT config FROM ".$config['prefix']."modules WHERE id ='".$id_module."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
@@ -203,61 +203,68 @@ if (!empty($_GET['from']) && is_numeric($_GET['from']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	$brut_nfo_module = $rsql->s_array($get);
-	$nfo_server = unserialize($brut_nfo_module['config']);
-	
-	//vas chercher les infos
-	if ($info_server = get_server_ts_cache($nfo_server['ip'], $nfo_server['query_port'], $nfo_server['port']))
+	// on vérifie que le module existe bien
+	if ($brut_nfo_module = $rsql->s_array($get))
 	{
-		$template->assign_block_vars('webpost_show', array(
-			'TITRE' => $brut_nfo_module['nom'],
-			'SERVER_NAME' => $info_server['name'],
-			'SERVER_ICON' => $root_path.'images/modules_ts/server0.gif',
-		));
-		if (!empty($info_server['users']) && is_array($info_server['users']))
+		$nfo_server = unserialize($brut_nfo_module['config']);
+		
+		//vas chercher les infos
+		if ($info_server = get_server_ts_cache($nfo_server['ip'], $nfo_server['query_port'], $nfo_server['port']))
 		{
-			foreach($info_server['users'] as $id => $value)
-			{// les channels
-				$value = decode_channel($value);
-				$template->assign_block_vars('webpost_show.channel', array(
-					'CHANNEL_NAME' => htmlspecialchars(substr($value['name'], 1, -1).' '.$value['flags']),
-					'PASSWORD_ICON' => $value['password'],
-				));
-				if (!empty($value['subchannel']) && is_array($value['subchannel']))
-				{
-					foreach($value['subchannel'] as $id_sub_channel => $value_sub_channel)
-					{// les sub channel
-						$value_sub_channel = decode_channel($value_sub_channel);
-						$template->assign_block_vars('webpost_show.channel.sub_channel', array(
-							'NAME' => htmlspecialchars(substr($value_sub_channel['name'], 1, -1)),
-							'PASSWORD_ICON' => $value_sub_channel['password'],
-						));
-						if (!empty($value_sub_channel['user']) && is_array($value_sub_channel['user']))
-						{// user dans subchannel
-							foreach($value_sub_channel['user'] as $id_sub_user => $value_sub_user)
-							{
-								$value_sub_user = decode_user($value_sub_user);
-								$template->assign_block_vars('webpost_show.channel.sub_channel.sub_user', array(
-									'USER_NAME' => htmlspecialchars(substr($value_sub_user['nick'], 1, -1)).' ('.$value_sub_user['les PV'].')',
-									'PLAYER_ICON' => $value_sub_user['icon'],
-								));
+			$template->assign_block_vars('webpost_show', array(
+				'TITRE' => $brut_nfo_module['nom'],
+				'SERVER_NAME' => $info_server['name'],
+				'SERVER_ICON' => $root_path.'images/modules_ts/server0.gif',
+			));
+			if (!empty($info_server['users']) && is_array($info_server['users']))
+			{
+				foreach($info_server['users'] as $id => $value)
+				{// les channels
+					$value = decode_channel($value);
+					$template->assign_block_vars('webpost_show.channel', array(
+						'CHANNEL_NAME' => htmlspecialchars(substr($value['name'], 1, -1).' '.$value['flags']),
+						'PASSWORD_ICON' => $value['password'],
+					));
+					if (!empty($value['subchannel']) && is_array($value['subchannel']))
+					{
+						foreach($value['subchannel'] as $id_sub_channel => $value_sub_channel)
+						{// les sub channel
+							$value_sub_channel = decode_channel($value_sub_channel);
+							$template->assign_block_vars('webpost_show.channel.sub_channel', array(
+								'NAME' => htmlspecialchars(substr($value_sub_channel['name'], 1, -1)),
+								'PASSWORD_ICON' => $value_sub_channel['password'],
+							));
+							if (!empty($value_sub_channel['user']) && is_array($value_sub_channel['user']))
+							{// user dans subchannel
+								foreach($value_sub_channel['user'] as $id_sub_user => $value_sub_user)
+								{
+									$value_sub_user = decode_user($value_sub_user);
+									$template->assign_block_vars('webpost_show.channel.sub_channel.sub_user', array(
+										'USER_NAME' => htmlspecialchars(substr($value_sub_user['nick'], 1, -1)).' ('.$value_sub_user['les PV'].')',
+										'PLAYER_ICON' => $value_sub_user['icon'],
+									));
+								}
 							}
 						}
 					}
-				}
-				if (!empty($value['user']) && is_array($value['user']))
-				{// user dans channel
-					foreach($value['user'] as $id_user => $value_user)
-					{
-						$value_user = decode_user($value_user);
-						$template->assign_block_vars('webpost_show.channel.user', array(
-							'USER_NAME' => htmlspecialchars(substr($value_user['nick'], 1, -1)).' ('.$value_user['les PV'].')',
-							'PLAYER_ICON' => $value_user['icon'],
-						));
+					if (!empty($value['user']) && is_array($value['user']))
+					{// user dans channel
+						foreach($value['user'] as $id_user => $value_user)
+						{
+							$value_user = decode_user($value_user);
+							$template->assign_block_vars('webpost_show.channel.user', array(
+								'USER_NAME' => htmlspecialchars(substr($value_user['nick'], 1, -1)).' ('.$value_user['les PV'].')',
+								'PLAYER_ICON' => $value_user['icon'],
+							));
+						}
 					}
 				}
 			}
 		}
+	}
+	else
+	{
+		//message module pas installé
 	}
 	$template->pparse('body');
 	require($root_path.'conf/frame.php'); 

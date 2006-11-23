@@ -161,6 +161,7 @@ CREATE TABLE `clanlite_match_map` (
 
 CREATE TABLE `clanlite_match_rapport` (
   `id` mediumint(9) NOT NULL auto_increment,
+  `repertoire` varchar(255) NOT NULL default '',
   `date` decimal(12,0) unsigned NOT NULL default '0',
   `section` mediumint(8) unsigned NOT NULL default '0',
   `contre` longtext NOT NULL,
@@ -213,6 +214,14 @@ CREATE TABLE `clanlite_news` (
   `titre` varchar(255) NOT NULL default '',
   `info` longtext NOT NULL,
   `user` longtext NOT NULL,
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+CREATE TABLE `clanlite_calendrier` (
+  `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `date` decimal(12,0) unsigned NOT NULL default '0',
+  `text` MEDIUMTEXT NOT NULL,
+  `cyclique` ENUM( '1', '0' ) NOT NULL,
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 

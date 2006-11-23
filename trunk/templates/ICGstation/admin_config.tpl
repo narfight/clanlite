@@ -41,6 +41,11 @@
 					<span><label for="reglement">{TXT_REGLEMENT}&nbsp;:</label></span>
 				</p>
 				<p>
+					<div class="bt-bbcode">
+						<!-- BEGIN bt_bbcode_liste -->
+						<input type="button" onmouseup="bbcode_insert('{bt_bbcode_liste.START}','{bt_bbcode_liste.END}', 'reglement');" title="{bt_bbcode_liste.HELP}"  value="{bt_bbcode_liste.INDEX}" />
+						<!-- END bt_bbcode_liste -->				
+					</div>
 					<div class="smilies">
 						<!-- BEGIN poste_smilies_liste -->
 						<a href="javascript:emoticon('{poste_smilies_liste.TXT}','reglement')"><img src="{poste_smilies_liste.IMG}" alt="{poste_smilies_liste.ALT}" width="{poste_smilies_liste.WIDTH}"  height="{poste_smilies_liste.HEIGHT}" /></a>
@@ -68,6 +73,11 @@
 					<span><label for="msg_bienvenu">{TXT_MSG_BIENVENU}&nbsp;:</label></span>
 				</p>
 				<p>
+					<div class="bt-bbcode">
+						<!-- BEGIN bt_bbcode_liste -->
+						<input type="button" onmouseup="bbcode_insert('{bt_bbcode_liste.START}','{bt_bbcode_liste.END}', 'msg_bienvenu');" title="{bt_bbcode_liste.HELP}"  value="{bt_bbcode_liste.INDEX}" />
+						<!-- END bt_bbcode_liste -->				
+					</div>
 					<div class="smilies">
 						<!-- BEGIN poste_smilies_liste -->
 						<a href="javascript:emoticon('{poste_smilies_liste.TXT}','msg_bienvenu')"><img src="{poste_smilies_liste.IMG}" alt="{poste_smilies_liste.ALT}" width="{poste_smilies_liste.WIDTH}"  height="{poste_smilies_liste.HEIGHT}" /></a>

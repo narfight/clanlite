@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
- *	Fichier		: 															*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Fichier		: new-user.php												*
+ *	Copyright	: (C) 2006 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -29,7 +29,8 @@ if (!empty($_POST['Submit']) && $inscription != 0)
 	}
 	else
 	{
-		$sql = "SELECT user FROM ".$config['prefix']."user WHERE user = '".$_POST['user1']."' AND id != '".$session_cl['id']."'";
+		$id_test = (isset($session_cl['id']))? $session_cl['id'] : '';
+		$sql = "SELECT user FROM ".$config['prefix']."user WHERE user = '".$_POST['user1']."' AND id != '".$id_test."'";
 		if (! ($get = $rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -139,7 +140,7 @@ if (!empty($_POST['Submit']) && $inscription != 0)
 require($root_path.'conf/frame.php');
 $template = new Template($root_path.'templates/'.$session_cl['skin']);
 $template->set_filenames( array('body' => 'user_news.tpl'));
-liste_smilies(true, '', 25);
+liste_smilies_bbcode(true, '', 25);
 if (!empty($forum_error) )
 {
 	msg('erreur' ,$forum_error);

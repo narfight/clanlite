@@ -167,3 +167,10 @@
 		<!-- END no_match -->
 	</div>
 </div>
+<!-- BEGIN regarder -->
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+	toggle('{regarder.FOR}')
+//--><!]]>
+</script>
+<!-- END regarder -->

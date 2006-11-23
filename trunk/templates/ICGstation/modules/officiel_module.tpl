@@ -3,7 +3,11 @@
 	{TXT_HEURE} : <span class="reponce">{HEURE}</span><br />
 	<span class="reponce">{SECTION}</span> VS <span class="reponce">{CONTRE}</span><br />
 	<span class="reponce">{INFO}</span>
+	{LIENS_MEMBRES}
 <!-- END match -->
+<!-- BEGIN match_liens_membres -->
+	<a href="{URL}">{TEXTE}</a>
+<!-- END match_liens_membres -->
 <!-- BEGIN entrain -->
 	{TXT_DATE} : <span class="reponce">{DATE}</span><br />
 	{TXT_HEURE} : <span class="reponce">{HEURE}</span><br />

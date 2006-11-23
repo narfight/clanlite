@@ -92,7 +92,7 @@ if (!empty($_POST['submit']) )
 require($root_path.'conf/frame.php');
 $template = new Template($root_path.'templates/'.$session_cl['skin']);
 $template->set_filenames( array('body' => 'defier.tpl'));
-liste_smilies(true, '', 25);
+liste_smilies_bbcode(true, '', 25);
 $template->assign_vars(array( 
 	'ICI' => session_in_url($root_path.'service/defier.php'),
 	'TXT_CHOISIR' => $langue['choisir'],

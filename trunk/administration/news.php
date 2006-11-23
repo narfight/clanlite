@@ -55,7 +55,7 @@ if (!empty($_POST['dell']))
 require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$session_cl['skin']);
 $template->set_filenames( array('body' => 'admin_news.tpl'));
-liste_smilies(true, '', 25);
+liste_smilies_bbcode(true, '', 25);
 $template->assign_vars(array( 
 	'ICI' => session_in_url('news.php'),
 	'TXT_CON_DELL' => $langue['confirm_dell'],

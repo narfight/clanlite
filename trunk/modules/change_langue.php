@@ -37,7 +37,7 @@ if (defined('CL_AUTH'))
 	{
 		$template->assign_block_vars('modules_'.$modules['place'], array( 
 				'TITRE' => $modules['nom'],
-				'IN' => '<form method="post" action="'.session_in_url($config['site_domain'].$_SERVER['PHP_SELF']).'"><p>'."\n".'<select name="change_langue_perso" id="change_langue_perso_module" size="'.$nombre_langue.'">'."\n".$liste_langue."\n".'</select><br />'."\n".'<input name="Envoyer" type="submit" value="'.$langue['envoyer'].'" />'."\n".'</p></form>'
+				'IN' => '<form method="post" action="'.session_in_url($config['site_domain'].$_SERVER['REQUEST_URI']).'"><p>'."\n".'<select name="change_langue_perso" id="change_langue_perso_module" size="'.$nombre_langue.'">'."\n".$liste_langue."\n".'</select><br />'."\n".'<input name="Envoyer" type="submit" value="'.$langue['envoyer'].'" />'."\n".'</p></form>'
 		));
 	}
 }

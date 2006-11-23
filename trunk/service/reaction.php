@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
  *	Fichier		: reaction.php												*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Copyright	: (C) 2006 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -84,7 +84,7 @@ if ( !empty($_POST['send']) )
 	}
 } 
 require($root_path.'conf/frame.php');
-$for = (empty($_GET['for']))? $_POST['for'] : $_GET['for'];
+$for = (empty($_GET['for']))? intval($_POST['for']) : intval($_GET['for']);
 $sql = "SELECT date, titre, info, user FROM `".$config['prefix']."news` WHERE id = '".$for."'";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
@@ -99,7 +99,7 @@ if ($news = $rsql->s_array($get))
 	}
 	$template = new Template($root_path.'templates/'.$session_cl['skin']);
 	$template->set_filenames( array('body' => 'reactions.tpl'));
-	liste_smilies(true, '', 25);
+	liste_smilies_bbcode(true, '', 25);
 	$sql = "SELECT user.id, reaction.*, user.user FROM `".$config['prefix']."reaction_news` AS reaction LEFT JOIN ".$config['prefix']."user AS user ON reaction.nom = user.user WHERE id_news ='".$for."' ORDER BY reaction.id ASC";
 	if (! ($list_reaction = $rsql->requete_sql($sql)) )
 	{

@@ -154,7 +154,7 @@ if ($_POST['etape'] == 0)
 			}
 			else
 			{
-				$TPL_BLOCK['CONFIG'] = '<span class="erreur">Vous devez métre en chmod 777 depuis votre programme FTP</span>';
+				$TPL_BLOCK['CONFIG'] = '<span class="erreur">Vous devez mettre en chmod 777 depuis votre programme FTP</span>';
 			}
 		}
 	}
@@ -378,7 +378,7 @@ if ($_POST['etape'] == 2)
 			$nombre = 0;
 			$rsql_array = array(
 				'site_domain' => 'http://'.$_SERVER['HTTP_HOST'],
-				'site_path' => str_replace('install', '', dirname($_SERVER['PHP_SELF'])),
+				'site_path' => str_replace('install', '', dirname($_SERVER['REQUEST_URI'])),
 				'compteur' => 0,
 				'nbr_membre' => 1,
 				'master_mail' => $_POST['user_mail'],

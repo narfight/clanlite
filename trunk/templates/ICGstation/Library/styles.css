@@ -401,6 +401,12 @@ cadre qui prendra le titre et le contenu du module */
 	background-color: #FFFFFF;
 	border: 1px solid black;
 }
+/* emplacement pour le bbcode*/
+.bt-bbcode
+{
+	margin: 5px 5% 5px 5px;
+}
+
 /* le cadre où on tape de grand message */
 .big_texte
 {

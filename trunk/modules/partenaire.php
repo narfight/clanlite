@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
- *	Fichier		: 															*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Fichier		: partenaire.php											*
+ *	Copyright	: (C) 2006 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -101,7 +101,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_partenaire_mod
 	$template = new Template(find_module_tpl('partenaires.tpl', true));
 	$template->set_filenames( array('body_module' => 'partenaires.tpl'));
 	$template->assign_vars( array(
-		'ICI' => $_SERVER['PHP_SELF'],
+		'ICI' => session_in_url('partenaire.php'),
 		'ID_MODULE' => $id_module,
 		'TITRE' => $langue['titre_module_partenaire'],
 		'TITRE_GESTION' => $langue['titre_gestion_module_partenaire'],

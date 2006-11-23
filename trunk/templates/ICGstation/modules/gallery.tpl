@@ -90,3 +90,8 @@
 	<!-- END multi_page -->
 	</div>
 </div>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+	diapo(0);
+//--><!]]>
+</script>

@@ -5,7 +5,7 @@
 		<form method="post" action="{ICI}" class="visible">
 			<p>
 				<span>
-				<label for="class">{TXT_MATCH_CLASS}&nbsp;:</label>
+					<label for="class">{TXT_MATCH_CLASS}&nbsp;:</label>
 				</span>
 				<span>
 					<input name="class" type="text" id="class" value="{CLASS}" onblur="formverif(this.id,'nbr','3')" />
@@ -84,6 +84,11 @@
 				<span><label for="infoe">{TXT_DETAILS}&nbsp;:</label></span>
 			</p>
 			<p>
+				<div class="bt-bbcode">
+					<!-- BEGIN bt_bbcode_liste -->
+					<input type="button" onmouseup="bbcode_insert('{bt_bbcode_liste.START}','{bt_bbcode_liste.END}', 'infoe');" title="{bt_bbcode_liste.HELP}"  value="{bt_bbcode_liste.INDEX}" />
+					<!-- END bt_bbcode_liste -->				
+				</div>
 				<div class="smilies">
 					<!-- BEGIN poste_smilies_liste -->
 					<a href="javascript:emoticon('{poste_smilies_liste.TXT}','infoe')"><img src="{poste_smilies_liste.IMG}" alt="{poste_smilies_liste.ALT}" width="{poste_smilies_liste.WIDTH}"  height="{poste_smilies_liste.HEIGHT}" /></a>
@@ -103,6 +108,11 @@
 				<span><label for="infoe">{MSG_PRIVE}&nbsp;:</label></span>
 			</p>
 			<p>
+				<div class="bt-bbcode">
+					<!-- BEGIN bt_bbcode_liste -->
+					<input type="button" onmouseup="bbcode_insert('{bt_bbcode_liste.START}','{bt_bbcode_liste.END}', 'priver');" title="{bt_bbcode_liste.HELP}"  value="{bt_bbcode_liste.INDEX}" />
+					<!-- END bt_bbcode_liste -->				
+				</div>
 				<div class="smilies">
 					<!-- BEGIN poste_smilies_liste -->
 					<a href="javascript:emoticon('{poste_smilies_liste.TXT}','priver')"><img src="{poste_smilies_liste.IMG}" alt="{poste_smilies_liste.ALT}" width="{poste_smilies_liste.WIDTH}"  height="{poste_smilies_liste.HEIGHT}" /></a>

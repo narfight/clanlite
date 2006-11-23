@@ -49,7 +49,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_perso_mo
 	require($root_path.'conf/frame_admin.php');
 	$template = new Template($root_path.'templates/'.$session_cl['skin']);
 	$template->set_filenames( array('body' => 'modules/module_perso.tpl'));
-	liste_smilies(true, '', 25);
+	liste_smilies_bbcode(true, '', 25);
 	$sql = "SELECT config FROM ".$config['prefix']."modules WHERE id ='".$id_module."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{

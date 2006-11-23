@@ -118,7 +118,7 @@ if ( !empty($_POST['Edit_fichier']) )
 require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$session_cl['skin']);
 $template->set_filenames( array('body' => 'admin_dl_fichiers.tpl'));
-liste_smilies(true, '', 25);
+liste_smilies_bbcode(true, '', 25);
 if (isset($erreur))
 {
 	$template->assign_block_vars('erreur', array(

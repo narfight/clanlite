@@ -115,7 +115,7 @@ while ($nfo = $rsql->s_array($get))
 require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$session_cl['skin']);
 $template->set_filenames( array('body' => 'admin_match.tpl'));
-liste_smilies(true, '', 25);
+liste_smilies_bbcode(true, '', 25);
 // gestion des maps
 //on vérifie que c'est un array, si non, on le crée mais vide
 if (!isset($_POST['liste_map']) || !is_array($_POST['liste_map']))
@@ -401,6 +401,8 @@ else
 {
 	$template->assign_block_vars('no_match', array('TXT' => $langue['no_futur_match']));
 }
+
+//Liste les sections
 $sql = 'SELECT * FROM `'.$config['prefix'].'section`';
 if (! ($get_section_liste = $rsql->requete_sql($sql)) )
 {
