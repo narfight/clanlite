@@ -8,6 +8,10 @@
 	  <h3><input value="{VOIR}" name="voir_{match_inscrit.FOR}" type="button" onClick="toggle('{match_inscrit.FOR}')"> {CONTRE} {match_inscrit.CLAN}</h3>
 		<div id="toggle_{match_inscrit.FOR}" style="display:none">
 			<p>
+				<span class="nom_liste">{TXT_MATCH_CLASS} :</span>
+				<span class="reponce">{match_inscrit.CLASS}</span>
+			</p>
+			<p>
 				<span class="nom_liste">{DATE} :</span>
 				<span class="reponce">{match_inscrit.DATE}</span>
 			</p>
@@ -34,6 +38,19 @@
 			<p>
 				<span class="nom_liste">{MSG_PRIVE} :</span>
 				<span class="reponce">{match_inscrit.PRIVER}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{TXT_MAP} :</span>
+				<span class="reponce">
+					<ul>
+						<!-- BEGIN map_list -->
+						<li>{match_inscrit.map_list.NOM}</li>
+						<!-- END map_list -->
+						<!-- BEGIN map_list_url -->
+						<li><a href="{match_inscrit.map_list_url.URL}">{match_inscrit.map_list_url.NOM}</a></li>
+						<!-- END map_list_url -->
+					</ul>
+				</span>
 			</p>
 			<p>
 				<span class="nom_liste">{TEAM_OK} :</span>
@@ -72,6 +89,9 @@
 	  <h3><input value="{VOIR}" name="voir_{match_pas_inscrit.FOR}" type="button" onClick="toggle('{match_pas_inscrit.FOR}')"> {CONTRE} {match_pas_inscrit.CLAN}</h3>
 		<div id="toggle_{match_pas_inscrit.FOR}" style="display:none">
 			<p>
+				<span class="nom_liste">{TXT_MATCH_CLASS} :</span>
+				<span class="reponce">{match_pas_inscrit.CLASS}</span>
+			</p>			<p>
 				<span class="nom_liste">{DATE} :</span>
 				<span class="reponce">{match_pas_inscrit.DATE}</span>
 			</p>
@@ -94,6 +114,23 @@
 			<p>
 				<span class="nom_liste">{VOIR} :</span>
 				<span class="reponce">{match_pas_inscrit.INFO}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{MSG_PRIVE} :</span>
+				<span class="reponce">{match_pas_inscrit.PRIVER}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{TXT_MAP} :</span>
+				<span class="reponce">
+					<ul>
+						<!-- BEGIN map_list -->
+						<li>{match_pas_inscrit.map_list.NOM}</li>
+						<!-- END map_list -->
+						<!-- BEGIN map_list_url -->
+						<li><a href="{match_pas_inscrit.map_list_url.URL}">{match_pas_inscrit.map_list_url.NOM}</a></li>
+						<!-- END map_list_url -->
+					</ul>
+				</span>
 			</p>
 			<p>
 				<span class="nom_liste">{TEAM_OK} :</span>

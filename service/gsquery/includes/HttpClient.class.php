@@ -15,7 +15,7 @@ class HttpClient {
     var $referer;
     var $accept = 'text/xml,application/xml,application/xhtml+xml,text/html,text/plain,image/png,image/jpeg,image/gif,*/*';
     var $accept_encoding = 'gzip';
-    var $accept_language = 'en-us';
+    var $accept_language = 'fr-FR';
     var $user_agent = 'Incutio HttpClient v0.9';
     // Options
     var $timeout = 20;

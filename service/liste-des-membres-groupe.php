@@ -14,7 +14,7 @@ $action_membre= 'where_membre_group';
 require($root_path.'conf/template.php');
 require($root_path.'conf/conf-php.php');
 // liste des sections
-$sql = "SELECT user.id AS user_id, section.nom AS section_nom, equipe.nom AS equipe_nom, grade.nom AS grade_nom, user.user, user.sex, user.im, user.roles FROM ".$config['prefix']."user AS user LEFT  JOIN ".$config['prefix']."équipe AS equipe ON user.equipe = equipe.id LEFT  JOIN ".$config['prefix']."section AS section ON user.section= section.id LEFT JOIN ".$config['prefix']."grades AS grade ON grade.id = user.grade WHERE section.visible = 1 OR user.section = '' ORDER BY grade.ordre DESC";
+$sql = "SELECT user.id AS user_id, section.nom AS section_nom, equipe.nom AS equipe_nom, grade.nom AS grade_nom, user.user, user.sex, user.im, user.roles FROM ".$config['prefix']."user AS user LEFT  JOIN ".$config['prefix']."equipe AS equipe ON user.equipe = equipe.id LEFT  JOIN ".$config['prefix']."section AS section ON user.section= section.id LEFT JOIN ".$config['prefix']."grades AS grade ON grade.id = user.grade WHERE section.visible = 1 OR user.section = '' ORDER BY grade.ordre DESC";
 if (! ($nfo_user_liste = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -73,7 +73,7 @@ if (!empty($liste_group) && is_array($liste_group))
 	}
 }
 // on en profite pour faire la définition
-$sql = "SELECT * FROM ".$config['prefix']."équipe";
+$sql = "SELECT * FROM ".$config['prefix']."equipe";
 if (! ($equipe = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -82,7 +82,7 @@ while ($liste_équipe = $rsql->s_array($equipe))
 {
 	$template->assign_block_vars('info', array(
 		'NOM' => $liste_équipe['nom'],
-		'DETAIL' => $liste_équipe['détail']
+		'DETAIL' => bbcode($liste_équipe['detail'])
 	));
 }
 $template->pparse('body');

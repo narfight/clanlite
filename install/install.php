@@ -353,7 +353,7 @@ if ($_POST['etape'] == 2)
 			eval($get_rsql);
 			
 			// ajoute l'administrateur
-			$rsql_array["'', '', '".$_POST['user_login']."', '".$_POST['user_mail']."', '', MD5('".$_POST['user_code']."'), 'admin', '', '0', '', '', '0', '1', '1', '', '', '0', '', '', '', '0', '', '0', '', '', 'francais'"] = 'clanlite_user';
+			$rsql_array["'', '', '".$_POST['user_login']."', '".$_POST['user_mail']."', '', MD5('".$_POST['user_code']."'), 'admin', 'Homme', '0' , UNIX_TIMESTAMP(), '', '', '0', '1', '1', '', '', '0', '', '', '', '0', '', '0', '', '', 'francais'"] = 'clanlite_user';
 			$nombre = 0;
 			$log_erreur_données = true;
 			foreach($rsql_array as $exec_db => $nom_db)

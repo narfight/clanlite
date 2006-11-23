@@ -18,7 +18,7 @@ require($root_path.'controle/cook.php');
 if (!empty($_POST['Envoyer']))
 { 
 	$_POST = pure_var($_POST);
-	$sql = "INSERT INTO `".$config['prefix']."équipe` (nom,détail) VALUES ('".$_POST['nom']."', '".$_POST['info']."')";
+	$sql = "INSERT INTO `".$config['prefix']."equipe` (nom, detail) VALUES ('".$_POST['nom']."', '".$_POST['info']."')";
 	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -28,7 +28,7 @@ if (!empty($_POST['Envoyer']))
 if (!empty($_POST['Editer']))
 {
 	$_POST = pure_var($_POST);
-	$sql = "UPDATE `".$config['prefix']."équipe` SET nom='".$_POST['nom']."', détail='".$_POST['info']."' WHERE id='".$_POST['for']."'";
+	$sql = "UPDATE `".$config['prefix']."equipe` SET nom='".$_POST['nom']."', detail='".$_POST['info']."' WHERE id='".$_POST['for']."'";
 	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -37,7 +37,7 @@ if (!empty($_POST['Editer']))
 }
 if (!empty($_POST['dell']))
 {
-	$sql = "DELETE FROM `".$config['prefix']."équipe` WHERE id ='".$_POST['for']."'";
+	$sql = "DELETE FROM `".$config['prefix']."equipe` WHERE id ='".$_POST['for']."'";
 	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -68,7 +68,7 @@ $template->assign_vars( array(
 ));
 if (!empty($_POST['edit']))
 {
-	$sql = "SELECT * FROM ".$config['prefix']."équipe WHERE id='".$_POST['for']."'";
+	$sql = "SELECT * FROM ".$config['prefix']."equipe WHERE id='".$_POST['for']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -77,7 +77,7 @@ if (!empty($_POST['edit']))
 	$template->assign_block_vars('edit', array('EDITER' => $langue['editer']));
 	$template->assign_vars( array( 
 		'ID' => $edit['id'],
-		'INFO' => $edit['détail'],
+		'INFO' => $edit['detail'],
 		'NOM' => $edit['nom'],
 	));
 }
@@ -85,7 +85,7 @@ else
 {
 	$template->assign_block_vars('envoyer', array('ENVOYER' => $langue['envoyer']));
 }
-$sql = "SELECT * FROM ".$config['prefix']."équipe ORDER BY `id` DESC";
+$sql = "SELECT * FROM ".$config['prefix']."equipe ORDER BY `id` DESC";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -94,7 +94,7 @@ while ( $liste = $rsql->s_array($get) )
 {
 	$template->assign_block_vars('liste', array(
 		'ID' => $liste['id'],
-		'INFO' => $liste['détail'],
+		'INFO' => bbcode($liste['detail']),
 		'NOM' => $liste['nom'],
 		'SUPPRIMER' => $langue['supprimer'],
 		'EDITER' => $langue['editer']

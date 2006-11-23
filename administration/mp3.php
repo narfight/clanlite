@@ -89,7 +89,7 @@ else
 {
 	$template->assign_block_vars('rajouter', array('ENVOYER' => $langue['envoyer'])); 
 }
-$sql = "SELECT `id`, `SRC`, `titre` , `ordre` FROM `".$config['prefix']."config_sond` ORDER BY `ordre` DESC";
+$sql = "SELECT `id`, `SRC`, `titre` , `ordre` FROM `".$config['prefix']."config_sond` ORDER BY `ordre` ASC";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);

@@ -206,7 +206,7 @@ while ($group_liste = $rsql->s_array($get))
 		'INFO' => $group_liste['comentaire']
 	));
 }
-$sql = "SELECT * FROM ".$config['prefix']."download_fichier fichier";
+$sql = "SELECT * FROM `".$config['prefix']."download_fichier` ORDER BY `nom_de_fichier` ASC";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql , $rsql->error, __LINE__, __FILE__);

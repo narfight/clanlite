@@ -81,7 +81,7 @@ if (defined('CL_AUTH'))
 		$test = $rsql->s_array($get);
 		if ($test['COUNT(id)'] == 1)
 		{
-			$sql = "CREATE TABLE `".$config['prefix']."module_webost_ts` ( `id` mediumint(8) unsigned NOT NULL auto_increment, `ip` varchar(15) NOT NULL default '', `port` smallint(5) unsigned NOT NULL default '0', `query_port` smallint(5) unsigned NOT NULL default '0', `version` varchar(30) NOT NULL default '', `up_time` int(11) unsigned NOT NULL default '0', `name` varchar(255) NOT NULL default '', `password` enum('0','1') NOT NULL default '0', `max_user` smallint(5) unsigned NOT NULL default '0', `country` varchar(255) NOT NULL default '', `mail` varchar(255) NOT NULL default '', `url` varchar(255) NOT NULL default '', `os` enum('Linux','Win32') NOT NULL default 'Linux', `ispname` varchar(255) NOT NULL default '', `users` longtext NOT NULL, PRIMARY KEY  (`id`))";
+			$sql = "CREATE TABLE `".$config['prefix']."module_webost_ts` ( `id` mediumint(8) unsigned NOT NULL auto_increment, `last_scan` decimal(12,0) NOT NULL default '0', `ip` varchar(15) NOT NULL default '', `port` smallint(5) unsigned NOT NULL default '0', `query_port` smallint(5) unsigned NOT NULL default '0', `version` varchar(30) NOT NULL default '', `up_time` int(11) unsigned NOT NULL default '0', `name` varchar(255) NOT NULL default '', `password` enum('0','1') NOT NULL default '0', `max_user` smallint(5) unsigned NOT NULL default '0', `country` varchar(255) NOT NULL default '', `mail` varchar(255) NOT NULL default '', `url` varchar(255) NOT NULL default '', `os` enum('Linux','Win32') NOT NULL default 'Linux', `ispname` varchar(255) NOT NULL default '', `users` longtext NOT NULL, PRIMARY KEY  (`id`))";
 			if (!$rsql->requete_sql($sql))
 			{
 				sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -137,7 +137,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_webpost_
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
 		// vérifie si on peux contacter le serveur
-		if ($connection = fsockopen($ip, $query_port, $a, $b, 3))
+		if ($connection = fsockopen($_POST['ip'], $_POST['query_port'], $a, $b, 3))
 		{
 			fwrite($connection, 'sel '.$_POST['port']."\nquit\n");
 			if (trim(fgets($connection, 4096)) == '[TS]')

@@ -70,7 +70,7 @@ if (!empty($_POST['Editer']))
 	}
 	$edit_smilies = $rsql->s_array($get);
 	$template->assign_block_vars('edit', array('EDITER' => $langue['editer']));
-	$template->assign_vars( array( 
+	$template->assign_vars(array(
 		'ID' => $edit_smilies['id'],
 		'IMG' => $edit_smilies['img'],
 		'TEXT' => $edit_smilies['text'],

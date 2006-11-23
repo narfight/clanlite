@@ -15,7 +15,7 @@ require($root_path.'conf/template.php');
 require($root_path.'conf/conf-php.php');
 require($root_path.'conf/frame.php');
 $template = new Template($root_path.'templates/'.$session_cl['skin']);
-$sql = "SELECT user.*,user.nom AS user_nom, equipe.nom AS equipe_nom, section.nom AS section_nom, grade.nom AS grade_nom FROM ".$config['prefix']."user AS user LEFT JOIN ".$config['prefix']."section AS section ON section.id = user.section LEFT JOIN ".$config['prefix']."équipe as equipe ON equipe.id = user.equipe LEFT JOIN ".$config['prefix']."grades as grade ON grade.id = user.grade WHERE user.id = '".$_GET['link']."'";
+$sql = "SELECT user.*,user.nom AS user_nom, equipe.nom AS equipe_nom, section.nom AS section_nom, grade.nom AS grade_nom FROM ".$config['prefix']."user AS user LEFT JOIN ".$config['prefix']."section AS section ON section.id = user.section LEFT JOIN ".$config['prefix']."equipe as equipe ON equipe.id = user.equipe LEFT JOIN ".$config['prefix']."grades as grade ON grade.id = user.grade WHERE user.id = '".$_GET['link']."'";
 if (! ($get_p = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -46,12 +46,12 @@ if ( ($profil = $rsql->s_array($get_p)) )
 		'TXT_TEXT' => $langue['cri_guerre'],
 		'LASTCONNECT' => adodb_date('j/n/Y', $profil['last_connect']+$session_cl['correction_heure']),
 		'TXT_LASTCONNECT' => $langue['last_connection'],
-		'PRENOM' => $profil['prénom'],
+		'PRENOM' => $profil['prenom'],
 		'TXT_PRENOM' => $langue['prenom'],
-		'ARME' => $profil['armes_préférées'],
+		'ARME' => $profil['armes_preferees'],
 		'TXT_ARME' => $langue['favori_arme'],
 		'ALT_ARME' => $langue['alt_arme'],
-		'HISTOIRE' => $profil['histoire'],
+		'HISTOIRE' => bbcode($profil['histoire']),
 		'TXT_HISTOIRE' => $langue['histoire'],
 		'ROLES' => $profil['roles'],
 		'TXT_ROLES' => $langue['roles'],
@@ -63,7 +63,8 @@ if ( ($profil = $rsql->s_array($get_p)) )
 		'EQUIPE' => $profil['equipe_nom'],
 		'TXT_EQUIPE' => $langue['equipe'],
 		'ALT_MEDAILLES' => $langue['alt_medaille'],
-
+		'TXT_DATE' => $langue['user_date'],
+		'DATE_ENTREE' => adodb_date('j/m/Y',$profil['user_date']+$session_cl['correction_heure']),
 	));
 	if ($config['show_grade'] == 1)
 	{

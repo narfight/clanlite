@@ -5,7 +5,7 @@
 	    <form method="post" action="{ICI}" class="visible">
 			<p>
 				<span><label for="ip">{TXT_SERVEUR_GAME_IP}&nbsp;:</label></span>
-				<span><input name="ip" id="ip" type="text" value="{IP}" size="15" maxlength="15" onblur="formverif(this.id,'nbr','6')" /></span>
+				<span><input name="ip" id="ip" type="text" value="{IP}" size="15" onblur="formverif(this.id,'nbr','6')" /></span>
 			</p>
 			<p>
 				<span><label for="port">{TXT_SERVEUR_GAME_PORT}&nbsp;:</label></span>

@@ -230,7 +230,7 @@ function scan_ts_server($ip_serveur, $query_port, $port_serveur)
 					{
 						$array_tmp[trim($user_data_head[$id])] = $value;
 					}
-					if ( !empty($channel_data[$array_tmp['c_id']]) && is_array($channel_data[$array_tmp['c_id']]) )
+					if ( isset($channel_data[$array_tmp['c_id']]) && is_array($channel_data[$array_tmp['c_id']]) )
 					{
 						$channel_data[$array_tmp['c_id']]['user'][$array_tmp['p_id']] = $array_tmp;
 					}

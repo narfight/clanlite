@@ -159,7 +159,6 @@
 					<span><label for="skin">{TXT_SKIN}&nbsp;:</label></span>
 					<span>
 						<select name="skin" id="skin" onblur="formverif(this.id,'autre','')">
-							<option value"">{TXT_CHOISIR}</option> 
 							<!-- BEGIN skin -->
 							<option value="{skin.VALUE}" {skin.SELECTED}>{skin.NAME}</option>
 							<!-- END skin -->

@@ -36,22 +36,35 @@ if (defined('CL_AUTH'))
 		}
 		return;
 	}
-	if(!empty($_POST['Submit_shoutbox']) && !empty($_POST['id']) && $modules['id'] == $_POST['id'])
+
+	//Quand on poste un message
+	if(!empty($_POST['Submit_shoutbox']) && !empty($_POST['shoutbox_msg']) && !empty($_POST['id']) && $modules['id'] == $_POST['id'])
 	{
-		$_POST = pure_var($_POST);
-		if (empty($_POST['shoutbox_user']))
+		//on vérifie que c'est pas un msg en doublon
+		if (!isset($session_cl['module_shourbox_anti_doublon']) || (isset($session_cl['module_shourbox_anti_doublon']) && $session_cl['module_shourbox_anti_doublon'] != $_POST['shoutbox_msg']))
 		{
-			$_POST['shoutbox_user'] = $langue['guest'];
-		}
-		$sql = 'INSERT INTO `'.$config['prefix'].'module_shoutbox_'.$_POST['id'].'` (`user`, `msg`) VALUES (\''.$_POST['shoutbox_user'].'\', \''.$_POST['shoutbox_msg'].'\')';
-		if (! ($get = $rsql->requete_sql($sql, 'module', 'Ajoute le message dans la shoutbox')) )
-		{
-			sql_error($sql, $rsql->error, __LINE__, __FILE__);
+			$_POST = pure_var($_POST);
+
+			//si la personne n'a pas donné de pseudo
+			if (empty($_POST['shoutbox_user']))
+			{
+				$_POST['shoutbox_user'] = $langue['guest'];
+			}
+
+			//on sauvegarde le message pour la détection de doublon
+			$session_cl['module_shourbox_anti_doublon'] = $_POST['shoutbox_msg'];
+			save_session($session_cl);
+
+			$sql = 'INSERT INTO `'.$config['prefix'].'module_shoutbox_'.$_POST['id'].'` (`user`, `msg`) VALUES (\''.$_POST['shoutbox_user'].'\', \''.$_POST['shoutbox_msg'].'\')';
+			if (! ($get = $rsql->requete_sql($sql, 'module', 'Ajoute le message dans la shoutbox')) )
+			{
+				sql_error($sql, $rsql->error, __LINE__, __FILE__);
+			}
 		}
 	}
-	
+
 	$block = module_tpl('shoutbox.tpl');
-		
+
 	$sql = 'SELECT `id`, `user`, `msg` FROM '.$config['prefix'].'module_shoutbox_'.$modules['id'].' ORDER BY `id` DESC LIMIT 15';
 	if (! ($get = $rsql->requete_sql($sql, 'module', 'Liste le contenu de la shoutbox')) )
 	{
@@ -60,7 +73,7 @@ if (defined('CL_AUTH'))
 	$liste_msg = '';
 	$color = 'table-cellule';
 	while ( $liste = $rsql->s_array($get) )
-	{ 
+	{
 		$color = ($color === 'table-cellule')? 'table-cellule-2' : 'table-cellule';
 		$tmp = str_replace('{USER}', $liste['user'], $block['liste_shoutbox']);
 		$tmp = str_replace('{CLASS}', $color, $tmp);
@@ -84,7 +97,7 @@ if (defined('CL_AUTH'))
 	$block['shoutbox'] = str_replace('{MSG}', $langue['form_message'], $block['shoutbox']);
 	$block['shoutbox'] = str_replace('{LISTE}', $liste_msg, $block['shoutbox']);
 	$block['shoutbox'] = str_replace('{ENVOYER}', $langue['envoyer'], $block['shoutbox']);
-	$template->assign_block_vars('modules_'.$modules['place'], array( 
+	$template->assign_block_vars('modules_'.$modules['place'], array(
 		'TITRE' => $modules['nom'],
 		'IN' => $block['shoutbox']
 	));

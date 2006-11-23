@@ -19,7 +19,7 @@ header('Content-type: text/xml');
 echo '<?xml version="1.0" encoding="UTF-8" ?>'."\n";
 echo '<sommaire autoStart="'.(($config['mp3_auto_start'] == 1)? 'yes' : 'no').'">'."\n";
 
-$sql = 'SELECT `SRC`, `titre` FROM `'.$config['prefix'].'config_sond` ORDER BY `ordre` DESC';
+$sql = 'SELECT `SRC`, `titre` FROM `'.$config['prefix'].'config_sond` ORDER BY `ordre` ASC';
 if (! $get = $rsql->requete_sql($sql))
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);

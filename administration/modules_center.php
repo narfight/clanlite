@@ -16,7 +16,7 @@ require($root_path.'conf/template.php');
 require($root_path.'conf/conf-php.php');
 require($root_path.'controle/cook.php');
 if (!empty($_POST['envoyer']))
-{ 
+{
 	if (empty($_POST['module']))
 	{
 		redirec_text('modules_center.php', $langue['redirection_module_erreur'], 'admin');
@@ -43,10 +43,14 @@ if (!empty($_POST['envois_edit']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	else
+
+	$sql = "UPDATE `".$config['prefix']."custom_menu` SET `text`='".$_POST['nom']."' WHERE `id_module`='".$_POST['for']."'";
+	if (!$rsql->requete_sql($sql))
 	{
-		redirec_text('modules_center.php', $langue['redirection_module_edit'], 'admin');
+		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
+	redirec_text('modules_center.php', $langue['redirection_module_edit'], 'admin');
+
 }
 if (!empty($_POST['Supprimer']))
 {
@@ -71,7 +75,7 @@ if (!empty($_POST['Editer']))
 	}
 	$edit_module = $rsql->s_array($get);
 	$template->assign_block_vars('edit', array('EDITER' => $langue['editer']));
-	$template->assign_vars( array( 
+	$template->assign_vars( array(
 		'ID' => $edit_module['id'],
 		'NOM' => $edit_module['nom'],
 		'ORDRE' => $edit_module['ordre'],
@@ -99,7 +103,7 @@ $template->assign_vars(array(
 	'TXT_CENTRE' => $langue['module_centre'],
 	'TXT_ETAT' => $langue['module_etat'],
 	'TXT_ON' => $langue['module_on'],
-	'TXT_OFF' => $langue['module_off'],	
+	'TXT_OFF' => $langue['module_off'],
 	'ACTIVATION_ON' => (!empty($edit_module['etat']) && $edit_module['etat'] != 0 || empty($edit_module['etat']))? 'checked="checked"' : '',
 ));
 
@@ -132,7 +136,7 @@ if (is_dir($dir))
 		while (($file = readdir($dh)) !== false)
 		{
 			if($file != '..' && $file !='.' && $file !='' && eregi('.php', $file))
-			{ 
+			{
 				require($root_path.'modules/'.$file);
 				if ($central)
 				{

@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
- *	Fichier		: 															*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Fichier		: conf-php.php												*
+ *	Copyright	: (C) 2006 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -16,10 +16,12 @@ require($root_path.'conf/'.((!empty($config['db_type']))? $config['db_type'] : '
 require($root_path.'conf/session.php');
 require($root_path.'conf/lib.php');
 require($root_path.'conf/adodb-time.inc.php');
+
 if (!defined('CL_INSTALL'))
 {// clanlite non installé, on y va alors
 	redirection($root_path.'install/install.php');
 }
+
 define('CL_AUTH', true);
 $rsql = new mysql();
 $config['securitee'] = 'no';
@@ -30,6 +32,7 @@ if (isset($rsql->error))
 {
 	die($rsql->error);
 }
+
 // on prend la config
 $sql = 'SELECT * FROM `'.$config['prefix'].'config`';
 if (!($rsql->requete_sql($sql, 'site', 'prise de la configuration du site')))
@@ -98,6 +101,7 @@ if(!empty($session_cl['user']) && !empty($session_cl['psw']))
 		// on redéfinit les valeurs qui pourrait étre changé par l'admin
 		$session_cl['id'] = $infouser['id'];
 		$session_cl['sex'] = $infouser['sex'];
+		$session_cl['nom'] = $infouser['nom'];
 		$session_cl['mail'] = $infouser['mail'];
 		$session_cl['section'] = $infouser['section'];
 		$session_cl['langue_user'] = (!empty($session_cl['langue_user']))? $session_cl['langue_user'] : $infouser['langue'];

@@ -34,8 +34,8 @@ else
 	$debut = getmicrotime();
 	$template = new Template($root_path.'templates/'.$session_cl['skin']);
 	$template->set_filenames( array('head' => 'haut_de_page.tpl'));
-	$sql = "SELECT id,nom,place,call_page,config FROM `".$config['prefix']."modules` WHERE etat = '1' AND place != 'centre' ORDER BY `ordre` ASC";
-	if (! ($get_module = $rsql->requete_sql($sql, 'site', 'Listage des modules a afficher')) )
+	$sql = "SELECT `id`, `nom`, `place`, `call_page`, `config` FROM `".$config['prefix']."modules` WHERE `etat` = '1' AND `place` != 'centre' ORDER BY `ordre` ASC";
+	if (! ($get_module = $rsql->requete_sql($sql, 'site', 'Listage des modules à afficher')) )
 	{
 		sql_error($sql , $rsql->error, __LINE__, __FILE__);
 	}

@@ -44,12 +44,12 @@ class mohs extends gsQuery
       $this->_init();
     }
       
-    $command="\\status\\";
+    $command="\xFF\xFF\xFF\xFF\x02getstatus\x0a\x00";
+	//$command="\\status\\";
     if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
       $this->errstr='No reply received';
       return FALSE;
-    }
-      
+    } 
     $temp=explode("\x0a",$result);
     $rawdata=explode("\\",substr($temp[0],1,strlen($temp[0])));
     
@@ -89,7 +89,6 @@ class mohs extends gsQuery
 	$this->rules[$rawdata[$i-1]] = $rawdata[$i];
       }
     }
-
     if(!$this->maxplayers) {
       return FALSE;
     }

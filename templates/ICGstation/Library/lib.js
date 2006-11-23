@@ -1,5 +1,5 @@
 // JavaScript Document
-// crée par Narfight (narfight@lna.be) pour ClanLite  -  http://clanlite.lna.be
+// crée par Narfight (narfight@clanlite.org) pour ClanLite  -  http://www.clanlite.org
 function trouve(id)
 {
 	if (!document.getElementById)

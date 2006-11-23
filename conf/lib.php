@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
  *	Fichier		: lib.php													*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Copyright	: (C) 2005 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -32,8 +32,8 @@ function cut_sentence($texte,$nbcar=0)
 			$tmp .= $value.' ';
 		}
 		// on supprime le dérnié espace
-		$tmp = substr( $tmp, 0, strlen($tmp)-1 );
-		if ( count($liste) > 1 )
+		$tmp = substr($tmp , 0, strlen($tmp)-1);
+		if (count($liste) > 1)
 		{
 			$tmp .= '...';
 		}
@@ -58,10 +58,10 @@ function find_module_tpl($file, $split)
 	{
 		// Sinon, on regarde dans le repertoire module et les sous repertoires
 		$url_module_local = $root_path.'/modules/';
-		 foreach(scandir($url_module_local) as $file_dir)
+		foreach(scandir($url_module_local) as $file_dir)
 		{
 			if (is_dir($url_module_local.$file_dir))
-			{// on scan le sous repertoir
+			{// on scan le sous repertoire
 				foreach(scandir($url_module_local.$file_dir) as $file_dir2)
 				{
 					if ($file_dir2 == $file)
@@ -130,21 +130,28 @@ function get_ip()
 // si c'est moins récent que PHP5, on crée la function
 if (version_compare(phpversion(),'5') === -1)
 {
-	function scandir($rep)
+	function scandir($dir = './', $sort = 0)
 	{
-		if (is_dir($rep))
+		$dir_open = @opendir($dir);
+		if (!$dir_open)
 		{
-			if ($dh = opendir($rep))
-			{
-				while (($file = readdir($dh)) !== false)
-				{
-					$liste[] = $file;
-				}
-        		closedir($dh);
-				return $liste;
-			}
+			return false;
 		}
-		return false;
+		
+		while (($dir_content = readdir($dir_open)) !== false)
+		{
+			$files[] = $dir_content;
+		}
+		
+		if ($sort == 1)
+		{
+			rsort($files, SORT_STRING);
+		}
+		else
+		{
+			sort($files, SORT_STRING);
+		}
+		return $files;
 	}
 }
 
@@ -306,7 +313,7 @@ function bbcode($fichier)
 function liste_smilies($show, $tpl_ou='', $limite=-1)
 {
 	global $config, $rsql, $template, $root_path, $langue;
-	if (empty($config['smilies_liste']))
+	if (!isset($config['smilies_liste']))
 	{
 		$sql = "SELECT * FROM `".$config['prefix']."smilies`";
 		if (! ($get = $rsql->requete_sql($sql, 'site', 'Liste les smilies')) )
@@ -326,38 +333,42 @@ function liste_smilies($show, $tpl_ou='', $limite=-1)
 	{
 		return true;
 	}
-	foreach($config['smilies_liste'] as $info_smilies)
+	// on fait la liste des smilies ... si il en a !!!
+	if (isset($config['smilies_liste']) && is_array($config['smilies_liste']))
 	{
-		$smilies_unique[$info_smilies['img']] = $info_smilies;
-	}
-	$nombre = 0;
-	foreach($smilies_unique as $info_smilies)
-	{
-		if ($limite == 1 || $limite > $nombre)
+		foreach($config['smilies_liste'] as $info_smilies)
 		{
-			$template->assign_block_vars($tpl_ou.'poste_smilies_liste', array( 
-				'TXT' => addslashes($info_smilies['text']),
-				'IMG' => $root_path.'images/smilies/'.$info_smilies['img'],
-				'ALT' => $info_smilies['def'],
-				'WIDTH' => $info_smilies['width'],
-				'HEIGHT' => $info_smilies['height'],
-			));
+			$smilies_unique[$info_smilies['img']] = $info_smilies;
 		}
-		else
+		$nombre = 0;
+		foreach($smilies_unique as $info_smilies)
 		{
-			if ($limite == $nombre)
+			if ($limite == 1 || $limite > $nombre)
 			{
-				$template->assign_block_vars($tpl_ou.'poste_smilies_liste.more', array('MORE_SMILIES' => $langue['show/hide_smilies']));
+				$template->assign_block_vars($tpl_ou.'poste_smilies_liste', array( 
+					'TXT' => addslashes($info_smilies['text']),
+					'IMG' => $root_path.'images/smilies/'.$info_smilies['img'],
+					'ALT' => $info_smilies['def'],
+					'WIDTH' => $info_smilies['width'],
+					'HEIGHT' => $info_smilies['height'],
+				));
 			}
-			$template->assign_block_vars($tpl_ou.'poste_smilies_liste.more.liste', array( 
-				'TXT' => addslashes($info_smilies['text']),
-				'IMG' => $root_path.'images/smilies/'.$info_smilies['img'],
-				'ALT' => $info_smilies['def'],
-				'WIDTH' => $info_smilies['width'],
-				'HEIGHT' => $info_smilies['height'],
-			));
+			else
+			{
+				if ($limite == $nombre)
+				{
+					$template->assign_block_vars($tpl_ou.'poste_smilies_liste.more', array('MORE_SMILIES' => $langue['show/hide_smilies']));
+				}
+				$template->assign_block_vars($tpl_ou.'poste_smilies_liste.more.liste', array( 
+					'TXT' => addslashes($info_smilies['text']),
+					'IMG' => $root_path.'images/smilies/'.$info_smilies['img'],
+					'ALT' => $info_smilies['def'],
+					'WIDTH' => $info_smilies['width'],
+					'HEIGHT' => $info_smilies['height'],
+				));
+			}
+			$nombre++;
 		}
-		$nombre++;
 	}
 	return true;
 }
@@ -386,10 +397,10 @@ function sql_error($requete, $erreur, $line, $file)
 		$fp = @fsockopen('services.clanlite.org', 80, $errno, $errstr, 30);
 		if ($fp)
 		{
-			$out = "GET /com.php?rapport=".urlencode($requete.'|*|'.$erreur.'|*|'.$file.'|*|'.$line)." HTTP/1.1\r\n";
+			$out = 'GET /com.php?rapport='.urlencode($requete.'|*|'.$erreur.'|*|'.$file.'|*|'.$line)." HTTP/1.1\r\n";
 			$out .= "Host: services.clanlite.org\r\n";
-			$out .= "Referer: ".$config['site_domain'].$config['site_path']."(".$_SERVER['HTTP_HOST'].")\r\n";
-			$out .= "User-Agent: Clanlite ".$config['version']."\r\n";
+			$out .= 'Referer: '.$config['site_domain'].$config['site_path'].'('.$_SERVER['HTTP_HOST'].")\r\n";
+			$out .= 'User-Agent: Clanlite '.$config['version']."\r\n";
 			$out .= "Connection: Close\r\n\r\n";
 		
 			fwrite($fp, $out);
@@ -443,7 +454,7 @@ function redirec_text($url,$txt,$for)
 { 
 	global $root_path, $config, $rsql, $inscription, $langue, $template, $user_pouvoir, $session_cl;
 	$url = session_in_url($url);
-	$frame_head = '<meta http-equiv="refresh" content="3;URL='.$url.'" />'."\n";
+	$frame_head = '<meta http-equiv="refresh" content="2;URL='.$url.'" />'."\n";
 	$frame_where = ($for === 'admin')? $root_path.'conf/frame_admin.php' : $root_path.'conf/frame.php';
 	require($frame_where);
 	$template->set_filenames(array('body' => 'divers_text.tpl'));
@@ -468,6 +479,7 @@ function get_nbr_objet($from, $where)
 	$file_nbr = $rsql->s_array($file_nbr);
 	return $file_nbr['count(*)'];
 }
+
 function displayNextPreviousButtons($limite, $total, $tpl_ou, $file_ou, $plus='')
 {
 	global $template, $config, $langue;
@@ -512,8 +524,9 @@ function displayNextPreviousButtons($limite, $total, $tpl_ou, $file_ou, $plus=''
 		}
 	}
 }
+
 // scan serveur de jeux
-function queryServer($address, $port, $protocol)
+function queryServer($address, $port, $protocol, $id_serveur=0)
 {
 	global $rsql, $config;
 	if(!$address && !$port && !$protocol)
@@ -536,6 +549,7 @@ function queryServer($address, $port, $protocol)
 				{// on crée l'entrée du serveur dans le array
 					$config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']] = array(
 						'ip' => $serveur_game_cache['ip'],
+						'id_serveur' => $serveur_game_cache['id_serveur'],
 						'hostport' => $serveur_game_cache['hostport'],
 						'servertitle' => $serveur_game_cache['servertitle'],
 						'gameversion' => $serveur_game_cache['gameversion'],
@@ -555,6 +569,7 @@ function queryServer($address, $port, $protocol)
 			}
 			else
 			{
+				// l'information est trop vielle, on la supprime
 				$sql = "DELETE FROM `".$config['prefix']."game_server_cache` WHERE id='".$serveur_game_cache['id']."'";
 				if (! ($rsql->requete_sql($sql, 'site', 'Supprime les infos en cache pour les serveurs de jeux dépassé')) )
 				{
@@ -563,27 +578,40 @@ function queryServer($address, $port, $protocol)
 			}
 		}
 	}
+	// on regarde si le serveur demandé etait en cache
 	if (!empty($config['game_server_cache'][$address.':'.$port]) && is_array($config['game_server_cache'][$address.':'.$port]))
 	{
+		// oui, alors, on le retourne
 		return $config['game_server_cache'][$address.':'.$port];
 	}
 	else
 	{
-		$gameserver=($config['scan_game_server'] == 'udp')? gsQuery::createInstance($protocol, $address, $port) : gsQuery::unserializeFromURL('http://services.clanlite.org/gsquery.php?host='.$address.'&queryport='.$port.'&protocol='.$protocol);
+		// non, on le scanne et on le sauvegarde
+		// on vérifie si on scan direct ou par un relay
+		if ($config['scan_game_server'] == 'udp')
+		{
+			$gameserver = gsQuery::createInstance($protocol, $address, $port);
+			if($gameserver && !$gameserver->query_server(TRUE, TRUE))
+			{ // fetch everything
+				return false;
+			}
+		}
+		else
+		{
+			$gameserver = gsQuery::unserializeFromURL('http://services.clanlite.org/gsquery.php?host='.$address.'&queryport='.$port.'&protocol='.$protocol);
+		}
+		
 		if(!$gameserver)
 		{
 			return false;
 		}
-		if(!$gameserver->query_server(TRUE, TRUE))
-		{ // fetch everything
-			return false;
-		}
+
 		$gameserver->servertitle = $gameserver->htmlize($gameserver->servertitle);
 		foreach($gameserver->players as $id_player => $info)
 		{
 			$gameserver->players[$id_player]['name'] = $gameserver->htmlize($info['name']);
 		}
-		$sql = 'INSERT INTO `'.$config['prefix'].'game_server_cache` (`date` , `ip` , `hostport` , `servertitle` , `gameversion` , `maplist` , `mapname` , `nextmap` , `password` , `maxplayers` , `numplayers` , `gametype` , `players`, `rules`, `JoinerURI`) VALUES ( "'.time().'" , "'.$address.'" , "'.$port.'" , "'.addslashes($gameserver->servertitle).'" , "'.$gameserver->gameversion.'" , "'.addslashes(serialize($gameserver->maplist)).'" , "'.$gameserver->mapname.'" , "'.$gameserver->nextmap.'" , "'.$gameserver->password.'" , "'.$gameserver->maxplayers.'" , "'.$gameserver->numplayers.'" , "'.$gameserver->gametype.'" , "'.addslashes(serialize($gameserver->players)).'" , "'.addslashes(serialize($gameserver->rules)).'" , "'.$gameserver->getGameJoinerURI().'" )';
+		$sql = 'INSERT INTO `'.$config['prefix'].'game_server_cache` (`id_serveur`, `date` , `ip` , `hostport` , `servertitle` , `gameversion` , `maplist` , `mapname` , `nextmap` , `password` , `maxplayers` , `numplayers` , `gametype` , `players`, `rules`, `JoinerURI`) VALUES ( "'.$id_serveur.'", "'.time().'" , "'.$address.'" , "'.$port.'" , "'.addslashes($gameserver->servertitle).'" , "'.$gameserver->gameversion.'" , "'.addslashes(serialize($gameserver->maplist)).'" , "'.$gameserver->mapname.'" , "'.$gameserver->nextmap.'" , "'.$gameserver->password.'" , "'.$gameserver->maxplayers.'" , "'.$gameserver->numplayers.'" , "'.$gameserver->gametype.'" , "'.addslashes(serialize($gameserver->players)).'" , "'.addslashes(serialize($gameserver->rules)).'" , "'.$gameserver->getGameJoinerURI().'" )';
 		if (! ($rsql->requete_sql($sql, 'site', 'Insertion des informations sur le serveur de jeux dans le cache')) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -607,12 +635,17 @@ function queryServer($address, $port, $protocol)
 	}
 }
 // liste des maps
-function scan_map($map_console, $info='array')
+function scan_map($map_console='', $info='array')
 {
+	//array = retourne le nom dans la map qu'on a trouvé avec $map_console dans un array
+	//nom = retourne que le nom de la map qu'on a trouvé avec $map_console
+	
+	//Si $map_console est vide, on retourne toute la varriables $config['map_liste'] (systeme de cache)
+	
 	global $config, $rsql;
 	if (empty($config['map_liste']))
-	{
-		$sql = "SELECT * FROM `".$config['prefix']."server_map`";
+	{// il n'a pas encore de cache, on le fait
+		$sql = 'SELECT * FROM `'.$config['prefix'].'server_map`';
 		if (! ($map_liste = $rsql->requete_sql($sql, 'site', 'Liste les maps')) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -625,7 +658,7 @@ function scan_map($map_console, $info='array')
 				'url' => $map_info['url']
 			);
 		}
-		if ($rsql->nbr($map_info) == 0)
+		if ($rsql->nbr($map_liste) == 0)
 		{// on definit quand même la variable pour eviter de faire des recherches en boucle
 			$config['map_liste'][0] = false;
 		}
@@ -634,24 +667,43 @@ function scan_map($map_console, $info='array')
 	{
 		reset($config['map_liste']);
 	}
+	
 	if (!empty($config['map_liste']) && is_array($config['map_liste']))
 	{
-		foreach($config['map_liste'] as $tmp_map)
+		if ($map_console != '')
 		{
-			if (!empty($map_console) && ereg($map_console, $tmp_map['console']))
+			foreach($config['map_liste'] as $tmp_map)
 			{
-				if ($info != 'array')
+				if (!empty($map_console) && ereg($map_console, $tmp_map['console']))
 				{
-					return $tmp_map[$info];
+					if ($info == 'nom')
+					{
+						return $tmp_map[$info];
+					}
+					else
+					{
+						return $tmp_map;
+					}
 				}
-				return $tmp_map;
 			}
 		}
 	}
-	if ($info != 'array')
+	else
+	{// Erreur, rien à analyser
+		return false;
+	}
+	
+	if ($info == 'nom')
 	{
 		return $map_console;
 	}
-	return array('nom' => $map_console);
+	elseif ($map_console == '')
+	{
+		return $config['map_liste'];
+	}
+	elseif ($info == 'array')
+	{
+		return array('nom' => $map_console);
+	}
 }
 ?>
