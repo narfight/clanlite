@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
- *	Fichier		: 															*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Fichier		: rss.php													*
+ *	Copyright	: (C) 2006 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -44,6 +44,7 @@ while ( $recherche = $rsql->s_array($list_news) )
 {	
 	echo '		<item>'."\n";
 	echo '			<title>'.$recherche['titre'].'</title>'."\n";
+	echo '			<description><![CDATA[ '.bbcode($recherche['info']).' ]]></description>'."\n";
 	echo '			<link>'.$config['site_domain'].$config['site_path'].'service/reaction.php?for='.$recherche['id'].'</link>'."\n";
 	echo '			<guid>'.$config['site_domain'].$config['site_path'].'service/reaction.php?for='.$recherche['id'].'</guid>'."\n";
 	echo '			<comments>'.$config['site_domain'].$config['site_path'].'service/reaction.php?for='.$recherche['id'].'</comments>'."\n";

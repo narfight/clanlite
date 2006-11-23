@@ -8,6 +8,7 @@ ul
 {
 	margin-bottom: 0px;
 	margin-top: 0px;
+	list-style-position: inside;
 }
 
 /* eviter des ligne de couleur en dessou des images qui sont des liens */

@@ -65,12 +65,40 @@ CREATE TABLE `clanlite_entrainement` (
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
+CREATE TABLE `clanlite_equipe` (
+  `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `nom` longtext NOT NULL,
+  `detail` longtext NOT NULL,
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
 CREATE TABLE `clanlite_game_server` (
   `id` mediumint(8) unsigned NOT NULL auto_increment,
   `clan` enum('0','1') NOT NULL default '0',
-  `ip` varchar(15) NOT NULL default '',
+  `ip` varchar(255) NOT NULL default '',
   `port` mediumint(9) NOT NULL default '0',
   `protocol` longtext NOT NULL,
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+CREATE TABLE `clanlite_game_server_cache` (
+  `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `id_serveur` mediumint(8) unsigned NOT NULL default '0',
+  `date` decimal(12,0) default NULL,
+  `ip` varchar(255) NOT NULL default '',
+  `hostport` smallint(5) unsigned NOT NULL default '0',
+  `servertitle` text NOT NULL,
+  `gameversion` varchar(255) NOT NULL default '',
+  `maplist` longtext NOT NULL,
+  `mapname` varchar(255) NOT NULL default '',
+  `nextmap` varchar(255) NOT NULL default '',
+  `password` enum('-1','1','0') NOT NULL default '-1',
+  `maxplayers` tinyint(3) unsigned NOT NULL default '0',
+  `numplayers` tinyint(3) unsigned NOT NULL default '0',
+  `gametype` tinytext NOT NULL,
+  `rules` longtext NOT NULL,
+  `players` longtext NOT NULL,
+  `JoinerURI` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
@@ -92,6 +120,7 @@ CREATE TABLE `clanlite_liens` (
 
 CREATE TABLE `clanlite_match` (
   `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `repertoire` varchar(255) NOT NULL default '',
   `date` decimal(12,0) unsigned NOT NULL default '0',
   `info` longtext NOT NULL,
   `priver` longtext NOT NULL,
@@ -112,13 +141,21 @@ CREATE TABLE `clanlite_match_demande` (
   `url_clan` longtext NOT NULL,
   `info` longtext NOT NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM ;
+) TYPE=MyISAM;
 
 CREATE TABLE `clanlite_match_inscription` (
   `id` mediumint(8) unsigned NOT NULL auto_increment,
   `id_match` longtext NOT NULL,
   `statu` enum('ok','reserve','demande') NOT NULL default 'demande',
   `user_id` longtext NOT NULL,
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+CREATE TABLE `clanlite_match_map` (
+  `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `id_match` mediumint(8) unsigned NOT NULL default '0',
+  `id_map` mediumint(8) unsigned NOT NULL default '0',
+  `nom` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
@@ -133,21 +170,13 @@ CREATE TABLE `clanlite_match_rapport` (
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
-CREATE TABLE `clanlite_modules` (
+CREATE TABLE `clanlite_match_rapport_map` (
   `id` mediumint(8) unsigned NOT NULL auto_increment,
-  `ordre` mediumint(8) NOT NULL default '0',
-  `place` enum('gauche','droite','centre') NOT NULL default 'gauche',
-  `etat` enum('1','0') NOT NULL default '1',
-  `nom` longtext NOT NULL,
-  `call_page` longtext NOT NULL,
-  `config` longtext NOT NULL,
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM;
-
-CREATE TABLE `clanlite_module_shoutbox_21` (
-  `id` mediumint(8) unsigned NOT NULL auto_increment,
-  `user` varchar(255) NOT NULL default '',
-  `msg` varchar(255) NOT NULL default '',
+  `id_rapport` mediumint(8) unsigned NOT NULL default '0',
+  `id_map` mediumint(8) unsigned NOT NULL default '0',
+  `nom` varchar(255) NOT NULL default '',
+  `pt_nous` varchar(255) NOT NULL default '',
+  `pt_eux` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
@@ -156,6 +185,25 @@ CREATE TABLE `clanlite_module_partenaires_27` (
   `nom` longtext NOT NULL,
   `url` longtext NOT NULL,
   `image` longtext NOT NULL,
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+CREATE TABLE `clanlite_module_shoutbox_21` (
+  `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `user` varchar(255) NOT NULL default '',
+  `msg` varchar(255) NOT NULL default '',
+
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+CREATE TABLE `clanlite_modules` (
+  `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `ordre` mediumint(8) NOT NULL default '0',
+  `place` enum('gauche','droite','centre') NOT NULL default 'gauche',
+  `etat` enum('1','0') NOT NULL default '1',
+  `nom` longtext NOT NULL,
+  `call_page` longtext NOT NULL,
+  `config` longtext NOT NULL,
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
@@ -220,9 +268,9 @@ CREATE TABLE `clanlite_section` (
 
 CREATE TABLE `clanlite_server_map` (
   `id` mediumint(8) unsigned NOT NULL auto_increment,
-  `nom` longtext NOT NULL,
-  `url` longtext NOT NULL,
-  `nom_console` longtext NOT NULL,
+  `nom` varchar(255) NOT NULL default '',
+  `url` varchar(255) NOT NULL default '',
+  `nom_console` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
@@ -246,21 +294,22 @@ CREATE TABLE `clanlite_smilies` (
 
 CREATE TABLE `clanlite_user` (
   `id` mediumint(8) unsigned NOT NULL auto_increment,
-  `nom` longtext NOT NULL,
-  `user` longtext NOT NULL,
-  `mail` longtext NOT NULL,
-  `im` longtext NOT NULL,
+  `nom` varchar(255) NOT NULL default '',
+  `user` varchar(255) NOT NULL default '',
+  `mail` varchar(255) NOT NULL default '',
+  `im` varchar(255) NOT NULL default '',
   `psw` varchar(32) NOT NULL default '',
   `pouvoir` enum('admin','news','user') NOT NULL default 'admin',
   `sex` enum('Homme','Femme') NOT NULL default 'Homme',
   `age` int(10) NOT NULL default '0',
+  `user_date` decimal(12,0) unsigned NOT NULL default '0',
   `web` varchar(255) NOT NULL default '',
   `cri` longtext NOT NULL,
   `last_connect` int(10) unsigned NOT NULL default '0',
   `heure_ete` enum('1','0') NOT NULL default '1',
   `time_zone` varchar(6) NOT NULL default '0.00',
-  `prénom` longtext NOT NULL,
-  `armes_préférées` longtext NOT NULL,
+  `prenom` varchar(255) NOT NULL default '',
+  `armes_preferees` varchar(255) NOT NULL default '',
   `equipe` tinyint(4) unsigned NOT NULL default '0',
   `histoire` longtext NOT NULL,
   `roles` longtext NOT NULL,
@@ -271,32 +320,5 @@ CREATE TABLE `clanlite_user` (
   `tmp_code` tinytext NOT NULL,
   `key_activ_code` varchar(100) NOT NULL default '',
   `langue` varchar(255) NOT NULL default 'francais',
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM;
-
-CREATE TABLE `clanlite_équipe` (
-  `id` mediumint(8) unsigned NOT NULL auto_increment,
-  `nom` longtext NOT NULL,
-  `détail` longtext NOT NULL,
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM;
-
-CREATE TABLE `clanlite_game_server_cache` (
-  `id` mediumint(8) unsigned NOT NULL auto_increment,
-  `date` decimal(12,0) default NULL,
-  `ip` varchar(255) NOT NULL default '',
-  `hostport` smallint(5) unsigned NOT NULL default '0',
-  `servertitle` text NOT NULL,
-  `gameversion` varchar(255) NOT NULL default '',
-  `maplist` longtext NOT NULL,
-  `mapname` varchar(255) NOT NULL default '',
-  `nextmap` varchar(255) NOT NULL default '',
-  `password` enum('-1','1','0') NOT NULL default '-1',
-  `maxplayers` tinyint(3) unsigned NOT NULL default '0',
-  `numplayers` tinyint(3) unsigned NOT NULL default '0',
-  `gametype` tinytext NOT NULL,
-  `rules` longtext NOT NULL,
-  `players` longtext NOT NULL,
-  `JoinerURI` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;

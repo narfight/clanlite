@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
- *	Fichier		: 															*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Fichier		: game_serveur.phh											*
+ *	Copyright	: (C) 2006 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -41,6 +41,12 @@ if (!empty($_POST['envois_edit']))
 if (!empty($_POST['dell']))
 {
 	$sql = "DELETE FROM `".$config['prefix']."game_server` WHERE `id` ='".$_POST['for']."'";
+	if (!$rsql->requete_sql($sql))
+	{
+		sql_error($sql, $rsql->error, __LINE__, __FILE__);
+	}
+	// supprime les informations en cache sur ce serveur
+	$sql = "DELETE FROM `".$config['prefix']."game_server_cache` WHERE `id_serveur` ='".$_POST['for']."'";
 	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);

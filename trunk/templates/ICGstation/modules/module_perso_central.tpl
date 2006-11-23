@@ -1,6 +1,6 @@
 <div class="big_cadre" id="simple">
 	<h1>{TITRE}</h1>
-	<form method="post" action="module_perso_central.php" class:"visible">
+	<form method="post" action="module_perso_central.php" class="visible">
 		<p>
 			<span><label for="titre">{TXT_TITRE}&nbsp;:</label></span>
 			<span><input name="titre" type="text" id="titre" value="{TITRE}" onblur="formverif(this.id,'nbr','3')" /></span>

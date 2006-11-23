@@ -46,7 +46,7 @@ if (! ($get = $rsql->requete_sql($sql)) )
 while ($info = $rsql->s_array($get))
 {
 	// on scan et on stocke tout dans un Array
-	if ( ($gameserver=queryServer($info['ip'], $info['port'], $info['protocol'])) )
+	if ( ($gameserver=queryServer($info['ip'], $info['port'], $info['protocol'], $info['id'])) )
 	{
 		// on enregistre combien de serveur dispo
 		if ($info['clan'] == 1)

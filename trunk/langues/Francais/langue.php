@@ -83,6 +83,7 @@ $langue['where_calendrier'] = "Regarde le calendrier";
 $langue['calendrier_entrai'] = "Entrainement";
 $langue['calendrier_match'] = "Match contre les %s";
 $langue['calendrier_annif'] = "Anniversaire de <a href=\"%1\$sservice/profil.php?link=%2\$u\">%3\$s</a>";
+$langue['calendrier_annif_date'] = "Anniversaire d'entrée de <a href=\"%1\$sservice/profil.php?link=%2\$u\">%3\$s</a>";
 
 $langue['titre_connecte'] = "Les connectés";
 $langue['where_connecte'] = "Regarde les connectés";
@@ -153,6 +154,7 @@ $langue['prenom'] = "Prénom";
 $langue['login'] = "Pseudo";
 $langue['sex'] = "Sexe";
 $langue['age'] = "Âge";
+$langue['user_date'] = "Date d'entrée dans le clan";
 $langue['site_web'] = "Site Web";
 $langue['e-mail'] = "E-mail";
 $langue['favori_arme'] = "Arme favorite";
@@ -279,10 +281,35 @@ $langue['redirection_txt_nonvide'] = "%1\$s<br />Cliquez <a href=\"%2\$s\">ici</
 $langue['where_module_central'] = "Regarde un module central";
 $langue['module_compteur'] = "Il y a eu %1\$d visiteurs et il y a %2\$d connecté(s)";
 
+// gallery
+$langue['where_module_gallery'] = "Administre la galerie";
+$langue['titre_module_gallery'] = "Administration de la galerie";
+$langue['titre_gestion_module_img'] = "Gestion des images";
+$langue['titre_liste_module_img'] = "Liste des images";
+$langue['titre_configuration_module_img'] = "Configuration des options";
+$langue['unit_byte'] = "Octets";
+$langue['gallery'] = "Nos images";
+$langue['gallery_apercu'] = "Aperçu";
+$langue['gallery_config-show'] = "Afficher la configuration";
+$langue['gallery_remove'] = "supprimer";
+$langue['gallery_txt_url'] = "Emplacement de l'image";
+$langue['gallery_size_img'] = "Taille de l'image";
+$langue['gallery_size_tumb'] = "Taille des miniatures";
+$langue['gallery_max_size'] = "Poids maximum des images";
+$langue['redirection_gallery_edit'] = "Les dimensions ont été mis à jour";
+$langue['redirection_gallery_dell'] = "L'image a été supprimée";
+$langue['the_file_has_been_uploaded'] = "Le fichier %s a été téléchargé";
+$langue['upload_error'] = "Il y a eu une erreur lors du téléchargement du fichier, essayer encore !";
+$langue['not_supported'] = "Ce format n'est pas supporté";
+$langue['mini_error'] = "Il y a eu une erreur lors de la création de la miniature!";
+$langue['com_img'] = "Commentaire";
+
+$langue['where_module_show-section'] = "Gère le module pour afficher une section";
+$langue['titre_module_show-section'] = "Afficher une section [Module]";
+$langue['redirection_module_show-section'] = "Module mis à jour";
+
 $langue['ts_connection_module_liens'] = "Cliquez ici pour rejoindre le serveur vocal";
 $langue['ts_connection_module_titre'] = "Connection au serveur vocal";
-$langue['module_mp3'] = "Vous écoutez «%2\$s» de <em>%1\$s</em>";
-$langue['module_mp3_no_info'] = "Information affichée à la prochaine page si vous avez enclenché le lecteur";
 
 $langue['where_module_aléatoire'] = "Gère le module aléatoire";
 $langue['titre_module_aléatoire'] = "Les aléatoire [Module]";
@@ -482,7 +509,7 @@ $langue['serveur_game_clan'] = "Serveur du clan";
 $langue['where_liens_admin'] = "Est dans l'administration des liens";
 $langue['titre_liens_admin'] = "Les liens";
 $langue['titre_liens_admin_gestion'] = "Gestion des liens";
-$langue['titre_liens_admin_list'] = "La liste des serveurs";
+$langue['titre_liens_admin_list'] = "La liste des liens";
 $langue['redirection_liens_add'] = "Le lien à ajouter";
 $langue['redirection_liens_edit'] = "Le lien a été mis à jour";
 $langue['redirection_liens_dell'] = "Le lien est bien supprimé";
@@ -505,6 +532,12 @@ $langue['redirection_admin_match_dell'] = "Le match est bien supprimé";
 $langue['add_team_ok'] = "Ajouter";
 $langue['add_team_reserve'] = "Réserve";
 $langue['add_team_demande'] = "Demande";
+$langue['match_map_liste'] = "Les maps jouées";
+$langue['add_map_menu_liste'] = "Ajouer une map au menu déroulant";
+$langue['add_map_liste'] = "Ajouter une map à la rotation";
+$langue['dell_map_liste'] = "Supprimer la dernière map";
+$langue['match_class'] = "Classification du match";
+$langue['match-last-class'] = "Classe déjà entré";
 
 $langue['where_custom_menu'] = "Est dans l'administration du menu";
 $langue['titre_custom_menu'] = "Modification du menu";
@@ -600,7 +633,7 @@ $langue['redirection_admin_rapport_match_add'] = "Le rapport de match à ajouter"
 $langue['redirection_admin_rapport_match_edit'] = "Le rapport de match a été mis à jour";
 $langue['redirection_admin_rapport_match_dell'] = "Le rapport de match est bien supprimé";
 $langue['rapport_match_importation'] = "Importer un match";
-$langue['rapport_match_score_final'] = "Les scores";
+$langue['rapport_match_score_final'] = "Le score final";
 $langue['rapport_match_dell_importe'] = "supprimer le match importé";
 
 // les erreurs dans les formulaire

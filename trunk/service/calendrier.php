@@ -116,13 +116,14 @@ while ($entrai = $rsql->s_array($get))
 		$entrai_date[$entrai['id']] = array('jours' => adodb_date('j', $entrai['date']+$session_cl['correction_heure']));
 	}
 }
-//annif
-$sql = 'SELECT `id`, `age`, `user` FROM `'.$config['prefix'].'user`';
+//annif et annif d'entrée
+$sql = 'SELECT `id`, `age`, `user`, `user_date` FROM `'.$config['prefix'].'user`';
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql , $rsql->error, __LINE__, __FILE__);
 }
 $annif_date = array();
+$annif_entree_date = array();
 while ($annif = $rsql->s_array($get))
 {
 	if ($mois == adodb_date('n', $annif['age']+$session_cl['correction_heure']))
@@ -133,7 +134,16 @@ while ($annif = $rsql->s_array($get))
 			'id_user' => $annif['id']
 		);
 	}
+	if (isset($annif_entree['user_date']) && $mois == adodb_date('n', $annif_entree['user_date']+$session_cl['correction_heure']))
+	{
+		$annif_entree_date[$annif_entree['id']] = array(
+			'jours' => adodb_date('j', $annif_entree['user_date']+$session_cl['correction_heure']),
+			'user' => $annif_entree['user'],
+			'id_user' => $annif_entree['id']
+		);
+	}
 }
+
 // Ces variables vont nous servir pour mettre les jours dans les bonnes colonnes    
 $jour_debut_mois = (adodb_date('w', $mk_time_date) == 0)? 7 : adodb_date('w', $mk_time_date)-1; //lundi = 1 Samedi = 6 et Dimanche = 7
 $horizontal = ($jour_debut_mois == 7)? 0 : 1;
@@ -164,6 +174,13 @@ for ($i=0;$i<adodb_date('t', $mk_time_date)+$jour_debut_mois;$i++)
 		if(($info_tmp['jours'] == $to_days) && $to_days > 0)
 		{
 			$case[$horizontal][$verticale]['info'] .= '<li>'.sprintf($langue['calendrier_annif'], $root_path, $info_tmp['id_user'], $info_tmp['user'])."</a></li>";
+		}
+	}
+	foreach ($annif_entree_date as $info_tmp)
+	{
+		if(($info_tmp['jours'] == $to_days) && $to_days > 0)
+		{
+			$case[$horizontal][$verticale]['info'] .= '<li>'.sprintf($langue['calendrier_annif_date'], $root_path, $info_tmp['id_user'], $info_tmp['user'])."</a></li>";
 		}
 	}
 	$case[$horizontal][$verticale]['class'] = ($i<$jour_debut_mois)? 'calendra-vide' : 'calendra-normal';

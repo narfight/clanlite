@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
  *	Fichier		: update.php												*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Copyright	: (C) 2006 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -11,7 +11,7 @@
  ***************************************************************************/
 $root_path = './../';
 $action_db = '';
-$news_version = '2.2005.08.19';
+$news_version = '2.2006.05.20';
 
 require($root_path.'conf/template.php');
 
@@ -22,7 +22,7 @@ require($root_path.'conf/template.php');
 		require($root_path.'conf/'.((!empty($config['db_type']))? $config['db_type'] : 'mysql').'.php');
 		require($root_path.'conf/session.php');
 		require($root_path.'conf/lib.php');
-		
+
 		$rsql = new mysql();
 		$config['securitee'] = 'no';
 		$rsql->mysql_connection($mysqlhost, $login, $password, $base);
@@ -30,7 +30,7 @@ require($root_path.'conf/template.php');
 		{
 			die($rsql->error);
 		}
-		
+
 		// on prend la config
 		$sql = 'SELECT * FROM `'.$config['prefix'].'config`';
 		if (!($rsql->requete_sql($sql, 'site', 'prise de la configuration du site')))
@@ -52,6 +52,7 @@ require($root_path.'conf/template.php');
 		exit();
 	}
 // fin de la configuration light
+
 $template = new Template($root_path.'install');
 $template->set_filenames(array('body' => 'install.tpl'));
 $template->assign_block_vars('update_menu', array(
@@ -224,7 +225,7 @@ switch($config['version'])
 			'Ajoute un smilies 69' => "INSERT INTO `".$config['prefix']."smilies` VALUES (131, ':jumpsad:', 'sadjump.gif', 'Je vais tout casser', 50, 34);",
 		);
 	case '2.2005.06.18':
-		$action_db['2.2005.06.17'] = array(
+		$action_db['2.2005.06.18'] = array(
 			'Supprime le champ Artiste du lecteur mp3' => 'ALTER TABLE `'.$config['prefix'].'config_sond` DROP `AUTOPLAY`;',
 			'Supprime le champ Loop du lecteur mp3' => 'ALTER TABLE `'.$config['prefix'].'config_sond` DROP `LOOP`;',
 			'Supprime le champ AutoPlay du lecteur mp3' => 'ALTER TABLE `'.$config['prefix'].'config_sond` DROP `arstite`;',
@@ -234,6 +235,38 @@ switch($config['version'])
 			'Supprime un doublon dans les smilies' => 'DELETE FROM `'.$config['prefix'].'smilies` WHERE `id` = 53 LIMIT 1;'
 		);
 	case '2.2005.07.15':
+	case '2.2005.08.19':
+		$action_db['2.2005.08.19'] = array(
+			'Modification de la table des maps 1' => 'ALTER TABLE `'.$config['prefix'].'server_map` CHANGE `nom` `nom` VARCHAR( 255 ) NOT NULL',
+			'Modification de la table des maps 2' => 'ALTER TABLE `'.$config['prefix'].'server_map` CHANGE `nom_console` `nom_console` VARCHAR( 255 )  NOT NULL ',
+			'Modification de la table des maps 3' => 'ALTER TABLE `'.$config['prefix'].'server_map`  CHANGE `url` `url` VARCHAR( 255 ) NOT NULL ',
+			'Ajoute d\'une table pour stocker les maps des matchs' => 'CREATE TABLE `'.$config['prefix'].'match_map` (`id` mediumint(8) unsigned NOT NULL auto_increment,  `id_match` mediumint(8) unsigned NOT NULL default \'0\',  `id_map` mediumint(8) unsigned NOT NULL default \'0\',  `nom` varchar(255) NOT NULL default \'\',  PRIMARY KEY  (`id`)) TYPE=MyISAM;',
+			'Ajoute d\'une table pour stocker les maps des rapports de match' => 'CREATE TABLE `'.$config['prefix'].'match_rapport_map` (`id` mediumint(8) unsigned NOT NULL auto_increment,  `id_rapport` mediumint(8) unsigned NOT NULL default \'0\',  `id_map` mediumint(8) unsigned NOT NULL default \'0\',  `nom` varchar(255) NOT NULL default \'\',  `pt_nous` varchar(255) NOT NULL default \'\',  `pt_eux` varchar(255) NOT NULL default \'\',  PRIMARY KEY  (`id`)) TYPE=MyISAM;',
+			'Ajoute un systéme de repertoire pour les matchs' => 'ALTER TABLE `'.$config['prefix'].'match` ADD `repertoire` VARCHAR( 255 ) NOT NULL AFTER `id` ;',
+			'Ajoute un champ pour le module TS (normal si il a une erreur)' => 'ALTER TABLE `'.$config['prefix'].'module_webost_ts` ADD `last_scan` DECIMAL( 12 ) NOT NULL AFTER `id` ;',
+			'Augmente la taille des IP serveur' => 'ALTER TABLE `'.$config['prefix'].'game_server` CHANGE `ip` `ip` VARCHAR( 255 ) NOT NULL ',
+			'Correction du vidage du cache serveur' => 'ALTER TABLE `'.$config['prefix'].'game_server_cache` ADD `id_serveur` MEDIUMINT( 8 ) UNSIGNED NOT NULL AFTER `id` ;',
+			'Ajoute la date d\inscription du membre' => 'ALTER TABLE `'.$config['prefix'].'user` ADD `user_date` DECIMAL( 12 ) UNSIGNED DEFAULT \'0\' NOT NULL AFTER `age` ;',
+			'Modifie la taille du champ nom pour les membres' => 'ALTER TABLE `'.$config['prefix'].'user` CHANGE `nom` `nom` VARCHAR( 255 ) NOT NULL',
+			'Modifie la taille du champ user pour les membres' => 'ALTER TABLE `'.$config['prefix'].'user` CHANGE `user` `user` VARCHAR( 255 ) NOT NULL',
+			'Modifie la taille du champ mail pour les membres' => 'ALTER TABLE `'.$config['prefix'].'user` CHANGE `mail` `mail` VARCHAR( 255 ) NOT NULL',
+			'Modifie la taille du champ im pour les membres' => 'ALTER TABLE `'.$config['prefix'].'user` CHANGE `im` `im` VARCHAR( 255 ) NOT NULL',
+			'Modifie la taille du champ prénom pour les membres' => 'ALTER TABLE `'.$config['prefix'].'user` CHANGE `prénom` `prénom` VARCHAR( 255 ) NOT NULL',
+			'Modifie la taille du champ armes_préférées pour les membres' => 'ALTER TABLE `'.$config['prefix'].'user` CHANGE `armes_préférées` `armes_préférées` VARCHAR( 255 ) NOT NULL',
+			'Supprime les éàè dans la table '.$config['prefix'].'équipe' => 'ALTER TABLE `'.$config['prefix'].'équipe` RENAME `'.$config['prefix'].'equipe`',
+			'Supprime les éàè dans le champ "détails" de la table '.$config['prefix'].'équipe' => 'ALTER TABLE `'.$config['prefix'].'equipe` CHANGE `détail` `detail` LONGTEXT',
+			'Supprime les éàè dans le champ "prénom" de la table '.$config['prefix'].'user' => 'ALTER TABLE `'.$config['prefix'].'user` CHANGE `prénom` `prenom` VARCHAR( 255 ) NOT NULL',
+			'Supprime les éàè dans le champ "armes_préférées" de la table '.$config['prefix'].'user' => 'ALTER TABLE `'.$config['prefix'].'user` CHANGE `armes_préférées` `armes_preferees` VARCHAR( 255 ) NOT NULL',
+		);
+	case '2.2005.11.26':
+		$action_db['2.2005.11.26'] = array(
+			'corrige un smilies' => 'UPDATE `'.$config['prefix'].'smilies` SET `img` = \'cruella.gif\', `width` = 26, `height` = 30,  WHERE `id` =128 LIMIT 1 ;',
+		);
+	case '2.2006.02.15':
+		$action_db['2.2006.02.15'] = array(
+			'Supprime un module inutile' => 'DELETE FROM `'.$config['prefix'].'modules` WHERE `call_page`=\'cadre_mp3\'',
+		);
+	case '2.2006.04.24':
 	// sans break, metre case version a la suite, comme ca il fait toutes les mise à jours de la db de la version qu'il a jusqua la version actuelle
 	$maj = true;
 	break;
@@ -247,10 +280,10 @@ switch($config['version'])
 if (is_array($action_db) && empty($etat) || isset($maj))
 {
 	$template->assign_block_vars('nouvelle_version.normal', array(''));
-	
+
 	// on ajoute automatiquement le changement de version dans la db
 	$action_db[$config['version']]['Mise à jours du numero de version'] = "UPDATE `".$config['prefix']."config` SET `conf_valeur` = '".$news_version."' WHERE `conf_nom` = 'version' AND `conf_valeur` = '".$config['version']."' LIMIT 1";
-	
+
 	// on vérifie que le nombre de joueur est toujours le bon
 	$sql = "SELECT COUNT(`id`) FROM ".$config['prefix']."user";
 	if (! ($get = $rsql->requete_sql($sql)) )

@@ -31,7 +31,7 @@ if (defined('CL_AUTH'))
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	$module_game = $rsql->s_array($get);	
-	if ( (!$gameserver=queryServer($module_game['ip'], $module_game['port'], $module_game['protocol'])) )
+	if ( (!$gameserver=queryServer($module_game['ip'], $module_game['port'], $module_game['protocol'], $module_game['id'])) )
 	{
 		$template->assign_block_vars('modules_'.$modules['place'], array( 
 			'TITRE' => $modules['nom'],

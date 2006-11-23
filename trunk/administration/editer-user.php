@@ -62,6 +62,8 @@ if (!empty($_POST['Submit']))
 		$code = (!empty($_POST['psw']))? "psw='".md5($_POST['psw'])."', " : '';
 		$_POST = pure_var($_POST);
 		$age = adodb_mktime( 0 , 0 , 0 , $_POST['age_m'] , $_POST['age_d'] , $_POST['age_y']);
+		$user_date = adodb_mktime( 0 , 0 , 0 , $_POST['udate2'] , $_POST['udate1'] , $_POST['udate3']);
+
 		$sql = "UPDATE ".$config['prefix']."user SET
 			cri='".$_POST['texte']."',
 			im='".$_POST['icq']."',
@@ -72,8 +74,8 @@ if (!empty($_POST['Submit']))
 			".$code."
 			sex='".$_POST['sex']."',
 			age='".$age."',
-			prénom='".$_POST['prenom']."',
-			armes_préférées='".$_POST['arme']."',
+			prenom='".$_POST['prenom']."',
+			armes_preferees='".$_POST['arme']."',
 			images='".$_POST['perso']."',
 			histoire='".$_POST['histoire']."',
 			roles='".$_POST['roles']."',
@@ -84,7 +86,8 @@ if (!empty($_POST['Submit']))
 			images='".$_POST['perso']."',
 			langue='".$_POST['langue_form']."',
 			time_zone='".$_POST['time_zone']."',
-			heure_ete='".$_POST['heure_ete']."'
+			heure_ete='".$_POST['heure_ete']."',
+			user_date='".$user_date."'
 			WHERE id ='".$_POST['id']."'"; 
 		if (!$rsql->requete_sql($sql))
 		{
@@ -98,7 +101,7 @@ if ( !empty($forum_error) )
 {
 	msg('erreur', $forum_error);
 }
-$sql = "SELECT user.*, section.nom, section.id, equipe.nom, equipe.id, user.id AS id_user, user.nom AS nom_user FROM ".$config['prefix']."user AS user LEFT JOIN ".$config['prefix']."section AS section ON section.id = user.section LEFT JOIN ".$config['prefix']."équipe as equipe ON equipe.id = user.equipe WHERE user.id = '".$_POST['id']."' LIMIT 1";
+$sql = "SELECT user.*, section.nom, section.id, equipe.nom, equipe.id, user.id AS id_user, user.nom AS nom_user FROM ".$config['prefix']."user AS user LEFT JOIN ".$config['prefix']."section AS section ON section.id = user.section LEFT JOIN ".$config['prefix']."equipe as equipe ON equipe.id = user.equipe WHERE user.id = '".$_POST['id']."' LIMIT 1";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -117,7 +120,7 @@ if ( ($profil = $rsql->s_array($get)) )
 		'TXT_CHOISIR' => $langue['choisir'],
 		'NOM' => $profil['nom_user'],
 		'TXT_NOM' => $langue['form_nom'],
-		'PRENOM' => $profil['prénom'],
+		'PRENOM' => $profil['prenom'],
 		'TXT_PRENOM' => $langue['form_prenom'],
 		'LOGIN' => $profil['user'], 
 		'TXT_LOGIN' => $langue['form_login'], 
@@ -140,7 +143,7 @@ if ( ($profil = $rsql->s_array($get)) )
 		'TXT_WEB' => $langue['form_web'],
 		'TEXTE' => $profil['cri'],
 		'TXT_TEXTE' => $langue['form_slogan'],
-		'ARME' => $profil['armes_préférées'],
+		'ARME' => $profil['armes_preferees'],
 		'TXT_ARME' => $langue['form_fv_arme'],
 		'ALT_ARME' => $langue['alt_arme'],
 		'HISTOIRE' => $profil['histoire'],
@@ -201,7 +204,11 @@ if ( ($profil = $rsql->s_array($get)) )
 		'ADMIN_SELECT' => ($profil['pouvoir'] == 'admin')? 'selected="selected"' : '',
 		'TXT_ADMIN' => $langue['admin'],
 		'ROLE' => $profil['roles'],
-	)); 
+		'TXT_DATE' => $langue['user_date'],
+		'UJOURS' => adodb_date('d', $profil['user_date']+$session_cl['correction_heure']),
+		'UMOIS' => adodb_date('m', $profil['user_date']+$session_cl['correction_heure']),
+		'UANNEE' => adodb_date('Y', $profil['user_date']+$session_cl['correction_heure'])
+	));
 	if ($config['show_grade'] == 1)
 	{
 		$template->assign_block_vars('admin.grade', array(
@@ -228,7 +235,7 @@ if ( ($profil = $rsql->s_array($get)) )
 			'GRADE' => $profil['grade'],
 		));
 	}// on fais la liste des équipe
-	$sql = "SELECT * FROM ".$config['prefix']."équipe";
+	$sql = "SELECT * FROM ".$config['prefix']."equipe";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -291,7 +298,7 @@ if ( ($profil = $rsql->s_array($get)) )
 			$template->assign_block_vars('armes', array(
 				'NOM' => $perso[1],
 				'VALUE' => $perso[0],
-				'SELECTED' => ($profil['armes_préférées'] == $perso[0]) ? 'selected="selected"' : '',
+				'SELECTED' => ($profil['armes_preferees'] == $perso[0]) ? 'selected="selected"' : '',
 			));
 		}
 	}

@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
- *	Fichier		: 															*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Fichier		: config.php												*
+ *	Copyright	: (C) 2006 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -38,6 +38,7 @@ if( !empty($_POST['Submit']) )
 	unset($langue);
 	// on redifinit les varriables importante pour le bon déroulement du script
 	$config['refresh'] = $config['refresh']/60;
+	
 	require ($root_path.'langues/'.$config['langue_actuelle'].'/langue.php');
 	redirec_text('config.php', $langue['redirection_config_ok'] , 'admin');
 }
@@ -171,7 +172,7 @@ $template->assign_vars(array(
 	'TXT_SHOW_GRADE' => $langue['config_show_grade'],
 	'SHOW_GRADE_1' => ( '1' == $config['show_grade'] ) ? 'selected="selected"' : '',
 	'SHOW_GRADE_0' => ( '0' == $config['show_grade'] ) ? 'selected="selected"' : '',
-	'REFRESH' => $config['refresh'],
+	'REFRESH' => ($config['refresh']/60),
 	'TXT_REFRESH' => $langue['config_refresh'],
 	'TXT_HELP_REFRESH' => $langue['config_help_refresh'],
 	'TXT_TIME_ZONE' => $langue['config_time_zone'],

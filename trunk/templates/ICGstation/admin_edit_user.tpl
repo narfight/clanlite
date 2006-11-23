@@ -56,6 +56,10 @@
 				<span><label for="roles">{admin.TXT_ROLE}&nbsp;:</label></span>
 				<span><input name="roles" type="text" id="roles" value="{admin.ROLE}" onblur="formverif(this.id,'nbr','2')" />*</span>
 			</p>
+			<p>
+				<span><label for="user_date">{admin.TXT_DATE}&nbsp;:</label></span>
+				<span><input name="udate1" id="udate1" type="text" value="{admin.UJOURS}" size="2" maxlength="2" onblur="formverif(this.id,'chiffre','31')" />/<input name="udate2" id="udate2" type="text" value="{admin.UMOIS}" size="2" maxlength="2" onblur="formverif(this.id,'chiffre','12')" />/<input name="udate3" id="udate3" type="text" value="{admin.UANNEE}" size="4" maxlength="4" onblur="formverif(this.id,'chiffre','')" /></span>
+			</p>
 		</div>
 	</div>
 	<!-- END admin -->

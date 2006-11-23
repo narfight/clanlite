@@ -47,12 +47,16 @@ if (defined('CL_AUTH'))
 	{ 
 		$donnees[$liste['id']] = $liste['txt'];
 	}
-	srand ((float) microtime() * 10000000);
-	$module_in_id = array_rand($donnees);
-	$template->assign_block_vars('modules_'.$modules['place'], array( 
-		'TITRE' => $modules['nom'],
-		'IN' => $donnees[$module_in_id],
-	));
+	
+	if (isset($donnees) && is_array($donnees))
+	{
+		srand ((float) microtime() * 10000000);
+		$module_in_id = array_rand($donnees);
+		$template->assign_block_vars('modules_'.$modules['place'], array( 
+			'TITRE' => $modules['nom'],
+			'IN' => $donnees[$module_in_id],
+		));
+	}
 	return;
 }
 if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_aléatoire_module']) || !empty($_POST['Editer_aléatoire_module']) || !empty($_POST['dell_aléatoire_module']) || !empty($_POST['edit_aléatoire_module']) )

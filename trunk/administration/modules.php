@@ -111,7 +111,7 @@ $template->assign_vars(array(
 	'TXT_OFF' => $langue['module_off'],	
 	'ACTIVATION_ON' => (!empty($edit_module['etat']) && $edit_module['etat'] != 0 || empty($edit_module['etat']))? 'checked="checked"' : '',
 ));
-$sql = "SELECT id,nom,ordre,call_page,etat,place FROM ".$config['prefix']."modules WHERE place != 'center' ORDER BY `ordre` ASC";
+$sql = "SELECT id, nom, ordre, call_page, etat, place FROM ".$config['prefix']."modules WHERE place != 'center' ORDER BY `ordre` ASC";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);

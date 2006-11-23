@@ -125,7 +125,7 @@
 					<!-- BEGIN images -->
 					<option value="{images.FICHIER}" {images.SELECTED}>{images.FICHIER}</option>
 					<!-- END images -->
-				</select>
+			</select>
 				<img src="../images/personnages/{DEFAULT_IMAGE}" id="user_flag"  alt="{ALT_IMAGE}" />*
 			</span>
 		</p>

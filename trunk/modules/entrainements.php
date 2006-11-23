@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
- *	Fichier		: 															*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Fichier		: entrainements.php											*
+ *	Copyright	: (C) 2005 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -38,6 +38,7 @@ if (defined('CL_AUTH'))
 		}
 		else
 		{
+			$entrain['date'] = $entrain['date']+$session_cl['correction_heure'];
 			$block['entrain'] = str_replace('{TXT_DATE}', $langue['date_entrai'], $block['entrain']);
 			$block['entrain'] = str_replace('{DATE}', adodb_date('j/n/Y', $entrain['date']), $block['entrain']);
 			$block['entrain'] = str_replace('{TXT_HEURE}', $langue['heure_entrai'], $block['entrain']);

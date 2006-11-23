@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
- *	Fichier		: 															*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Fichier		: index.php													*
+ *	Copyright	: (C) 2005 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -38,6 +38,7 @@ while ($match = $rsql->s_array($get_match))
 				'MATCH_PLACE' => $langue['user_match_place'],
 			));
 		} 
+		$match['date'] = $match['date']+$session_cl['correction_heure'];
 		$template->assign_block_vars('cadre_match', array( 
 			'MATCH_DISPO' => sprintf($langue['info_match_place'], $match['le_clan'], adodb_date('j/n/Y', $match['date']), adodb_date('H:i', $match['date'])),
 		));
@@ -51,6 +52,7 @@ if (! ($get_entrainement = $rsql->requete_sql($sql)) )
 }
 while ($entrainement = $rsql->s_array($get_entrainement)) 
 {
+	$entrainement['date'] = $entrainement['date']+$session_cl['correction_heure'];
 	$template->assign_block_vars('entrainement', array( 
 		'ENTRAI_PLACE' => $langue['user_entrainement_place'],
 		'DATE' =>  adodb_date('j/n/Y', $entrainement['date']),
@@ -173,10 +175,10 @@ if ($session_cl['pouvoir_particulier'] == 'admin')
 			'ICI' => session_in_url($root_path.'administration/editer-user.php'),
 			'ID' => $liste_membre['id'],
 			'NOM' => $liste_membre['user'],
-			'SEX' => ( $liste_membre['sex'] == "Femme") ? 'femme' : 'homme',
+			'SEX' => ( $liste_membre['sex'] == 'Femme') ? 'femme' : 'homme',
 			'EQUIPE' => ( empty($liste_membre['equipe'])  &&  $liste_membre['equipe'] !== 0) ? $langue['user_verif'] : $langue['user_ok'],
 			'SECTION' => ( empty($liste_membre['section']) &&  $liste_membre['section'] !== 0) ? $langue['user_verif'] : $langue['user_ok'],
-			'PV' => ( $liste_membre['pouvoir'] == "news" ) ? $langue['user_verif'] : $langue['user_ok'],
+			'PV' => ( $liste_membre['pouvoir'] == 'news' ) ? $langue['user_verif'] : $langue['user_ok'],
 			'BT_EDITER' => $langue['editer'],
 		));
 	}

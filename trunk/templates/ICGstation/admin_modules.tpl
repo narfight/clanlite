@@ -24,7 +24,7 @@
 			</p>
 			<!-- BEGIN where -->
 			<p>
-				<span><label for="position">{TXT_POSITION}&nbsp;:</label></span>
+				<span><label for="position">{where.TXT_POSITION}&nbsp;:</label></span>
 				<span>
 					<select name="position" id="position" onblur="formverif(this.id,'autre','')">
 						<option value"">{TXT_CHOISIR}</option>

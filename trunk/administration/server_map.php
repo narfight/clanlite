@@ -23,6 +23,21 @@ if ( !empty($_POST['Envoyer']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
+	// on regarde si la map qu'il a entré n'est pas déja dans les maps des match ou des rapports
+	// si oui, on le supprime et remplace par l'id
+	if (!empty($_POST['nom_map']))
+	{
+		$sql = "UPDATE `".$config['prefix']."match_map` SET nom='', id_map='".mysql_insert_id()."' WHERE nom='".$_POST['nom_map']."'";
+		if (!$rsql->requete_sql($sql))
+		{
+			sql_error($sql, $rsql->error, __LINE__, __FILE__);
+		}
+		$sql = "UPDATE `".$config['prefix']."match_rapport_map` SET nom='', id_map='".mysql_insert_id()."' WHERE nom='".$_POST['nom_map']."'";
+		if (!$rsql->requete_sql($sql))
+		{
+			sql_error($sql, $rsql->error, __LINE__, __FILE__);
+		}
+	}
 	redirec_text('server_map.php', $langue['redirection_admin_map_serveur_add'], 'admin');
 }
 if ( !empty($_POST['Editer']) )
@@ -33,10 +48,42 @@ if ( !empty($_POST['Editer']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
+	// il est possible qu'il modifie le nom de la map en une map etant dans les matchs/rapport
+	if (!empty($_POST['nom_map']))
+	{
+		$sql = "UPDATE `".$config['prefix']."match_map` SET nom='', id_map='".$_POST['for']."' WHERE nom='".$_POST['nom_map']."'";
+		if (!$rsql->requete_sql($sql))
+		{
+			sql_error($sql, $rsql->error, __LINE__, __FILE__);
+		}
+		$sql = "UPDATE `".$config['prefix']."match_rapport_map` SET nom='', id_map='".$_POST['for']."' WHERE nom='".$_POST['nom_map']."'";
+		if (!$rsql->requete_sql($sql))
+		{
+			sql_error($sql, $rsql->error, __LINE__, __FILE__);
+		}
+	}
 	redirec_text('server_map.php', $langue['redirection_admin_map_serveur_edit'], 'admin');
 }
 if ( !empty($_POST['dell']) )
 {
+	// il faut rechercher le nom de la map pour remplacer dans les DB qui y font référence
+	$sql = "SELECT `nom` FROM `".$config['prefix']."server_map` WHERE id='".$_POST['for']."'";
+	if (! ($get = $rsql->requete_sql($sql)) )
+	{
+		sql_error($sql, $rsql->error, __LINE__, __FILE__);
+	}
+	$get = $rsql->s_array($get);
+
+	$sql = "UPDATE `".$config['prefix']."match_map` SET nom='".$get['nom']."', id_map='' WHERE id_map='".$_POST['for']."'";
+	if (!$rsql->requete_sql($sql))
+	{
+		sql_error($sql, $rsql->error, __LINE__, __FILE__);
+	}
+	$sql = "UPDATE `".$config['prefix']."match_rapport_map` SET nom='".$get['nom']."', id_map='' WHERE id_map='".$_POST['for']."'";
+	if (!$rsql->requete_sql($sql))
+	{
+		sql_error($sql, $rsql->error, __LINE__, __FILE__);
+	}
 	$sql = "DELETE FROM `".$config['prefix']."server_map` WHERE id ='".$_POST['for']."'";
 	if (!$rsql->requete_sql($sql))
 	{
@@ -59,7 +106,7 @@ $template->assign_vars( array(
 ));
 if ( !empty($_POST['edit']) )
 {
-	$sql = "SELECT * FROM ".$config['prefix']."server_map WHERE id='".$_POST['for']."'";
+	$sql = "SELECT * FROM `".$config['prefix']."server_map` WHERE id='".$_POST['for']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -77,7 +124,7 @@ else
 {
 	$template->assign_block_vars('rajouter', array('ENVOYER' => $langue['envoyer']));
 }
-$sql = "SELECT * FROM ".$config['prefix']."server_map ORDER BY `id` DESC";
+$sql = "SELECT * FROM `".$config['prefix']."server_map` ORDER BY `id` DESC";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);

@@ -16,6 +16,7 @@ require($root_path.'conf/conf-php.php');
 require($root_path.'conf/frame.php');
 $template = new Template($root_path.'templates/'.$session_cl['skin']);
 $template->set_filenames( array('body' => 'match_publique.tpl'));
+
 $sql = "SELECT * FROM `".$config['prefix']."match` WHERE date > '".(time()-60*60*2) ."' ORDER BY `date` DESC";
 if (! ($get = $rsql->requete_sql($sql)) )
 {

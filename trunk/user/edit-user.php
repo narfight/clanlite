@@ -133,8 +133,8 @@ if (!empty($_POST['Submit']))
 			".$code."
 			sex='".$_POST['sex']."', 
 			age='".adodb_mktime(0 , 0 , 0 , $_POST['age_m'] , $_POST['age_d'] , $_POST['age_y'])."', 
-			prénom='".$_POST['prenom']."', 
-			armes_préférées='".$_POST['arme']."',
+			prenom='".$_POST['prenom']."', 
+			armes_preferees='".$_POST['arme']."',
 			images='".$_POST['perso']."',
 			histoire='".$_POST['histoire']."',
 			langue='".$_POST['langue_form']."',
@@ -175,7 +175,7 @@ if ( ($profil = $rsql->s_array($get)) )
 		'TXT_CHOISIR' => $langue['choisir'],
 		'NOM' => $profil['nom'],
 		'TXT_NOM' => $langue['form_nom'],
-		'PRENOM' => $profil['prénom'],
+		'PRENOM' => $profil['prenom'],
 		'TXT_PRENOM' => $langue['form_prenom'],
 		'LOGIN' => $profil['user'], 
 		'TXT_LOGIN' => $langue['form_login'], 
@@ -199,7 +199,7 @@ if ( ($profil = $rsql->s_array($get)) )
 		'TXT_WEB' => $langue['form_web'],
 		'TEXTE' => $profil['cri'],
 		'TXT_TEXTE' => $langue['form_slogan'],
-		'ARME' => $profil['armes_préférées'],
+		'ARME' => $profil['armes_preferees'],
 		'TXT_ARME' => $langue['form_fv_arme'],
 		'ALT_ARME' => $langue['alt_arme'],
 		'HISTOIRE' => $profil['histoire'],
@@ -284,7 +284,7 @@ if ( ($profil = $rsql->s_array($get)) )
 			$template->assign_block_vars('armes', array(
 				'NOM' => $perso[1],
 				'VALUE' => $perso[0],
-				'SELECTED' => ($profil['armes_préférées'] == $perso[0]) ? 'selected="selected"' : '',
+				'SELECTED' => ($profil['armes_preferees'] == $perso[0]) ? 'selected="selected"' : '',
 			));
 		}
 	}

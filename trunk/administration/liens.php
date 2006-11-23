@@ -25,7 +25,7 @@ if (!empty($_POST['dell']))
 	redirec_text('liens.php', $langue['redirection_liens_dell'], 'admin');
 }
 if (!empty($_POST['Envoyer']))
-{ 
+{
 	$_POST = pure_var($_POST);
 	$sql = "INSERT INTO `".$config['prefix']."liens` (nom_liens, url_liens, images, repertoire) VALUES ('".$_POST['nom_liens']."', '".$_POST['url_liens']."', '".$_POST['url_image']."', '".$_POST['repertoire']."')";
 	if (!$rsql->requete_sql($sql))
@@ -45,10 +45,8 @@ if (!empty($_POST['Editer']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	else
-	{
-		redirec_text('liens.php', $langue['redirection_liens_edit'], 'admin');
-	}
+	redirec_text('liens.php', $langue['redirection_liens_edit'], 'admin');
+
 }
 require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$session_cl['skin']);
@@ -79,7 +77,7 @@ if (!empty($_POST['edit']))
 	}
 	$edit_liens_info = $rsql->s_array($get);
 	$template->assign_block_vars('editer', array('EDITER' => $langue['editer']));
-	$template->assign_vars( array( 
+	$template->assign_vars( array(
 		'ID' => $edit_liens_info['id'],
 		'NOM' => $edit_liens_info['nom_liens'],
 		'URL' => $edit_liens_info['url_liens'],
@@ -110,17 +108,20 @@ while ( $liste = $rsql->s_array($get) )
 	);
 }
 
-foreach ($liste_liens as  $id => $value)
+if (isset($liste_liens) && is_array($liste_liens))
 {
-	$template->assign_block_vars('liste_selection', array('VALUE' => $id));
-	$template->assign_block_vars('repertoire_liste', array('REPERTOIRE' => $id));
-
-	foreach ($value as $liens)
+	foreach ($liste_liens as  $id => $value)
 	{
-		$template->assign_block_vars('repertoire_liste.liste', $liens);
-		if (!empty($liens['IMAGE']))
+		$template->assign_block_vars('liste_selection', array('VALUE' => $id));
+		$template->assign_block_vars('repertoire_liste', array('REPERTOIRE' => $id));
+
+		foreach ($value as $liens)
 		{
-			$template->assign_block_vars('repertoire_liste.liste.image', '');
+			$template->assign_block_vars('repertoire_liste.liste', $liens);
+			if (!empty($liens['IMAGE']))
+			{
+				$template->assign_block_vars('repertoire_liste.liste.image', '');
+			}
 		}
 	}
 }

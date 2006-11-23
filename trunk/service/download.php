@@ -49,7 +49,7 @@ if ( !empty($_POST['send_vote']) )
 require($root_path.'conf/frame.php');
 $template = new Template($root_path.'templates/'.$session_cl['skin']);
 $template->set_filenames( array('body' => 'dl_fichiers.tpl'));
-$template->assign_vars(array( 
+$template->assign_vars(array(
 	'ICI' => session_in_url('download.php'),
 	'TITRE_DOWNLOAD' => $langue['titre_download'],
 	'TOP_10' => $langue['download_top_10'],
@@ -58,7 +58,7 @@ $template->assign_vars(array(
 ));
 if ( !empty($_POST['voter']) )
 {// on lui donne le formulaire pour voter
-	$template->assign_block_vars('voter', array( 
+	$template->assign_block_vars('voter', array(
 		'TITRE_VOTRE' => $langue['titre_defier'],
 		'VOTE_EXPLICATION' => $langue['download_vote_explication'],
 		'ENVOYER' => $langue['download_vote_envoyer'],
@@ -77,12 +77,12 @@ else
 		}
 		while ($info_group = $rsql->s_array($cat_list))
 		{
-			$template->assign_block_vars('tete.group', array( 
+			$template->assign_block_vars('tete.group', array(
 				'GROUP_U' => session_in_url('download.php?for_rep='.$info_group['id'].'#debut'),
 				'INFO_GROUP'  => $info_group['nom'].' ('.$info_group['COUNT(fichiers.id_rep)'].')',
 				'INFO_GROUP_DETAIL' => bbcode($info_group['comentaire'])
 			));
-		
+
 		}
 	}
 	if (!empty($_GET['for_rep']) || !empty($_GET['top_dl']) )
@@ -102,12 +102,12 @@ else
 		{
 			if ($_GET['top_dl'] == 'nbr_dl')
 			{
-				$where = "ORDER BY telecharger DESC LIMIT 10";
+				$where = 'ORDER BY `telecharger` DESC LIMIT 10';
 			}
 		}
 		else
 		{
-			$where = "WHERE id_rep ='".$_GET['for_rep']."' LIMIT ".$_GET['limite'].",".$config['objet_par_page'];
+			$where = "WHERE id_rep ='".$_GET['for_rep']."' ORDER BY `nom_de_fichier` ASC LIMIT ".$_GET['limite'].",".$config['objet_par_page'];
 		}
 		$sql = "SELECT * FROM ".$config['prefix']."download_fichier ".$where;
 		if (! $resultat_actu = $rsql->requete_sql($sql) )
@@ -131,14 +131,14 @@ else
 			{
 				$cote = $langue['download_no_vote'];
 			}
-			$template->assign_block_vars('liste_fichiers.pas_vide', array( 
+			$template->assign_block_vars('liste_fichiers.pas_vide', array(
 				'VOTER' => $langue['download_vote_envoyer'],
 				'TELECHARGER' => $langue['download_bt_telecharger'],
 				'NOM' => $actuelle['nom_de_fichier'],
 				'TXT_LAST_MODIF' => $langue['download_modif'],
 				'TXT_COTE' => $langue['download_bt_cote'],
 				'TXT_NB_TELECHARGER' => $langue['download_nombre'],
-				'LAST_MODIF' => adodb_date('j-m-Y' , $actuelle['modifier_a']+$session_cl['correction_heure']), 
+				'LAST_MODIF' => adodb_date('j-m-Y' , $actuelle['modifier_a']+$session_cl['correction_heure']),
 				'COTE'  => $cote,
 				'DETAIL' => bbcode($actuelle['info_en_plus']),
 				'NB_TELECHARGER' => $actuelle['telecharger'],
@@ -150,7 +150,7 @@ else
 		{
 			displayNextPreviousButtons($_GET['limite'], $total, 'multi_page', 'download.php', '&amp;for_rep='.$_GET['for_rep']);
 		}
-	} 
+	}
 }
 $template->pparse('body');
 require($root_path.'conf/frame.php');

@@ -22,6 +22,10 @@
 			<span class="reponce">{SEX}</span>  
 		</p>
 		<p>
+			<span class="nom_liste">{TXT_DATE} :</span>
+			<span class="reponce">{DATE_ENTREE}</span>
+		</p>
+		<p>
 			<span class="nom_liste">{TXT_AGE} :</span>
 			<span class="reponce">{AGE}</span>  
 		</p>

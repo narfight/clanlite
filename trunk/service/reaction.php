@@ -71,11 +71,11 @@ if ( !empty($_POST['send']) )
 		}
 	}
 	//on vérifie que tout est en ordre pour envoyer le message
-	if (empty($forum_error) || !empty($user_connect))
+	if (empty($forum_error) || isset($user_connect))
 	{
 		$_POST = pure_var($_POST);
 		// oki ici c'est quand tout est bien rempli
-		$sql = "INSERT INTO `".$config['prefix']."reaction_news` (id_news, nom, email, date, texte) VALUES ('".$_POST['for']."', '".(($user_connect)? $session_cl['user'] : $_POST['nom_p'])."', '".(($user_connect)? '' : $_POST['email_p'])."', '".$config['current_time']."', '".$_POST['reaction']."')";
+		$sql = "INSERT INTO `".$config['prefix']."reaction_news` (id_news, nom, email, date, texte) VALUES ('".$_POST['for']."', '".((isset($user_connect))? $session_cl['user'] : $_POST['nom_p'])."', '".((isset($user_connect))? '' : $_POST['email_p'])."', '".$config['current_time']."', '".$_POST['reaction']."')";
 		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
