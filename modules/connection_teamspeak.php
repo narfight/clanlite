@@ -7,7 +7,7 @@ if (defined('CL_AUTH'))
 	if( !empty($get_nfo_module) )
 	{
 		$filename = basename(__FILE__);
-		$nom = "Connection Teamspeak";
+		$nom = 'Connection Teamspeak';
 		return;
 	}
 	if( !empty($module_installtion) || !empty($module_deinstaller) )

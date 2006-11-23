@@ -6,7 +6,7 @@ if (defined('CL_AUTH'))
 {
 	if( !empty($get_nfo_module) )
 	{
-		$nom = "Connection au site";
+		$nom = 'Connection au site';
 		return;
 	}
 	if( !empty($module_installtion) || !empty($module_deinstaller) )

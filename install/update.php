@@ -5,7 +5,7 @@
 $root_path = './../';
 $action_membre = '';
 $action_db = '';
-$news_version = '1.13.09.2004';
+$news_version = '1.16.09.2004';
 include($root_path.'conf/template.php');
 include($root_path.'conf/conf-php.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
@@ -75,6 +75,7 @@ switch($config['version'])
 		{
 			$action_db['1.07.08.2004']['Configuration du module id '.$liste['id']] = "UPDATE `".$config['prefix']."modules` SET `config` = '".serialize(array('serveur' => $liste['config'], 'image' => false, 'liste' => true))."' WHERE `id` = '".$liste['id']."' LIMIT 1 ;";
 		}
+	case '1.13.09.2004':
 	
 	// sans break, metre case version a la suite, comme ca il fait toutes les mise à jours de la db de la version qu'il a jusqua la version actuelle
 	$maj = true;

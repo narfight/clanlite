@@ -28,7 +28,7 @@ $config['tag'] = htmlentities($config['tag']);
 // definit quelque information pour la config
 $config['skin_default'] = $config['skin'];
 $config['time_cook'] = 60*$config['time_cook'];
-$config['nbr_recrutement'] = '';
+$config['nbr_recrutement'] = 0;
 if ($config['inscription'] == 2)
 {
 	$config['nbr_recrutement'] = $config['limite_inscription'] - $config['nbr_membre'];
