@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
- *	Fichier		: 															*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Fichier		: ts_webpost.php											*
+ *	Copyright	: (C) 2006 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -87,7 +87,7 @@ if (defined('CL_AUTH'))
 				sql_error($sql, $rsql->error, __LINE__, __FILE__);
 			}
 		}
-		$sql = "INSERT INTO `".$config['prefix']."custom_menu` ( `id` , `ordre` , `text` , `url` , `bouge` , `frame` , `module_central` , `id_module` ) VALUES ('', '0', '".$_POST['nom']."', 'modules/ts_webpost.php?from=".$id_insert."', '0', '0', '1', '".$id_insert."')";
+		$sql = "INSERT INTO `".$config['prefix']."custom_menu` (`ordre` , `text` , `url` , `bouge` , `frame` , `module_central` , `id_module` ) VALUES ('0', '".$_POST['nom']."', 'modules/ts_webpost.php?from=".$id_insert."', '0', '0', '1', '".$id_insert."')";
 		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
