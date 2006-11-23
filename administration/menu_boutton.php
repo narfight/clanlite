@@ -1,18 +1,25 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $niveau_secu = 15;
 $action_membre= 'where_custom_menu';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
 if ( !empty($_POST['Envoyer']) )
 {
 	$_POST = pure_var($_POST);
 	$sql= "INSERT INTO `".$config['prefix']."custom_menu` (text, ordre, url, bouge, frame) VALUES ('".$_POST['text']."', '".$_POST['ordre']."', '".$_POST['url']."', '".((empty($_POST['bouge']))? 0 : 1)."', '".((empty($_POST['frame']))? 0 : 1)."')";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -25,7 +32,7 @@ if ( !empty($_POST['Editer']) )
 	$edit_central = ((empty($_POST['module_central']) && empty($_POST['liens_default']))? "url='".$_POST['url']."', " : '');
 	$edit_liens_default = ((empty($_POST['liens_default']) && empty($_POST['module_central']))? "text='".$_POST['text']."', ": '');
 	$sql = "UPDATE `".$config['prefix']."custom_menu` SET ".$edit_liens_default.$edit_central."ordre='".$_POST['ordre']."', bouge='".((empty($_POST['bouge']))? '0' : 1)."', frame='".((empty($_POST['frame']))? 1 : 0)."' ".$edit_default."WHERE id='".$_POST['for']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -37,7 +44,7 @@ if ( !empty($_POST['Editer']) )
 if ( !empty($_POST['dell']) )
 {
 	$sql = "DELETE FROM `".$config['prefix']."custom_menu` WHERE module_central != 1 AND `default` ='normal' AND id ='".$_POST['for']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -46,7 +53,7 @@ if ( !empty($_POST['dell']) )
 		redirec_text('menu_boutton.php',$langue['redirection_custom_menu_dell'],'admin');
 	}
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_boutton.tpl'));
 $template->assign_vars(array( 
@@ -128,5 +135,5 @@ while ($list = $rsql->s_array($get_list))
 	));
 }
 $template->pparse('body');
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

@@ -1,7 +1,14 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 if (defined('CL_AUTH'))
 {
 	if( !empty($get_nfo_module) )
@@ -51,9 +58,9 @@ if(!empty($_POST['teamspeak_connection_envois'])  )
 	$_POST['teamspeak_connection_envois'] = '';
 	$root_path = './../';
 	$action_membre= 'where_connection_ts';
-	include($root_path.'conf/template.php');
-	include($root_path.'conf/conf-php.php');
-	include($root_path.'conf/frame.php');
+	require($root_path.'conf/template.php');
+	require($root_path.'conf/conf-php.php');
+	require($root_path.'conf/frame.php');
 	$template->set_filenames(array('body_module' => 'divers_text.tpl'));
 	$login = (!empty($_POST['teamspeak_connection_login']))? $_POST['teamspeak_connection_login'] : '';
 	$code = (!empty($_POST['teamspeak_connection_code']))? $_POST['teamspeak_connection_code'] : '';
@@ -64,7 +71,7 @@ if(!empty($_POST['teamspeak_connection_envois'])  )
 		'TITRE' => "Connection au serveur Vocal"
 	));
 	$template->pparse('body_module');
-	include($root_path.'conf/frame.php');
+	require($root_path.'conf/frame.php');
 	return;
 }
 if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_connect_ts_module']) )
@@ -72,20 +79,20 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_connect_ts_modu
 	$root_path = './../';
 	$action_membre= 'where_module_connect_ts';
 	$niveau_secu = 16;
-	include($root_path.'conf/template.php');
-	include($root_path.'conf/conf-php.php');
-	include($root_path."controle/cook.php");
+	require($root_path.'conf/template.php');
+	require($root_path.'conf/conf-php.php');
+	require($root_path."controle/cook.php");
 	$id_module = (!empty($_POST['id_module']))? $_POST['id_module'] : $_GET['id_module'];
 	if ( !empty($_POST['Submit_connect_ts_module']) )
 	{
 		$sql = "UPDATE ".$config['prefix']."modules SET config='".$_POST['ip_vocal']."|!|".$_POST['port_vocal']."' WHERE id ='".$id_module."'";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
 		redirec_text($root_path."administration/modules.php" ,$langue['redirection_module_connect_ts_edit'], 'admin');
 	}
-	include($root_path.'conf/frame_admin.php');
+	require($root_path.'conf/frame_admin.php');
 	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('body' => 'modules/teamspeak_connection.tpl'));
 	$sql = "SELECT config FROM ".$config['prefix']."modules WHERE id ='".$id_module."'";
@@ -105,7 +112,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_connect_ts_modu
 		'EDITER' => $langue['editer'],
 	));
 	$template->pparse('body');
-	include($root_path.'conf/frame_admin.php');
+	require($root_path.'conf/frame_admin.php');
 	return;
 }
 ?>

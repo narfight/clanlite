@@ -1,13 +1,20 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $action_membre = 'where_admin_mp3';
 $niveau_secu = 17;
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
 if (!empty($_POST['dell']))
 {
 	$sql = "DELETE FROM ".$config['prefix']."config_sond WHERE id = '".$_POST['for']."'";
@@ -21,7 +28,7 @@ if (!empty($_POST['Envoyer']))
 { 
 	$_POST = pure_var($_POST);
 	$sql = "INSERT INTO `".$config['prefix']."config_sond` (`SRC`, `AUTOPLAY`, `LOOP`, `titre`, `arstite`) VALUES ('".$_POST['SRC']."', '".$_POST['AUTOPLAY']."', '".$_POST['LOOP']."', '".$_POST['titre']."', '".$_POST['chanteur']."')";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -31,7 +38,7 @@ if (!empty($_POST['Editer']))
 {
 	$_POST = pure_var($_POST);
 	$sql = "UPDATE `".$config['prefix']."config_sond` SET `SRC`='".$_POST['SRC']."', `AUTOPLAY`='".$_POST['AUTOPLAY']."', `LOOP`='".$_POST['LOOP']."', `titre`='".$_POST['titre']."', `arstite`='".$_POST['chanteur']."' WHERE id='".$_POST['for']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -40,7 +47,7 @@ if (!empty($_POST['Editer']))
 		redirec_text('mp3.php', $langue['redirection_admin_mp3_edit'],'admin');
 	}
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_mp3.tpl'));
 $template->assign_vars(array( 
@@ -100,5 +107,5 @@ while ( $liste = $rsql->s_array($get) )
 	));
 }
 $template->pparse('body');
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

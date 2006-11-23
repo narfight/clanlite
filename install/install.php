@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 $root_path = '../';
 if (file_exists($root_path.'config.php'))
 {
-	include($root_path.'config.php');
+	require($root_path.'config.php');
 	if (empty($_POST['readme']) && defined('CL_INSTALL'))
 	{//evite de relancer l'installation si il laisse le fichier en place
 		header('Location: '.$root_path."\n");
@@ -33,9 +33,9 @@ if (!empty($_POST['dl_config_php']))
 	echo $contenu;
 	exit;
 }
-include($root_path.'conf/template.php');
-include($root_path.'conf/'.((!empty($_POST['db_type']))? $_POST['db_type'] : 'mysql').'.php');
-include($root_path.'conf/lib.php');
+require($root_path.'conf/template.php');
+require($root_path.'conf/'.((!empty($_POST['db_type']))? $_POST['db_type'] : 'mysql').'.php');
+require($root_path.'conf/lib.php');
 $config['raport_error'] = false;
 $rsql = new mysql();
 ?>

@@ -1,15 +1,15 @@
 <!-- BEGIN serveur_jeux -->
 	{IMAGE_MAP}
-	{TXT_IP} : <span class="reponce"><a href="{JOINERURI}">{IP}</a></span><br />
-	{TXT_CURRENT_MAP} : <span class="reponce">{CURRENT_MAP}</span><br />
-	{TXT_NEXT_MAP} : <span class="reponce">{NEXT_MAP}</span><br />
-	{TXT_PLACE} :<span class="reponce">{PLAYER}</span>/<span class="reponce">{PLACE}</span><br />
-	{TXT_GAME_TYPE} :<span class="reponce">{GAME_TYPE}</span><br />
+	{TXT_IP}: <span class="reponce"><a href="{JOINERURI}">{IP}</a></span><br />
+	{TXT_CURRENT_MAP}: <span class="reponce">{CURRENT_MAP}</span><br />
+	{TXT_NEXT_MAP}: <span class="reponce">{NEXT_MAP}</span><br />
+	{TXT_PLACE}: <span class="reponce">{PLAYER}</span>/<span class="reponce">{PLACE}</span><br />
+	{TXT_GAME_TYPE}: <span class="reponce">{GAME_TYPE}</span><br />
 	{LISTE}
 <!-- END serveur_jeux -->
 <!-- BEGIN total_liste -->
 	{TXT_LISTE} :
-<marquee height="100" scrollamount="1" scrolldelay=20 direction="up" onMouseover="this.scrollAmount=0" onMouseout="this.scrollAmount=1">
+<marquee height="100" scrollamount="1" scrolldelay="20" direction="up" onmouseover="this.scrollAmount=0" onmouseout="this.scrollAmount=1">
 	{LISTE}
 </marquee>
 <!-- END total_liste -->
@@ -17,9 +17,9 @@
 <div class="{COLOR}">{NAME}</div>
 <!-- END serveur_jeux_boucle --> 
 <!-- BEGIN serveur_config -->
-	<form method="post" action="serveur_jeux.php">
-		<div class="big_cadre">
-			<h1>{serveur_config.TITRE}</h1>
+	<div class="big_cadre">
+		<h1>{serveur_config.TITRE}</h1>
+			<form method="post" action="serveur_jeux.php" class="visible">
 			<p>
 				<span><label for="id_serveur">{serveur_config.TXT_SERVEUR}&nbsp;:</label></span>
 				<span>
@@ -43,6 +43,6 @@
 					<input name="Submit_module" type="submit" id="Editer" value="{serveur_config.EDITER}" /> 
 				</span>
 			</p>
-		</div>
-	</form>
+		</form>
+	</div>
 <!-- END serveur_config -->

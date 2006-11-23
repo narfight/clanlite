@@ -1,13 +1,20 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $action_membre= 'where_admin_edit_user';
 $niveau_secu = 8;
 $root_path = './../';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
 if (!empty($_POST['Submit']))
 {
 	$code = (!empty($_POST['psw']))? "psw='".md5($_POST['psw'])."', " : '';
@@ -35,13 +42,13 @@ if (!empty($_POST['Submit']))
 		images='".$_POST['perso']."',
 		langue='".$_POST['langue_form']."' 
 		WHERE id ='".$_POST['id']."'"; 
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	redirec_text($root_path.'service/liste-des-membres.php', $langue['user_envois_edit_profil'] , 'admin');
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 $sql = "SELECT user.*, section.nom, section.id, equipe.nom, equipe.id, user.id AS id_user, user.nom AS nom_user FROM ".$config['prefix']."user AS user LEFT JOIN ".$config['prefix']."section AS section ON section.id = user.section LEFT JOIN ".$config['prefix']."équipe as equipe ON equipe.id = user.equipe WHERE user.id = '".$_POST['id']."' LIMIT 1";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
@@ -230,5 +237,5 @@ else
 {
 	msg('erreur', $langue['erreur_profil_no_found']);
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

@@ -1,13 +1,20 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $action_membre= 'where_entree_user';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
+require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'info_priver.tpl'));
 //on releve tout les match que le joueur peux voir
@@ -124,7 +131,7 @@ if ($user_pouvoir['particulier'] == 'admin')
 				}
 			}
 			fclose($fp);
-			if (!empty($reponce) && $reponce != "problem")
+			if (!empty($reponce) && $reponce != 'problem')
 			{
 				$version_local = explode('.', $config['version']);
 				$version_distant = explode('.', $reponce);
@@ -165,7 +172,7 @@ if ($user_pouvoir['particulier'] == 'admin')
 			'ICI' => session_in_url($root_path.'administration/editer-user.php'),
 			'ID' => $liste_membre['id'],
 			'NOM' => $liste_membre['user'],
-			'SEX' => ( $liste_membre['sex'] == "Femme") ? "femme" : "homme",
+			'SEX' => ( $liste_membre['sex'] == "Femme") ? 'femme' : 'homme',
 			'EQUIPE' => ( empty($liste_membre['equipe'])  &&  $liste_membre['equipe'] !== 0) ? $langue['user_verif'] : $langue['user_ok'],
 			'SECTION' => ( empty($liste_membre['section']) &&  $liste_membre['section'] !== 0) ? $langue['user_verif'] : $langue['user_ok'],
 			'PV' => ( $liste_membre['pouvoir'] == "news" ) ? $langue['user_verif'] : $langue['user_ok'],
@@ -174,5 +181,5 @@ if ($user_pouvoir['particulier'] == 'admin')
 	}
 }
 $template->pparse('body');
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

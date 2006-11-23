@@ -32,7 +32,7 @@ if(!defined('GSQUERY_DIR')) {
 
 /**
  * @mainpage gsQuery
- * @htmlinclude readme.html
+ * @htmlrequire readme.html
  */
 
 /** 
@@ -48,7 +48,7 @@ if(!defined('GSQUERY_DIR')) {
 /**
  * @brief Abstract gsQuery base class
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Rev: 196 $
+ * @version $Rev: 204 $
  *
  * <p>The gsQuery package has one class for each protocol or game.
  * This class is abstract but due to the lack of real OO
@@ -59,7 +59,7 @@ if(!defined('GSQUERY_DIR')) {
  * Generic usage:
  * <pre>
  *   // including gsQuery
- *   include_once('path/to/gsQuery/gsQuery.php');
+ *   require_once('path/to/gsQuery/gsQuery.php');
  * 
  *   // create a gsQuery instance
  *   $gameserver = gsQuery::createInstance('gameSpy', 'myserver.com', 1234)
@@ -81,7 +81,7 @@ class gsQuery
   // public members you can access
 
   /** @brief The version of the gsQuery package */
-  var $version;
+  var $version = '$$$SVN_VERSION$$$'; //= ereg_replace("[^0-9]", '', '$Rev: 204 $');
 
   /** @brief ip or hostname of the server */
   var $address;
@@ -187,7 +187,7 @@ class gsQuery
    */
   function gsQuery($address, $queryport)
   {
-    $this->version = '(SVN Rev '. ereg_replace("[^0-9\\.]", '', '$Rev: 196 $') .')'; 
+    $this->version = '(SVN Rev '. ereg_replace("[^0-9\\.]", '', '$Rev: 204 $') .')'; 
     $this->address = $address;
     $this->queryport = $queryport;
    
@@ -256,7 +256,7 @@ class gsQuery
 
     // we should be careful when using eval with supplied arguments
     if(ereg("^[A-Za-z0-9_-]+$", $className)) {
-      include_once($className .'.php');
+      require_once(GSQUERY_DIR. $className .'.php');
        return unserialize(base64_decode(substr($string, $i+1)));
      } else {
       return FALSE;
@@ -273,7 +273,7 @@ class gsQuery
    */
   function unserializeFromURL($url) 
   {
-    require_once(GSQUERY_DIR . 'includes/HttpClient.class.php');
+    require_once(GSQUERY_DIR . 'requires/HttpClient.class.php');
     return gsQuery::unserialize(HttpClient::quickGet($url));
   }
 
@@ -373,8 +373,8 @@ class gsQuery
     case 'deaths':
       uasort($players, array('gsQuery', '_sortbyDeaths'));
       break;
-    case 'honor':
-      uasort($players, array('gsQuery', '_sortbyHonor'));
+    case 'kills':
+      uasort($players, array('gsQuery', '_sortbyKills'));
       break;
     case 'time':
       uasort($players, array('gsQuery', '_sortbyTime'));
@@ -427,7 +427,7 @@ class gsQuery
    * of the send data first and the dump of the received data behind it.
    */
   function getDebugDumps($html=FALSE, $dumper=NULL) {
-    require_once(GSQUERY_DIR . 'includes/HexDumper.class.php');    
+    require_once(GSQUERY_DIR . 'requires/HexDumper.class.php');    
 
     if(!isset($dumper)) {
       $dumper = new HexDumper();
@@ -478,6 +478,13 @@ class gsQuery
     elseif($a['time']<$b['time']) { return 1; }
     else { return -1; }
   }  
+
+  function _sortbyKills($a, $b)
+  { 
+    if($a['kills']==$b['kills']) { return 0; } 
+    elseif($a['kills']<$b['kills']) { return 1; } 
+    else { return -1; } 
+  }
     
   /**
    * @internal @brief This method deletes all fetched data 

@@ -1,10 +1,17 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = '../';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
 //on converti son code en md5
 $_POST = pure_var($_POST);
 $psw = md5($_POST['psw']);
@@ -27,7 +34,7 @@ else
 	}
 	// on change la date a la quelle il c'est connecter pour la derniere fois
 	$sql = "UPDATE ".$config['prefix']."user SET last_connect='".$config['current_time']."' WHERE user ='".$user."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}

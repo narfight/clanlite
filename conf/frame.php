@@ -1,7 +1,14 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 if (!empty($page_frame))
 {
 	// pour le bas de page
@@ -16,7 +23,7 @@ if (!empty($page_frame))
 			$modules['id'] = $val[2];
 			$modules['config'] = $val[3];
 			$modules['place'] = $val[4];
-			include($root_path.'modules/'.$val[0]);
+			require($root_path.'modules/'.$val[0]);
 		}
 		unset($module, $module_droite_nfo);
 	}
@@ -40,7 +47,7 @@ else
 		}
 		else
 		{
-			include($root_path.'modules/'.$modules['call_page']);
+			require($root_path.'modules/'.$modules['call_page']);
 		}
 	}
 	unset($module, $get_module);
@@ -159,6 +166,7 @@ $template->assign_vars( array(
 	'HEAD' => (!empty($frame_head))? $frame_head : '',
 	'PATH_ROOT' => $root_path,
 	'COPYRIGHT' => sprintf($langue['copyright'], $config['version']),
+	'BIENVENU' => sprintf($langue['bien_venu_site'], $config['nom_clan']),
 	'B_PRIVE' => $langue['boutton_connect'],
 	'NOM_CLAN' => $config['nom_clan'],
 	'NEWS' => $langue['news_titre'],

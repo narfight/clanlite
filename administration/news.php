@@ -1,18 +1,25 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $niveau_secu = 18;
 $action_membre= 'where_admin_news';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
 if (!empty($_POST['ajouter']))
 {
 	$_POST = pure_var($_POST);
 	$sql = "INSERT INTO `".$config['prefix']."news` (info, date, user, titre) VALUES ('".$_POST['texte']."', '".$config['current_time']."', '".$session_cl['user']."', '".$_POST['titre']."')";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -22,7 +29,7 @@ if (!empty($_POST['editer']))
 {
 	$_POST = pure_var($_POST);
 	$sql = "UPDATE `".$config['prefix']."news` SET info='".$_POST['texte']."', titre='".$_POST['titre']."' WHERE id='".$_POST['for']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -34,18 +41,18 @@ if (!empty($_POST['editer']))
 if (!empty($_POST['dell']))
 {
 	$sql = "DELETE FROM `".$config['prefix']."news` WHERE id ='".$_POST['for']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	$sql = "DELETE FROM `".$config['prefix']."reaction_news` WHERE id_news ='".$_POST['for']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 		redirec_text('news.php',$langue['redirection_admin_news_dell'],'admin');
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_news.tpl'));
 liste_smilies(true, '', 25);
@@ -98,5 +105,5 @@ while ( $liste_news = $rsql->s_array($get_list) )
 	));
 }
 $template->pparse('body');
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

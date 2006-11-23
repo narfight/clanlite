@@ -1,13 +1,20 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $action_membre = 'where_entrainement';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
+require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'antrainement.tpl'));
 $template->assign_vars(array( 
@@ -28,7 +35,7 @@ while ($list_entrain = $rsql->s_array($get))
 	if ($list_entrain['date'] <= $config['current_time'] )
 	{
 		$sql = "DELETE FROM ".$config['prefix']."entrainement WHERE id = ".$list_entrain['id'];
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
@@ -45,5 +52,5 @@ while ($list_entrain = $rsql->s_array($get))
 	} 
 }
 $template->pparse('body');
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

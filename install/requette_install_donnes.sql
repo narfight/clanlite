@@ -14,7 +14,7 @@ INSERT INTO clanlite_config VALUES ('inscription', '2');
 INSERT INTO clanlite_config VALUES ('tag', '[CL]');
 INSERT INTO clanlite_config VALUES ('nom_clan', '[Clan Lite - Home]');
 INSERT INTO clanlite_config VALUES ('limite_inscription', '24');
-INSERT INTO clanlite_config VALUES ('version', '1.01.11.2004');
+INSERT INTO clanlite_config VALUES ('version', '1.20.01.2005');
 INSERT INTO clanlite_config VALUES ('objet_par_page', '10');
 INSERT INTO clanlite_config VALUES ('site_path', '/clanlite/');
 INSERT INTO clanlite_config VALUES ('raport_error', '1');
@@ -40,7 +40,7 @@ INSERT INTO clanlite_custom_menu VALUES (9, 9, 'boutton_liens', 'service/liens.p
 INSERT INTO clanlite_custom_menu VALUES (10, 10, 'boutton_org_rencontre', 'service/defier.php', '0', '0', '0', 0, '1');
 INSERT INTO clanlite_custom_menu VALUES (11, 11, 'Un Bug !?', 'http://mantis.clanlite.org/', '0', '0', '0', 0, 'normal');
 INSERT INTO clanlite_custom_menu VALUES (12, 11, 'boutton_liste_game', 'service/serveur_game_list.php', '0', '0', '0', 0, '1');
-INSERT INTO clanlite_entrainemen VALUES (1, '1117024200', 'Match sur St-lo, pour le code : regarder en privé', 'narfight', 'le code est : mdsfsdfcxvxcwcv');
+INSERT INTO clanlite_entrainement VALUES (1, '1117024200', 'Match sur St-lo, pour le code : regarder en privé', 'narfight', 'le code est : mdsfsdfcxvxcwcv');
 INSERT INTO clanlite_modules VALUES (1, 2, 'droite', '1', 'MP3', 'cadre_mp3.php', '');
 INSERT INTO clanlite_modules VALUES (4, 0, 'gauche', '1', 'Match  à Venir', 'match.php', '');
 INSERT INTO clanlite_modules VALUES (5, 1, 'droite', '1', 'Compteur', 'compteur.php', '');

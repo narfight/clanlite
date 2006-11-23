@@ -1,18 +1,25 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $niveau_secu = 6;
 $action_membre= 'where_game_server';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
 if (!empty($_POST['envoyer']))
 { 
 	$_POST = pure_var($_POST);
 	$sql = "INSERT INTO `".$config['prefix']."game_server` (`ip`, `port`, `protocol`, `clan`) VALUES ('".$_POST['ip']."', '".$_POST['port']."', '".$_POST['protocol']."', '".((!empty($_POST['clan']))? 1 : 0)."')";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -22,7 +29,7 @@ if (!empty($_POST['envois_edit']))
 {
 	$_POST = pure_var($_POST);
 	$sql = "UPDATE `".$config['prefix']."game_server` SET `ip`='".$_POST['ip']."', `port`='".$_POST['port']."', `protocol`='".$_POST['protocol']."', `clan`='".((!empty($_POST['clan']))? 1 : 0)."' WHERE `id`='".$_POST['for']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -34,13 +41,13 @@ if (!empty($_POST['envois_edit']))
 if (!empty($_POST['dell']))
 {
 	$sql = "DELETE FROM `".$config['prefix']."game_server` WHERE `id` ='".$_POST['for']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	redirec_text('game_serveur.php', $langue['redirection_game_server_dell'], 'admin');
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_game_serveur.tpl'));
 $template->assign_vars( array( 
@@ -82,7 +89,7 @@ else
 	$template->assign_block_vars('envoyer', array('ENVOYER' => $langue['envoyer']));
 }
 // scan les protocols possible pour le scanner de serveur de jeux
-include($root_path.'service/gsquery/gsQuery.php');
+require($root_path.'service/gsquery/gsQuery.php');
 foreach(gsQuery::getSupportedProtocols($root_path."service/gsquery/") as $protocol_liste)
 {
 	$template->assign_block_vars('protocol_game_liste', array(
@@ -108,5 +115,5 @@ while ($liste = $rsql->s_array($get))
 	));
 }
 $template->pparse('body');
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

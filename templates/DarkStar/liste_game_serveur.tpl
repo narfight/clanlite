@@ -1,132 +1,136 @@
 <!-- BEGIN details -->
 <div class="big_cadre">
 	<h1>{details.NAME}</h1>
-	<p>
-		<span>{TXT_IP}&nbsp;:</span>
-		<span class="reponce"><a href="{details.JOINERURI}">{details.IP}:{details.PORT}</a></span>
-	</p>
-	<p>
-		<span>{TXT_NAME}&nbsp;:</span>
-		<span class="reponce">{details.NAME}</span>
-	</p>
-	<p>
-		<span>{TXT_VERSION}&nbsp;:</span>
-		<span class="reponce">{details.VERSION}</span>
-	</p>
-	<p>
-		<span>{TXT_GAME_TYPE}&nbsp;:</span>
-		<span class="reponce">{details.GAME_TYPE}</span>
-	</p>
-	<p>
-		<span>{TXT_PASSWORD}&nbsp;:</span>
-		<span class="reponce">{details.PASSWORD}</span>
-	</p>
-	<!-- BEGIN min_max_ping -->
-	<p>
-		<span>{details.min_max_ping.TXT_ENTRE_PING}&nbsp;:</span>
-		<span class="reponce">{details.min_max_ping.MIN_PING}</span> et <span class="reponce">{details.min_max_ping.MAX_PING}</span>
-	</p>
-	<!-- END min_max_ping -->
-	<p>
-		<span>{TXT_PLACE}&nbsp;:</span>
-		<span class="reponce">{details.PLAYER}/{details.PLACE}</span>
-	</p>
-	<!-- BEGIN list_map -->
-	<p>
-		<span>{details.list_map.TXT_ROTATION}&nbsp;:</span>
-		<span class="reponce">
-			<ul>
-			<!-- BEGIN map -->
-				<li>
-					<!-- BEGIN bouttons_oui -->
-					<a href="{details.list_map.map.bouttons_oui.URL}">{details.list_map.map.NOM}</a>
-					<!-- END bouttons_oui -->
-					<!-- BEGIN bouttons_non -->
-					{details.list_map.map.NOM}
-					<!-- END bouttons_non -->
-				</li>
-			<!-- END map -->
-			</ul>
-		</span>
-	</p>
-	<!-- END list_map -->
-	<p>
-		<span>{TXT_CURRENT_MAP}&nbsp;:</span>
-		<span class="reponce">
-			<!-- BEGIN url_map -->
-			<a href="{details.url_map.URL}">{details.url_map.NOM}</a>
-			<!-- END url_map -->
-			<!-- BEGIN no_url_map -->
-			{details.no_url_map.NOM}
-			<!-- END no_url_map -->
-			<img src="{details.PICS_MAP}" {details.PICS_MAP_TAILLE} alt="{details.ALT_PICS_MAP}" />
-		</span>
-	</p>
-	<!-- BEGIN next_map -->
-	<p>
-		<span>{details.next_map.TXT_NEXT_MAP}&nbsp;:</span>
-		<span class="reponce">{details.next_map.NEXT_MAP}</span>
-	</p>
-	<!-- END next_map -->
-	<!-- BEGIN objectif -->
-	<p>
-		<span>{TXT_OBJ_AXIS}&nbsp;:</span>
-		<span class="reponce">{details.objectif.OBJ_1_AXIS}<br />{details.objectif.OBJ_2_AXIS}<br />{details.objectif.OBJ_3_AXIS}</span>
-	</p>
-	<p>
-		<span>{TXT_OBJ_ALLIER}&nbsp;:</span>
-		<span class="reponce">{details.objectif.OBJ_1_ALLIER}<br />{details.objectif.OBJ_2_ALLIER}<br />{details.objectif.OBJ_3_ALLIER}</span>
-	</p>
-	<!-- END objectif -->
-	<p>
-		<span>{LISTE_JOUEUR}&nbsp;:</span>
-		<span>
+	<div class="visible">
+		<p>
+			<span class="nom_liste">{TXT_IP}&nbsp;:</span>
+			<span class="reponce"><a href="{details.JOINERURI}">{details.IP}:{details.PORT}</a></span>
+		</p>
+		<p>
+			<span class="nom_liste">{TXT_NAME}&nbsp;:</span>
+			<span class="reponce">{details.NAME}</span>
+		</p>
+		<p>
+			<span class="nom_liste">{TXT_VERSION}&nbsp;:</span>
+			<span class="reponce">{details.VERSION}</span>
+		</p>
+		<p>
+			<span class="nom_liste">{TXT_GAME_TYPE}&nbsp;:</span>
+			<span class="reponce">{details.GAME_TYPE}</span>
+		</p>
+		<p>
+			<span class="nom_liste">{TXT_PASSWORD}&nbsp;:</span>
+			<span class="reponce">{details.PASSWORD}</span>
+		</p>
+		<!-- BEGIN min_max_ping -->
+		<p>
+			<span class="nom_liste">{details.min_max_ping.TXT_ENTRE_PING}&nbsp;:</span>
+			<span class="reponce">{details.min_max_ping.MIN_PING}</span> et <span class="reponce">{details.min_max_ping.MAX_PING}</span>
+		</p>
+		<!-- END min_max_ping -->
+		<p>
+			<span class="nom_liste">{TXT_PLACE}&nbsp;:</span>
+			<span class="reponce">{details.PLAYER}/{details.PLACE}</span>
+		</p>
+		<!-- BEGIN list_map -->
+		<p>
+			<span class="nom_liste">{details.list_map.TXT_ROTATION}&nbsp;:</span>
+			<span class="reponce">
+				<ul>
+				<!-- BEGIN map -->
+					<li>
+						<!-- BEGIN bouttons_oui -->
+						<a href="{details.list_map.map.bouttons_oui.URL}">{details.list_map.map.NOM}</a>
+						<!-- END bouttons_oui -->
+						<!-- BEGIN bouttons_non -->
+						{details.list_map.map.NOM}
+						<!-- END bouttons_non -->
+					</li>
+				<!-- END map -->
+				</ul>
+			</span>
+		</p>
+		<!-- END list_map -->
+		<p>
+			<span class="nom_liste">{TXT_CURRENT_MAP}&nbsp;:</span>
+			<span class="reponce">
+				<!-- BEGIN url_map -->
+				<a href="{details.url_map.URL}">{details.url_map.NOM}</a>
+				<!-- END url_map -->
+				<!-- BEGIN no_url_map -->
+				{details.no_url_map.NOM}
+				<!-- END no_url_map -->
+				<img src="{details.PICS_MAP}" {details.PICS_MAP_TAILLE} alt="{details.ALT_PICS_MAP}" />
+			</span>
+		</p>
+		<!-- BEGIN next_map -->
+		<p>
+			<span class="nom_liste">{details.next_map.TXT_NEXT_MAP}&nbsp;:</span>
+			<span class="reponce">{details.next_map.NEXT_MAP}</span>
+		</p>
+		<!-- END next_map -->
+		<!-- BEGIN objectif -->
+		<p>
+			<span class="nom_liste">{TXT_OBJ_AXIS}&nbsp;:</span>
+			<span class="reponce">{details.objectif.OBJ_1_AXIS}<br />{details.objectif.OBJ_2_AXIS}<br />{details.objectif.OBJ_3_AXIS}</span>
+		</p>
+		<p>
+			<span class="nom_liste">{TXT_OBJ_ALLIER}&nbsp;:</span>
+			<span class="reponce">{details.objectif.OBJ_1_ALLIER}<br />{details.objectif.OBJ_2_ALLIER}<br />{details.objectif.OBJ_3_ALLIER}</span>
+		</p>
+		<!-- END objectif -->
+		<!-- BEGIN liste_joueur_visible -->
+		<p>
+			<span class="nom_liste">{LISTE_JOUEUR}&nbsp;:</span>
+		</p>
+		<p>
 			<table class="table">
 				<thead>
 					<tr>
 						<th>{NAME_JOUEUR}</th>
 						<!-- BEGIN tete_score -->
-						<th>{details.tete_score.SCORE}</th>
+						<th>{details.liste_joueur_visible.tete_score.SCORE}</th>
 						<!-- END tete_score -->
 						<!-- BEGIN tete_enemy -->
-						<th>{details.tete_enemy.ENEMY}</th>
+						<th>{details.liste_joueur_visible.tete_enemy.ENEMY}</th>
 						<!-- END tete_enemy -->
 						<!-- BEGIN tete_kia -->
-						<th>{details.tete_kia.KIA}</th>
+						<th>{details.liste_joueur_visible.tete_kia.KIA}</th>
 						<!-- END tete_kia -->
 						<!-- BEGIN tete_frags -->
-						<th>{details.tete_frags.FRAGS}</th>
+						<th>{details.liste_joueur_visible.tete_frags.FRAGS}</th>
 						<!-- END tete_frags -->
 						<!-- BEGIN tete_ping -->
-						<th>{details.tete_ping.PING}</t>
+						<th>{details.liste_joueur_visible.tete_ping.PING}</t>
 						<!-- END tete_ping -->
 					</tr>
 				</thead>
 				<tbody>
 					<!-- BEGIN players -->
 					<tr>
-						<td>{details.players.NAME}</td>
+						<td>{details.liste_joueur_visible.players.NAME}</td>
 						<!-- BEGIN list_score -->
-						<td>{details.players.list_score.SCORE}</td>
+						<td>{details.liste_joueur_visible.players.list_score.SCORE}</td>
 						<!-- END list_score -->
 						<!-- BEGIN list_enemy -->
-						<td>{details.players.list_enemy.ENEMY}</td>
+						<td>{details.liste_joueur_visible.players.list_enemy.ENEMY}</td>
 						<!-- END list_enemy -->
 						<!-- BEGIN list_kia -->
-						<td>{details.players.list_kia.KIA}</td>
+						<td>{details.liste_joueur_visible.players.list_kia.KIA}</td>
 						<!-- END list_kia -->
 						<!-- BEGIN list_frags -->
-						<td>{details.players.list_frags.FRAGS}</td>
+						<td>{details.liste_joueur_visible.players.list_frags.FRAGS}</td>
 						<!-- END list_frags -->
 						<!-- BEGIN list_ping -->
-						<td>{details.players.list_ping.PING}</td>
+						<td>{details.liste_joueur_visible.players.list_ping.PING}</td>
 						<!-- END list_ping -->
 					</tr>
 					<!-- END players -->
 				</tbody>
 			</table>
-		</span>
-	</p>
+		</p>
+		<!-- END liste_joueur_visible -->
+	</div>
 </div>
 <!-- END details -->
 <div class="big_cadre">

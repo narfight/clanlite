@@ -1,7 +1,14 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 /*
 si vous voulez traduire ce fichier dans un autre langue :
 seul le texte après le = entre les '' doit être traduit, si dans votre traduction vous utilisez un caractère ", vous devez le faire suivre d'un \
@@ -11,7 +18,7 @@ voici un exemple de traduction : $langue['test_traduction'] = "je suis \"malade\
 $langue['boutton_liste_game'] = "Serveurs de jeux";
 $langue['boutton_news'] = "Les news";
 $langue['boutton_forum'] = "Forum";
-$langue['boutton_inscription'] = "Recrutement";
+$langue['boutton_inscription'] = "Inscription";
 $langue['boutton_match'] = "Les matchs";
 $langue['boutton_calendrier'] = "Calendrier";
 $langue['boutton_reglement'] = "Règlement";
@@ -23,7 +30,7 @@ $langue['boutton_deconnect'] = "Déconnecter";
 $langue['boutton_liens'] = "Liens";
 $langue['boutton_org_rencontre'] = "Proposer une rencontre";
 $langue['boutton_liste_membres_groupe'] = "Les membres";
-
+$langue['bien_venu_site'] = "Bienvenue sur le site des %1\$s.";
 $langue['error_sql_titre'] = "Erreur de requete SQL";
 $langue['error_sql_requette'] = "Requette";
 $langue['error_sql_erreur'] = "Erreur reçue";
@@ -127,6 +134,9 @@ $langue['team_ok'] = "La team pour le match";
 $langue['team_reserve'] = "La team de réserve";
 $langue['team_demande'] = "Les demandes";
 $langue['ajouter/supprimer_demande_match'] = "Demander/Annuler sa participation au match";
+$langue['match_inscrit'] = "Match où vous étes inscris";
+$langue['match_pas_inscrit'] = "Match où vous n'étes pas inscris";
+
 $langue['toutes_section'] = "Sans limite";
 $langue['user_envois_demande_ok'] = "Votre demande de participation au match est enregistrée";
 $langue['user_envois_annule_demande'] = "Votre demande de participation au match est supprimée";
@@ -408,7 +418,7 @@ $langue['redirection_group_dl_edit'] = "Le groupe a été mis à jour";
 $langue['redirection_group_dl_dell'] = "Le groupe a été supprimé";
 $langue['redirection_group_dl_pasvide'] = "Vous ne pouvez pas supprimer un groupe qui n'est pas vide";
 $langue['toggle_gestion_fichier'] = "Afficher/Cacher la gestion des fichiers";
-$langue['toggle_gestion_group'] = "Afficher/Cacher la gestion des groups";
+$langue['toggle_gestion_group'] = "Afficher/Cacher la gestion des groupes";
 $langue['dll_url'] = "Emplacement du fichier";
 $langue['group_fichier'] = "Dans le groupe";
 
@@ -579,6 +589,8 @@ $langue['rapport_match_score_final'] = "Les scores";
 $langue['rapport_match_dell_importe'] = "supprimer le match importé";
 
 // les erreurs dans les formulaire
+$langue['erreur_titre'] = "Il a une erreur dans le formulaire";
+$langue['erreur_no_group'] = "Vous n'avez pas défini un groupe pour le fichier";
 $langue['erreur_nom_vide'] = "Vous n'avez pas entré votre nom<br />";
 $langue['erreur_prenom_vide'] = "Vous n'avez pas entré votre prénom<br />";
 $langue['erreur_user_vide'] = "Vous n'avez pas entré votre login<br />";
@@ -712,7 +724,7 @@ $langue['envoyer_a'] = "Envoyer à";
 $langue['apercu'] = "Prévisualisation";
 
 $langue['envoyer'] = "Envoyer";
-$langue['editer'] = "Editer";
+$langue['editer'] = "Modifier";
 $langue['supprimer'] = "Supprimer";
 $langue['choisir'] = "Choisir";
 

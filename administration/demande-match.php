@@ -1,13 +1,20 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $niveau_secu = 3;
 $action_membre= 'where_defit_admin';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
 if (!empty($_POST['del']))
 {
 	$sql = "DELETE FROM ".$config['prefix']."match_demande WHERE id = '".$_POST['id']."'";
@@ -22,12 +29,12 @@ if (!empty($_POST['envois_mail']))
 {
 	// on envoys le mail
 	$sql = "SELECT * FROM ".$config['prefix']."match_demande WHERE id= '".$_POST['id']."'";
-	if (! ($post = $rsql->requete_sql($sql)) )
+	if (!$post = $rsql->requete_sql($sql))
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 	}
 	$envois = $rsql->s_array($post);
-	include_once($root_path.'service/wamailer/class.mailer.php');
+	require_once($root_path.'service/wamailer/class.mailer.php');
 	$mailer = new Mailer();
 	$mailer->set_root($root_path.'service/wamailer/');
 	if ($config['send_mail'] == 'smtp')
@@ -46,6 +53,7 @@ if (!empty($_POST['envois_mail']))
 	if ($_POST['envois'] == 'oui')
 	{
 		$_POST = pure_var($_POST);
+		$envois = pure_var($envois);
 		// la on ajoute le match
 		$sql = "INSERT INTO `".$config['prefix']."match` (date, info, le_clan, nombre_de_joueur, heure_msn, section) VALUES ('".$envois['date']."', '".$envois['info']."', '".$envois['clan']."', '".$envois['joueurs']."', '', '0')";
 		if (! $rsql->requete_sql($sql) )
@@ -71,7 +79,7 @@ if (!empty($_POST['envois_mail']))
 		redirec_text('demande-match.php',$langue['redirection_defit_dell'],'admin');
 	}
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_propo_match.tpl'));
 $template->assign_vars(array( 
@@ -165,5 +173,5 @@ while (	$liste_demande = $rsql->s_array($get) )
   	));
 }
 $template->pparse('body');
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

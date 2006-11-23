@@ -1,13 +1,20 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $action_membre = '';
 $action_db = '';
-$news_version = '1.01.11.2004';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
+$news_version = '1.20.01.2005';
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames(array('body' => 'divers_text.tpl'));
 switch($config['version'])
@@ -81,12 +88,14 @@ switch($config['version'])
 			'Ajoute un champ' => "ALTER TABLE `".$config['prefix']."game_server` ADD `clan` ENUM( '0', '1' ) NOT NULL AFTER `id` ;",
 			'Modifie le menu du haut' => "INSERT INTO `".$config['prefix']."custom_menu` VALUES ('', 11, 'boutton_liste_game', 'service/serveur_game_list.php', '0', '0', '0', 0, '1');",
 			'Ajoute du URL pour rejoindre le serveur de jeu' => "ALTER TABLE `".$config['prefix']."game_server_cache` ADD `JoinerURI` VARCHAR( 255 ) NOT NULL ;",
+			'Supprime ip/port/protocol de la base config' => "DELETE FROM `".$config['prefix']."config` WHERE `conf_nom` = 'serveur' OR `conf_nom` = 'serveur_game_ip' OR `conf_nom` = 'serveur_game_port' OR `conf_nom` = 'serveur_game_protocol' OR `conf_nom` = 'serveur_game_info';",
 		);
 		if ($config['serveur'] == 1)
 		{
 			$action_db['1.16.09.2004']['Déplace la configuration du serveur de jeu du clan'] = "INSERT INTO `".$config['prefix']."game_server` (`ip`, `port`, `protocol`, `clan`) VALUES ('".$config['serveur_game_ip']."', '".$config['serveur_game_port']."', '".$config['serveur_game_protocol']."', '1');";
-			$action_db['1.16.09.2004']['Supprime ip/port/protocol de la base config'] = "DELETE FROM `".$config['prefix']."config` WHERE `conf_nom` = 'serveur' OR `conf_nom` = 'serveur_game_ip' OR `conf_nom` = 'serveur_game_port' OR `conf_nom` = 'serveur_game_protocol' OR `conf_nom` = 'serveur_game_info';";
 		}
+	case '1.01.11.2004':
+	// pas de modif pour la version 1.01.11.2004
 	// sans break, metre case version a la suite, comme ca il fait toutes les mise à jours de la db de la version qu'il a jusqua la version actuelle
 	$maj = true;
 	break;

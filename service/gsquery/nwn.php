@@ -25,12 +25,12 @@
  *
  */
 
-include_once GSQUERY_DIR . 'gsQuery.php';
+require_once GSQUERY_DIR . 'gsQuery.php';
 
 /**
  * @brief This class implements the protocol used by Neverwinter Nights
  * @author Michael Feld <gsquery@mftronic.de>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * @todo Add player support
  */
 class nwn extends gsQuery

@@ -1,13 +1,20 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $niveau_secu = -1;
 $action_membre= 'where_pouvoir';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
 if (!empty($_POST['envois_edit']))
 {
 	$_POST = pure_var($_POST);
@@ -18,7 +25,7 @@ if (!empty($_POST['envois_edit']))
 	}
 	$requette .="p".$i."='".$_POST['activation'.$i]."' ";
 	$sql = "UPDATE `".$config['prefix']."pouvoir` SET ".$requette." WHERE user_id='".$_POST['id']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -27,7 +34,7 @@ if (!empty($_POST['envois_edit']))
 		redirec_text('../service/liste-des-membres.php', $langue['redirection_pouvoir_edit'],'admin');
 	}
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 
 //vérifie que l'id existe et qu'il n'est pas un admin
 $sql = "SELECT pouvoir FROM ".$config['prefix']."user WHERE id ='".$_POST['id']."'";
@@ -57,7 +64,7 @@ if ($info_user = $rsql->s_array($get))
 			if ($rsql->nbr($get) == 0)
 			{
 				$sql = "INSERT INTO `".$config['prefix']."pouvoir` ( `user_id` , `p1` , `p2` , `p3` , `p4` , `p5` , `p6` , `p7` , `p8` , `p9` , `p10` , `p11` , `p12` , `p13` , `p14` , `p15` , `p16` , `p17` , `p18` , `p19` , `p20` , `p21` , `p22` , `p23`, `p24`, `p25` )	VALUES ('".$_POST['id']."', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non')";
-				if (! ($rsql->requete_sql($sql)) )
+				if (!$rsql->requete_sql($sql))
 				{
 					sql_error($sql, $rsql->error, __LINE__, __FILE__);
 				}
@@ -93,5 +100,5 @@ else
 {
 	msg('erreur', $langue['erreur_profil_no_found']);
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

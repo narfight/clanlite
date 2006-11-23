@@ -1,8 +1,8 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-    <form method="post" action="{ICI}">
-		<div class="big_cadre">
-			<h1>{TITRE_GESTION}</h1>
+	<div class="big_cadre">
+		<h1>{TITRE_GESTION}</h1>
+	    <form method="post" action="{ICI}" class="visible">
 			<p>
 				<span><label for="console">{TXT_CONSOLE}&nbsp;:</label></span>
 				<span><input id="console" name="console" type="text" value="{CONSOLE}" onblur="formverif(this.id,'nbr','6')" /></span>
@@ -26,8 +26,8 @@
 					<input name="for" type="hidden" id="for" value="{ID}" /> 
 				</span>
 			</p>
-		</div>
-	</form>
+		</form>
+	</div>
 	<div class="big_cadre">
 		<h1>{TITRE_LISTE}</h1>
 		<div class="news">

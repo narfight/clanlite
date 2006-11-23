@@ -1,7 +1,14 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 if (defined('CL_AUTH'))
 {
 	if( !empty($get_nfo_module) )
@@ -114,20 +121,20 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module']) )
 	$root_path = './../';
 	$action_membre= 'where_module_serveur_game';
 	$niveau_secu = 16;
-	include($root_path.'conf/template.php');
-	include($root_path.'conf/conf-php.php');
-	include($root_path."controle/cook.php");
+	require($root_path.'conf/template.php');
+	require($root_path.'conf/conf-php.php');
+	require($root_path."controle/cook.php");
 	$id_module = (!empty($_POST['id_module']))? $_POST['id_module'] : $_GET['id_module'];
 	if ( !empty($_POST['Submit_module']) )
 	{
 		$sql = "UPDATE `".$config['prefix']."modules` SET `config`='".serialize(array('serveur' =>$_POST['id_serveur'], 'image' => (empty($_POST['image']))? false : true, 'liste' => (empty($_POST['liste']))? false : true))."' WHERE `id`='".$id_module."'";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
 		redirec_text($root_path.'administration/modules.php' , $langue['redirection_module_serveur_game_edit'],'admin');
 	}
-	include($root_path.'conf/frame_admin.php');
+	require($root_path.'conf/frame_admin.php');
 	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('body' => 'modules/serveur_jeux.tpl'));
 	$sql = "SELECT config FROM ".$config['prefix']."modules WHERE id ='".$id_module."'";
@@ -160,6 +167,6 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module']) )
 		'LISTE'=> $liste,
 	));
 	$template->pparse('body');
-	include($root_path.'conf/frame_admin.php');
+	require($root_path.'conf/frame_admin.php');
 }
 ?>

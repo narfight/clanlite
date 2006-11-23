@@ -1,11 +1,18 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $action_membre = 'where_reaction';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
 if ( !empty($_GET['action']) && ( $user_pouvoir[23] == "oui" || $user_pouvoir['particulier'] == 'admin' ) )
 {
 	$sql = "DELETE FROM `".$config['prefix']."reaction_news` WHERE id ='".$_GET['for']."'";
@@ -13,7 +20,7 @@ if ( !empty($_GET['action']) && ( $user_pouvoir[23] == "oui" || $user_pouvoir['p
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("reaction.php?for=".$_GET['view'], $langue['reaction_dell'], 'user');
+	redirec_text('reaction.php?for='.$_GET['view'], $langue['reaction_dell'], 'user');
 }
 if ( !empty($_POST['send']) )
 { 
@@ -61,14 +68,14 @@ if ( !empty($_POST['send']) )
 		$_POST = pure_var($_POST);
 		// oki ici c'est quand tout est bien rempli
 		$sql = "INSERT INTO `".$config['prefix']."reaction_news` (id_news, nom, email, date, texte) VALUES ('".$_POST['for']."', '".(($user_connect)? $session_cl['user'] : $_POST['nom_p'])."', '".(($user_connect)? '' : $_POST['email_p'])."', '".$config['current_time']."', '".$_POST['reaction']."')";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
 		redirec_text($root_path.'service/index_pri.php', $langue['reaction_add'], 'user');
 	}
 } 
-include($root_path.'conf/frame.php');
+require($root_path.'conf/frame.php');
 $for = (empty($_GET['for']))? $_POST['for'] : $_GET['for'];
 $sql = "SELECT date, titre, info, user FROM `".$config['prefix']."news` WHERE id = '".$for."'";
 if (! ($get = $rsql->requete_sql($sql)) )
@@ -144,5 +151,5 @@ else
 {
 	msg('erreur', $langue['erreur_news_no_found']);
 }
-include($root_path.'conf/frame.php');
+require($root_path.'conf/frame.php');
 ?>

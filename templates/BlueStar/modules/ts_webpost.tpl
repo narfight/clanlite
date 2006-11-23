@@ -1,11 +1,11 @@
 <!-- BEGIN webpost_config -->
-<form method="post" action="ts_webpost.php">
-	<div class="big_cadre">
+<div class="big_cadre">
 	<h1>{webpost_config.TITRE_M}</h1>
 	<div class="news">
 		<h2>{webpost_config.TITRE_AIDE}</h2>
 		{webpost_config.TXT_AIDE}
 	</div>
+	<form method="post" action="ts_webpost.php" class="visible">
 		<p>
 			<span><label for="ip">{webpost_config.TXT_IP}&nbsp;:</label></span>
 			<span><input name="ip" type="text" id="titre" value="{webpost_config.IP}" onblur="formverif(this.id,'nbr','3')" /></span>
@@ -24,8 +24,8 @@
 				<input name="Submit_module_webpost_centrale" type="submit" id="Submit_module_webpost_centrale" value="{webpost_config.EDITER}" /> 
 			</span>
 		</p>
-	</div>
-</form>
+	</form>
+</div>
 <!-- END webpost_config -->
 <!-- BEGIN webpost_show -->
 	<div class="big_cadre">

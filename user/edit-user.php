@@ -1,12 +1,19 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $action_membre= 'where_edit_user';
 $root_path = './../';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
 if (!empty($_POST['Submit']))
 {
 	$forum_error = '';
@@ -127,14 +134,14 @@ if (!empty($_POST['Submit']))
 			langue='".$_POST['langue_form']."', 
 			images='".$_POST['perso']."' 
 			WHERE id ='".$session_cl['id']."'"; 
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
 		redirec_text('edit-user.php', $langue['user_envois_edit_profil'],'admin');
 	}
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 if ( !empty($forum_error) )
 {
 	msg('erreur', $forum_error);
@@ -264,5 +271,5 @@ else
 	msg('erreur', $langue['erreur_profil_no_found']);
 }
 $template->pparse('body');
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

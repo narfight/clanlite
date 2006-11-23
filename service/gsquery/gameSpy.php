@@ -30,7 +30,7 @@ require_once GSQUERY_DIR . 'gsQuery.php';
 /**
  * @brief Uses the gameSpy protcol to communicate with the server
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: gameSpy.php 190 2004-09-25 15:48:06Z jr $
+ * @version $Id: gameSpy.php,v 1.1 2005/01/12 18:29:30 narfight Exp $
  * @bug some games does not escape the backslash, so we have a problem when somebody has a backlsash in its name
  *
  * The following games have been tested with this class:
@@ -97,7 +97,7 @@ class gameSpy extends gsQuery
   }
 
   function getDebugDumps($html=FALSE, $dumper=NULL) {
-    require_once(GSQUERY_DIR . 'includes/HexDumper.class.php');    
+    require_once(GSQUERY_DIR . 'requires/HexDumper.class.php');    
 
     if(!isset($dumper)) {
       $dumper = new HexDumper();

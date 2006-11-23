@@ -1,17 +1,24 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $niveau_secu = 5;
 $action_membre= 'where_grade';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
 if (!empty($_POST['dell']))
 {
 	$sql = "DELETE FROM `".$config['prefix']."grades` WHERE id ='".$_POST['for']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -21,7 +28,7 @@ if (!empty($_POST['Envoyer']))
 { 
 	$_POST = pure_var($_POST);
 	$sql = "INSERT INTO `".$config['prefix']."grades` (ordre, nom) VALUES ('".$_POST['ordre']."', '".$_POST['nom']."')";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -34,7 +41,7 @@ if (!empty($_POST['Editer']))
 {
 	$_POST = pure_var($_POST);
 	$sql = "UPDATE `".$config['prefix']."grades` SET ordre='".$_POST['ordre']."', nom='".$_POST['nom']."' WHERE id='".$_POST['for']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -43,7 +50,7 @@ if (!empty($_POST['Editer']))
 		redirec_text("grades.php", $langue['redirection_grade_edit'], 'admin');
 	}
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_grades.tpl'));
 $template->assign_vars( array( 
@@ -95,5 +102,5 @@ while ( $liste = $rsql->s_array($get) )
 	}
 }
 $template->pparse('body');
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

@@ -1,8 +1,8 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-	<form method="post" action="{ICI}">
-		<div class="big_cadre">
-			<h1>{TITRE_GESTION}</h1>
+	<div class="big_cadre">
+		<h1>{TITRE_GESTION}</h1>
+		<form method="post" action="{ICI}" class="visible">
 			<p>
 				<span><label for="clan">{TXT_CONTRE}&nbsp;:</label></span>
 				<span><input name="clan" id="clan" type="text" value="{TEAM_ADV}" onblur="formverif(this.id,'nbr','2')" /></span>
@@ -65,25 +65,41 @@
 					<!-- END rajouter --> 
 				</span>
 			</p>
-		</div>
-	</form> 
+		</form>
+	</div>
 	<div class="big_cadre">
 		<h1>{TITRE_LISTE}</h1>
 		<div class="news">
 		<!-- BEGIN match -->
 		<form method="post" action="{ICI}"> 
 			<input name="id_match" type="hidden" value="{match.FOR}"> 
-			<h2 class="toggle_titre" onclick="toggle('{match.FOR}')"><input type="submit" name="del" value="{match.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" />&nbsp;<input name="Editer" type="submit" value="{match.EDITER}" />&nbsp;{match.CONTRE} {match.CLAN}<a name="{match.FOR}"></a></h2>
+			<h2 class="toggle_titre"><input value="{VOIR}" name="voir_{match.FOR}" type="button" onClick="toggle('{match.FOR}')">		    <input type="submit" name="del" value="{match.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" />&nbsp;<input name="Editer" type="submit" value="{match.EDITER}" />&nbsp;{match.CONTRE} {match.CLAN}<a name="{match.FOR}"></a></h2>
 		</form> 
 		<div id="toggle_{match.FOR}" style="display:none">
-			<ul class="header">
-				<li>{TXT_DATE} :<span class="reponce">{match.DATE}</span></li>
-				<li>{TXT_HEURE} :<span class="reponce">{match.HEURE}</span></li>
-				<li>{match.CONTRE} :<span class="reponce">{match.CLAN}</span></li>
-				<li>{TXT_NBR_JOUEUR} :<span class="reponce">{match.NB_JOUEURS}/{match.SUR}</span></li>
-				<li>{TXT_HEURE_CHAT} :<span class="reponce">{match.CHAT}</span></li>
-				<li>{match.TXT_SECTION} :<span class="reponce">{match.SECTION}</span></li>
-			</ul>{match.INFO}
+			<p>
+				<span class="nom_liste">{TXT_DATE} :</span>
+				<span class="reponce">{match.DATE}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{TXT_HEURE} :</span>
+				<span class="reponce">{match.HEURE}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{TXT_NBR_JOUEUR} :</span>
+				<span class="reponce">{match.NB_JOUEURS}/{match.SUR}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{TXT_HEURE_CHAT} :</span>
+				<span class="reponce">{match.CHAT}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{match.TXT_SECTION} :</span>
+				<span class="reponce">{match.SECTION}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{VOIR} :</span>
+				<span class="reponce">{match.INFO}</span>
+			</p>
 			<h3>{match.TEAM_OK}</h3> 
 			<!-- BEGIN ok --> 
 			<form method="post" action="{ICI}#{match.FOR}">

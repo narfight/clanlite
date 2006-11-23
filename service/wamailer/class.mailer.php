@@ -551,7 +551,7 @@ class Mailer {
 				$this->smtp_path = substr($this->smtp_path, 0, (strrpos($this->smtp_path, '/') + 1));
 			}
 			
-			@include($this->smtp_path . 'class.smtp.php');
+			@require($this->smtp_path . 'class.smtp.php');
 			
 			if( !class_exists('Smtp') )
 			{

@@ -30,7 +30,7 @@ require_once GSQUERY_DIR . 'gsQuery.php';
 /**
  * @brief Uses the new gameSpy query protcol to communicate with the server
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: gameSpyQ.php 190 2004-09-25 15:48:06Z jr $
+ * @version $Id: gameSpyQ.php,v 1.1 2005/01/12 18:29:30 narfight Exp $
  */
 class gameSpyQ extends gsQuery
 {
@@ -88,7 +88,7 @@ class gameSpyQ extends gsQuery
     }
     
     if($sortkey == 'kills') {
-      uasort($players, array('gsQ', '_sortbyKills'));
+      uasort($players, array('gsQuery', '_sortbyKills'));
     } else {
       $players=parent::sortPlayers($players, $sortkey);
     }

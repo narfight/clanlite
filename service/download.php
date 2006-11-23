@@ -1,11 +1,18 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $action_membre = 'where_download';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
 if ( !empty($_POST['dll']) )
 {// on envois le fichier a télécharger si il a
 	$sql = "SELECT url_dl,telecharger FROM ".$config['prefix']."download_fichier WHERE id='".$_POST['for']."' LIMIT 1";
@@ -39,7 +46,7 @@ if ( !empty($_POST['send_vote']) )
 	}
 	redirec_text('download.php', $langue['user_envois_vote'], 'user');
 }
-include($root_path.'conf/frame.php');
+require($root_path.'conf/frame.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'dl_fichiers.tpl'));
 $template->assign_vars(array( 
@@ -142,10 +149,10 @@ else
 		}
 		if ( !empty($_GET['for_rep']) )
 		{
-			displayNextPreviousButtons($_GET['limite'],$total,'multi_page', 'download.php');
+			displayNextPreviousButtons($_GET['limite'], $total, 'multi_page', 'download.php', '&amp;for_rep='.$_GET['for_rep']);
 		}
 	} 
 }
 $template->pparse('body');
-include($root_path.'conf/frame.php');
+require($root_path.'conf/frame.php');
 ?>

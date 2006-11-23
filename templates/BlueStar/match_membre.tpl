@@ -1,40 +1,126 @@
 <div class="big_cadre">
 	<h1>{TITRE_MATCH} : {SECTION}</h1>
 	<div class="news">
-		<!-- BEGIN match -->
-		<h2 class="toggle_titre" onclick="toggle('{match.FOR}')">{CONTRE} {match.CLAN}</h2>
-		<div id="toggle_{match.FOR}" style="display:none">
-			<ul class="header">
-				<li>{DATE}: <span class="reponce">{match.DATE}</span></li>
-				<li>{HEURE}: <span class="reponce">{match.HEURE}</span></li>
-				<li>{NBR_JOUEURS}: <span class="reponce">{match.NB_JOUEURS}/{match.SUR}</span></li>
-				<li>{HEURE_CHAT}: <span class="reponce">{match.CHAT}</span></li>
-				<li>{QUELLE_SECTION}: <span class="reponce">{match.SECTION}</span></li>
-			</ul>{match.INFO}
-			<h3>{TEAM_OK}</h3>
-			<ul>
-				<!-- BEGIN ok -->
-				<li>{match.ok.NOM}</li>
-				<!-- END ok -->
-			</ul>
-			<h3>{TEAM_RESERVE}</h3>
-			<ul>
-				<!-- BEGIN reserve -->
-				<li>{match.reserve.NOM}</li>
-				<!-- END reserve -->
-			</ul>
-			<h3>{TEAM_DEMANDE}</h3>
-			<ul>
-				<!-- BEGIN demande -->
-				<li>{match.demande.NOM}</li>
-				<!-- END demande -->
-			</ul>
+		<!-- BEGIN titre_inscrit -->
+		<h2 class="toggle_titre">{titre_inscrit.TXT}</h2>
+		<!-- END titre_inscrit -->
+		<!-- BEGIN match_inscrit -->
+	  <h3><input value="{VOIR}" name="voir_{match_inscrit.FOR}" type="button" onClick="toggle('{match_inscrit.FOR}')"> {CONTRE} {match_inscrit.CLAN}</h3>
+		<div id="toggle_{match_inscrit.FOR}" style="display:none">
+			<p>
+				<span class="nom_liste">{DATE} :</span>
+				<span class="reponce">{match_inscrit.DATE}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{HEURE} :</span>
+				<span class="reponce">{match_inscrit.HEURE}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{NBR_JOUEURS} :</span>
+				<span class="reponce">{match_inscrit.NB_JOUEURS}/{match_inscrit.SUR}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{HEURE_CHAT} :</span>
+				<span class="reponce">{match_inscrit.CHAT}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{QUELLE_SECTION} :</span>
+				<span class="reponce">{match_inscrit.SECTION}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{VOIR} :</span>
+				<span class="reponce">{match_inscrit.INFO}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{TEAM_OK} :</span>
+				<span class="reponce">
+					<!-- BEGIN ok -->
+					{match_inscrit.ok.NOM},
+					<!-- END ok -->
+				</span>
+			</p>
+			<p>
+				<span class="nom_liste">{TEAM_RESERVE} :</span>
+				<span class="reponce">
+					<!-- BEGIN reserve -->
+					{match_inscrit.reserve.NOM},
+					<!-- END reserve -->
+				</span>
+			</p>
+			<p>
+				<span class="nom_liste">{TEAM_DEMANDE} :</span>
+				<span class="reponce">
+					<!-- BEGIN demande -->
+					{match_inscrit.demande.NOM},
+					<!-- END demande -->
+				</span>
+			</p>
 			<form action="{ICI}" method="post">
 				<input type="submit" name="Submit" value="{ADD_DELL_DEMANDE}" />
-				<input name="match" type="hidden" id="match" value="{match.FOR}" />
+				<input name="match" type="hidden" id="match" value="{match_inscrit.FOR}" />
 			</form>
 		</div>
-		<!-- END match -->
+		<!-- END match_inscrit -->
+		<!-- BEGIN titre_pas_inscrit -->
+		<h2 class="toggle_titre">{titre_pas_inscrit.TXT}</h2>
+		<!-- END titre_pas_inscrit -->
+		<!-- BEGIN match_pas_inscrit -->
+	  <h3><input value="{VOIR}" name="voir_{match_pas_inscrit.FOR}" type="button" onClick="toggle('{match_pas_inscrit.FOR}')"> {CONTRE} {match_pas_inscrit.CLAN}</h3>
+		<div id="toggle_{match_pas_inscrit.FOR}" style="display:none">
+			<p>
+				<span class="nom_liste">{DATE} :</span>
+				<span class="reponce">{match_pas_inscrit.DATE}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{HEURE} :</span>
+				<span class="reponce">{match_pas_inscrit.HEURE}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{NBR_JOUEURS} :</span>
+				<span class="reponce">{match_pas_inscrit.NB_JOUEURS}/{match_pas_inscrit.SUR}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{HEURE_CHAT} :</span>
+				<span class="reponce">{match_pas_inscrit.CHAT}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{QUELLE_SECTION} :</span>
+				<span class="reponce">{match_pas_inscrit.SECTION}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{VOIR} :</span>
+				<span class="reponce">{match_pas_inscrit.INFO}</span>
+			</p>
+			<p>
+				<span class="nom_liste">{TEAM_OK} :</span>
+				<span class="reponce">
+					<!-- BEGIN ok -->
+					{match_pas_inscrit.ok.NOM},
+					<!-- END ok -->
+				</span>
+			</p>
+			<p>
+				<span class="nom_liste">{TEAM_RESERVE} :</span>
+				<span class="reponce">
+					<!-- BEGIN reserve -->
+					{match_pas_inscrit.reserve.NOM},
+					<!-- END reserve -->
+				</span>
+			</p>
+			<p>
+				<span class="nom_liste">{TEAM_DEMANDE} :</span>
+				<span class="reponce">
+					<!-- BEGIN demande -->
+					{match_pas_inscrit.demande.NOM},
+					<!-- END demande -->
+				</span>
+			</p>
+			<form action="{ICI}" method="post">
+				<input type="submit" name="Submit" value="{ADD_DELL_DEMANDE}" />
+				<input name="match" type="hidden" id="match" value="{match_pas_inscrit.FOR}" />
+			</form>
+		</div>
+		<!-- END match_pas_inscrit -->
 		<!-- BEGIN no_match -->
 		{no_match.TXT}
 		<!-- END no_match -->

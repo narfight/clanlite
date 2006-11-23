@@ -28,7 +28,7 @@
 /**
  * @brief Makes hexdumps out of given data
  * @author Jeremias Reith (jr@gsquery.org)
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.1 $
  *
  * Non ASCII bytes will be colored blue in html dumps
  */

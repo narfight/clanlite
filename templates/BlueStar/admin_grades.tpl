@@ -1,8 +1,8 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-		<form method="post" action="{ICI}">
-		<div class="big_cadre">
-			<h1>{TITRE_GESTION}</h1>
+	<div class="big_cadre">
+		<h1>{TITRE_GESTION}</h1>
+		<form method="post" action="{ICI}" class="visible">
 			<p>
 				<span><label for="ordre">{TXT_PUISSANCE}&nbsp;:</label></span>
 				<span><input name="ordre" type="text" id="ordre" value="{ORDRE}" onblur="formverif(this.id,'chiffre','')" /></span>
@@ -22,8 +22,8 @@
 					<input name="for" type="hidden" id="for" value="{ID}"> 
 				</span>
 			</p>
-		</div>
-	</form>
+		</form>
+	</div>
 	<div class="big_cadre">
 		<h1>{TITRE_LISTE}</h1>
 		<div class="news">

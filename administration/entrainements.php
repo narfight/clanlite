@@ -1,13 +1,20 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $niveau_secu = 10;
 $action_membre= 'where_entrain';
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
 if ( !empty($_POST['Envoyer']) )
 {
 	$date = mk_time( $_POST['heure'], $_POST['minute'], 0, $_POST['mois'], $_POST['jours'], $_POST['annee']);
@@ -33,13 +40,13 @@ if ( !empty($_POST['Editer']) )
 if (!empty($_POST['dell']))
 {
 	$sql = "DELETE FROM `".$config['prefix']."entrainement` WHERE id ='".$_POST['for']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	redirec_text('entrainements.php', $langue['redirection_entrain_dell'], 'admin');
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_entrainements.tpl'));
 liste_smilies(true, '', 25);
@@ -98,5 +105,5 @@ while ($liste = $rsql->s_array($query))
 	));
 }
 $template->pparse('body');
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

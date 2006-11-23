@@ -1,13 +1,20 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $action_membre= 'where_config_site';
 $niveau_secu = 2;
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
 if( !empty($_POST['Submit']) )
 {
 	foreach ($_POST as $config_name => $config_value)
@@ -31,10 +38,10 @@ if( !empty($_POST['Submit']) )
 	unset($langue);
 	// on redifinit les varriables importante pour le bon déroulement du script
 	$config['time_cook'] = 60*$config['time_cook'];
-	include ($root_path.'langues/'.$config['langue_actuelle'].'/langue.php');
+	require ($root_path.'langues/'.$config['langue_actuelle'].'/langue.php');
 	redirec_text('config.php', $langue['redirection_config_ok'] , 'admin');
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_config.tpl'));
 // on fait la liste des membres
@@ -167,5 +174,5 @@ $template->assign_vars( array(
 	'SHOW_GRADE_0' => ( '0' == $config['show_grade'] ) ? 'selected="selected"' : '',
 ));
 $template->pparse('body');
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

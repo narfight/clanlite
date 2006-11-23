@@ -1,9 +1,9 @@
 <?php
-//ob_start('ob_gzhandler'); 
+ob_start('ob_gzhandler'); 
 @include($root_path.'config.php');
-include($root_path.'conf/'.((!empty($config['db_type']))? $config['db_type'] : 'mysql').'.php');
-include($root_path.'conf/session.php');
-include($root_path.'conf/lib.php');
+require($root_path.'conf/'.((!empty($config['db_type']))? $config['db_type'] : 'mysql').'.php');
+require($root_path.'conf/session.php');
+require($root_path.'conf/lib.php');
 if (!defined('CL_INSTALL'))
 {// clanlite non installé, on y va alors
 	redirection($root_path.'install/install.php');
@@ -102,13 +102,13 @@ if(!empty($user_connect) && !empty($psw_connect))
 $config['current_time'] = time();
 // on vérifie que la langue est valise et on prend tout les fichiers de langues du rep
 $config['langue_actuelle'] = (!empty($session_cl['langue_user']) && is_dir($root_path.'langues/'.$session_cl['langue_user']))? $session_cl['langue_user'] : $config['langue'];
-include($root_path.'langues/'.$config['langue_actuelle'].'/langue.php');
+require($root_path.'langues/'.$config['langue_actuelle'].'/langue.php');
 $rep_langue=opendir($root_path.'langues/'.$config['langue']);
 while($curfile=readdir($rep_langue))
 {
 	if(ereg("^lg_(.*)\.php$", $curfile))
 	{
-		include($root_path.'langues/'.$config['langue_actuelle'].'/'.$curfile);
+		require($root_path.'langues/'.$config['langue_actuelle'].'/'.$curfile);
 	}
 }
 closedir($rep_langue);

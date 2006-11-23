@@ -1,6 +1,6 @@
-<form method="post" action="{ICI}">
-	<div class="big_cadre">
-		<h1>{TITRE}</h1>
+<div class="big_cadre">
+	<h1>{TITRE}</h1>
+	<form method="post" action="{ICI}" class="visible">
 		<p>
 			<span><label for="nom">{TXT_NOM}&nbsp;:</label></span>
 			<span><input name="nom" id="nom" type="text" value="{NOM}" onblur="formverif(this.id, 'nbr', '4')" />*</span>
@@ -52,7 +52,7 @@
 		</p>
 		<p>
 			<span><label for="web">{TXT_WEB}&nbsp;:</label></span>
-			<span>http://<input name="web" id="web" type="text" value="{WEB}" onblur="formverif(this.id, 'nbr', '6')" />/</span>
+			<span><input name="web" id="web" type="text" value="{WEB}" onblur="formverif(this.id, 'nbr', '6')" /></span>
 		</p>
 		<p>
 			<span><label for="arme">{TXT_ARME}&nbsp;:</label></span>
@@ -104,5 +104,5 @@
 			<div class="big_texte"><textarea name="histoire" id="histoire" cols="40" rows="10" onblur="formverif(this.id, 'nbr', '10')">{HISTOIRE}</textarea>*</div>
 		</p>
 		<p><input {BLOCK} type="submit" name='Submit' value="{BT_ENVOYER}" /></p>
-	</div>
-</form>
+	</form>
+</div>

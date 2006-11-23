@@ -1,9 +1,9 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
 	<!-- BEGIN notification -->
-	<form method="post" action="{ICI}">
-		<div class="big_cadre">
-			<h1>{notification.TITRE}</h1>
+	<div class="big_cadre">
+		<h1>{notification.TITRE}</h1>
+		<form method="post" action="{ICI}" class="visible">
 			<p>
 				<span><label for="From">{notification.ADR_EXPEDITEUR}&nbsp;:</label></span>
 				<span><input name="From" type="text" id="From" value="{notification.MASTER_MAIL}" onblur="formverif(this.id,'mail','')" /></span>
@@ -23,8 +23,8 @@
 			<p>
 				<span><input type="submit" name="envois_mail" value="{notification.ENVOYER}" /><input name="id" type="hidden" value="{notification.ID}" /><input name="envois" type="hidden" id="envois" value="{notification.ENVOIS}" /></span>
 			</p>
-		</div>
-	</form>
+		</form>
+	</div>
 	<!-- END notification --> 
 	<div class="big_cadre">
 		<h1>{TITRE_LISTE}</h1>

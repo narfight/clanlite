@@ -334,6 +334,10 @@ cadre qui prendra le titre et le contenu du module */
 	background-color: #B4E4FF;
 }
 
+.visible
+{
+	background-color: #B4E4FF;
+}
 /* titre du cadre au centre  et pour les titre dans un cadre dans l'admin*/
 .big_cadre h1, .colonne_central_admin .big_cadre .big_cadre h1
 {

@@ -1,18 +1,25 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
+/****************************************************************************
+ *	Fichier		: 															*
+ *	Copyright	: (C) 2004 ClanLite											*
+ *	Email		: support@clanlite.org										*
+ *																			*
+ *   This program is free software; you can redistribute it and/or modify	*
+ *   it under the terms of the GNU General Public License as published by	*
+ *   the Free Software Foundation; either version 2 of the License, or		*
+ *   (at your option) any later version.									*
+ ***************************************************************************/
 $root_path = './../';
 $action_membre= 'where_download_admin';
 $niveau_secu = 4;
-include($root_path.'conf/template.php');
-include($root_path.'conf/conf-php.php');
-include($root_path."controle/cook.php");
+require($root_path.'conf/template.php');
+require($root_path.'conf/conf-php.php');
+require($root_path."controle/cook.php");
 if (!empty($_POST['Envoyer_group']))
 {
 	$_POST = pure_var($_POST);
 	$sql = "INSERT INTO `".$config['prefix']."download_groupe` (nom, comentaire) VALUES ('".$_POST['nom_group']."', '".$_POST['information_group']."')";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -20,8 +27,9 @@ if (!empty($_POST['Envoyer_group']))
 }
 if (!empty($_POST['Supprimer_group']))
 {
+	$_POST = pure_var($_POST);
 	// on vérifie que le group est vide
-	$sql = "SELECT COUNT(id) as nombre FROM `".$config['prefix']."download_fichier` WHERE id_rep ='".$_POST['for_group']."'";
+	$sql = "SELECT COUNT(id) AS nombre FROM `".$config['prefix']."download_fichier` WHERE id_rep ='".$_POST['for_group']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -30,7 +38,7 @@ if (!empty($_POST['Supprimer_group']))
 	if ($nbr_fichier['nombre'] == 0)
 	{
 		$sql = "DELETE FROM `".$config['prefix']."download_groupe` WHERE id ='".$_POST['for_group']."'";
-		if (! ($rsql->requete_sql($sql)) )
+		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
@@ -45,7 +53,7 @@ if (!empty($_POST['Edit_group']))
 {
 	$_POST = pure_var($_POST);
 	$sql = "UPDATE `".$config['prefix']."download_groupe` SET nom='".$_POST['nom_group']."', comentaire='".$_POST['information_group']."' WHERE id ='".$_POST['for_group']."'";
-	if (! ($rsql->requete_sql($sql)) )
+	if (!$rsql->requete_sql($sql))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
@@ -54,16 +62,29 @@ if (!empty($_POST['Edit_group']))
 if ( !empty($_POST['Envoyer_fichier']) )
 {
 	$_POST = pure_var($_POST);
-	$sql = "INSERT INTO ".$config['prefix']."download_fichier (id_rep, nom_de_fichier, info_en_plus, telecharger, nombre_de_vote, cote, modifier_a, url_dl) VALUES ('".$_POST['groupe']."', '".$_POST['nom']."', '".$_POST['information']."', '0', '0', '0', '".$config['current_time']."', '".$_POST['url_dl']."')";
+	$sql = "SELECT COUNT(id) AS nombre FROM `".$config['prefix']."download_groupe` WHERE id ='".$_POST['groupe']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
-		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
+		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text('download.php', $langue['redirection_dl_add'], 'admin');
+	$nbr_fichier = $rsql->s_array($get);
+	if ($nbr_fichier['nombre'] != 0)
+	{// si le repertoire existe
+		$sql = "INSERT INTO `".$config['prefix']."download_fichier` (id_rep, nom_de_fichier, info_en_plus, telecharger, nombre_de_vote, cote, modifier_a, url_dl) VALUES ('".$_POST['groupe']."', '".$_POST['nom']."', '".$_POST['information']."', '0', '0', '0', '".$config['current_time']."', '".$_POST['url_dl']."')";
+		if (! ($get = $rsql->requete_sql($sql)) )
+		{
+			sql_error($sql ,mysql_error(), __LINE__, __FILE__);
+		}
+		redirec_text('download.php', $langue['redirection_dl_add'], 'admin');
+	}
+	else
+	{
+		$erreur = $langue['erreur_no_group'];
+	}
 }
 if ( !empty($_POST['Supprimer_fichier']) )
 {
-	$sql = "DELETE FROM `".$config['prefix']."download_fichier ` WHERE id = '".$_POST['for_fichier']."'";
+	$sql = "DELETE FROM `".$config['prefix']."download_fichier` WHERE id = '".$_POST['for_fichier']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
@@ -73,17 +94,44 @@ if ( !empty($_POST['Supprimer_fichier']) )
 if ( !empty($_POST['Edit_fichier']) )
 {
 	$_POST = pure_var($_POST);
-	$sql = "UPDATE `".$config['prefix']."download_fichier` SET nom_de_fichier='".$_POST['nom']."', info_en_plus='".$_POST['information']."', modifier_a='".$config['current_time']."', url_dl='".$_POST['url_dl']."', id_rep='".$_POST['groupe']."' WHERE id = ".$_POST['for_fichier'];
+	$sql = "SELECT COUNT(id) AS nombre FROM `".$config['prefix']."download_groupe` WHERE id ='".$_POST['groupe']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
-		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
+		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text('download.php', $langue['redirection_dl_edit'], 'admin');
+	$nbr_fichier = $rsql->s_array($get);
+	if ($nbr_fichier['nombre'] != 0)
+	{
+		$sql = "UPDATE `".$config['prefix']."download_fichier` SET nom_de_fichier='".$_POST['nom']."', info_en_plus='".$_POST['information']."', modifier_a='".$config['current_time']."', url_dl='".$_POST['url_dl']."', id_rep='".$_POST['groupe']."' WHERE id = ".$_POST['for_fichier'];
+		if (! ($get = $rsql->requete_sql($sql)) )
+		{
+			sql_error($sql ,mysql_error(), __LINE__, __FILE__);
+		}
+		redirec_text('download.php', $langue['redirection_dl_edit'], 'admin');
+	}
+	else
+	{
+		$erreur = $langue['erreur_no_group'];
+		$_POST['Editer_fichier'] = 1;
+	}
 }
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_dl_fichiers.tpl'));
 liste_smilies(true, '', 25);
+if (isset($erreur))
+{
+	$template->assign_block_vars('erreur', array(
+		'TITRE' => $langue['erreur_titre'],
+		'TXT' => $erreur
+	));
+	$template->assign_vars( array( 
+    	'NOM_FICHIER' => $_POST['nom'],
+		'INFO_FICHIER' => $_POST['information'],
+		'URL_FICHIER' => $_POST['url_dl'],
+		'FOR_FICHIER' => $_POST['for_fichier'],
+	));
+}
 $template->assign_vars( array(
 	'ICI' => session_in_url('download.php'),
 	'TXT_CON_DELL' => $langue['confirm_dell'],
@@ -123,18 +171,21 @@ else
 if ( !empty($_POST['Editer_fichier']) )
 {
 	$template->assign_block_vars('editer_fichier', array('EDITER' => $langue['editer']));
-	$sql = "SELECT nom_de_fichier, info_en_plus, url_dl, id, id_rep FROM ".$config['prefix']."download_fichier fichier WHERE fichier.id = ".$_POST['for_fichier'];
-	if (! ($get = $rsql->requete_sql($sql)) )
+	if (!isset($erreur))
 	{
-		sql_error($sql ,mysql_error() , __LINE__, __FILE__);
+		$sql = "SELECT nom_de_fichier, info_en_plus, url_dl, id, id_rep FROM ".$config['prefix']."download_fichier fichier WHERE fichier.id = ".$_POST['for_fichier'];
+		if (! ($get = $rsql->requete_sql($sql)) )
+		{
+			sql_error($sql ,mysql_error() , __LINE__, __FILE__);
+		}
+		$editer = $rsql->s_array($get);
+		$template->assign_vars( array( 
+			'NOM_FICHIER' => $editer['nom_de_fichier'],
+			'INFO_FICHIER' => $editer['info_en_plus'],
+			'URL_FICHIER' => $editer['url_dl'],
+			'FOR_FICHIER' => $editer['id']
+		));
 	}
-	$editer = $rsql->s_array($get);
-	$template->assign_vars( array( 
-    	'NOM_FICHIER' => $editer['nom_de_fichier'],
-		'INFO_FICHIER' => $editer['info_en_plus'],
-		'URL_FICHIER' => $editer['url_dl'],
-		'FOR_FICHIER' => $editer['id']
-	));
 }
 else
 {
@@ -162,7 +213,7 @@ if (! ($get = $rsql->requete_sql($sql)) )
 }
 while ($actuelle = $rsql->s_array($get))
 {
-	$cote = "0";
+	$cote = 0;
 	if ($actuelle['nombre_de_vote'] != 0)
  	{
 		$cote = $actuelle['cote']/$actuelle['nombre_de_vote'];
@@ -188,7 +239,7 @@ if ( !empty($liste_group))
 					'URL' => $array_fichier['url_dl'],
 					'COTE' => floor($cote),
 					'MODIF' => date('j-m-Y' , $array_fichier['modifier_a']),
-					'INFO' => bbcode($array_fichier['info_en_plus']),
+					'INFO' => bbcode(cut_sentence($array_fichier['info_en_plus'], 100)),
 					'FOR' => $fichier_id,
 					'EDITER' => $langue['editer'],
 					'SUPPRIMER' => $langue['supprimer'],		
@@ -198,5 +249,5 @@ if ( !empty($liste_group))
 	}
 }
 $template->pparse('body');
-include($root_path.'conf/frame_admin.php');
+require($root_path.'conf/frame_admin.php');
 ?>

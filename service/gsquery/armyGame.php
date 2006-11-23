@@ -30,7 +30,7 @@ require_once GSQUERY_DIR . 'gameSpy.php';
 /**
  * @brief Extends the gameSpy protocol to support America's Army
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: armyGame.php 190 2004-09-25 15:48:06Z jr $
+ * @version $Id: armyGame.php,v 1.1 2005/01/12 18:29:30 narfight Exp $
  *
  * This is a quick hack to support the changed America's Army protocol.
  * It is slow, incomplete and ugly. Does anyone have the protocol specs?
