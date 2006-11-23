@@ -1,0 +1,954 @@
+/* eviter des espace apres les formulaire et les liste */
+form
+{
+	margin: 0px;
+}
+
+ul
+{
+	margin-bottom: 0px;
+	margin-top: 0px;
+	list-style-position: inside;
+}
+
+/* eviter des ligne de couleur en dessou des images qui sont des liens */
+img
+{
+	border: 0px;
+}
+
+/* definit l'arriere du site dans sont enssenble */
+body
+{
+	background: #fff;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	margin: 0px;
+	font-size: 12px;
+	color: #000;
+	background-image: url("../images/bg_body.gif");
+	background-repeat: repeat-y;
+	background-position: center;
+}
+
+/* pour la demande pour démarrer le lecteur mp3 */
+.demande_mp3
+{
+	text-align: center;
+}
+
+/* ceci definit la largeur du site en entier et de la partie admin*/
+.cadre_largeur , .cadre_largeur_admin
+{
+	position: absolute;
+	width: 950px;
+	left: 50%;
+	margin-left: -475px;
+}
+
+/* definit l'affichage des formulaire */
+input, textarea, select, option
+{
+	background-color: #fff;
+	color: #000;
+	border: solid 1px #d4d0c8;
+	font-size: 10px;
+}
+input[disabled], textarea[disabled], select[disabled], option[disabled]
+{
+	background-color: transparent;
+	color: #0099FF;
+	border: 0px;
+}
+input, textarea, select {
+border-top-width : 1px; 
+border-right-width : 1px; 
+border-bottom-width : 1px; 
+border-left-width : 1px;  
+}
+
+input { text-indent : 2px; }
+
+input.button {
+border-top-width : 1px; 
+border-right-width : 1px; 
+border-bottom-width : 1px; 
+border-left-width : 1px;  
+}
+
+/* changement de la couleur du chamquand il est (pas) bien rempli -- fonctionne pas sur IE -- */
+.champ_bon
+{
+	background-color: #66FF66;
+}
+
+.champ_movais
+{
+	background-color: #F38386;
+}
+
+/* on definit le cadre pour les bulles d'aide */
+.flash_poper
+{
+	position: absolute;
+	visibility: hidden;
+	font-size: 12px;
+	color: #000066;
+	background-color: #9DBBFF;
+	border: 1px solid black;
+	z-index: 5;
+}
+
+/* pour le module de matck*/
+.match_null
+{
+	background-color: #FFFFFF;
+}
+.match_win
+{
+	background-color: #00CC00;
+	color: #FFF;
+}
+.match_win .reponce, .match_lost .reponce
+{
+	color: #FFF;
+}
+.match_lost
+{
+	background-color: #CC3333;
+	color: #FFF;
+}
+
+/* pour quand on survole un div ou on peux cliquer pour afficher des infos, que le sourit change de curseur */
+.toggle_titre, label
+{
+	cursor: pointer;
+}
+
+/* mise en page du haut */
+.hautpage
+{
+	width: 100%;
+	height: 100px;
+}
+
+/* cadre avec les liens + les styles pour les liens */
+.menuliens
+{
+	width : 950px;
+	margin: 0px;
+	padding: 10px 0px 10px 0px;
+	background-color: #ececec;
+	font-weight: normal;
+	font-size: 9px;
+	text-align: center;
+	border-top: 1px solid #a9b8c2;
+}
+.menuliens li
+{
+	display: inline;
+	padding: 0px 5px 0px 5px;
+}
+.menuliens li a, .menuliens li a:link, .menuliens li a:visited
+{
+	color: #000;
+	text-decoration: none;
+}
+
+.navbar
+{
+	margin: 0px;
+	padding: 0px;
+	width: 940px;
+	background-image: url("../images/navpic.gif");
+	background-repeat: repeat-x;
+	font-size: 10px;
+	padding: 6px 0px 6px 10px;
+	
+}
+
+/* endroit ou doit apparaitre les alertes */
+.cadre_alert
+{
+	margin-bottom: 10px;
+	margin-left: 15px;
+	width: 920px;
+}
+
+/* metre en valeur les alert */
+.cadre_alert h1
+{
+	margin: 0px;
+	padding: 14px 0px 4px 45px;
+	font-weight:100;
+	color: #445588;
+	font-size: 11px;
+	background-image: url("../images/titre_alert.gif");
+	background-repeat: no-repeat;
+	background-color: #fff;
+	border-bottom: 1px solid #a9b8c2;
+}
+.cadre_alert ul
+{
+	padding: 10px 10px 10px 20px;
+}
+
+/* c'est la ligne qui est en fait la fin de l'entete */
+.end_head
+{
+	height: 5px;
+}
+
+/* les colonnes gauche - centrée - droite */
+.colonne_gauche, .colonne_droite
+{
+	float: left;
+	width: 160px;
+	padding: 0px 7px 0px 7px;
+}
+
+.colonne_central, .colonne_central_admin
+{
+	float: left;
+	width: 600px;
+}
+
+/* pas de page ou il a les information sur le copyright */
+.copyright
+{
+	float: left;
+	width: 950px;
+	height: 99px;
+	background-image: url("../images/copyright.gif");
+	background-repeat: no-repeat;
+}
+.cellule_copyright
+{
+	float: left;
+	width: 100%;
+	font-size: 10px;
+	text-align: center;
+	padding-top: 13px;
+}
+
+/* pour les bloques du centre
+couleur des cadre pour le centre et d'autre endroit */
+.news , .table-cellule , .sous-cellule th
+{
+	font-size: 12px;
+	color: #000;
+	background-color: #fff;
+	border-left: 1px solid #a9b8c2;
+	border-right: 1px solid #a9b8c2;
+	border-bottom: 1px solid #a9b8c2;
+}
+
+.sous-cellule th
+{
+	border: 0px;
+	background-color: #eaeaea
+}
+
+/* definit la couleur des ligne du tableau */
+.big_cadre tr
+{
+	background-color: #f7f7f7;
+}
+
+.table-cellule
+{
+	background-color: #DEE3E7;
+}
+
+.table-cellule-2
+{
+	background-color: #FFF;
+}
+
+/* titre dans les bloques du centre */
+.news h2, .table-titre, thead th
+{
+	margin: 0px;
+	padding: 5px 0px 5px 0px;
+	font-size: 11px;
+	color: #000;
+	text-align: center;
+	font-weight: bold;
+	background-color: #efefef;
+}
+.visible .news
+{
+	border: 0px;
+}
+
+/* sous titre */
+.news h3
+{
+	margin: 0;
+	font-size: 10px;
+	color: #757575;
+	background-color: #FFFFFF;
+	border: 1px solid #757575;
+}
+
+/* bloque contenant les informations dans les bloques du centre */
+.news ul.header
+{
+	float: right;
+	margin: 0 0 10px 10px;
+	font-size: 12px;
+	color: #000;
+	list-style-type: none;
+	margin-left: 0;
+	padding-left: 0;
+}
+.news ul.header .reponce, .news ul.header a
+{
+	color: #000;
+}
+
+/* les bloques a gauche et a droite
+cadre qui prendra le titre et le contenu du module */
+.module
+{
+	width: 160px;
+	margin-bottom: 10px;
+}
+.module p
+{
+	margin:0px;
+}
+/* titre du module */
+.module_titre
+{
+	padding: 4px 0px 4px 10px;
+	font-weight:100;
+	color: #445588;
+	margin-top: 2px;
+	background-image: url("../images/titre_module.gif")
+}
+
+/* contenu du module */
+.module_cellule
+{
+	font-size: 10px;
+	text-align: center;
+	color: #000;
+	background-color: #f7f7f7;
+	padding: 0px 1px 0px 1px;
+	border-right: 1px solid #a9b8c2;
+	border-left: 1px solid #a9b8c2;
+}
+
+/* le bas du cadre module */
+.module_foot
+{
+	border-bottom: 1px solid #a9b8c2;
+}
+
+/* cadre du centre */
+/* ce qui entour les cadre au centre */
+.big_cadre
+{
+	font-size: 12px;
+	margin: 0px 1% 10px 1%;
+	width: 590px;
+	background-color: #ececec;
+}
+
+.visible
+{
+	border-left: 1px solid #a9b8c2;
+	border-right: 1px solid #a9b8c2;
+	border-bottom: 1px solid #a9b8c2;
+}
+/* titre du cadre au centre  et pour les titre dans un cadre dans l'admin*/
+.big_cadre h1, .colonne_central_admin .big_cadre .big_cadre h1
+{
+	margin: 0px;
+	padding: 4px 0px 4px 45px;
+	font-weight:100;
+	color: #445588;
+	font-size: 12px;
+	background-image: url("../images/bg_titre.gif");
+	background-repeat: no-repeat;
+	background-color: #fff;
+	border-bottom: 1px solid #a9b8c2;
+}
+
+.big_cadre p
+{
+	vertical-align: middle;
+	padding: 3px 0px 3px 0px;
+	margin: 0px;
+	clear: both;
+}
+.big_cadre p span label, .big_cadre .nom_liste
+{
+	display: block;
+	float: left;
+	text-align: right;
+	width: 30%;
+	margin-right: 5px;
+}
+
+/* le cadre où sont les smilies */
+.smilies
+{
+	float: left;
+	width: 20%;
+	margin: 0px 5% 0px 5px;
+	padding: 2px;
+	background-color: #FFFFFF;
+	border: 1px solid black;
+}
+/* le cadre où on tape de grand message */
+.big_texte
+{
+	float: left;
+	width: 70%;
+}
+/* les liens */
+a:link, a:visited
+{
+	text-decoration:underline;
+	color: #304C80;
+}
+
+/* utiliser souvent dans les modules pour afficher une info */
+.reponce
+{
+	font-weight: bold;
+	color: #1487E0;
+}
+h2 .reponce
+{
+	font-weight: normal;
+	color: #000;
+}
+
+/* couleur du nom du joueur dans la liste des membres */
+.homme
+{
+	color: #0000FF
+}
+
+.femme
+{
+	color: #FF0080;
+}
+
+.table
+{
+	width: 100%;
+}
+
+/* definit la 1er ligne du tableau pour faire les titres des colonnes */
+.calendra-normal
+{
+	font-size: 12px;
+	color: #000000;
+	background-color: #D9D9D9
+}
+
+/* quand ce n'est pas un jours */
+.calendra-vide
+{
+	font-size: 12px; color: #FFFFFF; background-color: #757575
+}
+
+/* quand c'est la date d'aujourd'hui */
+.calendra-today
+{
+	font-size: 12px; color: #FFFFFF; background-color: #101010
+}
+
+.calendra-wk
+{
+	font-size: 12px; color: #757575; background-color: #FFFFFF
+}
+
+/* bloque qui s'affiche quand il affiche sur plusieur page */
+.parpage
+{
+	margin: 0px 1% 10px 1%;
+	width: 98%;
+	border: 1px solid #000000;
+	background-color: #757575;
+}
+
+/* definit les liens dans ce bloque */
+.parpage a
+{
+	text-decoration: none;
+	color: #FFFFFF;
+}
+/*on augemente la largeur du cadre pour la partir admin */
+.colonne_central_admin .big_cadre
+{
+	float: left;
+	width: 590px;
+	background-color: transparent;
+}
+
+/* on change le style du 1er titre pour l'admin*/
+.colonne_central_admin .big_cadre h1
+{
+	background-image: url("../images/titre_admin.gif");
+	background-repeat: no-repeat;
+	color: #000;
+	font-size: 11px;
+	padding: 16px 0px 5px 80px;
+	border: 0px;
+}
+
+/* pour l'administration : un cadre dans un cadre */
+.big_cadre .big_cadre
+{
+	float: left;
+	background-color: #ececec;
+	width: 590px;
+	margin: 15px 0px 0px 0px;
+}
+
+/* pour les couleurs du nom des serveurs de jeux et des nom des joueurs dessus */
+/* generic colors */
+.gsquery-black
+{
+	color : black;
+}
+.gsquery-red
+{
+	color : red;
+}
+.gsquery-yellow
+{
+	color : #e6e600;
+}
+.gsquery-blue
+{
+	color : blue;
+}
+.gsquery-blue-night
+{
+	color : #7f7ffd;
+}
+.gsquery-red-night
+{
+	color : #d06b6b;
+}
+.gsquery-light-blue
+{
+	color : #00ffff;
+}
+.gsquery-green
+{
+	color : green;
+}
+.gsquery-orange
+{
+	color : #ff9600;
+}
+.gsquery-grey
+{
+	color : #000099;
+}
+.gsquery-q3a-2 , .gsquery-q3a-b , .gsquery-q3a-j , .gsquery-q3a-r , .gsquery-q3a-z , .gsquery-q3a-B , .gsquery-q3a-J , .gsquery-q3a-R , .gsquery-q3a-Z {
+	color : #00ff00;
+}
+.gsquery-q3a-3 , .gsquery-q3a-c , .gsquery-q3a-k , .gsquery-q3a-s , .gsquery-q3a-C , .gsquery-q3a-K , .gsquery-q3a-S
+{
+	color : #ffff00;
+}
+.gsquery-q3a-4 , .gsquery-q3a-d , .gsquery-q3a-l , .gsquery-q3a-t , .gsquery-q3a-D , .gsquery-q3a-L , .gsquery-q3a-T
+{
+	color : #4444ff;
+}
+.gsquery-q3a-5 , .gsquery-q3a-e , .gsquery-q3a-m , .gsquery-q3a-u , .gsquery-q3a-E , .gsquery-q3a-M , .gsquery-q3a-U
+{
+	color : #00ffff;
+}
+.gsquery-q3a-6 , .gsquery-q3a-f , .gsquery-q3a-n , .gsquery-q3a-v , .gsquery-q3a-F , .gsquery-q3a-N , .gsquery-q3a-V
+{
+	color : #ff00ff;
+}
+.gsquery-q3a-7 , .gsquery-q3a-g , .gsquery-q3a-o , .gsquery-q3a-w , .gsquery-q3a-G , .gsquery-q3a-O , .gsquery-q3a-W
+{
+	color : #cccccc;
+}
+.gsquery-q3a-8 , .gsquery-q3a-0 , .gsquery-q3a-h , .gsquery-q3a-p , .gsquery-q3a-x , .gsquery-q3a-H , .gsquery-q3a-P , .gsquery-q3a-X
+{
+	color : #777777;
+}
+.gsquery-q3a-exc
+{
+	color : #ff0000;
+}
+.gsquery-q3a-at
+{
+	color : #00ff00;
+}
+.gsquery-q3a-pound
+{
+	color : #ffff00;
+}
+.gsquery-q3a-dollar
+{
+	color : #4444ff;
+}
+.gsquery-q3a-percent
+{
+	color : #00ffff;
+}
+.gsquery-q3a-and
+{
+	color : #ff00ff;
+}
+.gsquery-q3a-star
+{
+	color : #cccccc;
+}
+ .gsquery-q3a-lparen {
+	color : #777777;
+
+}
+.gsquery-q3a-rparen {
+	color : #ff0000;
+
+}
+.gsquery-q3a-_ {
+	color : #cccccc;
+
+}
+.gsquery-q3a-plus {
+	color : #00ffff;
+
+}
+.gsquery-q3a-lbracket {
+	color : #ffff00;
+
+}
+.gsquery-q3a-rbracket {
+	color : #00ffff;
+
+}
+.gsquery-q3a-bar {
+	color : #4444ff;
+
+}
+.gsquery-q3a-colon {
+	color : #ffff00;
+
+}
+.gsquery-q3a-less {
+	color : #4444ff;
+
+}
+.gsquery-q3a-greater {
+	color : #ff00ff;
+
+}
+.gsquery-q3a-questionmark {
+	color : #cccccc;
+
+}
+.gsquery-q3a-- {
+	color : #00ffff;
+
+}
+.gsquery-q3a-equal {
+	color : #00ffff;
+
+}
+.gsquery-q3a-lsqr {
+	color : #ffff00;
+
+}
+.gsquery-q3a-rsqr {
+	color : #00ffff;
+
+}
+.gsquery-q3a-lslash {
+	color : #4444ff;
+
+}
+.gsquery-q3a-comma {
+	color : #4444ff;
+
+}
+.gsquery-q3a-point {
+	color : #ff00ff;
+
+}
+.gsquery-q3a-rslash {
+	color : #cccccc;
+
+}
+.gsquery-q3a-tick {
+	color : #cccccc;
+
+}
+.gsquery-q3a-quote {
+	color : #00ff00;
+
+}
+.gsquery-q3a-semic {
+	color : #ffff00;
+
+}
+.gsquery-sof2-1 {
+	color : #f02016;
+
+}
+.gsquery-sof2-2 {
+	color : #a8be7d;
+
+}
+.gsquery-sof2-3 {
+	color : #f1f429;
+
+}
+.gsquery-sof2-4 {
+	color : #4b48df;
+
+}
+.gsquery-sof2-5 {
+	color : #07f7ec;
+
+}
+.gsquery-sof2-6 {
+	color : #f30af1;
+
+}
+.gsquery-sof2-7 {
+	color : #eae9e5;
+
+}
+.gsquery-sof2-8 {
+	color : #680aba;
+
+}
+.gsquery-sof2-9 , .gsquery-sof2-a {
+	color : #48d9b2;
+
+}
+.gsquery-sof2-0 {
+	color : #030102;
+
+}
+.gsquery-sof2-b {
+	color : #d39741;
+
+}
+.gsquery-sof2-c {
+	color : #c14cb7;
+
+}
+.gsquery-sof2-d {
+	color : #6993b9;
+
+}
+.gsquery-sof2-e {
+	color : #bd0c76;
+
+}
+.gsquery-sof2-f {
+	color : #6fc1cc;
+
+}
+.gsquery-sof2-g {
+	color : #94e258;
+
+}
+.gsquery-sof2-h {
+	color : #7e0622;
+
+}
+.gsquery-sof2-i {
+	color : #264798;
+
+}
+.gsquery-sof2-j {
+	color : #59c522;
+
+}
+.gsquery-sof2-k {
+	color : #d1af82;
+
+}
+.gsquery-sof2-l {
+	color : #9dc0e0;
+
+}
+.gsquery-sof2-m {
+	color : #a932aa;
+
+}
+.gsquery-sof2-n {
+	color : #527b39;
+
+}
+.gsquery-sof2-o {
+	color : #a26e70;
+
+}
+.gsquery-sof2-p {
+	color : #328d6c;
+
+}
+.gsquery-sof2-q {
+	color : #aa979d;
+
+}
+.gsquery-sof2-r {
+	color : #a95cae;
+
+}
+.gsquery-sof2-s {
+	color : #2e057f;
+
+}
+.gsquery-sof2-t {
+	color : #680728;
+
+}
+.gsquery-sof2-u {
+	color : #381f94;
+
+}
+.gsquery-sof2-v {
+	color : #20b041;
+
+}
+.gsquery-sof2-w {
+	color : #020400;
+
+}
+.gsquery-sof2-x {
+	color : #050a27;
+
+}
+.gsquery-sof2-y {
+	color : #208fc7;
+
+}
+.gsquery-sof2-z {
+	color : #ac8037;
+
+}
+.gsquery-sof2-A {
+	color : #4807e7;
+
+}
+.gsquery-sof2-B {
+	color : #44d436;
+
+}
+.gsquery-sof2-C {
+	color : #d25831;
+
+}
+.gsquery-sof2-D {
+	color : #384c71;
+
+}
+.gsquery-sof2-E {
+	color : #75a93a;
+
+}
+.gsquery-sof2-F {
+	color : #022869;
+
+}
+.gsquery-sof2-G {
+	color : #569b3e;
+
+}
+.gsquery-sof2-H {
+	color : #90697e;
+
+}
+.gsquery-sof2-I {
+	color : #5abfdd;
+
+}
+.gsquery-sof2-J {
+	color : #9aac9c;
+
+}
+.gsquery-sof2-K {
+	color : #acd88b;
+
+}
+.gsquery-sof2-M {
+	color : #03d37f;
+
+}
+.gsquery-sof2-N {
+	color : #d48c14;
+
+}
+.gsquery-sof2-O {
+	color : #b6bdf1;
+
+}
+.gsquery-sof2-P {
+	color : #1deb0f;
+
+}
+.gsquery-sof2-Q {
+	color : #ee52b5;
+
+}
+.gsquery-sof2-R {
+	color : #3d41c6;
+
+}
+.gsquery-sof2-S {
+	color : #4eee36;
+
+}
+.gsquery-sof2-T {
+	color : #a95c4c;
+}
+.gsquery-sof2-U {
+	color : #804ac6;
+}
+.gsquery-sof2-V {
+	color : #89c6b4;
+}
+.gsquery-sof2-W {
+	color : #73109f;
+}
+.gsquery-sof2-X {
+	color : #37b4ae;
+}
+.gsquery-sof2-Y {
+	color : #82cb1a;
+}
+.gsquery-sof2-Z {
+	color : #a997d3;
+}
+.gsquery-sof2-and {
+	color : #0000f9;
+}
+.gsquery-sof2-tick {
+	color : #fbf235;
+}
+.gsquery-sof2-- {
+	color : #1b1811;
+}
+.gsquery-sof2-_ {
+	color : #b21617;
+}
+.gsquery-sof2-cbracket {
+	color : #15f4fb;
+}
+.gsquery-sof2-equal {
+	color : #a0cdb9;
+}
+.gsquery-sof2-questionmark {
+	color : #88d551;
+}
+.gsquery-sof2-point {
+	color : #5f499e;
+}
