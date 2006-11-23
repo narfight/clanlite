@@ -26,7 +26,7 @@ if (defined('CL_AUTH'))
 	$tpl  = str_replace("\n", '', $tpl);
 	
 	// strip newlines.
-	$sql = "SELECT date,info FROM ".$config['prefix']."entrainement ORDER BY `date` ASC LIMIT 1";
+	$sql = "SELECT id,date,info FROM ".$config['prefix']."entrainement ORDER BY `date` ASC LIMIT 1";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
@@ -36,7 +36,7 @@ if (defined('CL_AUTH'))
 	{
 		if ($entrain['date'] <= $config['current_time'] )
 		{
-			$sql = "DELETE FROM ".$config['prefix']."entrainement WHERE id = ".$entrain['id'];
+			$sql = "DELETE FROM ".$config['prefix']."entrainement WHERE id = '".$entrain['id']."'";
 			$rsql->requete_sql($sql, 'module', 'Supprime les entrainements dépassés');
 		}
 		else

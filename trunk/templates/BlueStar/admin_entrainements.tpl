@@ -5,11 +5,41 @@
 	<h1>{TITRE_GESTION}</h1>
 	<p>
 		<span><label for="texte">{TXT_TEXTE}&nbsp;:</label></span>
-		<span><textarea name="texte" cols="30" rows="10" id="texte" onBlur="formverif(this.id,'nbr','10')">{INFO}</textarea></span>
+	</p>
+	<p>
+		<div class="smilies">
+			<!-- BEGIN poste_smilies_liste -->
+			<a href="javascript:emoticon('{poste_smilies_liste.TXT}','texte')"><img src="{poste_smilies_liste.IMG}" alt="{poste_smilies_liste.ALT}" width="{poste_smilies_liste.WIDTH}"  height="{poste_smilies_liste.HEIGHT}" /></a>
+			<!-- BEGIN more -->
+			<a href="javascript:toggle_msg('smilies_more_publique', '', '')">{poste_smilies_liste.more.MORE_SMILIES}</a>
+			<div id="smilies_more_publique" style="display: none;">
+				<!-- BEGIN liste -->
+				<a href="javascript:emoticon('{poste_smilies_liste.more.liste.TXT}','texte')"><img src="{poste_smilies_liste.more.liste.IMG}" alt="{poste_smilies_liste.more.liste.ALT}" width="{poste_smilies_liste.more.liste.WIDTH}"  height="{poste_smilies_liste.more.liste.HEIGHT}" /></a>
+				<!-- END liste -->
+			</div>
+			<!-- END more -->
+			<!-- END poste_smilies_liste -->
+		</div>
+		<div class="big_texte"><textarea name="texte" cols="40" rows="10" id="texte" onBlur="formverif(this.id,'nbr','10')">{INFO}</textarea></div>
 	</p>
 	<p>
 		<span><label for="priver">{MSG_PRIVE}&nbsp;:</label></span>
-		<span><textarea name="priver" cols="40" rows="5" id="priver" onBlur="formverif(this.id,'nbr','10')">{PRIVER}</textarea></span>
+	</p>
+	<p>
+		<div class="smilies">
+			<!-- BEGIN poste_smilies_liste -->
+			<a href="javascript:emoticon('{poste_smilies_liste.TXT}','priver')"><img src="{poste_smilies_liste.IMG}" alt="{poste_smilies_liste.ALT}" width="{poste_smilies_liste.WIDTH}"  height="{poste_smilies_liste.HEIGHT}" /></a>
+			<!-- BEGIN more -->
+			<a href="javascript:toggle_msg('smilies_more', '', '')">{poste_smilies_liste.more.MORE_SMILIES}</a>
+			<div id="smilies_more" style="display: none;">
+				<!-- BEGIN liste -->
+				<a href="javascript:emoticon('{poste_smilies_liste.more.liste.TXT}','priver')"><img src="{poste_smilies_liste.more.liste.IMG}" alt="{poste_smilies_liste.more.liste.ALT}" width="{poste_smilies_liste.more.liste.WIDTH}"  height="{poste_smilies_liste.more.liste.HEIGHT}" /></a>
+				<!-- END liste -->
+			</div>
+			<!-- END more -->
+			<!-- END poste_smilies_liste -->
+		</div>
+		<div class="big_texte"><textarea name="priver" cols="40" rows="10" id="priver" onBlur="formverif(this.id,'nbr','10')">{PRIVER}</textarea></div>
 	</p>
 	<p>
 		<span><label for="jours">{DATE}&nbsp;:</label></span>

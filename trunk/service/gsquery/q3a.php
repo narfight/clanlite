@@ -1,7 +1,4 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
 
 /*
  *  gsQuery - Querys various game servers
@@ -34,7 +31,7 @@ include_once($root_path."service/gsquery/gsQuery.php");
 /**
  * @brief Uses the Quake 3 protcol to communicate with the server
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: q3a.php,v 1.16 2004/03/17 07:24:21 jr Exp $
+ * @version $Id: q3a.php,v 1.18 2004/03/30 09:29:25 jr Exp $
  * @todo provide a method that htmlize the colortags in playernames
  *
  * This class can communicate with most games based on the Quake 3
@@ -51,7 +48,7 @@ class q3a extends gsQuery
       
     $command="\xFF\xFF\xFF\xFF\x02getstatus\x0a\x00";
     if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
-      $this->errstr="No reply recieved";
+      $this->errstr="No reply received";
       return FALSE;
     }
       
@@ -76,7 +73,7 @@ class q3a extends gsQuery
         $this->gameversion=$rawdata[$i];
         break; 
       case "sv_hostname":
-	$this->servertitle=$rawdata[$i];
+	$this->servertitle=$this->htmlize($rawdata[$i]);
 	break;
       case "mapname":
 	$this->mapname=$rawdata[$i];
@@ -187,36 +184,43 @@ class q3a extends gsQuery
   /**
    * @brief htmlizes the given raw string
    *
-   * @param a raw string from the gameserver that might contain special chars
+   * @param var a raw string from the gameserver that might contain special chars
    * @return a html version of the given string
    */
-	function htmlize($var)
+	function htmlize($var) 
 	{
 		$var = htmlspecialchars($var);
 		// if game is SOF2
-		if (ereg("sof2mp-", $this->rules['game_version']))
+		if (isset($this->rules['game_version']) && ereg("sof2mp-", $this->rules['game_version']))
 		{
 			while(ereg("\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])", $var))
 			{
 				if (ereg("\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])(.*)\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])", $var))
 				{
-					$var = preg_replace("#\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])(.*)\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])#Usi", "<span class=\"gsquery-$1\">$2</span>^$3", $var); 
+					$var = preg_replace("#\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])(.*)\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])#Usi", "<span class=\"gsquery-$1\">$2</span>^$3", $var);
 				}
 				else
 				{
 					$var = preg_replace("#\^([0-9a-zA-Z]|-|=|[|]|;|'|\|/|,|.|\?|-|_])(.*)$#Usi", "<span class=\"gsquery-$1\">$2</span>", $var);
 				}
 			}
+			//remplacement de carractére non autorisé pour le CSS
+			$var = str_replace("gsquery-&", "gsquery-et", $var);
+			$var = str_replace("gsquery-'", "gsquery-apos", $var);
+			$var = str_replace("gsquery-)", "gsquery-par", $var);
+			$var = str_replace("gsquery-=", "gsquery-egal", $var);
+			$var = str_replace("gsquery-?", "gsquery-ques", $var);
+			$var = str_replace("gsquery-.", "gsquery-point", $var);
 		}
 		else
 		{
-			while(ereg('\^([0-7])', $var))
+			while(ereg('\^([0-9])', $var))
 			{
-				foreach(array('black', 'red', 'darkgreen', 'yellow', 'blue', 'cyan', 'pink', 'white') as $num_color => $name_color)
+				foreach(array('black', 'red', 'darkgreen', 'yellow', 'blue', 'cyan', 'pink', 'white', 'blue-night', 'red-night') as $num_color => $name_color)
 				{
-					if (ereg('\^([0-7])(.*)\^([0-7])', $var))
+					if (ereg('\^([0-9])(.*)\^([0-9])', $var))
 					{
-						$var = preg_replace("#\^".$num_color."(.*)\^([0-7])#Usi", "<span class=\"gsquery-".$name_color."\">$1</span>^$2", $var); 
+						$var = preg_replace("#\^".$num_color."(.*)\^([0-9])#Usi", "<span class=\"gsquery-".$name_color."\">$1</span>^$2", $var);
 					}
 					else
 					{

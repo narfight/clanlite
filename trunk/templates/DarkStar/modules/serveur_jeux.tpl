@@ -5,7 +5,9 @@
 	{TXT_PLACE} :<span class="reponce">{PLAYER}</span>/<span class="reponce">{PLACE}</span><br />
 	{TXT_GAME_TYPE} :<span class="reponce">{GAME_TYPE}</span><br />
 	Liste des joueurs :
+<marquee width="170" height="100" scrollamount="1" scrolldelay=20 direction="up" onMouseover="this.scrollAmount=0" onMouseout="this.scrollAmount=1">
 		{LISTE}
+</marquee>
 <!-- END serveur_jeux -->
 <!-- BEGIN serveur_jeux_boucle --> 
     <div class="{COLOR}">{NAME}</div>

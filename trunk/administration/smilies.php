@@ -4,35 +4,35 @@
 // -------------------------------------------------------------
 $root_path = './../';
 $niveau_secu = 12;
-$action_membre= "configure les smilies";
+$action_membre = 'where_admin_smilies';
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
-if (!empty($HTTP_POST_VARS['envoyer']))
+if (!empty($_POST['envoyer']))
 { 
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	list($width, $height, $type, $attr) = getimagesize("../images/smilies/".$HTTP_POST_VARS['img']);
-	$sql = "INSERT INTO `".$config['prefix']."smilies` (text, img, def, width, height) VALUES ('".$HTTP_POST_VARS['text']."', '".$HTTP_POST_VARS['img']."', '".$HTTP_POST_VARS['def']."', '".$width."', '".$height."')";
+	$_POST = pure_var($_POST);
+	list($width, $height, $type, $attr) = getimagesize("../images/smilies/".$_POST['img']);
+	$sql = "INSERT INTO `".$config['prefix']."smilies` (text, img, def, width, height) VALUES ('".$_POST['text']."', '".$_POST['img']."', '".$_POST['def']."', '".$width."', '".$height."')";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	redirec_text("smilies.php", $langue['redirection_admin_smilies_add'], "admin");
 }
-if (!empty($HTTP_POST_VARS['envois_edit']))
+if (!empty($_POST['envois_edit']))
 {
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	list($width, $height, $type, $attr) = getimagesize("../images/smilies/".$HTTP_POST_VARS['img']);
-	$sql = "UPDATE `".$config['prefix']."smilies` SET text='".$HTTP_POST_VARS['text']."', img='".$HTTP_POST_VARS['img']."', def='".$HTTP_POST_VARS['def']."', width='".$width."', height='".$height."' WHERE id='".$HTTP_POST_VARS['for']."'";
+	$_POST = pure_var($_POST);
+	list($width, $height, $type, $attr) = getimagesize("../images/smilies/".$_POST['img']);
+	$sql = "UPDATE `".$config['prefix']."smilies` SET text='".$_POST['text']."', img='".$_POST['img']."', def='".$_POST['def']."', width='".$width."', height='".$height."' WHERE id='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	redirec_text("smilies.php", $langue['redirection_admin_smilies_edit'], "admin");
 }
-if (!empty($HTTP_POST_VARS['Supprimer']))
+if (!empty($_POST['Supprimer']))
 {
-	$sql = "DELETE FROM `".$config['prefix']."smilies` WHERE id ='".$HTTP_POST_VARS['for']."'";
+	$sql = "DELETE FROM `".$config['prefix']."smilies` WHERE id ='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -43,21 +43,19 @@ include($root_path."conf/frame_admin.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'admin_smilies.tpl'));
 $template->assign_vars( array(
-	'ICI' => $HTTP_SERVER_VARS['PHP_SELF'],
+	'ICI' => $_SERVER['PHP_SELF'],
 	'TITRE' => $langue['titre_admin_smilies'],
 	'TITRE_GESTION' => $langue['titre_admin_smilies_gestion'],
 	'TITRE_LISTE' => $langue['titre_admin_smilies_list'],
 	'ACTION' => $langue['action'],
-	'TXT_NOM' => $langue['nom_map_sortie'],
-	'TXT_URL' => $langue['url_map_custom'],
 	'CHOISIR' => $langue['choisir'],
 	'IMAGES' => $langue['smilie_images'],
 	'TXT' => $langue['smilie_text'],
 	'TXT_DEF' => $langue['smilie_def'],
 ));
-if (!empty($HTTP_POST_VARS['Editer']))
+if (!empty($_POST['Editer']))
 {
-	$sql = "SELECT * FROM ".$config['prefix']."smilies WHERE id='".$HTTP_POST_VARS['for']."'";
+	$sql = "SELECT * FROM ".$config['prefix']."smilies WHERE id='".$_POST['for']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);

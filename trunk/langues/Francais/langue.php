@@ -31,13 +31,14 @@ $langue['error_sql_erreur'] = "Erreur reçue";
 $langue['error_sql_endroit'] = "Localisation";
 $langue['error_sql_endroit_2'] = "Ligne %1\$u dans %2\$s";
 
-$langue['recrute_s'] = "Nous cherchons <b>un</b> nouveau joueur pour notre clan.";
-$langue['recrute_p'] = "Nous cherchons <b>%d</b> nouveaux joueurs pour notre clan.";
+$langue['recrute_s'] = "Nous cherchons [b]un[/b] nouveau joueur pour notre clan.";
+$langue['recrute_p'] = "Nous cherchons [b]%d[/b] nouveaux joueurs pour notre clan.";
 $langue['recrute'] = "Nous sommes à la recherche de nouveaux joueurs dans notre clan.";
 $langue['recrute_pas'] = "Nous ne sommes pas à la recherche de nouveaux joueurs.";
+$langue['alert_ie'] = "[b]Avertissement :[/b] vous affichez cette page avec un navigateur Web non pris en charge. Ce site Web fonctionne de manière optimale avec [url=http://www.mozilla.org/products/firefox/]Mozilla FireFox[/url] ou version ultérieure, ou Mozilla 1.6 ou version ultérieure";
 
 $langue['exec_time_rsql'] = "Page exécutée en %fs || %d requêtes sql";
-$langue['copyright'] = "Powered by <a href=\"mailto:narfight@lna.be\">Narfight</a>, <a href=\"http://clanlite.lna.be\" onclick=\"window.open('http://clanlite.lna.be');return false;\"> V%1\$s © 2000-2004";
+$langue['copyright'] = "Powered by <a href=\"mailto:narfight@lna.be\">Narfight</a>, <a href=\"http://clanlite.lna.be\" onclick=\"window.open('http://clanlite.lna.be');return false;\">ClanLite</a> V%1\$s © 2000-2004";
 $langue['deconect_login'] = "Votre session est férmée<br />Vous ne serez plus automatiquement reconnu par le site à présent";
 
 $langue['where_unknow'] = "Vient de se connecter au site";
@@ -146,6 +147,10 @@ $langue['titre_match_rapport'] = "Les résultats des matchs";
 $langue['where_match_rapport'] = "Regarde les matchs joués";
 $langue['score_nous'] = "Score de la team";
 $langue['score_eux'] = "Leurs scores";
+$langue['resume_match_gagnee'] = "Nombre de match gagné";
+$langue['resume_match_perdu'] = "Nombre de match perdu";
+$langue['resume_match_norm'] = "Nombre d'égalitée";
+$langue['no_match_joue'] = "Le clan n'a pas encore fait de match";
 
 $langue['titre_reaction'] = "Les réactions";
 $langue['where_reaction'] = "Regarde les réactions d'une news";
@@ -193,7 +198,7 @@ $langue['user_envois_mailnofound'] = "Votre e-mail n'a pas été trouvé";
 $langue['user_envois_mailinvalide'] = "Vous n'avez pas entré un e-mail valide";
 $langue['user_envois_mailinvalideenvoye'] = "un e-mail vous a été envoyé avec un nouveau code et un clé pour l'activer";
 $langue['titre_mail_codeperdu'] = "Votre nouveau code pour le site des %s";
-$langue['corps_mail_codeperdu'] = "Bonjour %1\$s,\nVoici votre login et votre nouveau code :\nVotre code: %2\$s\nVotre login: %3\$s\nPour activer ce nouveau code, vous devez vous diriger sur cette URL : %4\$suser/code-perdu.php?activ_pw= %4\$s\n_________________\npour toute question : ".$config['master_mail'];
+$langue['corps_mail_codeperdu'] = "Bonjour %1\$s,\nVoici votre login et votre nouveau code :\nVotre code: %2\$s\nVotre login: %3\$s\nPour activer ce nouveau code, vous devez vous diriger sur cette URL : %4\$suser/code-perdu.php?activ_pw=%5\$s\n_________________\npour toute question : ".$config['master_mail'];
 
 $langue['titre_admin_edit_user'] = "Gestion administrative du membre";
 $langue['where_admin_edit_user'] = "Édite le compte d'un membre";
@@ -235,6 +240,7 @@ $langue['save_code_login'] = "Se souvenir de mon code et de mon login";
 $langue['lost_psw'] = "vous avez perdu votre code ?";
 $langue['non_active'] = "Votre compte n'a pas été validé par un administrateur, contactez-le pour plus d'informations";
 $langue['code_login_incorrect'] = "Votre code ou votre login est incorrect, attention aux majuscules !!!";
+$langue['erreur_secu'] = "Vous essayez d'entrer dans une partie Privée qui peux demander certain pouvoir, ou alors votre navigateur web a bloqué les cookies";
 
 $langue['redirection_txt_vide'] = "Les modifications ont été éxécutées<br />Cliquez <a href=\"%1\$s\">ici</a> si vous n'êtes pas redirigé après 3s";
 $langue['redirection_txt_nonvide'] = "%1\$s<br />Cliquez <a href=\"%2\$s\">ici</a> si vous n'êtes pas redirigé après 3s";
@@ -244,6 +250,14 @@ $langue['module_compteur'] = "Il y a eu %1\$d visiteurs et il y a %2\$d connecté
 
 $langue['module_mp3'] = "Vous écoutez %1\$s qui vous chante \"%2\$s\"";
 $langue['module_mp3_no_info'] = "Information affichée à la prochaine page";
+
+$langue['where_module_aléatoire'] = "Gère le module aléatoires";
+$langue['titre_module_aléatoire'] = "Les aléatoire [Module]";
+$langue['titre_gestion_module_aléatoire'] = "Gestion des aléatoires";
+$langue['titre_liste_module_aléatoire'] = "Liste des aléatoires";
+$langue['redirection_module_aléatoire_add'] = "L'objet aléatoire est ajouter";
+$langue['redirection_module_aléatoire_edit'] = "L'objet aléatoire est mis à jour";
+$langue['redirection_module_aléatoire_dell'] = "L'objet aléatoire est supprimé";
 
 $langue['where_module_partenaire'] = "Gère les partenaires du clan";
 $langue['titre_module_partenaire'] = "Les partenaire [Module]";
@@ -308,16 +322,25 @@ $langue['config_show_recrute_index'] = "Afficher l'état de recrutement sur l'ind
 $langue['config_etat_recrute'] = "Recrutement";
 $langue['config_recrute_limit'] = "Limité";
 $langue['config_langue'] = "Langue par default";
+$langue['config_skin'] = "Théme par default";
 $langue['config_recrutement_limit_txt'] = "Limitation des inscriptions";
 $langue['config_nbr_par_page'] = "Nombre de lignes par page";
 $langue['config_help_nbr/page'] = "<b>Exemple :</b> X fichiers de t&eacute;l&eacute;chargement par page, ou de rapport de match";
 $langue['config_show_server_list'] = "Afficher la liste des serveurs de jeux";
 $langue['config_reglement'] = "Règlement du clan";
+$langue['config_msg_news_membre'] = "Message de bienvenue apres l'inscription";
 $langue['config_serveur_game'] = "Le clan a un serveur de jeux";
 $langue['config_serveur_ip'] = "IP de votre serveur de jeux";
 $langue['config_serveur_port'] = "Query Port de votre serveur de jeux";
 $langue['config_help_port'] = "<b>Pour Unreal Tournament :</b>Query Port = le port de votre serveur+1 <br /> <b>Pour Unreal Tournament 2003 :</b>Query Port = le port de votre serveur+10 <br /> <b>Pour Battlefield 1942 :</b>Pas de régle <br /> <b>Pour America\'s Army :</b>Query Port = le port de votre serveur+1<br /><br />Tout les jeux qui ne sont pas dans cette liste ont le même Query Port que le port pour s\'y connecter";
 $langue['config_serveur_protocol'] = "Protocol du serveur de jeux";
+$langue['config_send_by'] = "Envois d'e-mail";
+$langue['config_by_smtp'] = "Par SMTP";
+$langue['config_by_php'] = "Par mail()";
+$langue['config_smtp_server_ip'] = "Serveur SMTP";
+$langue['config_smtp_server_port'] = "Port du serveur SMTP";
+$langue['config_smtp_code'] = "Mot de passe SMTP";
+$langue['config_smtp_login'] = "Nom d'utilisateur SMTP";
 
 $langue['where_defit_admin'] = "Regarde les demandes des autres clans pour un futur match";
 $langue['titre_defit_admin'] = "Demandes de rencontres";
@@ -409,7 +432,7 @@ $langue['redirection_admin_match_edit'] = "Le match a été mis à jour";
 $langue['redirection_admin_match_dell'] = "Le match est bien supprimé";
 $langue['add_team_ok'] = "Ajouter";
 $langue['add_team_reserve'] = "Réserve";
-$langue['add_team_demande'] = "Réserve";
+$langue['add_team_demande'] = "Demande";
 
 $langue['where_custom_menu'] = "Est dans l'administration du menu";
 $langue['titre_custom_menu'] = "Édition du menu";
@@ -491,6 +514,7 @@ $langue['pv_num_20'] = "Gestion des maps du serveur de jeux";
 $langue['pv_num_21'] = "Gestion des sections";
 $langue['pv_num_22'] = "Supprimer un membre";
 $langue['pv_num_23'] = "Gestion des smilies";
+$langue['pv_num_24'] = "Envois mail de masse";
 
 $langue['where_admin_rapport_match'] = "Est dans l'administration des rapports de match";
 $langue['titre_admin_rapport_match'] = "Les rapports de match";
@@ -547,6 +571,12 @@ $langue['smilie_images'] = "Le smilies";
 $langue['smilie_text'] = "Commande";
 $langue['smilie_def'] = "Définition";
 
+$langue['where_admin_mailiste'] = "Envoit a tout les membres";
+$langue['titre_admin_mailiste'] = "Mail de masse";
+$langue['redirection_admin_mailiste_add'] = "Les emails ont été envoyés";
+$langue['mailiste_subject'] = "Objet";
+$langue['mailiste_corps'] = "Corps";
+
 $langue['where_admin_section'] = "Est dans l'administration des sections";
 $langue['titre_admin_section'] = "Les sections";
 $langue['titre_admin_section_gestion'] = "Gestion des sections";
@@ -560,6 +590,7 @@ $langue['admin_section_limite_true'] = "Limité";
 $langue['admin_section_limite_false'] = "Peut participer à tous les matchs";
 $langue['admin_section_titre_limite'] = "Limité";
 $langue['help_section'] = "<b>Explication :</b> Les sections sont surtout quand le clan à beaucoup de membres, pour faire une section A et une section B par exemple, et dans chaque section, il y aura les équipes";
+
 // texte de formulaire
 $langue['form_nom'] = "Votre nom";
 $langue['form_prenom'] = "Votre prénom";
@@ -584,6 +615,7 @@ $langue['alt_image_profil'] = "Votre image";
 $langue['form_histoire'] = "Votre histoire";
 
 // souvent utilisé
+$langue['show/hide_smilies'] = "Plus de Smilies";
 $langue['alt_aide'] = "Information en plus, aide";
 $langue['date_format'] = '(jj-mm-aaaa)';
 $langue['sex_homme'] = "Homme";
@@ -599,6 +631,7 @@ $langue['action'] = "Action";
 $langue['profil'] = "Profil";
 $langue['ip'] = "IP";
 $langue['port'] = "Port";
+$langue['query_port'] = "Query Port";
 $langue['protocol'] = "Protocol";
 $langue['grade'] = "Grade";
 $langue['role'] = "Rôle";

@@ -8,19 +8,19 @@ $action_membre= 'where_grade';
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
-if (!empty($HTTP_POST_VARS['dell']))
+if (!empty($_POST['dell']))
 {
-	$sql = "DELETE FROM `".$config['prefix']."grades` WHERE id ='".$HTTP_POST_VARS['for']."'";
+	$sql = "DELETE FROM `".$config['prefix']."grades` WHERE id ='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	redirec_text("grades.php", $langue['redirection_grade_dell'], "admin");
 }
-if (!empty($HTTP_POST_VARS['Envoyer']))
+if (!empty($_POST['Envoyer']))
 { 
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$sql = "INSERT INTO `".$config['prefix']."grades` (ordre, nom) VALUES ('".$HTTP_POST_VARS['ordre']."', '".$HTTP_POST_VARS['nom']."')";
+	$_POST = pure_var($_POST);
+	$sql = "INSERT INTO `".$config['prefix']."grades` (ordre, nom) VALUES ('".$_POST['ordre']."', '".$_POST['nom']."')";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -30,10 +30,10 @@ if (!empty($HTTP_POST_VARS['Envoyer']))
 		redirec_text("grades.php", $langue['redirection_grade_add'], "admin");
 	}
 }
-if (!empty($HTTP_POST_VARS['Editer']))
+if (!empty($_POST['Editer']))
 {
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$sql = "UPDATE `".$config['prefix']."grades` SET ordre='".$HTTP_POST_VARS['ordre']."', nom='".$HTTP_POST_VARS['nom']."' WHERE id='".$HTTP_POST_VARS['for']."'";
+	$_POST = pure_var($_POST);
+	$sql = "UPDATE `".$config['prefix']."grades` SET ordre='".$_POST['ordre']."', nom='".$_POST['nom']."' WHERE id='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -47,7 +47,7 @@ include($root_path."conf/frame_admin.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'admin_grades.tpl'));
 $template->assign_vars( array( 
-	'ICI' => $HTTP_SERVER_VARS['PHP_SELF'],
+	'ICI' => $_SERVER['PHP_SELF'],
 	'TITRE' => $langue['titre_grade'],
 	'TITRE_GESTION' => $langue['titre_grade_gestion'],
 	'TITRE_LISTE' => $langue['titre_grade_list'],
@@ -55,9 +55,9 @@ $template->assign_vars( array(
 	'TXT_PUISSANCE' => $langue['puissance_grade'],
 	'ACTION' => $langue['action'],
 ));
-if (!empty($HTTP_POST_VARS['edit']))
+if (!empty($_POST['edit']))
 {
-	$sql = "SELECT * FROM ".$config['prefix']."grades WHERE id='".$HTTP_POST_VARS['for']."'";
+	$sql = "SELECT * FROM ".$config['prefix']."grades WHERE id='".$_POST['for']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);

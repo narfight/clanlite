@@ -23,7 +23,7 @@ if (defined('CL_AUTH'))
 	if( !empty($module_deinstaller))
 	{
 		secu_level_test(16);
-		$sql = "DROP TABLE `".$config['prefix']."module_partenaires_".$HTTP_POST_VARS['for']."` ";
+		$sql = "DROP TABLE `".$config['prefix']."module_partenaires_".$_POST['for']."` ";
 		if (! ($rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -46,28 +46,28 @@ if (defined('CL_AUTH'))
 	));
 	return;
 }
-if( !empty($HTTP_GET_VARS['config_modul_admin']) || !empty($HTTP_POST_VARS['Envoyer_partenaire_module']) || !empty($HTTP_POST_VARS['Editer_partenaire_module']) || !empty($HTTP_POST_VARS['dell_partenaire_module']) || !empty($HTTP_POST_VARS['edit_partenaire_module']) )
+if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_partenaire_module']) || !empty($_POST['Editer_partenaire_module']) || !empty($_POST['dell_partenaire_module']) || !empty($_POST['edit_partenaire_module']) )
 {
-	$id_module = (empty($HTTP_GET_VARS['id_module']))? $HTTP_POST_VARS['id_module'] : $HTTP_GET_VARS['id_module'];
+	$id_module = (empty($_GET['id_module']))? $_POST['id_module'] : $_GET['id_module'];
 	$root_path = './../';
 	$niveau_secu = 16;
 	$action_membre= 'where_module_partenaire';
 	include($root_path."conf/template.php");
 	include($root_path."conf/conf-php.php");
 	include($root_path."controle/cook.php");
-	if (!empty($HTTP_POST_VARS['dell_partenaire_module']))
+	if (!empty($_POST['dell_partenaire_module']))
 	{
-		$sql = "DELETE FROM `".$config['prefix']."module_partenaires_".$id_module."` WHERE id ='".$HTTP_POST_VARS['for_partenaire_module']."'";
+		$sql = "DELETE FROM `".$config['prefix']."module_partenaires_".$id_module."` WHERE id ='".$_POST['for_partenaire_module']."'";
 		if (! ($rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
 		redirec_text("partenaire.php?config_modul_admin=oui&id_module=".$id_module, $langue['redirection_module_partenaire_dell'], "admin");
 	}
-	if (!empty($HTTP_POST_VARS['Envoyer_partenaire_module']))
+	if (!empty($_POST['Envoyer_partenaire_module']))
 	{ 
-		$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-		$sql = "INSERT INTO `".$config['prefix']."module_partenaires_".$id_module."` (url, nom, image) VALUES ('".$HTTP_POST_VARS['url']."', '".$HTTP_POST_VARS['nom']."', '".$HTTP_POST_VARS['image']."')";
+		$_POST = pure_var($_POST);
+		$sql = "INSERT INTO `".$config['prefix']."module_partenaires_".$id_module."` (url, nom, image) VALUES ('".$_POST['url']."', '".$_POST['nom']."', '".$_POST['image']."')";
 		if (! ($rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -77,10 +77,10 @@ if( !empty($HTTP_GET_VARS['config_modul_admin']) || !empty($HTTP_POST_VARS['Envo
 			redirec_text("partenaire.php?config_modul_admin=oui&id_module=".$id_module, $langue['redirection_module_partenaire_add'], "admin");
 		}
 	}
-	if (!empty($HTTP_POST_VARS['Editer_partenaire_module']))
+	if (!empty($_POST['Editer_partenaire_module']))
 	{
-		$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-		$sql = "UPDATE `".$config['prefix']."module_partenaires_".$id_module."` SET url='".$HTTP_POST_VARS['url']."', nom='".$HTTP_POST_VARS['nom']."', image='".$HTTP_POST_VARS['image']."' WHERE id='".$HTTP_POST_VARS['for_partenaire_module']."'";
+		$_POST = pure_var($_POST);
+		$sql = "UPDATE `".$config['prefix']."module_partenaires_".$id_module."` SET url='".$_POST['url']."', nom='".$_POST['nom']."', image='".$_POST['image']."' WHERE id='".$_POST['for_partenaire_module']."'";
 		if (! ($rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -94,7 +94,7 @@ if( !empty($HTTP_GET_VARS['config_modul_admin']) || !empty($HTTP_POST_VARS['Envo
 	$template = new Template($root_path."templates/".$config['skin']."/modules");
 	$template->set_filenames( array('body_module' => 'partenaires.tpl'));
 	$template->assign_vars( array(
-		'ICI' => $HTTP_SERVER_VARS['PHP_SELF'],
+		'ICI' => $_SERVER['PHP_SELF'],
 		'ID_MODULE' => $id_module,
 		'TITRE' => $langue['titre_module_partenaire'],
 		'TITRE_GESTION' => $langue['titre_gestion_module_partenaire'],
@@ -104,9 +104,9 @@ if( !empty($HTTP_GET_VARS['config_modul_admin']) || !empty($HTTP_POST_VARS['Envo
 		'TXT_NOM' => $langue['module_partenaire_nom'],
 		'ACTION' => $langue['action'],
 	));
-	if (!empty($HTTP_POST_VARS['edit_partenaire_module']))
+	if (!empty($_POST['edit_partenaire_module']))
 	{
-		$sql = "SELECT * FROM ".$config['prefix']."module_partenaires_".$id_module." WHERE id='".$HTTP_POST_VARS['for_partenaire_module']."'";
+		$sql = "SELECT * FROM ".$config['prefix']."module_partenaires_".$id_module." WHERE id='".$_POST['for_partenaire_module']."'";
 		if (! ($get = $rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);

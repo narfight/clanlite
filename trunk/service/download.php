@@ -6,33 +6,33 @@ $root_path = './../';
 $action_membre = 'where_download';
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
-if ( !empty($HTTP_POST_VARS['dll']) )
+if ( !empty($_POST['dll']) )
 {// on envois le fichier a télécharger si il a
-	$sql = "SELECT url_dl,telecharger FROM ".$config['prefix']."download_fichier WHERE id='".$HTTP_POST_VARS['for']."' LIMIT 1";
+	$sql = "SELECT url_dl,telecharger FROM ".$config['prefix']."download_fichier WHERE id='".$_POST['for']."' LIMIT 1";
 	if (! $get_nfo_dll = $rsql->requete_sql($sql) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	$for_nfo = $rsql->s_array($get_nfo_dll);
 	$for_nfo['telecharger']++;
-	$sql = "UPDATE `".$config['prefix']."download_fichier` SET telecharger='".$for_nfo['telecharger']."' WHERE id ='".$HTTP_POST_VARS['for']."'";
+	$sql = "UPDATE `".$config['prefix']."download_fichier` SET telecharger='".$for_nfo['telecharger']."' WHERE id ='".$_POST['for']."'";
 	if (! $rsql->requete_sql($sql) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	redirection($for_nfo['url_dl']);
 }
-if ( !empty($HTTP_POST_VARS['send_vote']) )
+if ( !empty($_POST['send_vote']) )
 {//on envois le resultat du vote
-	$sql = "SELECT nombre_de_vote,cote FROM ".$config['prefix']."download_fichier WHERE id='".$HTTP_POST_VARS['for']."' LIMIT 1";
+	$sql = "SELECT nombre_de_vote,cote FROM ".$config['prefix']."download_fichier WHERE id='".$_POST['for']."' LIMIT 1";
 	if (! $get_nfo_vote = $rsql->requete_sql($sql) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	$for_nfo = $rsql->s_array($get_nfo_vote);
 	$nbr = $for_nfo['nombre_de_vote']+1;
-	$plus_nombre =$for_nfo['cote']+$HTTP_POST_VARS['select'];
-	$sql = "UPDATE `".$config['prefix']."download_fichier` SET nombre_de_vote='".$nbr."', cote='".$plus_nombre."' WHERE id ='".$HTTP_POST_VARS['for']."'";
+	$plus_nombre =$for_nfo['cote']+$_POST['select'];
+	$sql = "UPDATE `".$config['prefix']."download_fichier` SET nombre_de_vote='".$nbr."', cote='".$plus_nombre."' WHERE id ='".$_POST['for']."'";
 	if (! $rsql->requete_sql($sql) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -48,18 +48,18 @@ $template->assign_vars(array(
 	'TOP_10_DEF' => $langue['download_top_10_def'],
 	'NOM_CLAN_ADV' => $langue['nom_clan_opose'],
 ));
-if ( !empty($HTTP_POST_VARS['voter']) )
+if ( !empty($_POST['voter']) )
 {// on lui donne le formulaire pour voter
 	$template->assign_block_vars('voter', array( 
 		'TITRE_VOTRE' => $langue['titre_defier'],
 		'VOTE_EXPLICATION' => $langue['download_vote_explication'],
 		'ENVOYER' => $langue['download_vote_envoyer'],
-		'FOR' => $HTTP_POST_VARS['for'],
+		'FOR' => $_POST['for'],
 	));
 }
 else
 {
-	if( empty($HTTP_POST_VARS['action']) )
+	if( empty($_POST['action']) )
 	{// on affiche les groups de téléchargement
 		$template->assign_block_vars('tete', array("vide" => "vide"));
 		$sql = "SELECT groups.*, COUNT(fichiers.id_rep) FROM `".$config['prefix']."download_groupe` AS groups LEFT JOIN `".$config['prefix']."download_fichier` AS fichiers ON groups.id = fichiers.id_rep GROUP BY groups.id";
@@ -77,29 +77,29 @@ else
 		
 		}
 	}
-	if (!empty($HTTP_GET_VARS['for_rep']) || !empty($HTTP_GET_VARS['top_dl']) )
+	if (!empty($_GET['for_rep']) || !empty($_GET['top_dl']) )
 	{// on fais la liste des fichiers du group
-		if ( !empty($HTTP_GET_VARS['for_rep']) )
+		if ( !empty($_GET['for_rep']) )
 		{
-			$template->assign_vars(array('FOR_REP' => $HTTP_GET_VARS['for_rep']));
-			$HTTP_GET_VARS['limite'] = (empty($HTTP_GET_VARS['limite']))? 0 : $HTTP_GET_VARS['limite'];
-			$total = get_nbr_objet('download_fichier', "id_rep ='".$HTTP_GET_VARS['for_rep']."'");
+			$template->assign_vars(array('FOR_REP' => $_GET['for_rep']));
+			$_GET['limite'] = (empty($_GET['limite']))? 0 : $_GET['limite'];
+			$total = get_nbr_objet('download_fichier', "id_rep ='".$_GET['for_rep']."'");
 		}
 		else
 		{
-			$HTTP_GET_VARS['for_rep'] = "";
+			$_GET['for_rep'] = "";
 		}
 		// on regarde si il a pas une régle de tri
-		if ( !empty($HTTP_GET_VARS['top_dl']) )
+		if ( !empty($_GET['top_dl']) )
 		{
-			if ( $HTTP_GET_VARS['top_dl'] == "nbr_dl" )
+			if ( $_GET['top_dl'] == "nbr_dl" )
 			{
 				$where = "ORDER BY telecharger DESC LIMIT 10";
 			}
 		}
 		else
 		{
-			$where = "WHERE id_rep ='".$HTTP_GET_VARS['for_rep']."' LIMIT ".$HTTP_GET_VARS['limite'].",".$config['objet_par_page'];
+			$where = "WHERE id_rep ='".$_GET['for_rep']."' LIMIT ".$_GET['limite'].",".$config['objet_par_page'];
 		}
 		$sql = "SELECT * FROM ".$config['prefix']."download_fichier ".$where;
 		if (! $resultat_actu = $rsql->requete_sql($sql) )
@@ -134,13 +134,13 @@ else
 				'COTE'  => $cote,
 				'DETAIL' => nl2br(bbcode($actuelle['info_en_plus'])),
 				'NB_TELECHARGER' => $actuelle['telecharger'],
-				'FOR_REP' => $HTTP_GET_VARS['for_rep'],
+				'FOR_REP' => $_GET['for_rep'],
 				'FOR' => $actuelle['id']
 			));
 		}
-		if ( !empty($HTTP_GET_VARS['for_rep']) )
+		if ( !empty($_GET['for_rep']) )
 		{
-			displayNextPreviousButtons($HTTP_GET_VARS['limite'],$total,"multi_page");
+			displayNextPreviousButtons($_GET['limite'],$total,"multi_page");
 		}
 	} 
 }

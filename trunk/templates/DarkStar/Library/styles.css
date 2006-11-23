@@ -1,7 +1,11 @@
 /* eviter des espace apres les formulaire et les liste */
-form, ul
+form
 {
 	margin: 0px;
+}
+ul
+{
+	margin-bottom : 0px;
 }
 
 /* eviter des ligne de couleur en dessou des images qui sont des liens */
@@ -47,6 +51,10 @@ input, textarea, select, option
 	background-color: #CDC9C9;
 	border: solid 1px #FFFFFF;
 	font-size:12px;
+}
+option
+{
+	text-align:center
 }
 input:focus, textarea:focus, select:focus, option:hover
 {
@@ -324,6 +332,23 @@ cadre qui prendra le titre et le contenu du module */
 	text-align : right;
 	width : 30%;
 	padding-right : 20px;
+}
+
+/* le cadre où sont les smilies */
+.smilies
+{
+	float: left;
+	width: 20%;
+	margin: 0px 5% 0px 5px;
+	padding: 2px;
+	background-color: #636363;
+	border: 1px solid black;
+}
+/* le cadre où on tape de grand message */
+.big_texte
+{
+	float : left;
+	width : 70%;
 }
 
 /* les liens */

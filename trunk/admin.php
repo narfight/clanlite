@@ -19,17 +19,22 @@ $template->assign_vars(array(
 	'LOGIN' => $langue['form_login'],
 	'SAVE' => $langue['save_code_login'],
 	'LOST' => $langue['lost_psw'],
+	'GOTO' => (empty($_GET['goto']))? '' : $_GET['goto'],
 	'ENVOYER' => $langue['envoyer'],
 ));
-if (empty($HTTP_GET_VARS['lost'])) 
+if (!empty($_GET['erreur'])) 
 {
-	if (!empty($HTTP_GET_VARS['erreur_news'])) 
+	switch($_GET['erreur'])
 	{
-		msg('info',$langue['non_active']);
-	}
-	if ( !empty($HTTP_GET_VARS['erreur']) && $HTTP_GET_VARS['erreur'] == 1 )
-	{
-		msg('info',$langue['code_login_incorrect']);
+		case 'news':
+			$template->assign_block_vars('erreur', array('TEXTE' => $langue['non_active']));
+		break;
+		case 'code_login':
+			$template->assign_block_vars('erreur', array('TEXTE' => $langue['code_login_incorrect']));
+		break;
+		case 'secu':
+			$template->assign_block_vars('erreur', array('TEXTE' => $langue['erreur_secu']));
+		break;
 	}
 }
 $template->pparse('body');

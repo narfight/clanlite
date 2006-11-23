@@ -9,35 +9,35 @@ include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
 // envoyer le formulaire rempli
-if ( !empty($HTTP_POST_VARS['envoyer']) )
+if ( !empty($_POST['envoyer']) )
 { 
-	if ( !empty($HTTP_POST_VARS['del_match']) )
+	if ( !empty($_POST['del_match']) )
 	{
 		// on enleve des listes des match
-		$sql = "DELETE FROM `".$config['prefix']."match` WHERE id ='".$HTTP_POST_VARS['id_match_del']."'";
+		$sql = "DELETE FROM `".$config['prefix']."match` WHERE id ='".$_POST['id_match_del']."'";
 		if (! ($rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
 		// on enleve les inscriptions pour le match
-		$sql = "DELETE FROM `".$config['prefix']."match_inscription` WHERE id_match ='".$HTTP_POST_VARS['id_match_del']."'";
+		$sql = "DELETE FROM `".$config['prefix']."match_inscription` WHERE id_match ='".$_POST['id_match_del']."'";
 		if (! ($rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
 	}
-	$date = mktime ( 1, 1, 1 ,$HTTP_POST_VARS['mm'] , $HTTP_POST_VARS['jj'] , $HTTP_POST_VARS['aaaa'] , 1 );
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$sql = "INSERT INTO `".$config['prefix']."match_rapport` (`date`, `section`, `contre`, `info`, `score_nous`, `score_eux`) VALUES ('".$date."', '".$HTTP_POST_VARS['section']."', '".$HTTP_POST_VARS['clan']."', '".$HTTP_POST_VARS['information']."', '".$HTTP_POST_VARS['score_clan']."', '".$HTTP_POST_VARS['score_mechant']."')"; 
+	$date = mktime ( 1, 1, 1 ,$_POST['mm'] , $_POST['jj'] , $_POST['aaaa'] , 1 );
+	$_POST = pure_var($_POST);
+	$sql = "INSERT INTO `".$config['prefix']."match_rapport` (`date`, `section`, `contre`, `info`, `score_nous`, `score_eux`) VALUES ('".$date."', '".$_POST['section']."', '".$_POST['clan']."', '".$_POST['information']."', '".$_POST['score_clan']."', '".$_POST['score_mechant']."')"; 
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	redirec_text("rapport.php", $langue['redirection_admin_rapport_match_add'], "admin");
 }
-if ( !empty($HTTP_POST_VARS['supprimer']) )
+if ( !empty($_POST['supprimer']) )
 {
-	$sql = "DELETE FROM `".$config['prefix']."match_rapport` WHERE id ='".$HTTP_POST_VARS['id']."'";
+	$sql = "DELETE FROM `".$config['prefix']."match_rapport` WHERE id ='".$_POST['id']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -45,11 +45,11 @@ if ( !empty($HTTP_POST_VARS['supprimer']) )
 	redirec_text("rapport.php", $langue['redirection_admin_rapport_match_dell'], "admin");
 }
 // envoyer le formulaire rempli pour editer
-if ( !empty($HTTP_POST_VARS['edit']) )
+if ( !empty($_POST['edit']) )
 {
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$date = mktime ( 1 , 1 , 1 , $HTTP_POST_VARS['mm'] , $HTTP_POST_VARS['jj'] , $HTTP_POST_VARS['aaaa'] , 1 );
-	$sql = "UPDATE `".$config['prefix']."match_rapport` SET `date`='".$date."', `section`='".$HTTP_POST_VARS['section']."', `contre`='".$HTTP_POST_VARS['clan']."', `info`='".$HTTP_POST_VARS['information']."', `score_nous`='".$HTTP_POST_VARS['score_clan']."', `score_eux`='".$HTTP_POST_VARS['score_mechant']."' WHERE id='".$HTTP_POST_VARS['for']."'";
+	$_POST = pure_var($_POST);
+	$date = mktime ( 1 , 1 , 1 , $_POST['mm'] , $_POST['jj'] , $_POST['aaaa'] , 1 );
+	$sql = "UPDATE `".$config['prefix']."match_rapport` SET `date`='".$date."', `section`='".$_POST['section']."', `contre`='".$_POST['clan']."', `info`='".$_POST['information']."', `score_nous`='".$_POST['score_clan']."', `score_eux`='".$_POST['score_mechant']."' WHERE id='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -59,8 +59,9 @@ if ( !empty($HTTP_POST_VARS['edit']) )
 include($root_path."conf/frame_admin.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'admin_rapport_match.tpl'));
+liste_smilies(true, '', 25);
 $template->assign_vars(array(
-	'ICI' => $HTTP_SERVER_VARS['PHP_SELF'],
+	'ICI' => $_SERVER['PHP_SELF'],
 	'TITRE' => $langue['titre_admin_rapport_match'],
 	'TITRE_GESTION' => $langue['titre_admin_rapport_match_gestion'],
 	'TITRE_LISTE' => $langue['titre_admin_rapport_match_list'],
@@ -89,10 +90,10 @@ while ( ($liste_match = $rsql->s_array($get)) )
 		'NOM_MATCH' => date("j/n/Y", $liste_match[1])." -- contre les ".$liste_match[3]
 	));
 }
-if ( !empty($HTTP_POST_VARS['importation']) )
+if ( !empty($_POST['importation']) )
 {
 	// on prend les info du match a importer
-	$sql = "SELECT * FROM ".$config['prefix']."match WHERE id='".$HTTP_POST_VARS['importation']."'";
+	$sql = "SELECT * FROM ".$config['prefix']."match WHERE id='".$_POST['importation']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -109,9 +110,9 @@ if ( !empty($HTTP_POST_VARS['importation']) )
 	));
 }
 // trouve les info a editer
-if ( !empty($HTTP_POST_VARS['editer']) )
+if ( !empty($_POST['editer']) )
 {
-	$sql = "SELECT * FROM ".$config['prefix']."match_rapport WHERE id ='".$HTTP_POST_VARS['id']."'";
+	$sql = "SELECT * FROM ".$config['prefix']."match_rapport WHERE id ='".$_POST['id']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);

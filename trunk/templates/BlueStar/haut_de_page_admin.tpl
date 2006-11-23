@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" id="ClanLite">
 <head>
-<link href="{PATH_ROOT}templates/BlueStar/Library/styles.css" rel="stylesheet" type="text/css">
-<LINK REL="SHORTCUT ICON" HREF="{PATH_ROOT}templates/BlueStar/images/favicon.gif">
+<link href="{PATH_ROOT}templates/BlueStar/Library/styles.css" rel="stylesheet" type="text/css" />
+<link rel="SHORTCUT icon" href="{PATH_ROOT}templates/BlueStar/images/favicon.gif" />
 <script type="text/javascript" src="{PATH_ROOT}templates/BlueStar/Library/lib.js"></script>
 {HEAD}
 <title>{TITRE_PAGE}</title>
@@ -40,6 +40,7 @@
 			<a href="{PATH_ROOT}administration/entrainements.php">{menu_admin.ENTRAINEMENT}</a><br />
 			<a href="{PATH_ROOT}administration/menu_boutton.php">{menu_admin.MENU_EDIT}</a><br />
 			<a href="{PATH_ROOT}administration/game_serveur.php">{menu_admin.GAME_SERVEUR}</a><br />
+			<a href="{PATH_ROOT}administration/mailiste.php">{menu_admin.MAILLINGLISTE}</a><br />
 			<a href="{PATH_ROOT}administration/liens.php">{menu_admin.LIENS}</a><br />
 			<a href="{PATH_ROOT}administration/section.php">{menu_admin.SECTION}</a><br />
 			<a href="{PATH_ROOT}administration/equipe.php">{menu_admin.EQUIPE}</a><br />

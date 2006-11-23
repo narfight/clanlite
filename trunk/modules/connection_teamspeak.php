@@ -46,28 +46,28 @@ if (defined('CL_AUTH'))
 	));
 	return;
 }
-if(!empty($HTTP_POST_VARS['teamspeak_connection_envois'])  )
+if(!empty($_POST['teamspeak_connection_envois'])  )
 {
-	$HTTP_POST_VARS['teamspeak_connection_envois'] = "";
+	$_POST['teamspeak_connection_envois'] = "";
 	$root_path = './../';
 	$action_membre= 'where_connection_ts';
 	include($root_path."conf/template.php");
 	include($root_path."conf/conf-php.php");
 	include($root_path."conf/frame.php");
 	$template->set_filenames(array('body_module' => 'divers_text.tpl'));
-	$login = (!empty($HTTP_POST_VARS['teamspeak_connection_login']))? $HTTP_POST_VARS['teamspeak_connection_login'] : "";
-	$code = (!empty($HTTP_POST_VARS['teamspeak_connection_code']))? $HTTP_POST_VARS['teamspeak_connection_code'] : "";
-	$channel = (!empty($HTTP_POST_VARS['teamspeak_connection_channel']))? $HTTP_POST_VARS['teamspeak_connection_channel'] : "";
-	$channel_code = (!empty($HTTP_POST_VARS['teamspeak_connection_channel_code']))? $HTTP_POST_VARS['teamspeak_connection_channel_code'] : "";
+	$login = (!empty($_POST['teamspeak_connection_login']))? $_POST['teamspeak_connection_login'] : "";
+	$code = (!empty($_POST['teamspeak_connection_code']))? $_POST['teamspeak_connection_code'] : "";
+	$channel = (!empty($_POST['teamspeak_connection_channel']))? $_POST['teamspeak_connection_channel'] : "";
+	$channel_code = (!empty($_POST['teamspeak_connection_channel_code']))? $_POST['teamspeak_connection_channel_code'] : "";
 	$template->assign_vars(array(
-		'TEXTE' => "<a href=\"teamspeak://".$HTTP_POST_VARS['teamspeak_connection_ip'].":".$HTTP_POST_VARS['teamspeak_connection_port']."/nickname=".$HTTP_POST_VARS['teamspeak_connection_name']."?loginname=".$login."?password=".$code."?channel=".$channel."?channelpassword=".$channel_code."\">Cliquez ici pour rejoindre le serveur vocal</a>",
+		'TEXTE' => "<a href=\"teamspeak://".$_POST['teamspeak_connection_ip'].":".$_POST['teamspeak_connection_port']."/nickname=".$_POST['teamspeak_connection_name']."?loginname=".$login."?password=".$code."?channel=".$channel."?channelpassword=".$channel_code."\">Cliquez ici pour rejoindre le serveur vocal</a>",
 		'TITRE' => "Connection au serveur Vocal"
 	));
 	$template->pparse('body_module');
 	include($root_path."conf/frame.php");
 	return;
 }
-if( !empty($HTTP_GET_VARS['config_modul_admin']) || !empty($HTTP_POST_VARS['Submit_connect_ts_module']) )
+if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_connect_ts_module']) )
 {
 	$root_path = './../';
 	$action_membre= 'where_module_connect_ts';
@@ -75,10 +75,10 @@ if( !empty($HTTP_GET_VARS['config_modul_admin']) || !empty($HTTP_POST_VARS['Subm
 	include($root_path."conf/template.php");
 	include($root_path."conf/conf-php.php");
 	include($root_path."controle/cook.php");
-	$id_module = (!empty($HTTP_POST_VARS['id_module']))? $HTTP_POST_VARS['id_module'] : $HTTP_GET_VARS['id_module'];
-	if ( !empty($HTTP_POST_VARS['Submit_connect_ts_module']) )
+	$id_module = (!empty($_POST['id_module']))? $_POST['id_module'] : $_GET['id_module'];
+	if ( !empty($_POST['Submit_connect_ts_module']) )
 	{
-		$sql = "UPDATE ".$config['prefix']."modules SET config='".$HTTP_POST_VARS['ip_vocal']."|!|".$HTTP_POST_VARS['port_vocal']."' WHERE id ='".$id_module."'";
+		$sql = "UPDATE ".$config['prefix']."modules SET config='".$_POST['ip_vocal']."|!|".$_POST['port_vocal']."' WHERE id ='".$id_module."'";
 		if (! ($rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);

@@ -16,10 +16,12 @@ if (defined('CL_AUTH'))
 
 	$rep=opendir($root_path.'templates');
 	$liste_tpl = '';
+	$nombre_tpl = 0;
 	while ($file = readdir($rep))
 	{
 		if (is_dir($root_path.'templates/'.$file) && $file != '..' && $file != '.' && $file != '')
 		{
+			$nombre_tpl++;
 			$select = ($config['skin'] == $file)? 'selected="selected"' : '' ;
 			$liste_tpl .= '<option value="'.$file.'" '.$select.'>'.$file.'</option>'."\n";
 		}
@@ -29,7 +31,7 @@ if (defined('CL_AUTH'))
 	{
 		$template->assign_block_vars("modules_".$modules['place'], array( 
 				'TITRE' => $modules['nom'],
-				'IN' => '<form method="post">'."\n".'<select name="change_tpl_perso" id="change_tpl_perso_module" onChange="this.form.submit();">'."\n".$liste_tpl."\n".'</select>'."\n".'</form>'
+				'IN' => '<form method="post" action="" style="text-align: center;">'."\n".'<select name="change_tpl_perso" id="change_tpl_perso_module" size="'.$nombre_tpl.'" onChange="this.form.submit();">'."\n".$liste_tpl."\n".'</select>'."\n".'</form>'
 		));
 	}
 }

@@ -7,12 +7,13 @@ $root_path = "../";
 if (file_exists($root_path."config.php"))
 {
 	include($root_path."config.php");
-	if (empty($HTTP_POST_VARS['readme']) && defined('CL_INSTALL'))
+	if (empty($_POST['readme']) && defined('CL_INSTALL'))
 	{//evite de relancer l'installation si il laisse le fichier en place
-		header("Location: ".$root_path."\n"); 
+		header("Location: ".$root_path."\n");
+		exit();
 	}
 }
-if (!empty($HTTP_POST_VARS['dl_config_php']))
+if (!empty($_POST['dl_config_php']))
 {
 	header("Content-Type: text/x-delimtext; name=\"config.php\"");
 	header("Content-disposition: attachment; filename=config.php");
@@ -21,12 +22,11 @@ if (!empty($HTTP_POST_VARS['dl_config_php']))
 	$contenu .= "// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]\n";
 	$contenu .= "// -------------------------------------------------------------\n";
 	$contenu .= "define('CL_INSTALL', true);\n";
-	$contenu .= "\$mysqlhost = '".$HTTP_POST_VARS['serveur_mysql']."';\n";
-	$contenu .= "\$login = '".$HTTP_POST_VARS['login_mysql']."';\n";
-	$contenu .= "\$password = '".$HTTP_POST_VARS['code_mysql']."';\n";
-	$contenu .= "\$base = '".$HTTP_POST_VARS['bd_mysql']."';\n";
-	$contenu .= "\$config['skin'] = 'BlueStar';\n";
-	$contenu .= "\$config['prefix'] = '".$HTTP_POST_VARS['prefix_mysql']."';\n";
+	$contenu .= "\$mysqlhost = '".$_POST['serveur_mysql']."';\n";
+	$contenu .= "\$login = '".$_POST['login_mysql']."';\n";
+	$contenu .= "\$password = '".$_POST['code_mysql']."';\n";
+	$contenu .= "\$base = '".$_POST['bd_mysql']."';\n";
+	$contenu .= "\$config['prefix'] = '".$_POST['prefix_mysql']."';\n";
 	$contenu .= "?>";
 	echo $contenu;
 	exit;
@@ -66,16 +66,11 @@ $rsql = new mysql();
       <div class="module_titre">Avancement</div> 
       <div class="module_cellule">
 	  	<ul>
-			<li><?php
-if(empty($HTTP_POST_VARS['readme']) && empty($HTTP_POST_VARS['connect_ftp']) && empty($HTTP_POST_VARS['install']) && empty($HTTP_POST_VARS['connect_mysql']) && empty($HTTP_POST_VARS['send_config'])) { echo "<b>[=]</b>"; } ?>Vérification</li>
-			<li><?php
-if(!empty($HTTP_POST_VARS['install'])) { echo "<b>[=]</b>"; } ?>Configuration</li>
-			<li><?php
-if(!empty($HTTP_POST_VARS['connect_mysql'])) { echo "<b>[=]</b>"; } ?>installation</li>
-			<li><?php
-if(!empty($HTTP_POST_VARS['send_config']) || !empty($HTTP_POST_VARS['connect_ftp'])) { echo "<b>[=]</b>"; } ?>place config.php</li>
-			<li><?php
-if(!empty($HTTP_POST_VARS['readme'])) { echo "<b>[=]</b>"; } ?>Note de fin</li>
+			<li><?php if(empty($_POST['readme']) && empty($_POST['connect_ftp']) && empty($_POST['install']) && empty($_POST['connect_mysql']) && empty($_POST['send_config'])) { echo "<b>[=]</b>"; } ?>Vérification</li>
+			<li><?php if(!empty($_POST['install'])) { echo "<b>[=]</b>"; } ?>Configuration</li>
+			<li><?php if(!empty($_POST['connect_mysql'])) { echo "<b>[=]</b>"; } ?>installation</li>
+			<li><?php if(!empty($_POST['send_config']) || !empty($_POST['connect_ftp'])) { echo "<b>[=]</b>"; } ?>place config.php</li>
+			<li><?php if(!empty($_POST['readme'])) { echo "<b>[=]</b>"; } ?>Note de fin</li>
 		</ul>
 	</div> 
       <div class="module_foot"></div> 
@@ -84,7 +79,7 @@ if(!empty($HTTP_POST_VARS['readme'])) { echo "<b>[=]</b>"; } ?>Note de fin</li>
 <div class="colonne_central_admin">
 <div class="big_cadre">
 <?php
-if (empty($HTTP_POST_VARS['readme']) && empty($HTTP_POST_VARS['connect_ftp']) && empty($HTTP_POST_VARS['install']) && empty($HTTP_POST_VARS['connect_mysql']) && empty($HTTP_POST_VARS['send_config']))//verif des droits d'ecriture
+if (empty($_POST['readme']) && empty($_POST['connect_ftp']) && empty($_POST['install']) && empty($_POST['connect_mysql']) && empty($_POST['send_config']))//verif des droits d'ecriture
 {
 	$can_mail = (function_exists('mail'))? "<span class=\"ok\">Possible</span>" : "<span class=\"erreur\">Désactivé</span>";
 	$good_version = (version_compare(phpversion(),'4.3.0') >= 0)? "<span class=\"ok\">version ".phpversion()." OK</span>" : "<span class=\"erreur\">version ".phpversion()." certainnes options risque de ne pas fonctionner correctement</span>";
@@ -121,14 +116,10 @@ if (empty($HTTP_POST_VARS['readme']) && empty($HTTP_POST_VARS['connect_ftp']) &&
 ?>
 <h1>Vérification</h1>
 <ul>
-  <li>Version du serveur PHP =< 4.3.0 : <b><?php
-echo $good_version ?></b></li>
-  <li>Enregistrement des erreurs : <b><?php
-echo $can_erreur_sql ?></b></li>
-  <li>droit d'ecriture sur le fichier de config : <b><?php
-echo $can_config ?></b></li>
-  <li>envois de mail : <b><?php
-echo $can_mail ?></b></li>
+  <li>Version du serveur PHP =< 4.3.0 : <b><?php echo $good_version ?></b></li>
+  <li>Enregistrement des erreurs : <b><?php echo $can_erreur_sql ?></b></li>
+  <li>droit d'ecriture sur le fichier de config : <b><?php echo $can_config ?></b></li>
+  <li>envois de mail : <b><?php echo $can_mail ?></b></li>
 </ul>
 <form action="install.php" method="post">
 <input name="retry" type="submit" value="Revérifier" />
@@ -136,49 +127,67 @@ echo $can_mail ?></b></li>
 </form>
 <?php
 }
-elseif (!empty($HTTP_POST_VARS['install']))
+elseif (!empty($_POST['install']))
 {?>
 <h1>Configuration</h1>
 <form action="install.php" method="post">
 <p>
 	<span><label for="serveur_mysql">Serveur&nbsp;:</label></span>
-	<span><input name="serveur_mysql" id="serveur_mysql" type="text" value="<?php
-echo (!empty($HTTP_POST_VARS['serveur_mysql']))? $HTTP_POST_VARS['serveur_mysql'] : "" ?>" /></span>
+	<span><input name="serveur_mysql" id="serveur_mysql" type="text" value="<?php echo (!empty($_POST['serveur_mysql']))? $_POST['serveur_mysql'] : "" ?>" /></span>
 </p>
 <p>
 	<span><label for="login_mysql">Login&nbsp;:</label></span>
-	<span><input name="login_mysql" id="login_mysql" type="text" value="<?php
-echo (!empty($HTTP_POST_VARS['login_mysql']))? $HTTP_POST_VARS['login_mysql'] : "" ?>" /></span>
+	<span><input name="login_mysql" id="login_mysql" type="text" value="<?php echo (!empty($_POST['login_mysql']))? $_POST['login_mysql'] : "" ?>" /></span>
 </p>
 <p>
 	<span><label for="code_mysql">Code&nbsp;:</label></span>
-	<span><input name="code_mysql" id="code_mysql" type="password" value="<?php
-echo (!empty($HTTP_POST_VARS['code_mysql']))? $HTTP_POST_VARS['code_mysql'] : "" ?>" /></span>
+	<span><input name="code_mysql" id="code_mysql" type="password" value="<?php echo (!empty($_POST['code_mysql']))? $_POST['code_mysql'] : "" ?>" /></span>
 </p>
 <p>
 	<span><label for="bd_mysql">Base de donnée&nbsp;:</label></span>
-	<span><input name="bd_mysql" id="bd_mysql" type="text" value="<?php
-echo (!empty($HTTP_POST_VARS['bd_mysql']))? $HTTP_POST_VARS['bd_mysql'] : "" ?>" /></span>
+	<span><input name="bd_mysql" id="bd_mysql" type="text" value="<?php echo (!empty($_POST['bd_mysql']))? $_POST['bd_mysql'] : "" ?>" /></span>
 </p>
 <p>
 	<span><label for="prefix_mysql">Préfix des tables&nbsp;:</label></span>
-	<span><input name="prefix_mysql" id="prefix_mysql" type="text" value="<?php
-echo (!empty($HTTP_POST_VARS['prefix_mysql']))? $HTTP_POST_VARS['prefix_mysql'] : "clanlite_" ?>" /></span>
+	<span><input name="prefix_mysql" id="prefix_mysql" type="text" value="<?php echo (!empty($_POST['prefix_mysql']))? $_POST['prefix_mysql'] : "clanlite_" ?>" /></span>
 </p>
 <p>
 	<span><label for="user_login">Login admin&nbsp;:</label></span>
-	<span><input name="user_login" id="user_login" type="text" value="<?php
-echo (!empty($HTTP_POST_VARS['user_login']))? $HTTP_POST_VARS['user_login'] : "" ?>" /></span>
+	<span><input name="user_login" id="user_login" type="text" value="<?php echo (!empty($_POST['user_login']))? $_POST['user_login'] : "" ?>" /></span>
 </p>
 <p>
 	<span><label for="user_code">Code admin&nbsp;:</label></span>
-	<span><input name="user_code" id="user_code" type="password" value="<?php
-echo (!empty($HTTP_POST_VARS['user_code']))? $HTTP_POST_VARS['user_code'] : "" ?>" /></span>
+	<span><input name="user_code" id="user_code" type="password" value="<?php echo (!empty($_POST['user_code']))? $_POST['user_code'] : "" ?>" /></span>
 </p>
 <p>
 	<span><label for="user_mail">Mail admin&nbsp;:</label></span>
-	<span><input name="user_mail" id="user_mail" type="text" value="<?php
-echo (!empty($HTTP_POST_VARS['user_mail']))? $HTTP_POST_VARS['user_mail'] : "" ?>" /></span>
+	<span><input name="user_mail" id="user_mail" type="text" value="<?php echo (!empty($_POST['user_mail']))? $_POST['user_mail'] : "" ?>" /></span>
+</p>
+<p>
+	<span><label for="skin">Skin du portail&nbsp;:</label></span>
+	<span>
+			<select name="skin" id="skin">
+<?php
+$dir = "../templates/";
+// Ouvre un dossier bien connu, et liste tous les fichiers
+if (is_dir($dir))
+{
+	if ($dh = opendir($dir))
+	{
+		while (($file = readdir($dh)) !== false)
+		{
+			if($file != '..' && $file !='.' && $file !='' && is_dir($dir.$file))
+			{ 
+				$selected = ($_POST['skin'] == $file) ? 'selected="selected"' : '';
+				echo '				<option value="'.$file.'" '.$selected.'>'.$file.'</option>'."\n";
+			}
+		}
+		closedir($dh);
+	}
+}
+?>
+			</select>
+	</span>
 </p>
 <p>
 	<span>
@@ -188,28 +197,28 @@ echo (!empty($HTTP_POST_VARS['user_mail']))? $HTTP_POST_VARS['user_mail'] : "" ?
 </form>
 <?php
 }
-elseif (!empty($HTTP_POST_VARS['connect_mysql']))
+elseif (!empty($_POST['connect_mysql']))
 {
-	$connection = $rsql->mysql_connection($HTTP_POST_VARS['serveur_mysql'], $HTTP_POST_VARS['login_mysql'], $HTTP_POST_VARS['code_mysql'], $HTTP_POST_VARS['bd_mysql']);
+	$connection = $rsql->mysql_connection($_POST['serveur_mysql'], $_POST['login_mysql'], $_POST['code_mysql'], $_POST['bd_mysql']);
 	$connection_txt = "<span class=\"ok\">Connecté au serveur</span>";
 	if ($connection != "true")
 	{
 		$connection_txt = "<span class=\"erreur\">Erreur à la connection (".$connection.")</span><form action=\"install.php\" method=\"post\">
-		<input name=\"serveur_mysql\" type=\"hidden\" id=\"serveur_mysql\" value=\"".$HTTP_POST_VARS['serveur_mysql']."\" />
-		<input name=\"prefix_mysql\" type=\"hidden\" id=\"sprefix_mysql\" value=\"".$HTTP_POST_VARS['prefix_mysql']."\" />
-		<input name=\"login_mysql\" type=\"hidden\" id=\"login_mysql\" value=\"".$HTTP_POST_VARS['login_mysql']."\" />
-		<input name=\"code_mysql\" type=\"hidden\" id=\"code_mysql\" value=\"".$HTTP_POST_VARS['code_mysql']."\" />
-		<input name=\"bd_mysql\" type=\"hidden\" id=\"bd_mysql\" value=\"".$HTTP_POST_VARS['bd_mysql']."\" />
-		<input name=\"user_login\" type=\"hidden\" id=\"user_login\" value=\"".$HTTP_POST_VARS['user_login']."\" />
-		<input name=\"user_code\" type=\"hidden\" id=\"user_code\" value=\"".$HTTP_POST_VARS['user_code']."\" />
-		<input name=\"user_mail\" type=\"hidden\" id=\"user_mail\" value=\"".$HTTP_POST_VARS['user_mail']."\" />
+		<input name=\"serveur_mysql\" type=\"hidden\" id=\"serveur_mysql\" value=\"".$_POST['serveur_mysql']."\" />
+		<input name=\"prefix_mysql\" type=\"hidden\" id=\"sprefix_mysql\" value=\"".$_POST['prefix_mysql']."\" />
+		<input name=\"login_mysql\" type=\"hidden\" id=\"login_mysql\" value=\"".$_POST['login_mysql']."\" />
+		<input name=\"code_mysql\" type=\"hidden\" id=\"code_mysql\" value=\"".$_POST['code_mysql']."\" />
+		<input name=\"bd_mysql\" type=\"hidden\" id=\"bd_mysql\" value=\"".$_POST['bd_mysql']."\" />
+		<input name=\"user_login\" type=\"hidden\" id=\"user_login\" value=\"".$_POST['user_login']."\" />
+		<input name=\"user_code\" type=\"hidden\" id=\"user_code\" value=\"".$_POST['user_code']."\" />
+		<input name=\"user_mail\" type=\"hidden\" id=\"user_mail\" value=\"".$_POST['user_mail']."\" />
+		<input name=\"skin\" type=\"hidden\" id=\"skin\" value=\"".$_POST['skin']."\" />
 		<input type=\"submit\" name=\"install\" value=\"Reconfigurer la connection\" /></form>";
 	}
 ?>
 <h1>Connection et installation</h1>
 <ul>
-	<li>Connection à Mysql : <?php
-echo $connection_txt ?></li>
+	<li>Connection à Mysql : <?php echo $connection_txt ?></li>
 <?php
 if ($connection == "true")
 { 
@@ -226,7 +235,7 @@ if ($connection == "true")
 	$log_erreur_structure = true;
 	foreach($rsql_array as $nom_db => $exec_db)
 	{
-		$nom_db = str_replace("clanlite_", $HTTP_POST_VARS['prefix_mysql'], $nom_db);
+		$nom_db = str_replace("clanlite_", $_POST['prefix_mysql'], $nom_db);
 		if( ($rsql->requete_sql("CREATE TABLE `".$nom_db."`".$exec_db)) )
 		{
 			$show_table_install[$nombre]['result'] = "<span class=\"ok\">Installé correctement</span>";
@@ -236,7 +245,7 @@ if ($connection == "true")
 			$show_table_install[$nombre]['result'] = "<span class=\"erreur\">Erreur (".$rsql->error.")</span>";
 			$log_erreur_structure = false;
 		}
-		$show_table_install[$nombre]['table'] = str_replace("clanlite_", $HTTP_POST_VARS['prefix_mysql'], $nom_db);
+		$show_table_install[$nombre]['table'] = str_replace("clanlite_", $_POST['prefix_mysql'], $nom_db);
 		$nombre++;
 	}
 	unset($rsql_array,$nombre);
@@ -248,13 +257,13 @@ if ($connection == "true")
 	$get_rsql = preg_replace('#INSERT INTO ([a-zA-Z0-9_-é]*) VALUES \((.*)\);#i', '$rsql_array[\'$2\'] = \'$1\';', $get_rsql);
 	eval($get_rsql);
 	// ajoute l'administrateur
-	$rsql_array["'', '', '".$HTTP_POST_VARS['user_login']."', '".$HTTP_POST_VARS['user_mail']."', '', MD5('".$HTTP_POST_VARS['user_code']."'), 'admin', '', '0', '', '', '0', '', '', '0', '', '', '', '0', '', '0', '', '', 'francais'"] = 'clanlite_user';
+	$rsql_array["'', '', '".$_POST['user_login']."', '".$_POST['user_mail']."', '', MD5('".$_POST['user_code']."'), 'admin', '', '0', '', '', '0', '', '', '0', '', '', '', '0', '', '0', '', '', 'francais'"] = 'clanlite_user';
 	$nombre = 0;
 	$log_erreur_données = true;
 	foreach($rsql_array as $exec_db => $nom_db)
 	{
 		$exec_db = str_replace("&#0R389 ;", "\'", $exec_db);
-		$nom_db = str_replace("clanlite_", $HTTP_POST_VARS['prefix_mysql'], $nom_db);
+		$nom_db = str_replace("clanlite_", $_POST['prefix_mysql'], $nom_db);
 		if( ($rsql->requete_sql("INSERT INTO ".$nom_db." VALUES (".$exec_db.")")) )
 		{
 			$show_exec_install[$nombre]['result'] = "<span class=\"ok\">Installé correctement</span>";
@@ -264,7 +273,7 @@ if ($connection == "true")
 			$show_exec_install[$nombre]['result'] = "<span class=\"erreur\">Erreur (".$rsql->error.")</span>";
 			$log_erreur_données = false;
 		}
-		$show_exec_install[$nombre]['table'] = str_replace("clanlite_", $HTTP_POST_VARS['prefix_mysql'], $nom_db);
+		$show_exec_install[$nombre]['table'] = str_replace("clanlite_", $_POST['prefix_mysql'], $nom_db);
 		$nombre++;
 	}
 	unset($rsql_array,$nombre);
@@ -272,15 +281,16 @@ if ($connection == "true")
 	$log_erreur_config_min = true;
 	$nombre = 0;
 	$rsql_array = array(
-		'site_domain' => 'http://'.$HTTP_SERVER_VARS['HTTP_HOST'],
-		'site_path' => str_replace('install', '', dirname($HTTP_SERVER_VARS['PHP_SELF'])),
+		'site_domain' => 'http://'.$_SERVER['HTTP_HOST'],
+		'site_path' => str_replace('install', '', dirname($_SERVER['PHP_SELF'])),
 		'compteur' => 0,
 		'nbr_membre' => 1,
-		'master_mail' => $HTTP_POST_VARS['user_mail'],
+		'master_mail' => $_POST['user_mail'],
+		'skin' => $_POST['skin'],
 	);
 	foreach($rsql_array as $nom_var => $exec_db)
 	{
-		if( ($rsql->requete_sql("UPDATE ".$HTTP_POST_VARS['prefix_mysql'].'config SET conf_valeur=\''.$exec_db.'\' WHERE conf_nom=\''.$nom_var.'\'')) )
+		if( ($rsql->requete_sql("UPDATE ".$_POST['prefix_mysql'].'config SET conf_valeur=\''.$exec_db.'\' WHERE conf_nom=\''.$nom_var.'\'')) )
 		{
 			$show_config_min[$nombre]['result'] = "<span class=\"ok\">Installé correctement</span>";
 		}
@@ -324,40 +334,32 @@ foreach($show_config_min as $id => $info)
 } ?>
 	</ul>
 	<form action="install.php" method="post">
-	<input name="serveur_mysql" type="hidden" id="serveur_mysql" value="<?php
-echo $HTTP_POST_VARS['serveur_mysql'] ?>" />
-	<input name="prefix_mysql" type="hidden" id="sprefix_mysql" value="<?php
-echo $HTTP_POST_VARS['prefix_mysql'] ?>" />
-	<input name="login_mysql" type="hidden" id="login_mysql" value="<?php
-echo $HTTP_POST_VARS['login_mysql'] ?>" />
-	<input name="code_mysql" type="hidden" id="code_mysql" value="<?php
-echo $HTTP_POST_VARS['code_mysql'] ?>" />
-	<input name="bd_mysql" type="hidden" id="bd_mysql" value="<?php
-echo $HTTP_POST_VARS['bd_mysql'] ?>" />
-	<input name="user_login" type="hidden" id="user_login" value="<?php
-echo $HTTP_POST_VARS['user_login'] ?>" />
-	<input name="user_code" type="hidden" id="user_code" value="<?php
-echo $HTTP_POST_VARS['user_code'] ?>" />
-	<input name="user_mail" type="hidden" id="user_mail" value="<?php
-echo $HTTP_POST_VARS['user_mail'] ?>" />
+	<input name="serveur_mysql" type="hidden" id="serveur_mysql" value="<?php echo $_POST['serveur_mysql'] ?>" />
+	<input name="prefix_mysql" type="hidden" id="sprefix_mysql" value="<?php echo $_POST['prefix_mysql'] ?>" />
+	<input name="login_mysql" type="hidden" id="login_mysql" value="<?php echo $_POST['login_mysql'] ?>" />
+	<input name="code_mysql" type="hidden" id="code_mysql" value="<?php echo $_POST['code_mysql'] ?>" />
+	<input name="bd_mysql" type="hidden" id="bd_mysql" value="<?php echo $_POST['bd_mysql'] ?>" />
+	<input name="user_login" type="hidden" id="user_login" value="<?php echo $_POST['user_login'] ?>" />
+	<input name="user_code" type="hidden" id="user_code" value="<?php echo $_POST['user_code'] ?>" />
+	<input name="user_mail" type="hidden" id="user_mail" value="<?php echo $_POST['user_mail'] ?>" />
+	<input name="skin" type="hidden" id="skin" value="<?php echo $_POST['skin'] ?>" />
 	<input type="submit" name="send_config" value="Continuer l'installation" /></form>
 <?php
 }
-if (!empty($HTTP_POST_VARS['send_config']) || !empty($HTTP_POST_VARS['connect_ftp']))
+if (!empty($_POST['send_config']) || !empty($_POST['connect_ftp']))
 {
 	$contenu = "<?php
 \n";
 	$contenu .= "define('CL_INSTALL', true);\n";
-	$contenu .= "\$mysqlhost = '".$HTTP_POST_VARS['serveur_mysql']."';\n";
-	$contenu .= "\$login = '".$HTTP_POST_VARS['login_mysql']."';\n";
-	$contenu .= "\$password = '".$HTTP_POST_VARS['code_mysql']."';\n";
-	$contenu .= "\$base = '".$HTTP_POST_VARS['bd_mysql']."';\n";
-	$contenu .= "\$config['skin'] = 'BlueStar';\n";
-	$contenu .= "\$config['prefix'] = '".$HTTP_POST_VARS['prefix_mysql']."';\n";
+	$contenu .= "\$mysqlhost = '".$_POST['serveur_mysql']."';\n";
+	$contenu .= "\$login = '".$_POST['login_mysql']."';\n";
+	$contenu .= "\$password = '".$_POST['code_mysql']."';\n";
+	$contenu .= "\$base = '".$_POST['bd_mysql']."';\n";
+	$contenu .= "\$config['prefix'] = '".$_POST['prefix_mysql']."';\n";
 	$contenu .= "?".">";
 	//tentative de création du fichier ou simplement l'ouverture
 	$ftp_result = "";
-	if (empty($HTTP_POST_VARS['connect_ftp']))
+	if (empty($_POST['connect_ftp']))
 	{
 		if(!$open_fichier = @fopen($root_path."config.php", 'w'))
 		{
@@ -383,13 +385,13 @@ if (!empty($HTTP_POST_VARS['send_config']) || !empty($HTTP_POST_VARS['connect_ft
 	else
 	{
 		$config_result = "<span class=\"annulé\">Annulé, transfert par FTP</span>";
-		if($conn_id = @ftp_connect($HTTP_POST_VARS['ip_ftp'], $HTTP_POST_VARS['port_ftp'], 10))
+		if($conn_id = @ftp_connect($_POST['ip_ftp'], $_POST['port_ftp'], 10))
 		{
-			if (@ftp_login($conn_id, $HTTP_POST_VARS['login_ftp'], $HTTP_POST_VARS['code_ftp']))
+			if (@ftp_login($conn_id, $_POST['login_ftp'], $_POST['code_ftp']))
 			{
 				//remplace le timeout de 90s a 10s
 				@ftp_set_option($conn_id, FTP_TIMEOUT_SEC, 10);
-				if (@ftp_chdir($conn_id, $HTTP_POST_VARS['rep_ftp']))
+				if (@ftp_chdir($conn_id, $_POST['rep_ftp']))
 				{
 					if (@ftp_put($conn_id, 'config.php', $contenu, FTP_ASCII))
 					{
@@ -423,27 +425,18 @@ if (!empty($HTTP_POST_VARS['send_config']) || !empty($HTTP_POST_VARS['connect_ft
 	}
 	?><h1>Placement du fichier config.php</h1>
 <ul>
-	<li>Mise en place automatique : <?php
-echo $config_result ?></li>	
-	<li>Mise en place par FTP : <?php
-echo $ftp_result ?></li>	
+	<li>Mise en place automatique : <?php echo $config_result ?></li>	
+	<li>Mise en place par FTP : <?php echo $ftp_result ?></li>	
 	<li>Télécharger et uploader manuellement : 	<form action="install.php" method="post">
-	<input name="serveur_mysql" type="hidden" id="serveur_mysql" value="<?php
-echo $HTTP_POST_VARS['serveur_mysql'] ?>" />
-	<input name="prefix_mysql" type="hidden" id="sprefix_mysql" value="<?php
-echo $HTTP_POST_VARS['prefix_mysql'] ?>" />
-	<input name="login_mysql" type="hidden" id="login_mysql" value="<?php
-echo $HTTP_POST_VARS['login_mysql'] ?>" />
-	<input name="code_mysql" type="hidden" id="code_mysql" value="<?php
-echo $HTTP_POST_VARS['code_mysql'] ?>" />
-	<input name="bd_mysql" type="hidden" id="bd_mysql" value="<?php
-echo $HTTP_POST_VARS['bd_mysql'] ?>" />
-	<input name="user_login" type="hidden" id="user_login" value="<?php
-echo $HTTP_POST_VARS['user_login'] ?>" />
-	<input name="user_code" type="hidden" id="user_code" value="<?php
-echo $HTTP_POST_VARS['user_code'] ?>" />
-	<input name="user_mail" type="hidden" id="user_mail" value="<?php
-echo $HTTP_POST_VARS['user_mail'] ?>" />
+	<input name="serveur_mysql" type="hidden" id="serveur_mysql" value="<?php echo $_POST['serveur_mysql'] ?>" />
+	<input name="prefix_mysql" type="hidden" id="sprefix_mysql" value="<?php echo $_POST['prefix_mysql'] ?>" />
+	<input name="login_mysql" type="hidden" id="login_mysql" value="<?php echo $_POST['login_mysql'] ?>" />
+	<input name="code_mysql" type="hidden" id="code_mysql" value="<?php echo $_POST['code_mysql'] ?>" />
+	<input name="bd_mysql" type="hidden" id="bd_mysql" value="<?php echo $_POST['bd_mysql'] ?>" />
+	<input name="user_login" type="hidden" id="user_login" value="<?php echo $_POST['user_login'] ?>" />
+	<input name="user_code" type="hidden" id="user_code" value="<?php echo $_POST['user_code'] ?>" />
+	<input name="user_mail" type="hidden" id="user_mail" value="<?php echo $_POST['user_mail'] ?>" />
+	<input name="skin" type="hidden" id="skin" value="<?php echo $_POST['skin'] ?>" />
 	<input type="submit" name="dl_config_php" value="Télécharger config.php" /></form>
 </li>	
 </ul><?php
@@ -456,47 +449,35 @@ if (!$config_result_b)
 				Comme l'autocréation du fichier de configuration a échoé, vous pouvez envoyer automatiquement envoyer le fichier par FTP depuis l'installation. Nous avons alors besoins de quelque information
 				<p>
 					<span><label for="login_ftp">Login&nbsp;:</label></span>
-					<span><input name="login_ftp" id="login_ftp" type="text" value="<?php
-echo (!empty($HTTP_POST_VARS['login_ftp']))? $HTTP_POST_VARS['login_ftp'] : "" ?>" /></span>
+					<span><input name="login_ftp" id="login_ftp" type="text" value="<?php echo (!empty($_POST['login_ftp']))? $_POST['login_ftp'] : "" ?>" /></span>
 				</p>
 				<p>
 					<span><label for="code_ftp">Password&nbsp;:</label></span>
-					<span><input name="code_ftp" id="code_ftp" type="text" value="<?php
-echo (!empty($HTTP_POST_VARS['code_ftp']))? $HTTP_POST_VARS['code_ftp'] : "" ?>" /></span>
+					<span><input name="code_ftp" id="code_ftp" type="text" value="<?php echo (!empty($_POST['code_ftp']))? $_POST['code_ftp'] : "" ?>" /></span>
 				</p>
 				<p>
 					<span><label for="ip_ftp">Adresse IP&nbsp;:</label></span>
-					<span><input name="ip_ftp" id="ip_ftp" type="text" value="<?php
-echo (!empty($HTTP_POST_VARS['ip_ftp']))? $HTTP_POST_VARS['ip_ftp'] : "" ?>" /></span>
+					<span><input name="ip_ftp" id="ip_ftp" type="text" value="<?php echo (!empty($_POST['ip_ftp']))? $_POST['ip_ftp'] : "" ?>" /></span>
 				</p>
 				<p>
 					<span><label for="port_ftp">Port&nbsp;:</label></span>
-					<span><input name="port_ftp" id="port_ftp" type="text" value="<?php
-echo (!empty($HTTP_POST_VARS['port_ftp']))? $HTTP_POST_VARS['port_ftp'] : "21" ?>" /></span>
+					<span><input name="port_ftp" id="port_ftp" type="text" value="<?php echo (!empty($_POST['port_ftp']))? $_POST['port_ftp'] : "21" ?>" /></span>
 				</p>
 				<p>
 					<span><label for="rep_ftp">Répertoire d'installation de ClanLite&nbsp;:</label></span>
-					<span><input name="rep_ftp" id="rep_ftp" type="text" value="<?php
-echo (!empty($HTTP_POST_VARS['rep_ftp']))? $HTTP_POST_VARS['rep_ftp'] : str_replace('install', '', dirname($HTTP_SERVER_VARS['PHP_SELF'])) ?>" /></span>
+					<span><input name="rep_ftp" id="rep_ftp" type="text" value="<?php echo (!empty($_POST['rep_ftp']))? $_POST['rep_ftp'] : str_replace('install', '', dirname($_SERVER['PHP_SELF'])) ?>" /></span>
 				</p>
 				<p>
 					<span>
-						<input name="serveur_mysql" type="hidden" id="serveur_mysql" value="<?php
-echo $HTTP_POST_VARS['serveur_mysql'] ?>" />
-						<input name="prefix_mysql" type="hidden" id="sprefix_mysql" value="<?php
-echo $HTTP_POST_VARS['prefix_mysql'] ?>" />
-						<input name="login_mysql" type="hidden" id="login_mysql" value="<?php
-echo $HTTP_POST_VARS['login_mysql'] ?>" />
-						<input name="code_mysql" type="hidden" id="code_mysql" value="<?php
-echo $HTTP_POST_VARS['code_mysql'] ?>" />
-						<input name="bd_mysql" type="hidden" id="bd_mysql" value="<?php
-echo $HTTP_POST_VARS['bd_mysql'] ?>" />
-						<input name="user_login" type="hidden" id="user_login" value="<?php
-echo $HTTP_POST_VARS['user_login'] ?>" />
-						<input name="user_code" type="hidden" id="user_code" value="<?php
-echo $HTTP_POST_VARS['user_code'] ?>" />
-						<input name="user_mail" type="hidden" id="user_mail" value="<?php
-echo $HTTP_POST_VARS['user_mail'] ?>" />
+						<input name="serveur_mysql" type="hidden" id="serveur_mysql" value="<?php echo $_POST['serveur_mysql'] ?>" />
+						<input name="prefix_mysql" type="hidden" id="sprefix_mysql" value="<?php echo $_POST['prefix_mysql'] ?>" />
+						<input name="login_mysql" type="hidden" id="login_mysql" value="<?php echo $_POST['login_mysql'] ?>" />
+						<input name="code_mysql" type="hidden" id="code_mysql" value="<?php echo $_POST['code_mysql'] ?>" />
+						<input name="bd_mysql" type="hidden" id="bd_mysql" value="<?php echo $_POST['bd_mysql'] ?>" />
+						<input name="user_login" type="hidden" id="user_login" value="<?php echo $_POST['user_login'] ?>" />
+						<input name="user_code" type="hidden" id="user_code" value="<?php echo $_POST['user_code'] ?>" />
+						<input name="user_mail" type="hidden" id="user_mail" value="<?php echo $_POST['user_mail'] ?>" />
+						<input name="skin" type="hidden" id="skin" value="<?php echo $_POST['skin'] ?>" />
 						<input type="submit" name="connect_ftp" value="Envoyer" />
 					</span>
 				</p>
@@ -507,7 +488,7 @@ echo $HTTP_POST_VARS['user_mail'] ?>" />
 <?php
 }
 }
-if (!empty($HTTP_POST_VARS['readme']))
+if (!empty($_POST['readme']))
 {
 	if (!defined('CL_INSTALL'))
 	{// le fichier config.php est pas bien placé ?>

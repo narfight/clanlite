@@ -17,7 +17,22 @@
 			</p>
 			<p>
 				<span><label for="information">{TXT}&nbsp;:</label></span>
-				<span><textarea name="information" id="information" cols="40" rows="5" onBlur="formverif(this.id,'nbr','3')">{INFO_FICHIER}</textarea></span>
+			</p>
+			<p>
+				<div class="smilies">
+					<!-- BEGIN poste_smilies_liste -->
+					<a href="javascript:emoticon('{poste_smilies_liste.TXT}','information')"><img src="{poste_smilies_liste.IMG}" alt="{poste_smilies_liste.ALT}" width="{poste_smilies_liste.WIDTH}"  height="{poste_smilies_liste.HEIGHT}" /></a>
+					<!-- BEGIN more -->
+					<a href="javascript:toggle_msg('smilies_more_fichier', '', '')">{poste_smilies_liste.more.MORE_SMILIES}</a>
+					<div id="smilies_more_fichier" style="display: none;">
+						<!-- BEGIN liste -->
+						<a href="javascript:emoticon('{poste_smilies_liste.more.liste.TXT}','information')"><img src="{poste_smilies_liste.more.liste.IMG}" alt="{poste_smilies_liste.more.liste.ALT}" width="{poste_smilies_liste.more.liste.WIDTH}"  height="{poste_smilies_liste.more.liste.HEIGHT}" /></a>
+						<!-- END liste -->
+					</div>
+					<!-- END more -->
+					<!-- END poste_smilies_liste -->
+				</div>
+				<div class="big_texte"><textarea name="information" cols="40" rows="10" id="information" onBlur="formverif(this.id,'nbr','10')">{INFO_FICHIER}</textarea></div>
 			</p>
 			<p>
 				<span><label for="groupe">{TXT_GROUP}&nbsp;:</label></span>
@@ -52,7 +67,22 @@
 			</p>
 			<p>
 				<span><label for="information">{TXT}&nbsp;:</label></span>
-				<span><textarea name="information_group" id="information_group" cols="40" rows="5" onBlur="formverif(this.id,'nbr','3')">{INFO_GROUP}</textarea></span>
+			</p>
+			<p>
+				<div class="smilies">
+					<!-- BEGIN poste_smilies_liste -->
+					<a href="javascript:emoticon('{poste_smilies_liste.TXT}','information_group')"><img src="{poste_smilies_liste.IMG}" alt="{poste_smilies_liste.ALT}" width="{poste_smilies_liste.WIDTH}"  height="{poste_smilies_liste.HEIGHT}" /></a>
+					<!-- BEGIN more -->
+					<a href="javascript:toggle_msg('smilies_more_group', '', '')">{poste_smilies_liste.more.MORE_SMILIES}</a>
+					<div id="smilies_more_group" style="display: none;">
+						<!-- BEGIN liste -->
+						<a href="javascript:emoticon('{poste_smilies_liste.more.liste.TXT}','information_group')"><img src="{poste_smilies_liste.more.liste.IMG}" alt="{poste_smilies_liste.more.liste.ALT}" width="{poste_smilies_liste.more.liste.WIDTH}"  height="{poste_smilies_liste.more.liste.HEIGHT}" /></a>
+						<!-- END liste -->
+					</div>
+					<!-- END more -->
+					<!-- END poste_smilies_liste -->
+				</div>
+				<div class="big_texte"><textarea name="information_group" cols="40" rows="10" id="information_group" onBlur="formverif(this.id,'nbr','10')">{INFO_GROUP}</textarea></div>
 			</p>
 			<p>
 				<span>

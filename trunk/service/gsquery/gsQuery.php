@@ -1,7 +1,4 @@
 <?php
-// -------------------------------------------------------------
-// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
-// -------------------------------------------------------------
 
 /*
  *  gsQuery - Querys game servers
@@ -42,7 +39,7 @@
 /**
  * @brief Abstract gsQuery base class
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: gsQuery.php,v 1.20 2004/03/14 14:54:46 jr Exp $
+ * @version $Id: gsQuery.php,v 1.23 2004/03/30 09:29:25 jr Exp $
  *
  * <p>The gsQuery package has one class for each protocol or game.
  * This class is abstract but due to the lack of real OO
@@ -175,7 +172,7 @@ class gsQuery
    */
   function gsQuery($address, $queryport)
   {
-    $this->version = ereg_replace("[^0-9\\.]", "", "$Revision: 1.20 $");
+    $this->version = ereg_replace("[^0-9\\.]", "", "\$Revision: 1.23 $");
     
     $this->address = $address;
     $this->queryport = $queryport;
@@ -299,6 +296,7 @@ global $root_path;
    */
   function query_server($getPlayers=TRUE,$getRules=TRUE)
   {       
+
     return FALSE;
   }
     
@@ -343,7 +341,7 @@ global $root_path;
   /**
    * @brief htmlizes the given raw string
    *
-   * @param a raw string from the gameserver that might contain special chars
+   * @param string a raw string from the gameserver that might contain special chars
    * @return a html version of the given string
    */
   function htmlize($string) {
@@ -400,7 +398,7 @@ global $root_path;
   {
     if(!$socket=@fsockopen("udp://".$address, $port)) {
       $this->debug["While trying to open a socket"]="Couldn't reach server";
-      $this->errstr="Connot open a socket!";
+      $this->errstr="Cannot open a socket!";
       return FALSE;
     } else {
       socket_set_blocking($socket, true);
@@ -423,10 +421,10 @@ global $root_path;
       
       fclose($socket);
       if(empty($result)) {
-	$this->debug["Command send " . $command]="No response from game server recieved";
+	$this->debug["Command send " . $command]="No response from game server received";
 	return FALSE;
       }
-      $this->debug["Command send " . $command]="Answer recieved: " .$result;
+      $this->debug["Command send " . $command]="Answer received: " .$result;
       return $result;
     }
   }

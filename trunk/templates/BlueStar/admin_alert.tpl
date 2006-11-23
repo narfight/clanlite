@@ -5,7 +5,22 @@
 	<h1>{TITRE_GESTION}</h1>
 	<p>
 		<span><label for="text">{TXT_TEXT}&nbsp;:</label></span>
-		<span><textarea name="text" cols="30" rows="10" id="text" onBlur="formverif(this.id,'nbr','10')">{TEXT}</textarea></span>
+	</p>
+	<p>
+		<div class="smilies">
+			<!-- BEGIN poste_smilies_liste -->
+			<a href="javascript:emoticon('{poste_smilies_liste.TXT}','text')"><img src="{poste_smilies_liste.IMG}" alt="{poste_smilies_liste.ALT}" width="{poste_smilies_liste.WIDTH}"  height="{poste_smilies_liste.HEIGHT}" /></a>
+			<!-- BEGIN more -->
+			<a href="javascript:toggle_msg('smilies_more', '', '')">{poste_smilies_liste.more.MORE_SMILIES}</a>
+			<div id="smilies_more" style="display: none;">
+				<!-- BEGIN liste -->
+				<a href="javascript:emoticon('{poste_smilies_liste.more.liste.TXT}','text')"><img src="{poste_smilies_liste.more.liste.IMG}" alt="{poste_smilies_liste.more.liste.ALT}" width="{poste_smilies_liste.more.liste.WIDTH}"  height="{poste_smilies_liste.more.liste.HEIGHT}" /></a>
+				<!-- END liste -->
+			</div>
+			<!-- END more -->
+			<!-- END poste_smilies_liste -->
+		</div>
+		<div class="big_texte"><textarea name="text" cols="40" rows="10" id="text" onBlur="formverif(this.id,'nbr','10')">{TEXT}</textarea></div>
 	</p>
 	<p>
 		<span><label for="def">{TXT_AUTO_DEL}&nbsp;:</label></span>

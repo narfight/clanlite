@@ -8,9 +8,9 @@ $niveau_secu = 2;
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
-if( !empty($HTTP_POST_VARS['Submit']) )
+if( !empty($_POST['Submit']) )
 {
-	foreach ($HTTP_POST_VARS as $config_name => $config_value)
+	foreach ($_POST as $config_name => $config_value)
 	{
 		$sql = "UPDATE ".$config['prefix']."config SET conf_valeur='".htmlspecialchars($config_value, ENT_QUOTES)."' WHERE conf_nom='".htmlspecialchars($config_name, ENT_QUOTES)."'";
 		if (! $rsql->requete_sql($sql) )
@@ -52,6 +52,16 @@ while($user_list = $rsql->s_array($get))
 		'SELECTED_ID_MATCH' => ( $user_list['id'] == $config['id_membre_match'] ) ? 'selected="selected"' : ''
 	));
 }
+// scan les protocols possible pour le scanner de serveur de jeux
+include($root_path."service/gsquery/gsQuery.php");
+foreach(gsQuery::getSupportedProtocols($root_path."service/gsquery/") as $protocol_liste)
+{
+	$template->assign_block_vars('protocol_game_liste', array(
+		'NAME' => $protocol_liste,
+		'VALUE' => $protocol_liste,
+		'SELECTED' => ($config['serveur_game_protocol'] == $protocol_liste) ? 'selected="selected"' : '',
+	));
+}
 // scan le rep pour les langues
 $dir = "../langues/";
 // Ouvre un dossier bien connu, et liste tous les fichiers
@@ -73,6 +83,28 @@ if (is_dir($dir))
 		closedir($dh);
 	}
 }
+// scan le rep pour les skins
+$dir = "../templates/";
+// Ouvre un dossier bien connu, et liste tous les fichiers
+if (is_dir($dir))
+{
+	if ($dh = opendir($dir))
+	{
+		while (($file = readdir($dh)) !== false)
+		{
+			if($file != '..' && $file !='.' && $file !='' && is_dir($dir.$file))
+			{ 
+				$template->assign_block_vars('skin', array(
+					'NAME' => $file,
+					'VALUE' => $file,
+					'SELECTED' => ( $config['skin'] == $file) ? 'selected="selected"' : '',
+				));
+			}
+		}
+		closedir($dh);
+	}
+}
+liste_smilies(true, '', 25);
 $template->assign_vars( array( 
 	'TITRE' => $langue['titre_config_site'],
 	'ALT_AIDE' => $langue['alt_aide'],
@@ -81,6 +113,7 @@ $template->assign_vars( array(
 	'TXT_OUI' => $langue['oui'],
 	'TXT_NON' => $langue['non'],
 	'TXT_LANGUE' => $langue['config_langue'],
+	'TXT_SKIN' => $langue['config_skin'],
 	'TAG' => $config['tag'],
 	'TXT_TAG' => $langue['config_tag_clan'],
 	'NOM_CLAN' => $config['nom_clan'],
@@ -100,6 +133,7 @@ $template->assign_vars( array(
 	'TXT_LIMITE' => $langue['config_recrutement_limit_txt'],
 	'REGLEMENT' => $config['reglement'],
 	'TXT_REGLEMENT' => $langue['config_reglement'],
+	'TXT_MSG_BIENVENU' => $langue['config_msg_news_membre'],
 	'MSG_BIENVENU' => $config['msg_bienvenu'],
 	'URL_FORUM' => $config['url_forum'],
 	'TXT_URL_FORUM' => $langue['config_url_config'],
@@ -114,12 +148,6 @@ $template->assign_vars( array(
 	'SERVEUR_GAME_PORT' => $config['serveur_game_port'],
 	'TXT_SERVEUR_GAME_PORT' => $langue['config_serveur_port'],
 	'TXT_HELP_GAME_PORT' => $langue['config_help_port'],
-	'SELECT_PROTOCOL_HLIFE' => ( "hlife" == $config['serveur_game_protocol'] ) ? 'selected="selected"' : '',
-	'SELECT_PROTOCOL_RVNSHLD' => ( "rvnshld" == $config['serveur_game_protocol'] ) ? 'selected="selected"' : '',
-	'SELECT_PROTOCOL_ARMYGAME' => ( "armygame" == $config['serveur_game_protocol'] ) ? 'selected="selected"' : '',
-	'SELECT_PROTOCOL_GAMESPY' => ( "gamespy" == $config['serveur_game_protocol'] ) ? 'selected="selected"' : '',
-	'SELECT_PROTOCOL_Q3A' => ( "q3a" == $config['serveur_game_protocol'] ) ? 'selected="selected"' : '',
-	'SELECT_PROTOCOL_VIETKONG' => ( "vietkong" == $config['serveur_game_protocol'] ) ? 'selected="selected"' : '',
 	'TXT_SERVEUR_GAME_PROTOCOL' => $langue['config_serveur_protocol'],
 	'SERVEUR_GAME_INFO' => $config['serveur_game_info'],
 	'SELECT_INSCI_0' => ( 0 == $config['inscription'] ) ? 'selected="selected"' : '',
@@ -130,7 +158,21 @@ $template->assign_vars( array(
 	'SERVEUR_GAME_OUI' => ( 1 == $config['serveur'] ) ? 'selected="selected"' : '',
 	'SERVEUR_GAME_NON' => ( 0 == $config['serveur'] ) ? 'selected="selected"' : '',
 	'TXT_SERVEUR_GAME' => $langue['config_serveur_game'],
-	'BT_EDITER' => $langue['editer']
+	'BT_EDITER' => $langue['editer'],
+	'TXT_SEND_MAIL' => $langue['config_send_by'],
+	'SEND_MAIL' => $config['send_mail'],
+	'SEND_MAIL_PAR_PHP' => ( $config['send_mail'] == 'php' ) ? 'selected="selected"' : '',
+	'SEND_MAIL_PAR_SMTP' => ( $config['send_mail'] == 'smtp' ) ? 'selected="selected"' : '',
+	'TXT_SEND_SMTP' => $langue['config_by_smtp'],
+	'TXT_SEND_PHP' => $langue['config_by_php'],
+	'TXT_SMTP_IP' => $langue['config_smtp_server_ip'],
+	'SMTP_IP' => $config['smtp_ip'],
+	'TXT_SMTP_PORT' => $langue['config_smtp_server_port'],
+	'SMTP_PORT' => $config['smtp_port'],
+	'TXT_SMTP_CODE' => $langue['config_smtp_code'],
+	'SMTP_CODE' => $config['smtp_code'],
+	'TXT_SMTP_LOGIN' => $langue['config_smtp_login'],
+	'SMTP_LOGIN' => $config['smtp_login'],
 ));
 $template->pparse('body');
 include($root_path."conf/frame_admin.php");

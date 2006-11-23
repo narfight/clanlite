@@ -4,33 +4,33 @@
 // -------------------------------------------------------------
 $root_path = './../';
 $niveau_secu = 20;
-$action_membre= "Est dans la gestion des map du serveur";
+$action_membre = 'where_admin_map_serveur';
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
-if ( !empty($HTTP_POST_VARS['envoyer']) )
+if ( !empty($_POST['envoyer']) )
 { 
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$sql = "INSERT INTO `".$config['prefix']."server_map` (nom, url, nom_console) VALUES ('".$HTTP_POST_VARS['nom_map']."', '".$HTTP_POST_VARS['url_map']."', '".$HTTP_POST_VARS['console']."')";
+	$_POST = pure_var($_POST);
+	$sql = "INSERT INTO `".$config['prefix']."server_map` (nom, url, nom_console) VALUES ('".$_POST['nom_map']."', '".$_POST['url_map']."', '".$_POST['console']."')";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	redirec_text("server_map.php", $langue['redirection_admin_map_serveur_add'], "admin");
 }
-if ( !empty($HTTP_POST_VARS['editer_envoyer']) )
+if ( !empty($_POST['editer_envoyer']) )
 {
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$sql = "UPDATE `".$config['prefix']."server_map` SET nom='".$HTTP_POST_VARS['nom_map']."', url='".$HTTP_POST_VARS['url_map']."', nom_console='".$HTTP_POST_VARS['console']."' WHERE id='".$HTTP_POST_VARS['for']."'";
+	$_POST = pure_var($_POST);
+	$sql = "UPDATE `".$config['prefix']."server_map` SET nom='".$_POST['nom_map']."', url='".$_POST['url_map']."', nom_console='".$_POST['console']."' WHERE id='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	redirec_text("server_map.php", $langue['redirection_admin_map_serveur_edit'], "admin");
 }
-if ( !empty($HTTP_POST_VARS['supprimer']) )
+if ( !empty($_POST['supprimer']) )
 {
-	$sql = "DELETE FROM `".$config['prefix']."server_map` WHERE id ='".$HTTP_POST_VARS['for']."'";
+	$sql = "DELETE FROM `".$config['prefix']."server_map` WHERE id ='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -41,7 +41,7 @@ include($root_path."conf/frame_admin.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'admin_map_serveur.tpl'));
 $template->assign_vars( array(
-	'ICI' => $HTTP_SERVER_VARS['PHP_SELF'],
+	'ICI' => $_SERVER['PHP_SELF'],
 	'TITRE' => $langue['titre_admin_map_serveur'],
 	'TITRE_GESTION' => $langue['titre_admin_map_serveur_gestion'],
 	'TITRE_LISTE' => $langue['titre_admin_map_serveur_list'],
@@ -50,9 +50,9 @@ $template->assign_vars( array(
 	'TXT_URL' => $langue['url_map_custom'],
 	'TXT_CONSOLE' => $langue['nom_map_console'],
 ));
-if ( !empty($HTTP_POST_VARS['editer']) )
+if ( !empty($_POST['editer']) )
 {
-	$sql = "SELECT * FROM ".$config['prefix']."server_map WHERE id='".$HTTP_POST_VARS['for']."'";
+	$sql = "SELECT * FROM ".$config['prefix']."server_map WHERE id='".$_POST['for']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);

@@ -8,22 +8,23 @@ $action_membre= 'where_alert';
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
-if ( !empty($HTTP_POST_VARS['Envoyer']) )
+if ( !empty($_POST['Envoyer']) )
 {
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$date = mktime ( $HTTP_POST_VARS['heure'] , $HTTP_POST_VARS['minute'] , 1 , $HTTP_POST_VARS['mois'] , $HTTP_POST_VARS['jour'] , $HTTP_POST_VARS['annee']);
-	$sql= "INSERT INTO `".$config['prefix']."alert` (info, date, auto_del) VALUES ('".$HTTP_POST_VARS['text']."', '".$date."', '".$HTTP_POST_VARS['auto_del']."')";
+	$_POST = pure_var($_POST);
+	$_POST['auto_del'] = (isset($_POST['auto_del']))? $_POST['auto_del'] : '';
+	$date = mktime ( $_POST['heure'] , $_POST['minute'] , 1 , $_POST['mois'] , $_POST['jour'] , $_POST['annee']);
+	$sql= "INSERT INTO `".$config['prefix']."alert` (info, date, auto_del) VALUES ('".$_POST['text']."', '".$date."', '".$_POST['auto_del']."')";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 		redirec_text("alert.php",$langue['redirection_alert_add'],"admin");
 }
-if ( !empty($HTTP_POST_VARS['Editer']) )
+if ( !empty($_POST['Editer']) )
 {
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$date = mktime ( $HTTP_POST_VARS['heure'] , $HTTP_POST_VARS['minute'] , 1 , $HTTP_POST_VARS['mois'] , $HTTP_POST_VARS['jour'] , $HTTP_POST_VARS['annee']);
-	$sql = "UPDATE `".$config['prefix']."alert` SET info='".$HTTP_POST_VARS['text']."', date='".$date."', auto_del='".$HTTP_POST_VARS['auto_del']."' WHERE id='".$HTTP_POST_VARS['for']."'";
+	$_POST = pure_var($_POST);
+	$date = mktime ( $_POST['heure'] , $_POST['minute'] , 1 , $_POST['mois'] , $_POST['jour'] , $_POST['annee']);
+	$sql = "UPDATE `".$config['prefix']."alert` SET info='".$_POST['text']."', date='".$date."', auto_del='".$_POST['auto_del']."' WHERE id='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -33,9 +34,9 @@ if ( !empty($HTTP_POST_VARS['Editer']) )
 		redirec_text("alert.php",$langue['redirection_alert_edit'],"admin");
 	}
 }
-if ( !empty($HTTP_POST_VARS['dell']) )
+if ( !empty($_POST['dell']) )
 {
-	$sql = "DELETE FROM `".$config['prefix']."alert` WHERE id ='".$HTTP_POST_VARS['for']."'";
+	$sql = "DELETE FROM `".$config['prefix']."alert` WHERE id ='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -48,8 +49,9 @@ if ( !empty($HTTP_POST_VARS['dell']) )
 include($root_path."conf/frame_admin.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'admin_alert.tpl'));
+liste_smilies(true, '', 25);
 $template->assign_vars( array(
-	'ICI' => $HTTP_SERVER_VARS['PHP_SELF'],
+	'ICI' => $_SERVER['PHP_SELF'],
 	'TITRE' => $langue['titre_alert'],
 	'TITRE_GESTION' => $langue['titre_alert_gestion'],
 	'TITRE_LIST' => $langue['titre_alert_list'],
@@ -63,10 +65,10 @@ $template->assign_vars( array(
 	'DATE' => $langue['date'],
 	'ACTION' => $langue['action'],
 ));
-if ( !empty($HTTP_POST_VARS['edit']) )
+if ( !empty($_POST['edit']) )
 {
 	$template->assign_block_vars('editer', 'vide');
-	$sql = "SELECT * FROM ".$config['prefix']."alert WHERE id='".$HTTP_POST_VARS['for']."'";
+	$sql = "SELECT * FROM ".$config['prefix']."alert WHERE id='".$_POST['for']."'";
 	if (! ($get_edit = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);

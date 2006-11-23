@@ -8,9 +8,9 @@ $action_membre= 'where_defit_admin';
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
-if (!empty($HTTP_POST_VARS['del']))
+if (!empty($_POST['del']))
 {
-	$sql = "DELETE FROM ".$config['prefix']."match_demande WHERE id = '".$HTTP_POST_VARS['id']."'";
+	$sql = "DELETE FROM ".$config['prefix']."match_demande WHERE id = '".$_POST['id']."'";
 	if (! $rsql->requete_sql($sql) )
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
@@ -18,20 +18,32 @@ if (!empty($HTTP_POST_VARS['del']))
 	redirec_text("demande-match.php",$langue['redirection_defit_dell'],"admin");
 }
 // action = envoyer
-if (!empty($HTTP_POST_VARS['envois_mail']))
+if (!empty($_POST['envois_mail']))
 {
 	// on envoys le mail
-	$sql = "SELECT * FROM ".$config['prefix']."match_demande WHERE id= '".$HTTP_POST_VARS['id']."'";
+	$sql = "SELECT * FROM ".$config['prefix']."match_demande WHERE id= '".$_POST['id']."'";
 	if (! ($post = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 	}
 	$envois = $rsql->s_array($post);
-	$entetemail  = "From: ".$HTTP_POST_VARS['From']." \n"; // Adresse expéditeur
-	$entetemail .= "Reply-To: ".$HTTP_POST_VARS['Reply']." \n"; // Adresse de retour
-	mail($HTTP_POST_VARS['mail'], sprintf($langue['titre_mail_defit'], $config['tag']), $HTTP_POST_VARS['texte'], $entetemail);
+	include_once($root_path.'service/wamailer/class.mailer.php');
+	$mailer = new Mailer();
+	$mailer->set_root($root_path.'service/wamailer/');
+	if ($config['send_mail'] == 'smtp')
+	{
+		$mailer->use_smtp($config['smtp_ip'], $config['smtp_port']);
+		$mailer->smtp_pass = $config['smtp_code'];
+		$mailer->smtp_user = $config['smtp_login'];
+	}
+	$mailer->set_from($_POST['From']);
+	$mailer->set_reply_to($_POST['Reply']);
+	$mailer->set_address($_POST['mail']);
+	$mailer->set_subject(sprintf($langue['titre_mail_defit'], $config['tag']));
+	$mailer->set_message($_POST['texte']);
+	$mailer->send();
 	// si il veut bien le match on le rajoute dans les match
-	if ($HTTP_POST_VARS['envois'] == 'oui')
+	if ($_POST['envois'] == 'oui')
 	{
 		// la on ajoute le match
 		$sql = "INSERT INTO `".$config['prefix']."match` (date, info, le_clan, nombre_de_joueur, heure_msn, section) VALUES ('".$envois['date']."', '".$envois['info']."', '".$envois['clan']."', '".$envois['joueurs']."', '', '0')";
@@ -40,17 +52,17 @@ if (!empty($HTTP_POST_VARS['envois_mail']))
 			sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 		}
 		//et la on surrpime la demande
-		$sql = "DELETE FROM ".$config['prefix']."match_demande WHERE id = ".$HTTP_POST_VARS['id'];
+		$sql = "DELETE FROM ".$config['prefix']."match_demande WHERE id = ".$_POST['id'];
 		if (! $rsql->requete_sql($sql) )
 		{
 			sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 		}
 		redirec_text("demande-match.php",$langue['redirection_defit_add'],"admin");
 	}
-	if ($HTTP_POST_VARS['envois'] == 'non')
+	if ($_POST['envois'] == 'non')
 	{
 		//on surrpime la demande
-		$sql = "DELETE FROM ".$config['prefix']."match_demande WHERE id = ".$HTTP_POST_VARS['id'];
+		$sql = "DELETE FROM ".$config['prefix']."match_demande WHERE id = ".$_POST['id'];
 		if (! $rsql->requete_sql($sql) )
 		{
 			sql_error($sql ,mysql_error(), __LINE__, __FILE__);
@@ -73,10 +85,10 @@ $template->assign_vars(array(
 	'ACTION' => $langue['action'],
 	'REPONCE' => $langue['reponce_defit'],
 ));
-if ( (!empty($HTTP_POST_VARS['envois_oui']) || !empty($HTTP_POST_VARS['envois_non'])) && !empty($HTTP_POST_VARS['id']) )
+if ( (!empty($_POST['envois_oui']) || !empty($_POST['envois_non'])) && !empty($_POST['id']) )
 {
-	// on preparre a utiliser la fonction mail() normale
-	$sql = "SELECT * FROM ".$config['prefix']."match_demande WHERE id=".$HTTP_POST_VARS['id'];
+	// on preparre a envoyer le mail
+	$sql = "SELECT * FROM ".$config['prefix']."match_demande WHERE id=".$_POST['id'];
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
@@ -97,7 +109,7 @@ if ( (!empty($HTTP_POST_VARS['envois_oui']) || !empty($HTTP_POST_VARS['envois_no
 		$mail = $config['master_mail'];
 		$nom = $langue['admin'];
 	}
-	if (!empty($HTTP_POST_VARS['envois_oui']))
+	if (!empty($_POST['envois_oui']))
 	{
 		$texte = sprintf($langue['reponce_defit_oui'], $nfo_match['clan'], date("j/n/Y",$nfo_match['date']), date("H:i",$nfo_match['date']), $nfo_match['joueurs'], $nom, $mail);
 	}
@@ -119,8 +131,8 @@ if ( (!empty($HTTP_POST_VARS['envois_oui']) || !empty($HTTP_POST_VARS['envois_no
 		'MASTER_MAIL' => $mail,
 		'TO' => $nfo_match['mail_demande'],
 		'TEXTE' => $texte,
-		'ENVOIS' => (empty($HTTP_POST_VARS['envois_non']))? 'oui' : 'non',
-		'ID' => $HTTP_POST_VARS['id'],
+		'ENVOIS' => (empty($_POST['envois_non']))? 'oui' : 'non',
+		'ID' => $_POST['id'],
 		'ENVOYER' => $langue['envoyer'],
   	));
 }
@@ -145,7 +157,7 @@ while (	$liste_demande = $rsql->s_array($get) )
 		'MAIL' => $liste_demande['mail_demande'],
 		'NOM' => $liste_demande['msn_demandeur'],
 		'URL_CLAN' => $liste_demande['url_clan'],
-		'INFO' => $liste_demande['info'],
+		'INFO' => nl2br(bbcode($liste_demande['info'])),
 		'VOIR' => (empty($voir))? "" : $voir
   	));
 }

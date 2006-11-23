@@ -5,7 +5,7 @@
 	<h1>{TITRE_GESTION}</h1>
 	<p>
 		<span><label for="SRC">{TXT_SOURCE}&nbsp;:</label></span>
-		<span><input name="SRC" id="SRC" type="text" value="{SCR}" onBlur="formverif(this.id,'change','0')" /></span>
+		<span><input name="SRC" id="SRC" type="text" value="{SCR}" onBlur="formverif(this.id,'nbr','5')" /></span>
 	</p>
 	<p>
 		<span><label for="AUTOPLAY">{TXT_AUTO_PLAY}&nbsp;:</label></span>
@@ -25,11 +25,11 @@
 	</p>
 	<p>
 		<span><label for="chanteur">{TXT_ARTISTE}&nbsp;:</label></span>
-		<span><input name="chanteur" type="text" id="chanteur" value="{CHANTEUR}" onBlur="formverif(this.id,'change','0')" /></span>
+		<span><input name="chanteur" type="text" id="chanteur" value="{CHANTEUR}" onBlur="formverif(this.id,'nbr','3')" /></span>
 	</p>
 	<p>
 		<span><label for="SRC">{TXT_TITRE}&nbsp;:</label></span>
-		<span><input name="titre" type="text" id="titre" value="{TITRE_MP3}" onBlur="formverif(this.id,'change','0')" /></span>
+		<span><input name="titre" type="text" id="titre" value="{TITRE_MP3}" onBlur="formverif(this.id,'nbr','3')" /></span>
 	</p>
 	<p>
 		<span>

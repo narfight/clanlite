@@ -56,7 +56,7 @@ class hlife extends gsQuery
     $this->debug=array();
     $this->password=-1;
             
-    $command="\xFF\xFF\xFF\xFFdetails\n";
+    $command="\xFF\xFF\xFF\xFFinfostring\n";
     if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
       return FALSE;
     }

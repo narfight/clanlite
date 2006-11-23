@@ -8,20 +8,20 @@ $action_membre= 'where_admin_news';
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
-if (!empty($HTTP_POST_VARS['ajouter']))
+if (!empty($_POST['ajouter']))
 {
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$sql = "INSERT INTO `".$config['prefix']."news` (info, date, user, titre) VALUES ('".$HTTP_POST_VARS['texte']."', '".$config['current_time']."', '".$session_cl['user']."', '".$HTTP_POST_VARS['titre']."')";
+	$_POST = pure_var($_POST);
+	$sql = "INSERT INTO `".$config['prefix']."news` (info, date, user, titre) VALUES ('".$_POST['texte']."', '".$config['current_time']."', '".$session_cl['user']."', '".$_POST['titre']."')";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 		redirec_text("news.php",$langue['redirection_admin_news_add'],"admin");
 }
-if (!empty($HTTP_POST_VARS['editer']))
+if (!empty($_POST['editer']))
 {
-	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
-	$sql = "UPDATE `".$config['prefix']."news` SET info='".$HTTP_POST_VARS['texte']."', titre='".$HTTP_POST_VARS['titre']."' WHERE id='".$HTTP_POST_VARS['for']."'";
+	$_POST = pure_var($_POST);
+	$sql = "UPDATE `".$config['prefix']."news` SET info='".$_POST['texte']."', titre='".$_POST['titre']."' WHERE id='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -31,14 +31,14 @@ if (!empty($HTTP_POST_VARS['editer']))
 		redirec_text("news.php",$langue['redirection_admin_news_edit'],"admin");
 	}
 }
-if (!empty($HTTP_POST_VARS['dell']))
+if (!empty($_POST['dell']))
 {
-	$sql = "DELETE FROM `".$config['prefix']."news` WHERE id ='".$HTTP_POST_VARS['for']."'";
+	$sql = "DELETE FROM `".$config['prefix']."news` WHERE id ='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	$sql = "DELETE FROM `".$config['prefix']."reaction_news` WHERE id_news ='".$HTTP_POST_VARS['for']."'";
+	$sql = "DELETE FROM `".$config['prefix']."reaction_news` WHERE id_news ='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -48,6 +48,7 @@ if (!empty($HTTP_POST_VARS['dell']))
 include($root_path."conf/frame_admin.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'admin_news.tpl'));
+liste_smilies(true, '', 25);
 $template->assign_vars(array( 
 	'TITRE' => $langue['titre_admin_news'],
 	'TITRE_GESTION' => $langue['titre_admin_news_gestion'],
@@ -58,9 +59,9 @@ $template->assign_vars(array(
 	'TXT_DATE' => $langue['date'],
 	'TXT_POSTEUR' => $langue['posteur'],
 ));
-if (!empty($HTTP_POST_VARS['edit']))
+if (!empty($_POST['edit']))
 {
-	$sql = "SELECT * FROM ".$config['prefix']."news WHERE id='".$HTTP_POST_VARS['for']."'";
+	$sql = "SELECT * FROM ".$config['prefix']."news WHERE id='".$_POST['for']."'";
 	if (! ($get_info = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);

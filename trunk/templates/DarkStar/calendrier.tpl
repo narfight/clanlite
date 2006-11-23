@@ -1,5 +1,5 @@
 <div class="big_cadre">
-	<h1>{TITRE_CALENDRIER}</h1>
+	<h1>{TITRE_CALENDRIER} <br /><a href="calendrier.php?mois={MOIS_MOINS}&annee={CURRENT_ANNEE}"><<</a> {CURRENT_MOIS} {CURRENT_ANNEE} <a href="calendrier.php?mois={MOIS_PLUS}&annee={CURRENT_ANNEE}">>></a></h1>
   <table class="table"> 
     <tr class="table-titre"> 
       <td>{LUNDI}</td> 

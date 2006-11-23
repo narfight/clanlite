@@ -6,7 +6,7 @@ $root_path = "../";
 $action_membre = 'where_lost_code';
 include($root_path."conf/conf-php.php");
 include($root_path."conf/template.php");
-if (empty($HTTP_GET_VARS['activ_pw']) && empty($HTTP_POST_VARS['activ_pw']) && empty($HTTP_POST_VARS['mail']))
+if (empty($_GET['activ_pw']) && empty($_POST['activ_pw']) && empty($_POST['mail']))
 {// envois le formulaire pour retrouver son code
 	include($root_path."conf/frame.php");
 	$template = new Template($root_path."templates/".$config['skin']);
@@ -22,9 +22,9 @@ if (empty($HTTP_GET_VARS['activ_pw']) && empty($HTTP_POST_VARS['activ_pw']) && e
 }
 else
 {
-	if(!empty($HTTP_GET_VARS['activ_pw']) || !empty($HTTP_POST_VARS['activ_pw']))
+	if(!empty($_GET['activ_pw']) || !empty($_POST['activ_pw']))
 	{// active le nouveau code
-		$key_activ_code = (empty($HTTP_GET_VARS['activ_pw']))? $HTTP_POST_VARS['activ_pw'] : $HTTP_GET_VARS['activ_pw'];
+		$key_activ_code = (empty($_GET['activ_pw']))? $_POST['activ_pw'] : $_GET['activ_pw'];
 		$sql = "SELECT tmp_code FROM ".$config['prefix']."user WHERE  key_activ_code='".$key_activ_code."'";
 		if (! ($get = $rsql->requete_sql($sql)) )
 		{
@@ -46,14 +46,14 @@ else
 	}
 	else
 	{
-		if (!eregi("(.+)@(.+).([a-z]{2,4})$", $HTTP_POST_VARS['mail']))
+		if (!eregi("(.+)@(.+).([a-z]{2,4})$", $_POST['mail']))
 		{
 			redirec_text($root_path.'user/code-perdu.php', $langue['user_envois_mailinvalide'], 'user');
 		}
 		else
 		{
 			// on prend les info du membres
-			$sql = "SELECT mail, psw, nom, user, id FROM ".$config['prefix']."user WHERE mail='".$HTTP_POST_VARS['mail']."'";
+			$sql = "SELECT mail, psw, nom, user, id FROM ".$config['prefix']."user WHERE mail='".$_POST['mail']."'";
 			if (! ($get = $rsql->requete_sql($sql)) )
 			{
 				sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -83,7 +83,21 @@ else
 					sql_error($sql, $rsql->error, __LINE__, __FILE__);
 				}
 				// et on l'envois
-				mail($HTTP_POST_VARS['mail'], sprintf($langue['titre_mail_codeperdu'], $config['nom_clan']), sprintf($langue['corps_mail_codeperdu'], $info_lost['nom'], $news_code, $info_lost['user'], $config['site_domain'].$config['site_path'], $activation));
+				include_once($root_path.'service/wamailer/class.mailer.php');
+				$mailer = new Mailer();
+				$mailer->set_root($root_path.'service/wamailer/');
+				if ($config['send_mail'] == 'smtp')
+				{
+					$mailer->use_smtp($config['smtp_ip'], $config['smtp_port']);
+					$mailer->smtp_pass = $config['smtp_code'];
+					$mailer->smtp_user = $config['smtp_login'];
+				}
+				$mailer->set_from($config['master_mail']);
+				$mailer->set_reply_to($config['master_mail']);
+				$mailer->set_address($_POST['mail']);
+				$mailer->set_subject(sprintf($langue['titre_mail_codeperdu'], $config['nom_clan']));
+				$mailer->set_message(sprintf($langue['corps_mail_codeperdu'], $info_lost['nom'], $news_code, $info_lost['user'], $config['site_domain'].$config['site_path'], $activation));
+				$mailer->send();
 				redirec_text($root_path.'user/code-perdu.php', $langue['user_envois_mailinvalideenvoye'], 'user');
 			}
 		}

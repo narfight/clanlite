@@ -74,7 +74,7 @@ else
 	}
 	// popup
 	$sql = "SELECT * FROM ".$config['prefix']."alert";
-	if(! ($get_alert = $rsql->requete_sql($sql)) )
+	if(! ($get_alert = $rsql->requete_sql($sql, 'site', 'Prise de la liste des alertes')) )
 	{
 		sql_error($sql,mysql_error(), __LINE__, __FILE__);
 	}
@@ -106,12 +106,18 @@ else
 			break;
 		}
 	}
+	// detect le navigateur et alert si il est "bon"
+	if (ereg('MSIE', $_SERVER["HTTP_USER_AGENT"]))
+	{
+		$nombre++;
+		$liste_alert[$nombre] = $langue['alert_ie'];
+	}
 	while ($list_alert = $rsql->s_array($get_alert))
 	{
 		if ($list_alert['date'] < $config['current_time'] && $list_alert['auto_del'] == "oui")
 		{
 			$sql = "DELETE FROM `".$config['prefix']."alert` WHERE id='".$list_alert['id']."'";
-			if (! ($rsql->requete_sql($sql)) )
+			if (! ($rsql->requete_sql($sql, 'site', 'supprimer une alerte périmée')) )
 			{
 				sql_error($sql, $rsql->error, __LINE__, __FILE__);
 			}
@@ -119,7 +125,7 @@ else
 		elseif ($list_alert['date'] > $config['current_time'] || $list_alert['auto_del'] != "oui")
 		{
 			$nombre++;
-			$liste_alert[$nombre] = nl2br(bbcode($list_alert['info']));
+			$liste_alert[$nombre] = $list_alert['info'];
 		}
 	}
 	
@@ -132,7 +138,7 @@ else
 		foreach($liste_alert as $text_alert)
 		{
 			$template->assign_block_vars('popup.list', array( 
-				'TEXT' => $text_alert,
+				'TEXT' => nl2br(bbcode($text_alert)),
 			));
 		}
 	}
@@ -169,7 +175,7 @@ $template->assign_vars( array(
 	'B_ORG_RENCONTRE' => $langue['boutton_org_rencontre'],
 	'B_MEMBRE_GROUP' => $langue['boutton_liste_membres_groupe'],
 	'NOM_CLAN' => $config['nom_clan'],
-	'ICI_SELF' => $config['site_domain'].$HTTP_SERVER_VARS['PHP_SELF'],
+	'ICI_SELF' => $config['site_domain'].$_SERVER['PHP_SELF'],
 	'ICI' => $config['site_domain'].$config['site_path'],
 ));
 if (!empty($user_connect))

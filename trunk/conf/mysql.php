@@ -9,12 +9,12 @@ class mysql
 	{
 		if(!@mysql_connect($mysqlhost, $login, $password))
 		{
-			return "Connexion impossible sur le serveur <b>".$mysqlhost."</b><br />Vérifiez les paramètres du fichier config.php";
+			return "Connexion impossible sur le serveur <b>".$mysqlhost."</b><br />Vérifiez les paramètres de connection";
 			exit;
 		}
 		if(!@mysql_select_db($base))
 		{
-			return "Connexion impossible sur la base de données <b>".$base."</b><br />Vérifiez les paramètres du fichier config.php";
+			return "Connexion impossible sur la base de données <b>".$base."</b><br />Vérifiez les paramètres de connection";
 			exit;
 		}
 	return true;		
@@ -34,10 +34,9 @@ class mysql
 		return mysql_affected_rows();
 	}
 	//Renvoie le nombre de champs
-	function requete_nb_cols($sql)
+	function requete_nb_cols($for)
 	{
-		$this->row=mysql_query($sql);
-		return mysql_num_fields($this->row);
+		return mysql_num_fields($for);
 	}
 	//Envois la requette au serveur Mysql	
 	function requete_sql($sql, $group='indeterminé', $info='indeterminé')
