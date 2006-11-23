@@ -113,7 +113,7 @@
   <tr class="sous-cellule"> 
     <td colspan="3">{liste_group_bas.GROUP_NOM}</td> 
     <td colspan="2"><form method="post" action="{ICI}"> 
-          <input name="Supprimer_group" type="submit" id="Supprimer_group" value="{liste_group_bas.SUPPRIMER}" /> 
+          <input name="Supprimer_group" type="submit" id="Supprimer_group" value="{liste_group_bas.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" /> 
           <input name="for_group" type="hidden" id="for_group" value="{liste_group_bas.GROUP_ID}" /> 
           <input name="Editer_group" type="submit" id="Edite_group" value="{liste_group_bas.EDITER}" /> 
     </form></td> 
@@ -126,7 +126,7 @@
     <td>{liste_group_bas.liste.INFO}</td> 
       <td> 
     <form method="post" action="{ICI}"> 
-          <input name="Supprimer_fichier" type="submit" value="{liste_group_bas.liste.SUPPRIMER}" /> 
+          <input name="Supprimer_fichier" type="submit" value="{liste_group_bas.liste.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" /> 
           <input name="for_fichier" type="hidden" value="{liste_group_bas.liste.FOR}" /> 
           <input name="Editer_fichier" type="submit" value="{liste_group_bas.liste.EDITER}" />
 	</form> 

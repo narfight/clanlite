@@ -54,7 +54,7 @@
 	<td>
         <input name="id" type="hidden" value="{propo.ID}" />
         <input name="voir" type="hidden" value="{propo.VOIR}" />
-        <input type="submit" name="del" value="{propo.DELL}" />
+        <input type="submit" name="del" value="{propo.DELL}" onClick="return demande('{TXT_CON_DELL}')" />
     </td>
     <td><input type="submit" name="envois_oui" value="{propo.OUI}" />
 	<input type="submit" name="envois_non" value="{propo.NON}" /></td>

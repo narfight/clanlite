@@ -56,7 +56,10 @@
     <td><h2>{liste.TITRE}</h2>
       {liste.INFO}</td> 
     <td>{liste.POSTEUR}</td> 
-      <td><form action="news.php" method="post"><input name="dell" type="submit" id="dell" value="{liste.SUPPRIMER}" /><input name="for" type="hidden" value="{liste.ID}" /><input name="edit" type="submit" value="{liste.EDITER}" /></form></td> 
+      <td><form action="news.php" method="post">
+	  <input name="dell" type="submit" id="dell" value="{liste.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />
+	  <input name="for" type="hidden" value="{liste.ID}" />
+	  <input name="edit" type="submit" value="{liste.EDITER}" /></form></td> 
   </tr> 
   <!-- END liste --> 
 </table>

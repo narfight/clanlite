@@ -15,7 +15,11 @@ if (!empty($_POST['envoyer']))
 		redirec_text("modules.php", $langue['redirection_module_erreur'], "admin");
 	}
 	$_POST = pure_var($_POST);
-	$sql = "INSERT INTO `".$config['prefix']."modules` (nom, ordre, place, call_page, etat) VALUES ('".$_POST['nom']."', '".$_POST['num']."', '".$_POST['position']."', '".$_POST['module']."', '".$_POST['activation']."')";
+	$central = false;
+	$get_nfo_module = 1;
+	include($root_path."modules/".$_POST['module']);
+	unset($get_nfo_module);
+	$sql = "INSERT INTO `".$config['prefix']."modules` (nom, ordre, place, call_page, etat) VALUES ('".$_POST['nom']."', '".$_POST['num']."', '".(($central)? 'centre' : $_POST['position'])."', '".$_POST['module']."', '".$_POST['activation']."')";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -31,7 +35,7 @@ if (!empty($_POST['envois_edit']))
 		redirec_text("modules.php", $langue['redirection_module_erreur'], "admin");
 	}
 	$_POST = pure_var($_POST);
-	$sql = "UPDATE `".$config['prefix']."modules` SET nom='".$_POST['nom']."', ordre='".$_POST['num']."', place='".$_POST['position']."', call_page='".$_POST['module']."', etat='".$_POST['activation']."' WHERE id='".$_POST['for']."'";
+	$sql = "UPDATE `".$config['prefix']."modules` SET nom='".$_POST['nom']."', ordre='".$_POST['num']."', place='".$_POST['position']."', call_page='".$_POST['module']."', etat='".(($_POST['activation'] != 0)? 1 : 0)."' WHERE id='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -50,7 +54,7 @@ if (!empty($_POST['Supprimer']))
 	}
 	$module_deinstaller = 1;
 	include($root_path."modules/".$_POST['call_page']);
-	redirec_text("modules.php", $langue['redirection_module_dell'], "admin");
+	redirec_text("modules.php", $langue['redirection_module_dell'], 'admin');
 }
 include($root_path."conf/frame_admin.php");
 $template = new Template($root_path."templates/".$config['skin']);
@@ -70,8 +74,8 @@ if (!empty($_POST['Editer']))
 		'ORDRE' => $edit_module['ordre'],
 		'SELECTED_GAUCHE' => ( $edit_module['place'] == "gauche") ? 'selected="selected"' : '',
 		'SELECTED_DROITE' => ( $edit_module['place'] == "droite") ? 'selected="selected"' : '',
-		'ACTIVATION_0' => ( $edit_module['etat'] == "0") ? "checked=\"checked\"" : "",
-		'ACTIVATION_1' => ( $edit_module['etat'] == "1") ? "checked=\"checked\"" : "",
+		'SELECTED_CENTRE' => ( $edit_module['place'] == "centre") ? 'selected="selected"' : '',
+		'ACTIVATION_OFF' => ( $edit_module['etat'] == 0)? 'checked="checked"' : '',
 	));
 }
 else
@@ -79,7 +83,7 @@ else
 	$template->assign_block_vars('rajouter', array('ENVOYER' => $langue['envoyer']));
 }
 $template->assign_vars(array( 
-	'ACTIVATION_1' => (empty($edit_module['etat']))? 'checked="checked"' : '',
+	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'ICI' => $_SERVER['PHP_SELF'],
 	'TITRE' => $langue['titre_module'],
 	'TITRE_GESTION' => $langue['titre_module_gestion'],
@@ -91,10 +95,14 @@ $template->assign_vars(array(
 	'TXT_FICHIER' => $langue['fichier_mosule'],
 	'TXT_POSITION' => $langue['position_module'],
 	'TXT_DROITE' => $langue['module_droite'],
+	'TXT_CENTRE' => $langue['module_centre'],
 	'TXT_GAUCHE' => $langue['module_gauche'],
 	'TXT_ETAT' => $langue['module_etat'],
 	'TXT_ON' => $langue['module_on'],
 	'TXT_OFF' => $langue['module_off'],	
+	'ACTIVATION_ON' => (!empty($edit_module['etat']) && $edit_module['etat'] != 0 || empty($edit_module['etat']))? 'checked="checked"' : '',
+	'DISABLED_G_D' => (empty($_POST['centre']))? '' : 'disabled="disebled"',
+	'DISABLED_C' => (!empty($_POST['centre']))? '' : 'disabled="disebled"',
 ));
 $sql = "SELECT id,nom,ordre,call_page,etat,place FROM ".$config['prefix']."modules ORDER BY `ordre` ASC";
 if (! ($get = $rsql->requete_sql($sql)) )
@@ -103,7 +111,21 @@ if (! ($get = $rsql->requete_sql($sql)) )
 }
 while ($liste = $rsql->s_array($get))
 {
-	$template->assign_block_vars(($liste['place'] == 'gauche')? 'liste_gauche' : 'liste_droite', array(
+	switch($liste['place'])
+	{
+		case 'gauche':
+			$liste['place'] = 'liste_gauche';
+		break;
+		case 'droite':
+			$liste['place'] = 'liste_droite';
+		break;
+		case 'centre':
+			$liste['place'] = 'liste_centre';
+		break;
+		default:
+			$liste['place'] = 'liste_gauche';
+	}
+	$template->assign_block_vars($liste['place'], array(
 		'ID' => $liste['id'],
 		'NOM' => $liste['nom'],
 		'NUM' => $liste['ordre'],
@@ -132,7 +154,7 @@ if (is_dir($dir))
 					'NOM' => ( !empty($nom) )? $nom : $file,
 					'SELECTED' => $select
 				));
-				$nom = "";
+				unset($nom,$central);
 			}
 		}
 		closedir($dh);

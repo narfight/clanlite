@@ -1,5 +1,5 @@
   <form method="post" action="{FOR}">
-    <input type="hidden" name="link" value="{LINK}" />
+    <input type="hidden" name="id" value="{ID}" />
     <!-- BEGIN admin -->
 <div class="big_cadre">
 	<h1>{admin.TITRE}</h1>
@@ -12,15 +12,20 @@
 			  <option value="admin" {admin.ADMIN_SELECT}>{admin.TXT_ADMIN}</option>
 			</select>*</span>
 	</p>
+	<!-- BEGIN grade -->
 	<p>
-		<span><label for="grade">{admin.TXT_GRADE}&nbsp;:</label></span>
+		<span><label for="grade">{admin.grade.TXT_GRADE}&nbsp;:</label></span>
 	  	<span><select name="grade" id="grade" onBlur="formverif(this.id,'autre','')">
 		  <option value="">{TXT_CHOISIR}</option>
-		  <!-- BEGIN grades -->
-		  <option value="{admin.grades.ID}" {admin.grades.SELECTED}>{admin.grades.NOM}</option>
-		  <!-- END grades -->
+		  <!-- BEGIN grade_liste -->
+		  <option value="{admin.grade.grade_liste.ID}" {admin.grade.grade_liste.SELECTED}>{admin.grade.grade_liste.NOM}</option>
+		  <!-- END grade_liste -->
 		</select>*</span>
 	</p>
+	<!-- END grade -->
+	<!-- BEGIN no_grade -->
+	<input name="grade" type="hidden" value="{admin.no_grade.GRADE}">
+	<!-- END no_grade -->
 	<p>
 		<span><label for="team">{admin.TXT_SECTION}&nbsp;:</label></span>
 		<span><select name="section" id="section" onBlur="formverif(this.id,'autre','')">
@@ -127,6 +132,6 @@
 		<span><label for="histoire">{TXT_HISTOIRE}&nbsp;:</label></span>
 		<span><textarea name="histoire" id="histoire" cols="30" rows="4" onBlur="formverif(this.id,'nbr','10')">{HISTOIRE}</textarea>*</span>
 	</p>
-	<p><input {BLOCK} type="submit" name='Submit' value="{BT_ENVOYER}" /></p>
+	<p><input type="submit" name='Submit' value="{BT_ENVOYER}" /></p>
   </div>
 </form>

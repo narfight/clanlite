@@ -2,7 +2,7 @@
 	<h1>{TITRE}</h1>
 	<form method="post" action="{ICI}">
 		<div class="big_cadre">
-		<h1>{TITRE_GESTION}</h1>
+			<h1>{TITRE_GESTION}</h1>
 			<p>
 				<span><label for="nom">{TXT_TXT}&nbsp;:</label></span>
 			</p>

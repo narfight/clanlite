@@ -67,9 +67,9 @@ toggle_msg('auto_del_div', 'auto_del', 'true', 'checked');
     <td>{liste.DATE}</td> 
     <td>{liste.TEXT}</td> 
       <td><form action="alert.php" method="post">
-          <input name="dell" type="submit" value="{BT_DELL}"> 
-          <input name="for" type="hidden" value="{liste.ID}"> 
-          <input name="edit" type="submit" value="{BT_EDITER}">
+          <input name="dell" type="submit" value="{BT_DELL}" onClick="return demande('{TXT_CON_DELL}')" /> 
+          <input name="for" type="hidden" value="{liste.ID}" /> 
+          <input name="edit" type="submit" value="{BT_EDITER}" />
 		  </form>
 	  </td> 
   </tr> 

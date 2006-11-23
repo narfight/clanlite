@@ -18,15 +18,18 @@ if (isset($_GET['lecture']) || isset($session_cl['id_mp3']))
 	{
 		$donnees[$nfo_mp3['id']] = $nfo_mp3;
 	}
-	srand ((float) microtime() * 10000000);
-	$session_cl['id_mp3'] = array_rand($donnees);
-	$session_cl['src_mp3'] = $donnees[$session_cl['id_mp3']]['SRC'];
-	save_session($session_cl);
-	$template->assign_block_vars('lecteur', array(
-		'SRC' => $session_cl['src_mp3'],
-		'AUTOPLAY' => $donnees[$session_cl['id_mp3']]['AUTOPLAY'],
-		'LOOP' => $donnees[$session_cl['id_mp3']]['LOOP']
-	));
+	if ( !empty($donnees) && is_array($donnees) )
+	{
+		srand((float) microtime() * 10000000);
+		$session_cl['id_mp3'] = array_rand($donnees);
+		$session_cl['src_mp3'] = $donnees[$session_cl['id_mp3']]['SRC'];
+		save_session($session_cl);
+		$template->assign_block_vars('lecteur', array(
+			'SRC' => $session_cl['src_mp3'],
+			'AUTOPLAY' => $donnees[$session_cl['id_mp3']]['AUTOPLAY'],
+			'LOOP' => $donnees[$session_cl['id_mp3']]['LOOP']
+		));
+	}
 }
 else
 {

@@ -8,7 +8,7 @@ $action_membre = 'where_admin_map_serveur';
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
-if ( !empty($_POST['envoyer']) )
+if ( !empty($_POST['Envoyer']) )
 { 
 	$_POST = pure_var($_POST);
 	$sql = "INSERT INTO `".$config['prefix']."server_map` (nom, url, nom_console) VALUES ('".$_POST['nom_map']."', '".$_POST['url_map']."', '".$_POST['console']."')";
@@ -18,7 +18,7 @@ if ( !empty($_POST['envoyer']) )
 	}
 	redirec_text("server_map.php", $langue['redirection_admin_map_serveur_add'], "admin");
 }
-if ( !empty($_POST['editer_envoyer']) )
+if ( !empty($_POST['Editer']) )
 {
 	$_POST = pure_var($_POST);
 	$sql = "UPDATE `".$config['prefix']."server_map` SET nom='".$_POST['nom_map']."', url='".$_POST['url_map']."', nom_console='".$_POST['console']."' WHERE id='".$_POST['for']."'";
@@ -28,7 +28,7 @@ if ( !empty($_POST['editer_envoyer']) )
 	}
 	redirec_text("server_map.php", $langue['redirection_admin_map_serveur_edit'], "admin");
 }
-if ( !empty($_POST['supprimer']) )
+if ( !empty($_POST['dell']) )
 {
 	$sql = "DELETE FROM `".$config['prefix']."server_map` WHERE id ='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
@@ -41,7 +41,7 @@ include($root_path."conf/frame_admin.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'admin_map_serveur.tpl'));
 $template->assign_vars( array(
-	'ICI' => $_SERVER['PHP_SELF'],
+	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'TITRE' => $langue['titre_admin_map_serveur'],
 	'TITRE_GESTION' => $langue['titre_admin_map_serveur_gestion'],
 	'TITRE_LISTE' => $langue['titre_admin_map_serveur_list'],
@@ -50,7 +50,7 @@ $template->assign_vars( array(
 	'TXT_URL' => $langue['url_map_custom'],
 	'TXT_CONSOLE' => $langue['nom_map_console'],
 ));
-if ( !empty($_POST['editer']) )
+if ( !empty($_POST['edit']) )
 {
 	$sql = "SELECT * FROM ".$config['prefix']."server_map WHERE id='".$_POST['for']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )

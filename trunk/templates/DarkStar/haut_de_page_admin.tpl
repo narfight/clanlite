@@ -44,7 +44,9 @@
 			<a href="{PATH_ROOT}administration/liens.php">{menu_admin.LIENS}</a><br />
 			<a href="{PATH_ROOT}administration/section.php">{menu_admin.SECTION}</a><br />
 			<a href="{PATH_ROOT}administration/equipe.php">{menu_admin.EQUIPE}</a><br />
-			<a href="{PATH_ROOT}administration/grades.php">{menu_admin.GRADE}</a><br />
+			<!-- BEGIN grade -->
+			<a href="{PATH_ROOT}administration/grades.php">{menu_admin.grade.GRADE}</a><br />
+			<!-- END grade -->
 			<a href="{PATH_ROOT}administration/download.php">{menu_admin.TELECHARGER}</a><br />
 			<a href="{PATH_ROOT}administration/match.php">{menu_admin.MATCH}</a><br />
 			<a href="{PATH_ROOT}administration/demande-match.php">{menu_admin.DEMANDE_MATCH}</a><br />

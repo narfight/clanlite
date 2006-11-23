@@ -30,16 +30,7 @@ if (! ($get = $rsql->requete_sql($sql)) )
 $nombre = '';
 while ($liste = $rsql->s_array($get))
 {
-	$valeur_array = explode('|!*§|', $liste['stock']);
-	$nfo_session = '';
-	foreach($valeur_array as $valeur)
-	{
-		$valeur_tmp = explode('|.=.|', $valeur);
-		if (!empty($valeur_tmp[0]) && !empty($valeur_tmp[1]))
-		{
-			$nfo_session[$valeur_tmp[0]] = $valeur_tmp[1];
-		}
-	}
+	$nfo_session = unserialize($liste['stock']);
 	$template->assign_block_vars('connecter', array( 
 		'ID' => ( empty($nfo_session['id']) )? "N/A" : $nfo_session['id'],
 		'USER' => ( empty($nfo_session['user']) )? "Visiteur" : $nfo_session['user'],

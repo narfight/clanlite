@@ -1,6 +1,6 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-<form method="post" action="{ICI}">
+<form method="post" action="smilies.php">
 	<div class="big_cadre">
 	<h1>{TITRE_GESTION}</h1>
 	<p>
@@ -45,7 +45,7 @@
     <td nowrap>{list_smilies.TEXT}</td>
     <td nowrap><img src="../images/smilies/{list_smilies.IMG}" alt="{list_smilies.DEF}" width="{list_smilies.WIDTH}" height="{list_smilies.HEIGHT}" /></td>
       <td>{list_smilies.DEF}</td>
-      <td><form action="{ICI}" method="post">
+      <td><form action="smilies.php" method="post">
 		<input name="Supprimer" type="submit" value="{list_smilies.SUPPRIMER}" />
         <input name="for" type="hidden" value="{list_smilies.ID}" />
         <input name="Editer" type="submit" value="{list_smilies.EDITER}" />

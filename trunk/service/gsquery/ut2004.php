@@ -30,7 +30,7 @@ include_once("gameSpy.php");
 /**
  * @brief Uses the gameSpy protocol
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: ut2004.php,v 1.1 2004/05/22 14:32:55 jr Exp $
+ * @version $Id: ut2004.php,v 1.3 2004/06/04 15:18:38 jr Exp $
  *
  * Adds UT2004 Color code support
  */
@@ -40,6 +40,11 @@ class ut2004 extends gameSpy
   function getGameJoinerURI()
   {
     return "gamejoin://ut2004@". $this->address .":". $this->hostport ."/";
+  }
+
+  function getNativeJoinURI()
+  {
+    return "ut2004://". $this->address .":". $this->hostport ."/";
   }
 
   /**
@@ -73,6 +78,11 @@ class ut2004 extends gameSpy
     }
     
     return $result;
+  }
+
+  function _getClassName() 
+  {
+    return get_class($this);
   }
 
 }

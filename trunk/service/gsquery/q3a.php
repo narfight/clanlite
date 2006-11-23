@@ -3,7 +3,7 @@
 /*
  *  gsQuery - Querys various game servers
  *  Copyright (c) 2002-2004 Jeremias Reith <jr@terragate.net>
- *  http://gsquery.terragate.net
+ *  http://www.gsquery.org
  *
  *  This file is part of the gsQuery library.
  *
@@ -31,7 +31,7 @@ include_once("gsQuery.php");
 /**
  * @brief Uses the Quake 3 protcol to communicate with the server
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: q3a.php,v 1.20 2004/05/17 05:46:39 jr Exp $
+ * @version $Id: q3a.php,v 1.23 2004/06/01 06:38:41 jr Exp $
  *
  * This class can communicate with most games based on the Quake 3
  * engine.
@@ -88,6 +88,9 @@ class q3a extends gsQuery
       case "sv_maplist":
 	$this->maplist=explode(" ", $rawdata[$i]);
 	break;
+      case "sv_privateclients":
+	$this->rules["sv_privateClients"]=$rawdata[$i];
+	break; 
       default:
 	$this->rules[$rawdata[$i-1]] = $rawdata[$i];
       }
@@ -158,7 +161,8 @@ class q3a extends gsQuery
       $this->playerkeys["ping"]=TRUE;
       $this->players=$players;
     }
-    
+
+    $this->online = TRUE;
     return TRUE;
   }
 

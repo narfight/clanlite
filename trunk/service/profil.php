@@ -9,7 +9,7 @@ include($root_path."conf/conf-php.php");
 include($root_path."conf/frame.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'profile.tpl'));
-$sql = "SELECT user.*,user.nom AS user_nom, section.nom, equipe.nom AS equipe_nom, section.nom AS section_non, grade.nom AS grade_nom FROM ".$config['prefix']."user AS user LEFT JOIN ".$config['prefix']."section AS section ON section.id = user.section LEFT JOIN ".$config['prefix']."équipe as equipe ON equipe.id = user.equipe LEFT JOIN ".$config['prefix']."grades as grade ON grade.id = user.grade WHERE user.id = '".$_GET['link']."'";
+$sql = "SELECT user.*,user.nom AS user_nom, equipe.nom AS equipe_nom, section.nom AS section_nom, grade.nom AS grade_nom FROM ".$config['prefix']."user AS user LEFT JOIN ".$config['prefix']."section AS section ON section.id = user.section LEFT JOIN ".$config['prefix']."équipe as equipe ON equipe.id = user.equipe LEFT JOIN ".$config['prefix']."grades as grade ON grade.id = user.grade WHERE user.id = '".$_GET['link']."'";
 if (! ($get_p = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -48,16 +48,23 @@ if ( ($profil = $rsql->s_array($get_p)) )
 		'TXT_HISTOIRE' => $langue['histoire'],
 		'ROLES' => $profil['roles'],
 		'TXT_ROLES' => $langue['roles'],
+		'TXT_IMAGE' => $langue['avatar'],
 		'IMAGES' => $profil['images'],
 		'ALT_IMAGE_PERSO' =>$langue['alt_profil_image'],
-		'GRADE' => $profil['grade_nom'],
-		'TXT_GRADE' => $langue['grade'],
-		'SECTON' => $profil['section_non'],
+		'SECTION' => $profil['section_nom'],
 		'TXT_SECTION' => $langue['section'],
 		'EQUIPE' => $profil['equipe_nom'],
 		'TXT_EQUIPE' => $langue['equipe'],
-		'ALT_MEDAILLES' => $langue['alt_medaille']
+		'ALT_MEDAILLES' => $langue['alt_medaille'],
+
 	));
+	if ($config['show_grade'] == 1)
+	{
+		$template->assign_block_vars('grade', array(
+			'GRADE' => $profil['grade_nom'],
+			'TXT_GRADE' => $langue['grade'],
+		));
+	}
 	// on fais l'entete du cadre
 	// on affiche ou pas la medaille, si il a ou pas
 	$medail=explode(",", $profil['medail']);

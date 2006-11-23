@@ -10,7 +10,6 @@ include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
 if ( !empty($_POST['Submit']) )
 {
-	// on sauvegarde le match
 	$date = mktime ( $_POST['heure_match'] , $_POST['minute_match'] , 1 , $_POST['date2'] , $_POST['date1'] , $_POST['date3']);
 	$_POST = pure_var($_POST);
 	$sql = "INSERT INTO `".$config['prefix']."match` (date , info , le_clan , nombre_de_joueur , heure_msn, section) VALUES ('".$date."', '".$_POST['infoe']."', '".$_POST['clan']."', '".$_POST['joueur']."', '".$_POST['heure_msn']."', '".$_POST['section']."')";
@@ -22,13 +21,11 @@ if ( !empty($_POST['Submit']) )
 }
 if (!empty($_POST['del']))
 {
-	// on enleve des listes des match
 	$sql = "DELETE FROM `".$config['prefix']."match` WHERE id ='".$_POST['id_match']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	// on enleve les inscriptions pour le match
 	$sql = "DELETE FROM `".$config['prefix']."match_inscription` WHERE id_match ='".$_POST['id_match']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
@@ -52,6 +49,7 @@ $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'admin_match.tpl'));
 liste_smilies(true, '', 25);
 $template->assign_vars(array( 
+	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'TITRE' => $langue['titre_admin_match'],
 	'TITRE_GESTION' => $langue['titre_admin_match_gestion'],
 	'TITRE_LISTE' => $langue['titre_admin_match_list'],
@@ -128,8 +126,10 @@ if (! ($get_match = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
 }
+$i=0;
 while ( ($list_match = $rsql->s_array($get_match)) )
 {
+	$i++;
 	$template->assign_block_vars('match', array( 
 		'ADD_TEAM_OK' => $langue['add_team_ok'],
 		'ADD_TEAM_DEMANDE' => $langue['add_team_demande'],
@@ -167,6 +167,10 @@ while ( ($list_match = $rsql->s_array($get_match)) )
 		}
 	}
 } 
+if ($i == 0)
+{
+	$template->assign_block_vars('no_match', array('TXT' => $langue['no_futur_match']));
+}
 $sql = "SELECT * FROM ".$config['prefix']."section";
 if (! ($get_section_liste = $rsql->requete_sql($sql)) )
 {

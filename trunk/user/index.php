@@ -68,9 +68,15 @@ if ($user_pouvoir['particulier'] == "admin")
 		{
 			sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 		}
+		$config['get_version'] = ($config['get_version'] == 1)? 0 : 1;
 	}
-	$sql = "SELECT id FROM `".$config['prefix']."match`";
+	$sql = "SELECT id FROM `".$config['prefix']."match` WHERE date > '".(time()-60*60*2) ."'";
 	if (! ($get_nbr_match = $rsql->requete_sql($sql)) )
+	{
+		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
+	}
+	$sql = "SELECT id FROM `".$config['prefix']."match` WHERE date < '".(time()-60*60*2) ."'";
+	if (! ($get_nbr_old_match = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 	}
@@ -86,6 +92,8 @@ if ($user_pouvoir['particulier'] == "admin")
 		'NOMBRE_USER' => $config['nbr_membre'],
 		'TXT_NOMBRE_USER' => $langue['admin_nombre_membre'],
 		'NOMBRE_MATCH' => $rsql->nbr($get_nbr_match),
+		'TXT_NOMBRE_OLD_MATCH' => $langue['admin_nombre_old_match'],
+		'NOMBRE_OLD_MATCH' => $rsql->nbr($get_nbr_old_match),
 		'TXT_NOMBRE_MATCH' => $langue['admin_nombre_match'],
 		'NOMBRE_DEMANDE_MATCH' => $rsql->nbr($get_nbr_demande_match),
 		'TXT_NOMBRE_DEMANDE_MATCH' => $langue['admin_nombre_demande_match'],

@@ -12,7 +12,7 @@ $template->set_filenames( array('body' => 'accueil_centre.tpl'));
 // on prend le nombre de news pour les news/page
 $_GET['limite'] = (empty($_GET['limite']))? 0 : $_GET['limite'];
 $total = get_nbr_objet('news', '');
-$sql = "SELECT news.*, COUNT(reaction.id_news) FROM `".$config['prefix']."news` AS news LEFT JOIN ".$config['prefix']."reaction_news AS reaction ON news.id = reaction.id_news  GROUP BY news.id ORDER BY news.id DESC LIMIT ".$_GET['limite'].",".$config['objet_par_page'];
+$sql = "SELECT news.*, COUNT(reaction.id_news) FROM `".$config['prefix']."news` AS news LEFT JOIN ".$config['prefix']."reaction_news AS reaction ON news.id = reaction.id_news  GROUP BY news.id ORDER BY news.id DESC LIMIT ".$_GET['limite'].", ".$config['objet_par_page'];
 if (! ($list_news = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);

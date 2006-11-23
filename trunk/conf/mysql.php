@@ -9,12 +9,12 @@ class mysql
 	{
 		if(!@mysql_connect($mysqlhost, $login, $password))
 		{
-			return "Connexion impossible sur le serveur <b>".$mysqlhost."</b><br />Vérifiez les paramètres de connection";
+			return "Connexion impossible sur <b>le serveur ".$mysqlhost."</b><br />Vérifiez les paramètres de connection (".mysql_error().")";
 			exit;
 		}
 		if(!@mysql_select_db($base))
 		{
-			return "Connexion impossible sur la base de données <b>".$base."</b><br />Vérifiez les paramètres de connection";
+			return "Connexion impossible sur <b>la base de données ".$base."</b><br />Vérifiez les paramètres de connection (".mysql_error().")";
 			exit;
 		}
 	return true;		

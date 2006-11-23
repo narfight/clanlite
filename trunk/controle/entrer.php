@@ -16,7 +16,7 @@ if (! ($get = $rsql->requete_sql($sql)) )
 }
 if (! ($info_connection = $rsql->s_array($get)) )
 {
-	redirection('../admin.php?erreur=1');
+	redirection('../admin.php?erreur=code_login');
 }
 else
 {

@@ -2,8 +2,8 @@
 
 /*
  *  gsQuery - Querys game servers
- *  Copyright (c) 2003 Jeremias Reith <jr@terragate.net>
- *  http://gsquery.terragate.net
+ *  Copyright (c) 2002-2004 Jeremias Reith <jr@terragate.net>
+ *  http://www.gsquery.org
  *
  *  This file is part of the gsQuery library.
  *
@@ -30,7 +30,7 @@ include_once("gameSpy.php");
 /**
  * @brief Extends the gameSpy protocol to support Vietkong
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: vietkong.php,v 1.4 2004/03/21 10:02:27 jr Exp $
+ * @version $Id: vietkong.php,v 1.5 2004/05/24 15:22:06 jr Exp $
  * @todo process rules
  *
  * Vietkong's default query port seems to be 15426.
@@ -54,7 +54,8 @@ class vietkong extends gameSpy
       return FALSE;
     }    
     $this->_processServerInfo($response);
-    
+
+    $this->online=TRUE;
 
     // get players
     if($this->numplayers && $getPlayers) {
@@ -69,6 +70,11 @@ class vietkong extends gameSpy
     $this->gamename="vietkong";
     return TRUE;
   }  
+
+  function _getClassName() 
+  {
+    return get_class($this);
+  }
 }
 
 ?>

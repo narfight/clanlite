@@ -2,7 +2,10 @@
 <div class="big_cadre">
 	<h1>{TITRE_PROFIL}</h1>
 	<div class="news">
-		<img src="../images/personnages/{IMAGES}" alt="{ALT_IMAGE_PERSO}" />
+		<p>
+			<span class="nom_liste">{TXT_IMAGE} :</span>
+			<span class="reponce"><img src="../images/personnages/{IMAGES}" alt="{ALT_IMAGE_PERSO}" /></span>
+		</p>
 		<p>
 			<span class="nom_liste">{TXT_NOM} :</span>
 			<span class="reponce">{NOM}</span>
@@ -47,10 +50,12 @@
 			<span class="nom_liste">{TXT_POUVOIR} :</span>
 			<span class="reponce">{POUVOIR}</span>
 		</p>
+		<!-- BEGIN grade -->
 		<p>
-			<span class="nom_liste">{TXT_GRADE} :</span>
-			<span class="reponce">{GRADE}</span> 
+			<span class="nom_liste">{grade.TXT_GRADE} :</span>
+			<span class="reponce">{grade.GRADE}</span>
 		</p>
+		<!-- END grade -->
 		<p>
 			<span class="nom_liste">{TXT_TEXT} :</span>
 			<span class="reponce">{TEXT}</span> 

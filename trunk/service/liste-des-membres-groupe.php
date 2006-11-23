@@ -7,7 +7,7 @@ $action_membre= 'where_membre_group';
 include($root_path."conf/template.php");
 include($root_path."conf/conf-php.php");
 // liste des sections
-$sql = "SELECT user.id AS user_id, section.nom AS section_nom, equipe.nom AS equipe_nom, grade.nom AS grade_nom, user.user, user.sex, user.im, user.roles FROM ".$config['prefix']."user AS user LEFT  JOIN ".$config['prefix']."équipe AS equipe ON user.equipe = equipe.id LEFT  JOIN ".$config['prefix']."section AS section ON user.section= section.id LEFT JOIN ".$config['prefix']."grades AS grade ON grade.id = user.grade ORDER BY user.grade DESC";
+$sql = "SELECT user.id AS user_id, section.nom AS section_nom, equipe.nom AS equipe_nom, grade.nom AS grade_nom, user.user, user.sex, user.im, user.roles FROM ".$config['prefix']."user AS user LEFT  JOIN ".$config['prefix']."équipe AS equipe ON user.equipe = equipe.id LEFT  JOIN ".$config['prefix']."section AS section ON user.section= section.id LEFT JOIN ".$config['prefix']."grades AS grade ON grade.id = user.grade WHERE section.visible = 1 OR user.section = '' ORDER BY user.grade DESC";
 if (! ($nfo_user_liste = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -20,7 +20,6 @@ include($root_path."conf/frame.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'membre_group.tpl'));
 $template->assign_vars(array( 
-	'GRADE' => $langue['grade'],
 	'ROLE' => $langue['role'],
 	'NOM_SEX' => $langue['nom/sex'],
 	'MSN' => $langue['msn'],
@@ -32,19 +31,34 @@ $template->assign_vars(array(
 foreach($liste_group as $nom_section => $array_section)
 {// fait la liste des section
 	$template->assign_block_vars('cadre', array('NOM_SECTION' => $nom_section));
+	if ($config['show_grade'] == 1)
+	{
+		$template->assign_block_vars('cadre.grade', array('GRADE' => $langue['grade']));
+	}
 	foreach($array_section as $nom_equipe => $array_equipe)
 	{//fait la liste des equipes
 		$template->assign_block_vars('cadre.total', array('NOM_EQUIPE' => $nom_equipe));
+		if ($config['show_grade'] == 1)
+		{
+			$template->assign_block_vars('cadre.total.grade', array('vide'));
+		}
+		else
+		{
+			$template->assign_block_vars('cadre.total.no_grade', array('vide'));
+		}
 		foreach($array_equipe as $liste_user => $array_user)
 		{// fait la liste des membres dans l'equipe
 			$template->assign_block_vars('cadre.total.listage', array(
 				'NOM' => $array_user['user'],
-				'GRADE' => $array_user['grade_nom'],
 				'ID' => $array_user['user_id'],
 				'SEX' => ($array_user['sex'] == 'Femme')? 'femme' : 'homme',
 				'ROLE' => $array_user['roles'],
 				'IM' => $array_user['im']
 			));
+			if ($config['show_grade'] == 1)
+			{
+				$template->assign_block_vars('cadre.total.listage.grade', array('GRADE' => $array_user['grade_nom']));
+			}
 		}
 	}
 }

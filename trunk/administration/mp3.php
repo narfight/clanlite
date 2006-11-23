@@ -44,6 +44,7 @@ include($root_path."conf/frame_admin.php");
 $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'admin_mp3.tpl'));
 $template->assign_vars(array( 
+	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'TITRE' => $langue['titre_admin_mp3'],
 	'TITRE_GESTION' => $langue['titre_admin_mp3_gestion'],
 	'TITRE_LISTE' => $langue['titre_admin_mp3_list'],

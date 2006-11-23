@@ -348,8 +348,7 @@ foreach($show_config_min as $id => $info)
 }
 if (!empty($_POST['send_config']) || !empty($_POST['connect_ftp']))
 {
-	$contenu = "<?php
-\n";
+	$contenu = "<?php\n";
 	$contenu .= "define('CL_INSTALL', true);\n";
 	$contenu .= "\$mysqlhost = '".$_POST['serveur_mysql']."';\n";
 	$contenu .= "\$login = '".$_POST['login_mysql']."';\n";
@@ -361,9 +360,9 @@ if (!empty($_POST['send_config']) || !empty($_POST['connect_ftp']))
 	$ftp_result = "";
 	if (empty($_POST['connect_ftp']))
 	{
-		if(!$open_fichier = @fopen($root_path."config.php", 'w'))
+		if($open_fichier = fopen($root_path."config.php", 'w'))
 		{
-			if(@fwrite($open_fichier, $contenu))
+			if(fwrite($open_fichier, $contenu))
 			{
 				$config_result = "<span class=\"ok\">config.php placé</span>";
 				$ftp_result = "<span class=\"annulé\">Inutile</span>";
@@ -484,8 +483,11 @@ if (!$config_result_b)
 			</div>
 		</form>
 	</div>
-<br /><form action="install.php" method="post"><input type="submit" name="readme" value="Finir l'installation" /></form>
 <?php
+}
+else
+{
+?><br /><form action="install.php" method="post"><input type="submit" name="readme" value="Finir l'installation" /></form><?php
 }
 }
 if (!empty($_POST['readme']))

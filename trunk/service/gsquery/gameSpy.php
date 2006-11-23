@@ -3,7 +3,7 @@
 /*
  *  gsQuery - Querys game servers
  *  Copyright (c) 2002-2004 Jeremias Reith <jr@terragate.net>
- *  http://gsquery.terragate.net
+ *  http://www.gsquery.org
  *
  *  This file is part of the gsQuery library.
  *
@@ -30,7 +30,7 @@ include_once("gsQuery.php");
 /**
  * @brief Uses the gameSpy protcol to communicate with the server
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: gameSpy.php,v 1.16 2004/03/21 10:02:27 jr Exp $
+ * @version $Id: gameSpy.php,v 1.18 2004/06/02 10:11:12 jr Exp $
  * @bug some games does not escape the backslash, so we have a problem when somebody has a backlsash in its name
  *
  * The following games have been tested with this class:
@@ -69,7 +69,8 @@ class gameSpy extends gsQuery
       return FALSE;
     }    
     $this->_processServerInfo($response);
-    
+
+    $this->online=TRUE;
 
     // get players
     if($this->numplayers && $getPlayers) {
@@ -106,23 +107,44 @@ class gameSpy extends gsQuery
     $temp=explode("\\",$rawdata);
     $count=count($temp);
     for($i=1;$i<$count;$i++) {
-      $data[$temp[$i]]=$temp[++$i];
+      switch($temp[$i]) {
+      case "gamename":
+	$this->gamename = $temp[++$i];
+	break;
+      case "hostport":
+	$this->hostport = $temp[++$i];
+	break;
+      case "gamever":
+	$this->gameversion = $temp[++$i];
+	break;
+      case "hostname":
+	$this->servertitle = $temp[++$i];
+	break;
+      case "mapname":
+	$this->mapname = $temp[++$i];
+	break;
+      case "maptitle":
+	$this->maptitle = $temp[++$i];
+	break;
+      case "gametype":
+	$this->gametype = $temp[++$i];
+	break;
+      case "numplayers":
+	$this->numplayers = $temp[++$i];
+	break;
+      case "maxplayers":
+	$this->maxplayers = $temp[++$i];
+	break;
+      case "password":
+	if($temp[++$i] == 0 || $temp[$i] == 1) {
+	  $this->password = $temp[$i];
+	}
+	break;
+      default:
+	$this->rules[$temp[$i]] = $temp[++$i];
+      }
     }
 
-    $this->gamename = $data["gamename"];
-    $this->hostport = $data["hostport"];
-    $this->gameversion = $data["gamever"];
-    $this->servertitle = $data["hostname"];
-    $this->maptitle = isset($data["maptitle"]) ? $data["maptitle"] : "";
-    $this->mapname = $data["mapname"];
-    $this->gametype = $data["gametype"];
-    $this->numplayers = $data["numplayers"];
-    $this->maxplayers = $data["maxplayers"];
-   
-    if(isset($data["password"]) && ($data["password"]==0 || $data["password"]==1)) {  
-      $this->password=$data["password"];
-    }
-    
     if(!$this->gamename) {
       $this->gamename="unknown";
     }
@@ -220,6 +242,12 @@ class gameSpy extends gsQuery
       return FALSE;
     }
     return $this->_sortByQueryId($data);
+  }
+
+
+  function _getClassName() 
+  {
+    return "gameSpy";
   }
 }
 

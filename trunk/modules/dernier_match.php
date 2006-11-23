@@ -6,7 +6,7 @@ if (defined('CL_AUTH'))
 {
 	if( !empty($get_nfo_module) )
 	{
-		$nom = "Dérnié match";
+		$nom = "Dernier match";
 		return;
 	}
 	if( !empty($module_installtion) || !empty($module_deinstaller) )

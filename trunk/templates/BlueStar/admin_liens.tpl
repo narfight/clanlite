@@ -40,9 +40,9 @@
   <!-- BEGIN liste --> 
   <tr> 
     <td>{liste.NOM}</td> 
-    <td><a href="{liste.URL}" onclick="window.open('{liste.URL}}');return false;">{liste.TEST_LIEN}</a></td> 
+    <td><a href="{liste.URL}" onclick="window.open('{liste.URL}');return false;">{liste.TEST_LIEN}</a></td> 
       <td><form action="{ICI}" method="post"> 
-          <input name="dell" type="submit" id="Supprimer" value="{liste.SUPPRIMER}" /> 
+          <input name="dell" type="submit" value="{liste.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" /> 
           <input name="for" type="hidden" value="{liste.ID}" /> 
           <input name="edit" type="submit" value="{liste.EDITER}" />
 		  </form></td> 
