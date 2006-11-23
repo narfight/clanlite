@@ -1,6 +1,6 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-	<form method="post" action="match.php">
+	<form method="post" action="{ICI}">
 		<div class="big_cadre">
 			<h1>{TITRE_GESTION}</h1>
 			<p>
@@ -23,11 +23,11 @@
 				<span><label for="section">{TXT_SECTION}&nbsp;:</label></span>
 				<span>
 					<select name="section" id="section" onblur="formverif(this.id,'change','-1')"> 
-					<option value="-1">{CHOISIR}</option> 
-					<option value="0" {SELECTED_ALL}>{ALL_SECTION}</option> 
-					<!-- BEGIN section --> 
-					<option value="{section.ID}" {section.SELECTED}>{section.NOM}</option> 
-					<!-- END section --> 
+						<option value="-1">{CHOISIR}</option> 
+						<option value="0" {SELECTED_ALL}>{ALL_SECTION}</option> 
+						<!-- BEGIN section --> 
+						<option value="{section.ID}" {section.SELECTED}>{section.NOM}</option> 
+						<!-- END section --> 
 					</select>
 				</span>
 			</p>
@@ -71,9 +71,9 @@
 		<h1>{TITRE_LISTE}</h1>
 		<div class="news">
 		<!-- BEGIN match -->
-		<form method="post" action="match.php"> 
+		<form method="post" action="{ICI}"> 
 			<input name="id_match" type="hidden" value="{match.FOR}"> 
-			<h2 class="toggle_titre" onClick="toggle('{match.FOR}')"><input type="submit" name="del" value="{match.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />&nbsp;<input name="Editer" type="submit" value="{match.EDITER}" />&nbsp;{match.CONTRE} {match.CLAN}<a name="{match.FOR}"></a></h2>
+			<h2 class="toggle_titre" onclick="toggle('{match.FOR}')"><input type="submit" name="del" value="{match.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" />&nbsp;<input name="Editer" type="submit" value="{match.EDITER}" />&nbsp;{match.CONTRE} {match.CLAN}<a name="{match.FOR}"></a></h2>
 		</form> 
 		<div id="toggle_{match.FOR}" style="display:none">
 			<ul class="header">
@@ -86,21 +86,21 @@
 			</ul>{match.INFO}
 			<h3>{match.TEAM_OK}</h3> 
 			<!-- BEGIN ok --> 
-			<form method="post" action="match.php#{match.FOR}">
+			<form method="post" action="{ICI}#{match.FOR}">
 				<span><input name="demande" type="submit" value="{match.ADD_TEAM_DEMANDE}" /><input name="reserve" type="submit" value="{match.ADD_TEAM_RESERVE}" /><input name="for" type="hidden" value="{match.ok.ID}" /></span>
 				<span>{match.ok.NOM}</span>
 			</form>
 			<!-- END ok -->
 			<h3>{match.TEAMS_RESERVE}</h3> 
 			<!-- BEGIN reserve --> 
-			<form method="post" action="match.php#{match.FOR}">
+			<form method="post" action="{ICI}#{match.FOR}">
 				<span><input name="demande" type="submit" value="{match.ADD_TEAM_DEMANDE}" /><input name="for" type="hidden" value="{match.reserve.ID}" /><input name="ok" type="submit" value="{match.ADD_TEAM_OK}" /></span>
 				<span>{match.reserve.NOM}</span>
 			</form>
 			<!-- END reserve -->
 			<h3>{match.TEAM_DEMANDE}</h3> 
 			<!-- BEGIN demande --> 
-			<form method="post" action="match.php#{match.FOR}">
+			<form method="post" action="{ICI}#{match.FOR}">
 				<span><input name="ok" type="submit" value="{match.ADD_TEAM_OK}" /><input name="for" type="hidden" value="{match.demande.ID}" /><input name="reserve" type="submit" value="{match.ADD_TEAM_RESERVE}" /></span>
 				<span>{match.demande.NOM}</span>
 			</form>

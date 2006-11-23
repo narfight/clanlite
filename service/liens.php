@@ -2,7 +2,7 @@
 // -------------------------------------------------------------
 // LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
 // ------------------------------------------------------------- 
-$root_path = "./../";
+$root_path = './../';
 $action_membre = 'where_liens';
 include($root_path.'conf/template.php');
 include($root_path.'conf/conf-php.php');

@@ -30,7 +30,7 @@ require_once GSQUERY_DIR . 'gsQuery.php';
 /**
  * @brief Uses the new gameSpy query protcol to communicate with the server
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: gameSpyQ.php,v 1.3 2004/08/12 19:14:47 jr Exp $
+ * @version $Id: gameSpyQ.php 190 2004-09-25 15:48:06Z jr $
  */
 class gameSpyQ extends gsQuery
 {
@@ -150,7 +150,9 @@ class gameSpyQ extends gsQuery
 	  }
 	  break;
 	default:
-	  $this->rules[$temp[$i]] = $temp[++$i];
+	  if(array_key_exists($i+1, $temp)) {
+	    $this->rules[$temp[$i]] = $temp[++$i];
+	  }
 	}
       }
       

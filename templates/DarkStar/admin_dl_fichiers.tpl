@@ -3,7 +3,7 @@
 	<div class="big_cadre">
 		<h1>{TITRE_GESTION}</h1>
 		<p>
-			<span><a href="#" onClick="toggle_msg('fichier', '', '')">{TOGGLE_FICHIER}</a></span>
+			<span><a href="#" onclick="toggle_msg('fichier', '', '')">{TOGGLE_FICHIER}</a></span>
 		</p>
 		<div id="fichier" style="display:none">
 			<form method="post" action="{ICI}">
@@ -37,7 +37,7 @@
 				<p>
 					<span><label for="groupe">{TXT_GROUP}&nbsp;:</label></span>
 					<span><select name="groupe" id="groupe" onblur="formverif(this.id,'autre','')">
-					  <option value="">{CHOISIR}</option>
+					  <option value"">{CHOISIR}</option>
 					  <!-- BEGIN liste_group -->
 					  <option value="{liste_group.ID_GROUP}" {liste_group.SELECTED}>{liste_group.GROUP}</option>
 					  <!-- END liste_group -->
@@ -57,7 +57,7 @@
 			</form>
 		</div>
 		<p>
-			<span><a href="#" onClick="toggle_msg('group', '', '')">{TOGGLE_GROUP}</a></span>
+			<span><a href="#" onclick="toggle_msg('group', '', '')">{TOGGLE_GROUP}</a></span>
 		</p>
 		<div id="group" style="display:none">
 			<form method="post" action="{ICI}">
@@ -117,7 +117,7 @@
 						<th colspan="3">{liste_group_bas.GROUP_NOM}</th>
 						<th colspan="2">
 							<form method="post" action="{ICI}">
-								<input name="Supprimer_group" type="submit" id="Supprimer_group" value="{liste_group_bas.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />
+								<input name="Supprimer_group" type="submit" id="Supprimer_group" value="{liste_group_bas.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" />
 								<input name="for_group" type="hidden" id="for_group" value="{liste_group_bas.GROUP_ID}" />
 								<input name="Editer_group" type="submit" id="Edite_group" value="{liste_group_bas.EDITER}" />
 							</form>
@@ -133,7 +133,7 @@
 						<td>{liste_group_bas.liste.INFO}</td>
 						<td>
 							<form method="post" action="{ICI}">
-								<input name="Supprimer_fichier" type="submit" value="{liste_group_bas.liste.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />
+								<input name="Supprimer_fichier" type="submit" value="{liste_group_bas.liste.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" />
 								<input name="for_fichier" type="hidden" value="{liste_group_bas.liste.FOR}" />
 								<input name="Editer_fichier" type="submit" value="{liste_group_bas.liste.EDITER}" />
 							</form>

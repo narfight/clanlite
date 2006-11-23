@@ -1,6 +1,6 @@
 <!-- BEGIN serveur_jeux -->
 	{IMAGE_MAP}
-	{TXT_IP} : <span class="reponce">{IP}</span><br />
+	{TXT_IP} : <span class="reponce"><a href="{JOINERURI}">{IP}</a></span><br />
 	{TXT_CURRENT_MAP} : <span class="reponce">{CURRENT_MAP}</span><br />
 	{TXT_NEXT_MAP} : <span class="reponce">{NEXT_MAP}</span><br />
 	{TXT_PLACE} :<span class="reponce">{PLAYER}</span>/<span class="reponce">{PLACE}</span><br />
@@ -9,7 +9,7 @@
 <!-- END serveur_jeux -->
 <!-- BEGIN total_liste -->
 	{TXT_LISTE} :
-<marquee width="170" height="100" scrollamount="1" scrolldelay=20 direction="up" onMouseover="this.scrollAmount=0" onMouseout="this.scrollAmount=1">
+<marquee height="100" scrollamount="1" scrolldelay=20 direction="up" onMouseover="this.scrollAmount=0" onMouseout="this.scrollAmount=1">
 	{LISTE}
 </marquee>
 <!-- END total_liste -->
@@ -24,7 +24,7 @@
 				<span><label for="id_serveur">{serveur_config.TXT_SERVEUR}&nbsp;:</label></span>
 				<span>
 					<select name="id_serveur" id="id_serveur" onblur="formverif(this.id,'autre','')">
-						<option value="" >{serveur_config.CHOISIR}</option> 
+						<option value"" >{serveur_config.CHOISIR}</option> 
 						{serveur_config.LISTE}
 					</select>
 				</span>

@@ -16,7 +16,7 @@ if ( !empty($_POST['Envoyer']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("server_map.php", $langue['redirection_admin_map_serveur_add'], 'admin');
+	redirec_text('server_map.php', $langue['redirection_admin_map_serveur_add'], 'admin');
 }
 if ( !empty($_POST['Editer']) )
 {
@@ -26,7 +26,7 @@ if ( !empty($_POST['Editer']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("server_map.php", $langue['redirection_admin_map_serveur_edit'], 'admin');
+	redirec_text('server_map.php', $langue['redirection_admin_map_serveur_edit'], 'admin');
 }
 if ( !empty($_POST['dell']) )
 {
@@ -35,9 +35,9 @@ if ( !empty($_POST['dell']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("server_map.php", $langue['redirection_admin_map_serveur_dell'], 'admin');
+	redirec_text('server_map.php', $langue['redirection_admin_map_serveur_dell'], 'admin');
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_map_serveur.tpl'));
 $template->assign_vars( array(
@@ -80,12 +80,12 @@ while ($liste_map = $rsql->s_array($get))
 	$template->assign_block_vars('liste', array( 
 		'ID' => $liste_map['id'],
 		'NOM' => $liste_map['nom'],
-		'URL' => (empty($liste_map['url']))? 'Pas de liens': '<a href="'.$liste_map['url'].'" onclick="window.open(\''.$liste_map['url'].'\');return false;">'.$langue['liens_test_url'].'</a>',
+		'URL' => (empty($liste_map['url']))? $langue['liens_test_no_url'] : '<a href="'.$liste_map['url'].'" onclick="window.open(\''.$liste_map['url'].'\');return false;">'.$langue['liens_test_url'].'</a>',
 		'CONSOLE' => $liste_map['nom_console'],
 		'SUPPRIMER' => $langue['supprimer'],
 		'EDITER' => $langue['editer'],
 	));
 }
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

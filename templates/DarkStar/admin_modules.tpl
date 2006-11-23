@@ -11,7 +11,7 @@
 				<span><label for="module">{TXT_FICHIER}&nbsp;:</label></span>
 				<span>
 					<select name="module" id="module" onblur="formverif(this.id,'autre','')">
-						<option value="">{TXT_CHOISIR}</option>
+						<option value"">{TXT_CHOISIR}</option>
 						<!-- BEGIN liste_module -->
 						<option value="{liste_module.VALEUR}" {liste_module.SELECTED}>{liste_module.NOM}</option>
 						<!-- END liste_module -->
@@ -26,7 +26,7 @@
 				<span><label for="position">{TXT_POSITION}&nbsp;:</label></span>
 				<span>
 					<select name="position" id="position" onblur="formverif(this.id,'autre','')">
-						<option value="">{TXT_CHOISIR}</option>
+						<option value"">{TXT_CHOISIR}</option>
 						<option value="gauche" {SELECTED_GAUCHE} {DISABLED_G_D}>{TXT_GAUCHE}</option>
 						<option value="droite" {SELECTED_DROITE} {DISABLED_G_D}>{TXT_DROITE}</option>
 						<option value="centre" {SELECTED_CENTRE} {DISABLED_C}>{TXT_CENTRE}</option>
@@ -76,7 +76,7 @@
 						<td>{liste_droite.ETAT}</td>
 						<td>
 							<form action="{ICI}" method="post">
-								<input name="Supprimer" type="submit" value="{liste_droite.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />
+								<input name="Supprimer" type="submit" value="{liste_droite.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" />
 								<input name="for" type="hidden" value="{liste_droite.ID}" />
 								<input name="call_page" type="hidden" value="{liste_droite.CALL_PAGE}" />
 								<input name="Editer" type="submit" value="{liste_droite.EDITER}" />
@@ -98,7 +98,7 @@
 						<td>{liste_centre.ETAT}</td>
 						<td>
 							<form action="{ICI}" method="post">
-								<input name="Supprimer" type="submit" value="{liste_centre.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />
+								<input name="Supprimer" type="submit" value="{liste_centre.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" />
 								<input name="for" type="hidden" value="{liste_centre.ID}" />
 								<input name="call_page" type="hidden" value="{liste_centre.CALL_PAGE}" />
 								<input name="centre" type="hidden" value="true" />
@@ -121,7 +121,7 @@
 						<td>{liste_gauche.ETAT}</td>
 						<td>
 							<form action="{ICI}" method="post">
-								<input name="Supprimer" type="submit" value="{liste_gauche.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />
+								<input name="Supprimer" type="submit" value="{liste_gauche.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" />
 								<input name="call_page" type="hidden" value="{liste_gauche.CALL_PAGE}" />
 								<input name="for" type="hidden" value="{liste_gauche.ID}" />
 								<input name="Editer" type="submit" value="{liste_gauche.EDITER}" />

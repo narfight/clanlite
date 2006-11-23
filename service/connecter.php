@@ -8,14 +8,13 @@ $action_membre = 'where_connecte';
 include($root_path.'conf/template.php');
 include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'connecter.tpl'));
 
 $template->assign_vars(array( 
 	'TITRE_CONNECTE' => $langue['titre_connecte'],
 	'NO_PROFIL' => $langue['no_profil'],
-	'ID' => $langue['id'],
 	'NOM_SEX' => $langue['nom/sex'],
 	'ACTION' => $langue['action'],
 	'PROFIL' => $langue['profil'],
@@ -32,14 +31,16 @@ while ($liste = $rsql->s_array($get))
 {
 	$nfo_session = unserialize($liste['stock']);
 	$template->assign_block_vars('connecter', array( 
-		'ID' => ( empty($nfo_session['id']) )? "N/A" : $nfo_session['id'],
-		'USER' => ( empty($nfo_session['user']) )? "Visiteur" : $nfo_session['user'],
-		'SEX' => ( !empty($nfo_session['sex']) && $nfo_session['sex'] == "Femme" )? "femme" : "homme",
+		'USER' => ( empty($nfo_session['user']) )? $langue['guest'] : $nfo_session['user'],
+		'SEX' => ( !empty($nfo_session['sex']) && $nfo_session['sex'] == 'Femme' )? 'femme' : 'homme',
 		'ACTION'  => $langue[$nfo_session['action_membre']]
 	));
 	if (!empty($nfo_session['id']))
 	{
-		$template->assign_block_vars('connecter.membre_connect', array( 'vide' => 'vide' ));
+		$template->assign_block_vars('connecter.membre_connect', array(
+			'ALT_PROFIL' => $langue['alt_profil'],
+			'PROFIL_U' => session_in_url('profil.php?link='.$nfo_session['id'])
+		));
 	}
 	else
 	{
@@ -58,5 +59,5 @@ while ($liste = $rsql->s_array($get))
 	unset($nfo_session);
 } 
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
  ?>

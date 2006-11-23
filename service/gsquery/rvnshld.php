@@ -30,7 +30,7 @@ require_once GSQUERY_DIR . 'gsQuery.php';
 /**
  * @brief Implements the properitary protocol used by Raven Shield
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: rvnshld.php,v 1.8 2004/08/12 19:14:47 jr Exp $
+ * @version $Id: rvnshld.php 190 2004-09-25 15:48:06Z jr $
  * @todo Some variables are missing
  *
  * As far as I know this works with 'Rainbox Six: Raven Shield' only.

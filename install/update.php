@@ -5,7 +5,7 @@
 $root_path = './../';
 $action_membre = '';
 $action_db = '';
-$news_version = '1.16.09.2004';
+$news_version = '1.01.11.2004';
 include($root_path.'conf/template.php');
 include($root_path.'conf/conf-php.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
@@ -76,7 +76,17 @@ switch($config['version'])
 			$action_db['1.07.08.2004']['Configuration du module id '.$liste['id']] = "UPDATE `".$config['prefix']."modules` SET `config` = '".serialize(array('serveur' => $liste['config'], 'image' => false, 'liste' => true))."' WHERE `id` = '".$liste['id']."' LIMIT 1 ;";
 		}
 	case '1.13.09.2004':
-	
+	case '1.16.09.2004':
+		$action_db['1.16.09.2004'] = array(
+			'Ajoute un champ' => "ALTER TABLE `".$config['prefix']."game_server` ADD `clan` ENUM( '0', '1' ) NOT NULL AFTER `id` ;",
+			'Modifie le menu du haut' => "INSERT INTO `".$config['prefix']."custom_menu` VALUES ('', 11, 'boutton_liste_game', 'service/serveur_game_list.php', '0', '0', '0', 0, '1');",
+			'Ajoute du URL pour rejoindre le serveur de jeu' => "ALTER TABLE `".$config['prefix']."game_server_cache` ADD `JoinerURI` VARCHAR( 255 ) NOT NULL ;",
+		);
+		if ($config['serveur'] == 1)
+		{
+			$action_db['1.16.09.2004']['Déplace la configuration du serveur de jeu du clan'] = "INSERT INTO `".$config['prefix']."game_server` (`ip`, `port`, `protocol`, `clan`) VALUES ('".$config['serveur_game_ip']."', '".$config['serveur_game_port']."', '".$config['serveur_game_protocol']."', '1');";
+			$action_db['1.16.09.2004']['Supprime ip/port/protocol de la base config'] = "DELETE FROM `".$config['prefix']."config` WHERE `conf_nom` = 'serveur' OR `conf_nom` = 'serveur_game_ip' OR `conf_nom` = 'serveur_game_port' OR `conf_nom` = 'serveur_game_protocol' OR `conf_nom` = 'serveur_game_info';";
+		}
 	// sans break, metre case version a la suite, comme ca il fait toutes les mise à jours de la db de la version qu'il a jusqua la version actuelle
 	$maj = true;
 	break;
@@ -96,7 +106,7 @@ if (is_array($action_db) && empty($etat) || $maj)
 	{
 		if (count($action) != 0)
 		{
-			$texte .= "<li>Mise a jour pour la version ".$version."</li>\n";
+			$texte .= "<li>Mise à jour à la version ".$version."</li>\n";
 			$texte .= "	<ul>\n";
 			foreach ($action as $for => $sql)
 			{

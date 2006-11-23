@@ -234,7 +234,7 @@ couleur des cadre pour le centre et d'autre endroit */
 	font-weight: normal;
 }
 /* definit la couleur des ligne du tableau */
-.big_cadre tr
+.big_cadre td
 {
 	background-color: #B4E4FF;
 }
@@ -250,7 +250,7 @@ couleur des cadre pour le centre et d'autre endroit */
 }
 
 /* titre dans les bloques du centre */
-.news h2, .table-titre, thead tr
+.news h2, .table-titre, thead th
 {
 	margin: 0;
 	font-size: 12px;

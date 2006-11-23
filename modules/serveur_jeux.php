@@ -7,14 +7,14 @@ if (defined('CL_AUTH'))
 	if( !empty($get_nfo_module) )
 	{
 		$filename = basename(__FILE__);
-		$nom = "Query Serveur";
+		$nom = 'Query Serveur';
 		return;
 	}
 	if( !empty($module_installtion) || !empty($module_deinstaller) )
 	{
 		return;
 	}
-	require_once($root_path."service/gsquery/gsQuery.php");
+	require_once($root_path.'service/gsquery/gsQuery.php');
 	$tpl_filename = $template->make_filename('modules/serveur_jeux.tpl');
 	$tpl = fread(fopen($tpl_filename, 'r'), filesize($tpl_filename));
 	
@@ -26,21 +26,12 @@ if (defined('CL_AUTH'))
 	$tpl  = str_replace("\n", '', $tpl);
 	
 	$modules['config'] = unserialize($modules['config']);
-	if ($modules['config']['serveur'] != 'serveur_clan')
+	$sql = "SELECT `id`, `ip`, `port`, `protocol` FROM `".$config['prefix']."game_server` WHERE `id`='".$modules['config']['serveur']."'";
+	if (! ($get = $rsql->requete_sql($sql)) )
 	{
-		$sql = "SELECT id,ip,port,protocol FROM ".$config['prefix']."game_server WHERE id='".$modules['config']['serveur']."'";
-		if (! ($get = $rsql->requete_sql($sql)) )
-		{
-			sql_error($sql, $rsql->error, __LINE__, __FILE__);
-		}
-		$module_game = $rsql->s_array($get);	
+		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	else
-	{
-		$module_game['ip'] = $config['serveur_game_ip'];
-		$module_game['port'] = $config['serveur_game_port'];
-		$module_game['protocol'] = $config['serveur_game_protocol'];
-	}
+	$module_game = $rsql->s_array($get);	
 	if ( (!$gameserver=queryServer($module_game['ip'], $module_game['port'], $module_game['protocol'])) )
 	{
 		$template->assign_block_vars('modules_'.$modules['place'], array( 
@@ -69,7 +60,7 @@ if (defined('CL_AUTH'))
 			}
 			if ($img_map != 'empty.jpg')
 			{
-				$block['serveur_jeux'] = str_replace('{IMAGE_MAP}', '<img src="'.$root_path.'images/pics_map/'.$img_map.'" '.$taille_img_map[3].' alt="'.printf($langue['alt_img_map_serveur_jeux'], $current_map).'" />', $block['serveur_jeux']);
+				$block['serveur_jeux'] = str_replace('{IMAGE_MAP}', '<img src="'.$root_path.'images/pics_map/'.$img_map.'" '.$taille_img_map[3].' alt="'.sprintf($langue['alt_img_map_serveur_jeux'], $current_map).'" />', $block['serveur_jeux']);
 			}
 			else
 			{
@@ -81,7 +72,7 @@ if (defined('CL_AUTH'))
 			$block['serveur_jeux'] = str_replace('{IMAGE_MAP}', '', $block['serveur_jeux']);
 		}
 		$block['serveur_jeux'] = str_replace('{TXT_IP}', $langue['ip'], $block['serveur_jeux']);
-		$block['serveur_jeux'] = str_replace('{IP}', $module_game['ip']." : ".$module_game['port'], $block['serveur_jeux']);
+		$block['serveur_jeux'] = str_replace('{IP}', $module_game['ip'].' : '.$module_game['port'], $block['serveur_jeux']);
 		$block['serveur_jeux'] = str_replace('{TXT_CURRENT_MAP}', $langue['map_serveur_jeux'], $block['serveur_jeux']);
 		$block['serveur_jeux'] = str_replace('{CURRENT_MAP}', $current_map, $block['serveur_jeux']);
 		$block['serveur_jeux'] = str_replace('{TXT_NEXT_MAP}', $langue['next_map_serveur_jeux'], $block['serveur_jeux']);
@@ -90,16 +81,17 @@ if (defined('CL_AUTH'))
 		$block['serveur_jeux'] = str_replace('{PLAYER}', $gameserver['numplayers'], $block['serveur_jeux']);
 		$block['serveur_jeux'] = str_replace('{TXT_GAME_TYPE}', $langue['gametype_serveur_jeux'], $block['serveur_jeux']);
 		$block['serveur_jeux'] = str_replace('{GAME_TYPE}', $gameserver['gametype'], $block['serveur_jeux']);
+		$block['serveur_jeux'] = str_replace('{JOINERURI}', $gameserver['JoinerURI'], $block['serveur_jeux']);
 		$block['serveur_jeux'] = str_replace('{TXT_PLACE}', $langue['nbr_place_serveur_jeux'], $block['serveur_jeux']);
 		$block['serveur_jeux'] = str_replace('{PLACE}', $gameserver['maxplayers'], $block['serveur_jeux']);
 		// liste des joueurs
 		if(count($gameserver['players']) && $modules['config']['liste'])
 		{
 			$serveur_jeux_boucle = '';
-			$color = '';
+			$color = 'table-cellule';
 			foreach($gameserver['players'] as $player)
 			{
-				$color = ($color == "table-cellule")? "table-cellule-2" : "table-cellule";
+				$color = ($color === 'table-cellule')? 'table-cellule-2' : 'table-cellule';
 				$serveur_jeux_boucle_beta = str_replace('{NAME}', $player["name"], $block['serveur_jeux_boucle']);
 				$serveur_jeux_boucle .= str_replace('{COLOR}', $color, $serveur_jeux_boucle_beta);
 			}
@@ -128,14 +120,14 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module']) )
 	$id_module = (!empty($_POST['id_module']))? $_POST['id_module'] : $_GET['id_module'];
 	if ( !empty($_POST['Submit_module']) )
 	{
-		$sql = "UPDATE ".$config['prefix']."modules SET config='".serialize(array('serveur' =>$_POST['id_serveur'], 'image' => (empty($_POST['image']))? false : true, 'liste' => (empty($_POST['liste']))? false : true))."' WHERE id ='".$id_module."'";
+		$sql = "UPDATE `".$config['prefix']."modules` SET `config`='".serialize(array('serveur' =>$_POST['id_serveur'], 'image' => (empty($_POST['image']))? false : true, 'liste' => (empty($_POST['liste']))? false : true))."' WHERE `id`='".$id_module."'";
 		if (! ($rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
-		redirec_text($root_path."administration/modules.php" , $langue['redirection_module_serveur_game_edit'],'admin');
+		redirec_text($root_path.'administration/modules.php' , $langue['redirection_module_serveur_game_edit'],'admin');
 	}
-	include($root_path."conf/frame_admin.php");
+	include($root_path.'conf/frame_admin.php');
 	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('body' => 'modules/serveur_jeux.tpl'));
 	$sql = "SELECT config FROM ".$config['prefix']."modules WHERE id ='".$id_module."'";
@@ -145,17 +137,15 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module']) )
 	}
 	$actu_data = $rsql->s_array($get);
 	$actu_data = unserialize($actu_data['config']);
-	$sql = "SELECT id,ip,port,protocol FROM ".$config['prefix']."game_server";
+	$sql = 'SELECT `id`, `ip`, `port`, `protocol` FROM `'.$config['prefix'].'game_server`';
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	$selected = ($actu_data['serveur'] == 'serveur_clan')? 'selected="selected"' : '';
-	$liste = ($config['serveur'] == 1)? "<option value=\"serveur_clan\" ".$selected.">".$langue['clanserveur_module_serveur_game']."</option>" : "";
+	$liste = '';
 	while ($server_liste = $rsql->s_array($get))
 	{
-		$selected = ($actu_data['serveur'] == $server_liste['id'])? 'selected="selected"' : '';
-		$liste .="<option value=\"".$server_liste['id']."\" ".$selected.">".$server_liste['ip'].":".$server_liste['port']." (".$server_liste['protocol'].")</option>";
+		$liste .='<option value="'.$server_liste['id'].'" '.(($actu_data['serveur'] === $server_liste['id'])? 'selected="selected"' : '').'>'.$server_liste['ip'].':'.$server_liste['port'].' ('.$server_liste['protocol'].')</option>';
 	}
 	$template->assign_block_vars('serveur_config',array(
 		'TITRE' => $langue['titre_module_serveur_game'],
@@ -170,6 +160,6 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module']) )
 		'LISTE'=> $liste,
 	));
 	$template->pparse('body');
-	include($root_path."conf/frame_admin.php");
+	include($root_path.'conf/frame_admin.php');
 }
 ?>

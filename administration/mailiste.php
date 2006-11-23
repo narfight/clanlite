@@ -80,12 +80,13 @@ if (!empty($_POST['Envoyer']))
 			$mailer->clear_address();
 		}
 	}
-	redirec_text("mailiste.php", $langue['redirection_admin_mailiste_add'], 'admin');
+	redirec_text('mailiste.php', $langue['redirection_admin_mailiste_add'], 'admin');
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_mailiste.tpl'));
 $template->assign_vars( array(
+	'ICI' => session_in_url('mailiste.php'),
 	'TITRE' => $langue['titre_admin_mailiste'],
 	'ACTION' => $langue['action'],
 	'TXT_SUBJECT' => $langue['mailiste_subject'],
@@ -134,5 +135,5 @@ while ( ($liste_ns = $rsql->s_array($get_ns_liste)) )
 	));
 }
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

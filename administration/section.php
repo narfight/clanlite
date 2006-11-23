@@ -16,7 +16,7 @@ if (!empty($_POST['envoyer']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-		redirec_text("section.php", $langue['redirection_admin_section_add'], 'admin');
+		redirec_text('section.php', $langue['redirection_admin_section_add'], 'admin');
 }
 if (!empty($_POST['envois_edit']))
 {
@@ -28,7 +28,7 @@ if (!empty($_POST['envois_edit']))
 	}
 	else
 	{
-		redirec_text("section.php", $langue['redirection_admin_section_edit'], 'admin');
+		redirec_text('section.php', $langue['redirection_admin_section_edit'], 'admin');
 	}
 }
 if (!empty($_POST['Supprimer']))
@@ -44,12 +44,13 @@ if (!empty($_POST['Supprimer']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text("section.php", $langue['redirection_admin_section_dell'], 'admin');
+	redirec_text('section.php', $langue['redirection_admin_section_dell'], 'admin');
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_section.tpl'));
 $template->assign_vars( array(
+	'ICI' => session_in_url('section.php'),
 	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'TITRE' => $langue['titre_admin_section'],
 	'TITRE_GESTION' => $langue['titre_admin_section_gestion'],
@@ -101,5 +102,5 @@ while ($liste = $rsql->s_array($get))
 	));
 }
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

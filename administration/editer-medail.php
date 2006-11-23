@@ -17,7 +17,7 @@ if ( !empty($_POST['Submit']) )
 	}
 	redirec_text($root_path."service/liste-des-membres.php", $langue['redirection_medaille'], 'admin');
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $sql = "SELECT user,id,medail FROM `".$config['prefix']."user` WHERE id = '".$_POST['id']."'";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
@@ -28,10 +28,11 @@ if ($recherche = $rsql->s_array($get))
 	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('body' => 'admin_medail.tpl'));
 	// on affiche ou pas la medaille, si il a ou pas
-	$medail=explode(",", $recherche['medail']);
+	$medail=explode(',', $recherche['medail']);
 	$boucle = -1;
 	$nombre_md = 0;
 	$template->assign_vars(array(
+		'ICI' => session_in_url('editer-medail.php'),
 		'TITRE' => sprintf($langue['titre_medaille'], $recherche['user']),
 		'EDITER' => $langue['editer'],
 	));
@@ -48,5 +49,5 @@ else
 {
 	msg('erreur', $langue['erreur_profil_no_found']);
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

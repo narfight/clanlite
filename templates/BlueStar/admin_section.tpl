@@ -1,6 +1,6 @@
 <div class="big_cadre">
 	<h1>{TITRE} <img src="../images/smilies/question.gif" onmouseover="poplink('{HELP_TXT}',event)" onmouseout="kill_poplink()" alt="{ALT_AIDE}" /></h1>
-    <form method="post" action="section.php">
+    <form method="post" action="{ICI}">
 		<div class="big_cadre">
 			<h1>{TITRE_GESTION}</h1>
 			<p>
@@ -47,8 +47,8 @@
 						<td>{liste.LIMITE}</td>
 						<td>{liste.VISIBLE}</td>
 						<td>
-							<form action="section.php" method="post">
-								<input name="Supprimer" type="submit" value="{liste.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />
+							<form action="{ICI}" method="post">
+								<input name="Supprimer" type="submit" value="{liste.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" />
 								<input name="for" type="hidden" value="{liste.ID}" />
 								<input name="Editer" type="submit" value="{liste.EDITER}" />
 							</form>

@@ -65,6 +65,7 @@ CREATE TABLE `clanlite_entrainement` (
 
 CREATE TABLE `clanlite_game_server` (
   `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `clan` enum('0','1') NOT NULL default '0',
   `ip` varchar(15) NOT NULL default '',
   `port` mediumint(9) NOT NULL default '0',
   `protocol` longtext NOT NULL,
@@ -276,5 +277,6 @@ CREATE TABLE `clanlite_game_server_cache` (
   `gametype` tinytext NOT NULL,
   `rules` longtext NOT NULL,
   `players` longtext NOT NULL,
+  `JoinerURI` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;

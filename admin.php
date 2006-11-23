@@ -2,7 +2,7 @@
 // -------------------------------------------------------------
 // LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
 // ------------------------------------------------------------- 
-$root_path = "./";
+$root_path = './';
 $action_membre= 'where_login';
 include($root_path.'conf/template.php');
 include($root_path.'conf/conf-php.php');
@@ -19,7 +19,9 @@ $template->assign_vars(array(
 	'LOGIN' => $langue['form_login'],
 	'SAVE' => $langue['save_code_login'],
 	'LOST' => $langue['lost_psw'],
+	'LOST_U' => session_in_url($root_path.'user/code-perdu.php'),
 	'GOTO' => (empty($_GET['goto']))? '' : $_GET['goto'],
+	'GOTO_U' => session_in_url($root_path.'controle/entrer.php'),
 	'ENVOYER' => $langue['envoyer'],
 ));
 if (!empty($_GET['erreur'])) 

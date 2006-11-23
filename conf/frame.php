@@ -57,12 +57,12 @@ else
 		// pour voir ou va etre ouvert la page
 		if (($boutton['module_central'] == 1 || $boutton['default'] == 1) && $target_u != $config['url_forum'])
 		{
-			$target_u = $root_path.$boutton['url'];
+			$target_u = session_in_url($root_path.$boutton['url']);
 		}
 		elseif ($boutton['frame'] == 0 && $boutton['default'] == 'normal')
 		{
-			$target_u = $boutton['url'];
-			$target = "onclick=\"window.open('".$target_u."');return false;\"";
+			$target_u = session_in_url($boutton['url']);
+			$target = 'onclick="window.open(\''.$target_u.'\');return false;"';
 		}
 		elseif ($boutton['frame'] == 1)
 		{
@@ -147,28 +147,12 @@ else
 		}
 	}
 }
-//on vérifie si il faut metre le boutton serveur
-if ($config['serveur'] == 1) 
-{
-	$template->assign_block_vars('bouttons', array(
-		'BOUTTON_L' => $langue['boutton_game_serveur_clan'],
-		'BOUTTON_U' => $root_path.'service/serveur.php'
-	)); 
-}
-//on vérifie si il faut metre le boutton liste des serveurs de jeux
-if ($config['list_game_serveur'] == 'oui') 
-{
-	$template->assign_block_vars('bouttons', array(
-		'BOUTTON_L' => $langue['boutton_liste_game'],
-		'BOUTTON_U' => $root_path.'service/serveur_game_list.php'
-	)); 
-}
 //on vérifie si il faut metre le boutton inscription
 if ($inscription != 0) 
 {
 	$template->assign_block_vars('bouttons', array(
 		'BOUTTON_L' => $langue['boutton_inscription'],
-		'BOUTTON_U' => $root_path.'user/new-user.php'
+		'BOUTTON_U' => session_in_url($root_path.'user/new-user.php')
 	)); 
 }
 $template->assign_vars( array( 
@@ -177,14 +161,18 @@ $template->assign_vars( array(
 	'COPYRIGHT' => sprintf($langue['copyright'], $config['version']),
 	'B_PRIVE' => $langue['boutton_connect'],
 	'NOM_CLAN' => $config['nom_clan'],
+	'NEWS' => $langue['news_titre'],
 	'ICI_SELF' => $config['site_domain'].$_SERVER['PHP_SELF'],
 	'ICI' => $config['site_domain'].$config['site_path'],
+	'ADMINISTRATION' => $langue['menu_titre_admin'],
+	'ADMINISTRATION_U' => session_in_url($root_path.'user/index.php'),
+	'B_PRIVE_U' => session_in_url($root_path.'admin.php'),
 ));
 if (!empty($user_connect))
 {
 	$template->assign_block_vars('connecter', array( 
 		'LOGIN' => $langue['boutton_deconnect'].'['.$session_cl['user'].']',
-		'LOGIN_URL' => $root_path.'controle/die-cook.php?where='.$root_path.'admin.php',
+		'LOGIN_U' => session_in_url($root_path.'controle/die-cook.php?where='.$root_path.'admin.php'),
 	));
 }
 if (!empty($page_frame))
@@ -193,7 +181,6 @@ if (!empty($page_frame))
 	{
 		$template->assign_block_vars('admin', array( 
 			'TIME_EXECUT_NBR_SQL' =>  sprintf($langue['exec_time_rsql'], getmicrotime() - $debut, $rsql->nb_req),
-			'ADMINISTRATION' => $langue['menu_titre_admin'],
 		));
 	}
 	//$rsql->debug();

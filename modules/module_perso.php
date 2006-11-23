@@ -28,6 +28,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_perso_mo
 	include($root_path.'conf/template.php');
 	include($root_path.'conf/conf-php.php');
 	include($root_path."controle/cook.php");
+	$_POST = pure_var($_POST);
 	$id_module = (!empty($_POST['id_module']))? $_POST['id_module'] : $_GET['id_module'];
 	if ( !empty($_POST['Submit_module_perso_module']) )
 	{
@@ -38,7 +39,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_perso_mo
 		}
 		redirec_text($root_path."administration/modules.php" ,$langue['redirection_module_custom_edit'], 'admin');
 	}
-	include($root_path."conf/frame_admin.php");
+	include($root_path.'conf/frame_admin.php');
 	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('body' => 'modules/module_perso.tpl'));
 	liste_smilies(true, '', 25);
@@ -56,7 +57,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_perso_mo
 		'EDITER' => $langue['editer'],
 	));
 	$template->pparse('body');
-	include($root_path."conf/frame_admin.php");
+	include($root_path.'conf/frame_admin.php');
 	return;
 }
 ?>

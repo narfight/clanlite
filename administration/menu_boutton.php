@@ -16,7 +16,7 @@ if ( !empty($_POST['Envoyer']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-		redirec_text("menu_boutton.php",$langue['redirection_custom_menu_add'],'admin');
+		redirec_text('menu_boutton.php',$langue['redirection_custom_menu_add'],'admin');
 }
 if ( !empty($_POST['Editer']) )
 {
@@ -31,7 +31,7 @@ if ( !empty($_POST['Editer']) )
 	}
 	else
 	{
-		redirec_text("menu_boutton.php",$langue['redirection_custom_menu_edit'],'admin');
+		redirec_text('menu_boutton.php',$langue['redirection_custom_menu_edit'],'admin');
 	}
 }
 if ( !empty($_POST['dell']) )
@@ -43,13 +43,14 @@ if ( !empty($_POST['dell']) )
 	}
 	else
 	{
-		redirec_text("menu_boutton.php",$langue['redirection_custom_menu_dell'],'admin');
+		redirec_text('menu_boutton.php',$langue['redirection_custom_menu_dell'],'admin');
 	}
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_boutton.tpl'));
 $template->assign_vars(array( 
+	'ICI' => session_in_url('menu_boutton.php'),
 	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'TITRE' => $langue['titre_custom_menu'],
 	'TITRE_GESTION' => $langue['titre_custom_menu_gestion'],
@@ -127,5 +128,5 @@ while ($list = $rsql->s_array($get_list))
 	));
 }
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

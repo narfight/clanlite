@@ -2,7 +2,7 @@
 
 /*
  *  gsQuery - Querys game servers
- *  Copyright (c) 2002-2004 Jeremias Reith <jr@terragate.net>
+ *  Copyright (c) 2002-2004 Jeremias Reith <jr@gsquery.org>
  *  http://www.gsquery.org
  *
  *  This file is part of the gsQuery library.
@@ -48,7 +48,7 @@ if(!defined('GSQUERY_DIR')) {
 /**
  * @brief Abstract gsQuery base class
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: gsQuery.php,v 1.33 2004/08/12 19:14:47 jr Exp $
+ * @version $Rev: 196 $
  *
  * <p>The gsQuery package has one class for each protocol or game.
  * This class is abstract but due to the lack of real OO
@@ -172,11 +172,10 @@ class gsQuery
   var $errstr;
  
   /** 
-   * @brief Hash with debug infos 
-   *
-   * Key: What we did / send<br>
-   * Value: Result / Error message
-   *
+   * @brief Array with debug infos 
+   * 
+   * Stores all the send/received data
+   * Format: send data => received data
    */ 
   var $debug;
   
@@ -188,8 +187,7 @@ class gsQuery
    */
   function gsQuery($address, $queryport)
   {
-    $this->version = ereg_replace("[^0-9\\.]", '', '$Revision: 1.33 $');
-    
+    $this->version = '(SVN Rev '. ereg_replace("[^0-9\\.]", '', '$Rev: 196 $') .')'; 
     $this->address = $address;
     $this->queryport = $queryport;
    
@@ -246,7 +244,7 @@ class gsQuery
    */
   function unserialize($string) 
   {
-	// extracting class name
+    // extracting class name
     $length = strlen($string);
     for($i=0;$i<$length;$i++) {
       if($string[$i] == ':') {
@@ -275,7 +273,7 @@ class gsQuery
    */
   function unserializeFromURL($url) 
   {
-    require_once('includes/HttpClient.class.php');
+    require_once(GSQUERY_DIR . 'includes/HttpClient.class.php');
     return gsQuery::unserialize(HttpClient::quickGet($url));
   }
 
@@ -343,6 +341,7 @@ class gsQuery
    */
   function query_server($getPlayers=TRUE,$getRules=TRUE)
   {       
+    $this->errstr = 'This class cannot be used to query a server';
     return FALSE;
   }
     
@@ -413,7 +412,35 @@ class gsQuery
    */
   function serialize() 
   {   
-	return $this->_getClassName() .':'. base64_encode(serialize($this));
+    return $this->_getClassName() .':'. base64_encode(serialize($this));
+  }
+
+  /**
+   * @brief Creates hexdumps out of the debug info
+   * 
+   * @param html whether to create an html hexdump 
+   * @param dumper an optional preconfigured HexDumper instance
+   * @return an array with hexdumps for each send command/received result
+   * 
+   * Pass an HexDumper instance if you want to format the dump yourself.
+   * Each element of the result will contain a 2 element array with the hexdump
+   * of the send data first and the dump of the received data behind it.
+   */
+  function getDebugDumps($html=FALSE, $dumper=NULL) {
+    require_once(GSQUERY_DIR . 'includes/HexDumper.class.php');    
+
+    if(!isset($dumper)) {
+      $dumper = new HexDumper();
+    }
+
+    $dumps = array();
+    $dumpFunction = array($dumper, $html ? 'createHTMLDump' : 'createASCIIDump');
+    
+    foreach ($this->debug as $curCommand) {
+      $dumps[] = array_map($dumpFunction, $curCommand);
+    }
+    
+    return $dumps;
   }
 
   // private member functions
@@ -460,7 +487,6 @@ class gsQuery
   function _init()
   {
     $this->online = FALSE;
-    $this->gamename = '';
     $this->hostport = 0;
     $this->gameversion = '';
     $this->servertitle = '';
@@ -498,7 +524,6 @@ class gsQuery
   function _sendCommand($address, $port, $command, $timeout=500000)
   {
     if(!$socket=@fsockopen('udp://'.$address, $port)) {
-      $this->debug['While trying to open a socket']='Couldn\'t reach server';
       $this->errstr='Cannot open a socket!';
       return FALSE;
     } else {
@@ -509,7 +534,6 @@ class gsQuery
       // send command
       if(fwrite($socket, $command, strlen($command))==-1) {
 	fclose($socket);
-	$this->debug['While trying to write on a open socket']='Unable to write on open socket!';
 	$this->errstr='Unable to write on open socket!';
 	return FALSE;
       }
@@ -522,10 +546,10 @@ class gsQuery
       
       fclose($socket);
       if(!isset($result)) {
-	$this->debug['Command send ' . $command]='No response from game server received';
+	$this->debug[] = array($command, '');
 	return FALSE;
       }
-      $this->debug['Command send ' . $command]='Answer received: ' .$result;
+      $this->debug[] = array($command, $result);
       return $result;
     }
   }

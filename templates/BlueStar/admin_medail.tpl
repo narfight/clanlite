@@ -1,6 +1,6 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-	<form method="post" action="editer-medail.php">
+	<form method="post" action="{ICI}">
 		<div class="big_cadre">
 			<div class="news">
 				<table class="table">

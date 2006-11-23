@@ -31,7 +31,7 @@ if (defined('CL_AUTH'))
 	{
 		$template->assign_block_vars('modules_'.$modules['place'], array( 
 				'TITRE' => $modules['nom'],
-				'IN' => '<form method="post" action="" style="text-align: center;">'."\n".'<select name="change_tpl_perso" id="change_tpl_perso_module" size="'.$nombre_tpl.'" onchange="this.form.submit();">'."\n".$liste_tpl."\n".'</select>'."\n".'</form>'
+				'IN' => '<form method="post" action="'.session_in_url($config['site_domain'].$_SERVER['PHP_SELF']).'" style="text-align: center;">'."\n".'<select name="change_tpl_perso" id="change_tpl_perso_module" size="'.$nombre_tpl.'" onchange="this.form.submit();">'."\n".$liste_tpl."\n".'</select>'."\n".'</form>'
 		));
 	}
 }

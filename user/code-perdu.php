@@ -2,7 +2,7 @@
 // -------------------------------------------------------------
 // LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
 // -------------------------------------------------------------
-$root_path = "../";
+$root_path = '../';
 $action_membre = 'where_lost_code';
 include($root_path.'conf/conf-php.php');
 include($root_path.'conf/template.php');
@@ -11,7 +11,8 @@ if (empty($_GET['activ_pw']) && empty($_POST['activ_pw']) && empty($_POST['mail'
 	include($root_path.'conf/frame.php');
 	$template = new Template($root_path.'templates/'.$config['skin']);
 	$template->set_filenames( array('body' => 'code-perdu.tpl'));
-	$template->assign_vars(array( 
+	$template->assign_vars(array(
+		'ICI' => session_in_url('code-perdu.php'),
 		'TITRE' => $langue['titre_lost_code'],
 		'MAIL' => $langue['form_mail'],
 		'DEF_ACTIVATION' => $langue['def_code_activation'],
@@ -41,14 +42,14 @@ else
 		}
 		else
 		{//il est pas bon
-			redirec_text($root_path.'user/code-perdu.php', $langue['user_envois_newscodeerror'] , 'user');
+			redirec_text('code-perdu.php', $langue['user_envois_newscodeerror'] , 'user');
 		}
 	}
 	else
 	{
 		if (!eregi("(.+)@(.+).([a-z]{2,4})$", $_POST['mail']))
 		{
-			redirec_text($root_path.'user/code-perdu.php', $langue['user_envois_mailinvalide'], 'user');
+			redirec_text('code-perdu.php', $langue['user_envois_mailinvalide'], 'user');
 		}
 		else
 		{
@@ -60,7 +61,7 @@ else
 			}
 			if ( !($info_lost = $rsql->s_array($get)) )
 			{
-				redirec_text($root_path.'user/code-perdu.php', $langue['user_envois_mailnofound'], 'user');
+				redirec_text('code-perdu.php', $langue['user_envois_mailnofound'], 'user');
 			}
 			else
 			{
@@ -71,7 +72,7 @@ else
 				{
 					$news_code.=$string[mt_rand()%strlen($string)];
 				}
-				$activation = "";
+				$activation = '';
 				for($i=0;$i<31;$i++)
 				{
 					$activation.=$string[mt_rand()%strlen($string)];
@@ -98,7 +99,7 @@ else
 				$mailer->set_subject(sprintf($langue['titre_mail_codeperdu'], $config['nom_clan']));
 				$mailer->set_message(sprintf($langue['corps_mail_codeperdu'], $info_lost['nom'], $news_code, $info_lost['user'], $config['site_domain'].$config['site_path'], $activation));
 				$mailer->send();
-				redirec_text($root_path.'user/code-perdu.php', $langue['user_envois_mailinvalideenvoye'], 'user');
+				redirec_text('code-perdu.php', $langue['user_envois_mailinvalideenvoye'], 'user');
 			}
 		}
 	}

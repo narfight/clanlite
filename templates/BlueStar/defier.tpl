@@ -1,4 +1,4 @@
-<form method="post" action="defier.php">
+<form method="post" action="{ICI}">
 	<div class="big_cadre">
 		<h1>{TITRE_DEFIT}</h1>
 		<p>

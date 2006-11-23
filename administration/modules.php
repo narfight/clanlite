@@ -12,7 +12,7 @@ if (!empty($_POST['envoyer']))
 { 
 	if (empty($_POST['module']))
 	{
-		redirec_text("modules.php", $langue['redirection_module_erreur'], 'admin');
+		redirec_text('modules.php', $langue['redirection_module_erreur'], 'admin');
 	}
 	$_POST = pure_var($_POST);
 	$central = false;
@@ -25,14 +25,14 @@ if (!empty($_POST['envoyer']))
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	$module_installtion = 1;
-	include($root_path."modules/".$_POST['module']);
-	redirec_text("modules.php", $langue['redirection_module_add'], 'admin');
+	include($root_path.'modules/'.$_POST['module']);
+	redirec_text('modules.php', $langue['redirection_module_add'], 'admin');
 }
 if (!empty($_POST['envois_edit']))
 {
 	if (empty($_POST['module']))
 	{
-		redirec_text("modules.php", $langue['redirection_module_erreur'], 'admin');
+		redirec_text('modules.php', $langue['redirection_module_erreur'], 'admin');
 	}
 	$_POST = pure_var($_POST);
 	$sql = "UPDATE `".$config['prefix']."modules` SET nom='".$_POST['nom']."', ordre='".$_POST['num']."', place='".$_POST['position']."', call_page='".$_POST['module']."', etat='".(($_POST['activation'] != 0)? 1 : 0)."' WHERE id='".$_POST['for']."'";
@@ -42,7 +42,7 @@ if (!empty($_POST['envois_edit']))
 	}
 	else
 	{
-		redirec_text("modules.php", $langue['redirection_module_edit'], 'admin');
+		redirec_text('modules.php', $langue['redirection_module_edit'], 'admin');
 	}
 }
 if (!empty($_POST['Supprimer']))
@@ -53,10 +53,10 @@ if (!empty($_POST['Supprimer']))
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	$module_deinstaller = 1;
-	include($root_path."modules/".$_POST['call_page']);
-	redirec_text("modules.php", $langue['redirection_module_dell'], 'admin');
+	include($root_path.'modules/'.$_POST['call_page']);
+	redirec_text('modules.php', $langue['redirection_module_dell'], 'admin');
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_modules.tpl'));
 if (!empty($_POST['Editer']))
@@ -83,8 +83,8 @@ else
 	$template->assign_block_vars('rajouter', array('ENVOYER' => $langue['envoyer']));
 }
 $template->assign_vars(array( 
+	'ICI' => session_in_url('modules.php'),
 	'TXT_CON_DELL' => $langue['confirm_dell'],
-	'ICI' => $_SERVER['PHP_SELF'],
 	'TITRE' => $langue['titre_module'],
 	'TITRE_GESTION' => $langue['titre_module_gestion'],
 	'TITRE_LISTE' => $langue['titre_module_list'],
@@ -136,7 +136,7 @@ while ($liste = $rsql->s_array($get))
 	));
 }
 // liste des modules
-$dir = "../modules";
+$dir = '../modules';
 // Ouvre un dossier bien connu, et liste tous les fichiers
 if (is_dir($dir))
 {
@@ -161,5 +161,5 @@ if (is_dir($dir))
 	}
 }
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

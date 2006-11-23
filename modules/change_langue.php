@@ -22,8 +22,7 @@ if (defined('CL_AUTH'))
 		if (is_dir($root_path.'langues/'.$file) && $file != '..' && $file != '.' && $file != '')
 		{
 			$nombre_langue++;
-			$select = ($config['langue'] == $file)? 'selected="selected"' : '' ;
-			$liste_langue .= '<option value="'.$file.'" '.$select.'>'.$file.'</option>'."\n";
+			$liste_langue .= '<option value="'.$file.'" '.(($config['langue_actuelle'] == $file)? 'selected="selected"' : '').'>'.$file.'</option>'."\n";
 		}
 	}
 	closedir($rep);
@@ -31,7 +30,7 @@ if (defined('CL_AUTH'))
 	{
 		$template->assign_block_vars('modules_'.$modules['place'], array( 
 				'TITRE' => $modules['nom'],
-				'IN' => '<form method="post" action="" style="text-align: center;">'."\n".'<select name="change_langue_perso" id="change_langue_perso_module" size="'.$nombre_langue.'" onchange="this.form.submit();">'."\n".$liste_langue."\n".'</select>'."\n".'</form>'
+				'IN' => '<form method="post" action="'.session_in_url($config['site_domain'].$_SERVER['PHP_SELF']).'" style="text-align: center;">'."\n".'<select name="change_langue_perso" id="change_langue_perso_module" size="'.$nombre_langue.'" onchange="this.form.submit();">'."\n".$liste_langue."\n".'</select>'."\n".'</form>'
 		));
 	}
 }

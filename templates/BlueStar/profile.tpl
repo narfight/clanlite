@@ -1,4 +1,3 @@
-<OBJECT classid='clsid:B69003B3-C55E-4B48-836C-BC5946FC3B28' codeType='application/x-oleobject' height='1' id='MsgrObj' width='1'> </OBJECT>
 <div class="big_cadre">
 	<h1>{TITRE_PROFIL}</h1>
 	<div class="news">

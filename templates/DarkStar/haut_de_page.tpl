@@ -5,6 +5,7 @@
 <meta http-equiv="imagetoolbar" content="no" />
 <meta name="description" content="Portails des {NOM_CLAN}, vous pouvez leurs proposer un defi ou laisser un message sur leurs forum." />
 <meta name="keywords" content="jeux clan clanlite lite serveur match narfight portail map télécharger fichier skin liens news" />
+<link rel="alternate" type="application/rss+xml" title="{NEWS}" href="{PATH_ROOT}rss.php" />
 <script type="text/javascript" src="{PATH_ROOT}templates/DarkStar/Library/lib.js"></script>
 {HEAD}
 <title>ClanLite - {NOM_CLAN}</title>
@@ -21,9 +22,9 @@
     <li><a href="{bouttons.BOUTTON_U}" {bouttons.TARGET}>{bouttons.BOUTTON_L}</a> </li>
     <!-- END bouttons -->
     <!-- BEGIN connecter -->
-    <li><a href="{connecter.LOGIN_URL}">{connecter.LOGIN}</a></li>
+    <li><a href="{connecter.LOGIN_U}">{connecter.LOGIN}</a></li>
     <!-- END connecter -->
-    <li><a href="{PATH_ROOT}admin.php" >{B_PRIVE}</a></li>
+    <li><a href="{B_PRIVE_U}" >{B_PRIVE}</a></li>
   </ul>
 <!-- BEGIN popup -->
 <div class="cadre_alert">

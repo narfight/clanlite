@@ -2,7 +2,7 @@
 
 /*
  *  gsQuery - Querys various game servers
- *  Copyright (c) 2002-2004 Jeremias Reith <jr@terragate.net>
+ *  Copyright (c) 2002-2004 Jeremias Reith <jr@gsquery.org>
  *  http://www.gsquery.org
  *
  *  This file is part of the gsQuery library.
@@ -29,8 +29,9 @@ require_once GSQUERY_DIR . 'gsQuery.php';
 
 /**
  * @brief Abstract class that implements quake related stuff
- * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: quake.php,v 1.2 2004/08/12 19:14:47 jr Exp $
+ * @author Jeremias Reith (jr@gsquery.org)
+ * @author Narfight (narfight@lna.be)
+ * @version $Rev: 195 $
  *
  * Implements everything that all quake protocols have in common
  */
@@ -46,24 +47,14 @@ class quake extends gsQuery
    */
   function rcon_query_server($command, $rcon_pwd)
   {
-    $get_challenge="\xFF\xFF\xFF\xFFchallenge rcon\n";
-    if(!($challenge_rcon=$this->_sendCommand($this->address,$this->queryport,$get_challenge))) {
-      $this->debug['Command send ' . $command]='No challenge rcon received';
-      return FALSE;
-    }
-    if (!ereg("challenge rcon ([0-9]+)", $challenge_rcon)) {
-      $this->debug['Command send ' . $command]='No valid challenge rcon received';
-      return FALSE;
-    }
-    $challenge_rcon=substr($challenge_rcon, 19,10);
-    $command="\xFF\xFF\xFF\xFFrcon \"".$challenge_rcon."\" ".$rcon_psw.' '.$command."\n";
+    $command="\xFF\xFF\xFF\xFF\x02rcon ".$rcon_pwd." ".$command."\x0a\x00";
     if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
+      $this->errstr="Error sending rcon command";
       $this->debug['Command send ' . $command]='No reply received';
       return FALSE;
     } else {
-      return substr($result, 5);
+      return $result;
     }
-  }
- 
+  } 
 }
 ?>

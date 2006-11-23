@@ -1,6 +1,6 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-	<form method="post" action="pouvoir.php">
+	<form method="post" action="{ICI}">
 		<table class="table">
 			<thead>
 				<tr>

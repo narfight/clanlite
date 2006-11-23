@@ -15,12 +15,16 @@
 				<span><label for="protocol">{TXT_SERVEUR_GAME_PROTOCOL}&nbsp;:</label></span>
 				<span>
 					<select name="protocol" id="protocol" onblur="formverif(this.id,'autre','')">
-						<option value="">{TXT_CHOISIR}</option>
+						<option value"">{TXT_CHOISIR}</option>
 						<!-- BEGIN protocol_game_liste --> 
 						<option value="{protocol_game_liste.VALUE}" {protocol_game_liste.SELECTED}>{protocol_game_liste.NAME}</option>
 						<!-- END protocol_game_liste -->
 					</select>
 				</span>
+			</p>
+			<p>
+				<span><label for="port">{TXT_CLAN}&nbsp;:</label></span>
+				<span><input name="clan" id="clan" type="checkbox" value="1" {CLAN_CHECKED} /></span>
 			</p>
 			<p>
 				<span>
@@ -55,7 +59,7 @@
 				<td>{liste.PROTOCOL}</td>
 				<td>
 					<form action="{ICI}" method="post">
-						<input name="dell" type="submit" id="Supprimer" value="{liste.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" />
+						<input name="dell" type="submit" id="Supprimer" value="{liste.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" />
 						<input name="for" type="hidden" value="{liste.ID}" />
 						<input name="edit" type="submit" value="{liste.EDITER}" />
 					</form>

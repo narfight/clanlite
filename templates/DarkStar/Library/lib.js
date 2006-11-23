@@ -107,21 +107,7 @@ function formverif(id,type,plus)
 }
 function DoInstantMessage(person,screen)
 {
-	try
-	{
-		if(confirm("Ajouter "+screen+" à votre liste de Contacts ?")==true)
-		{
-			MsgrObj.AddContact(0,person);
-		}
-		if(confirm("Envoyer un message instantané à "+screen+" ?")==true)
-		{
-			MsgrObj.InstantMessage(person);
-		}
-	}
-	catch(e) 
-	{
-		prompt("Une erreur s'est produite en lancent MsnM!\nvoici sont contact pour le rajouter manuellement", person);
-	}
+	prompt("voici le Msn-Messenger de " +screen+ ".", person);
 }
 // pour les smilies
 // c'est une fonction de phpBB2 a peux de chose
@@ -190,7 +176,7 @@ window.onload   = function() {for (var i=0; i<loadFunctions.length; i++){loadFun
 // toegevoegd Joost Tel 20030526
 // items niet met nummers maar met letters; A..Z, en submenus AA..AZ, BA..BZ enz.
 var prevId;
-prevId = "";
+prevId = '';
 
 function togglej(id)
 {

@@ -1,4 +1,4 @@
-<form method="post" action="controle/entrer.php"> 
+<form method="post" action="{GOTO_U}"> 
 	<div class="big_cadre">
 		<h1>{TITRE}</h1>
 		<!-- BEGIN erreur -->
@@ -23,7 +23,7 @@
 				<input name="Submit" type="submit" value="{ENVOYER}" />
 				<input name="goto" type="hidden" id="goto" value="{GOTO}" />
 			</span>
-			<span><a href="user/code-perdu.php">{LOST}</a></span>
+			<span><a href="{LOST_U}">{LOST}</a></span>
 		</p>
 	</div>
 </form>

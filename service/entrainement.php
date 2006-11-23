@@ -7,7 +7,7 @@ $action_membre = 'where_entrainement';
 include($root_path.'conf/template.php');
 include($root_path.'conf/conf-php.php');
 include($root_path."controle/cook.php");
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'antrainement.tpl'));
 $template->assign_vars(array( 
@@ -37,7 +37,7 @@ while ($list_entrain = $rsql->s_array($get))
 	else
 	{
 		$template->assign_block_vars('entrain', array( 
-			'DATE' => date("H:i j/n/Y", $list_entrain['date']),
+			'DATE' => date('H:i j/n/Y', $list_entrain['date']),
 			'INFO' => bbcode($list_entrain['info']), 
 			'CODE'  => $list_entrain['priver'],
 			'POSTEUR' => $list_entrain['user'],
@@ -45,5 +45,5 @@ while ($list_entrain = $rsql->s_array($get))
 	} 
 }
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

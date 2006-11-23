@@ -1,4 +1,4 @@
-<form method="post" action="new-user.php">
+<form method="post" action="{ICI}">
 	<div class="big_cadre">
 		<h1>{TITRE}</h1>
 		<p>

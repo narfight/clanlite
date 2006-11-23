@@ -40,10 +40,11 @@ if (!empty($_POST['Editer']))
 		redirec_text('mp3.php', $langue['redirection_admin_mp3_edit'],'admin');
 	}
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_mp3.tpl'));
 $template->assign_vars(array( 
+	'ICI' => session_in_url('mp3.php'),
 	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'TITRE' => $langue['titre_admin_mp3'],
 	'TITRE_GESTION' => $langue['titre_admin_mp3_gestion'],
@@ -99,5 +100,5 @@ while ( $liste = $rsql->s_array($get) )
 	));
 }
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

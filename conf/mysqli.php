@@ -7,9 +7,9 @@ class mysql
 
 	function mysql_connection($mysqlhost, $login, $password, $base)
 	{
-		if(!@$this->links=mysqli_connect($mysqlhost, $login, $password, $base))
+		if(!$this->links=@mysqli_connect($mysqlhost, $login, $password, $base))
 		{
-			return "Connexion impossible sur <b>le serveur ".$mysqlhost."</b><br />Vérifiez les paramètres de connection (".mysqli_connect_error().")";
+			return 'Connexion impossible sur <b>le serveur '.$mysqlhost.'</b><br />Vérifiez les paramètres de connection ('.mysqli_connect_error().')';
 			exit;
 		}
 	return true;		
@@ -18,7 +18,7 @@ class mysql
 	function debug()
 	{
 		foreach($this->log_debug as $requette_num => $nfo_requette)
-		{// fait la des requettes
+		{// fait la liste des requettes
 			echo "<hr />".$requette_num."<hr />";
 			echo "Pour :".$nfo_requette['group']."<br />requette :".$nfo_requette['requette']."<br />pour :".$nfo_requette['pour']."<br />Erreur :".$nfo_requette['erreur'];
 		}

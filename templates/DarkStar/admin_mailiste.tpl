@@ -10,7 +10,7 @@
 	<!-- END apercu -->
 	<div class="big_cadre">
 		<h1>{TITRE}</h1>
-		<form method="post" action="mailiste.php">
+		<form method="post" action="{ICI}">
 			<p>
 				<span><label for="no_section">{TXT_FOR}&nbsp;:</label></span>
 			</p>

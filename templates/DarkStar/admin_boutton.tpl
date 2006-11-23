@@ -1,6 +1,6 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-	<form method="post" action="menu_boutton.php">
+	<form method="post" action="{ICI}">
 		<div class="big_cadre">
 			<h1>{TITRE_GESTION}</h1>
 			<p>
@@ -66,8 +66,8 @@
 						<td><a href="{liste.URL}" onclick="window.open('{liste.URL}');return false;">{liste.NOM}</a></td>
 						<td>{liste.ETAT}</td>
 						<td>
-							<form action="menu_boutton.php" method="post">
-								<input name="dell" type="submit" value="{liste.SUPPRIMER}" onClick="return demande('{TXT_CON_DELL}')" {liste.DISABLED_DELL} />
+							<form action="{ICI}" method="post">
+								<input name="dell" type="submit" value="{liste.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" {liste.DISABLED_DELL} />
 								<input name="for" type="hidden" value="{liste.ID}" />
 								<input name="edit" type="submit" value="{liste.EDITER}" />
 							</form> 

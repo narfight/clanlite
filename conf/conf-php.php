@@ -1,9 +1,9 @@
 <?php
-ob_start('ob_gzhandler'); 
-@include($root_path."config.php");
-include($root_path."conf/mysql.php");
-include($root_path."conf/session.php");
-include($root_path."conf/lib.php");
+//ob_start('ob_gzhandler'); 
+@include($root_path.'config.php');
+include($root_path.'conf/'.((!empty($config['db_type']))? $config['db_type'] : 'mysql').'.php');
+include($root_path.'conf/session.php');
+include($root_path.'conf/lib.php');
 if (!defined('CL_INSTALL'))
 {// clanlite non installé, on y va alors
 	redirection($root_path.'install/install.php');
@@ -54,21 +54,18 @@ if (!empty($_GET['change_tpl_perso']) || !empty($_POST['change_tpl_perso']))
 }
 
 // change de langue si on le demande
-$config['langue'] = (!empty($session_cl['langue_user']) && is_dir($root_path.'langues/'.$session_cl['langue_user']))? $session_cl['langue_user'] : $config['langue'];
 if (!empty($_GET['change_langue_perso']) || !empty($_POST['change_langue_perso']))
 {
 	$change_langue_perso = (!empty($_GET['change_langue_perso']))? $_GET['change_langue_perso'] : $_POST['change_langue_perso'];
 	if (is_dir($root_path.'langues/'.$change_langue_perso))
 	{// la langue existe bien
-		$user_langue_perso = $change_langue_perso;
-		$config['langue'] = $change_langue_perso;
 		$session_cl['langue_user'] = $change_langue_perso;
 	}
 }
 
 $session_cl['ip'] = get_ip();
 $user_pouvoir['particulier'] = '';
-$nfo_cookies = (!empty($_COOKIE['auto_connect']))? explode('|*|', $_COOKIE['auto_connect']) : array(0 => "", 1 => "");
+$nfo_cookies = (!empty($_COOKIE['auto_connect']))? explode('|*|', $_COOKIE['auto_connect']) : array(0 => '', 1 => '');
 $user_connect = (!empty($session_cl['user']))? $session_cl['user'] : $nfo_cookies[0];
 $psw_connect = (!empty($session_cl['psw']))? $session_cl['psw'] : $nfo_cookies[1];
 if(!empty($user_connect) && !empty($psw_connect))
@@ -88,7 +85,7 @@ if(!empty($user_connect) && !empty($psw_connect))
 		$session_cl['psw'] = $psw_connect;
 		$session_cl['mail'] = $infouser['mail'];
 		$session_cl['section'] = $infouser['section'];
-		$session_cl['langue_user'] = (!empty($change_langue_perso))? $change_langue_perso : $infouser['langue'];
+		$session_cl['langue_user'] = (!empty($session_cl['langue_user']))? $session_cl['langue_user'] : $infouser['langue'];
 		$user_pouvoir['particulier'] = $infouser['pouvoir'];
 		for ($i = 1;$i < 26;$i++)
 		{
@@ -101,17 +98,17 @@ if(!empty($user_connect) && !empty($psw_connect))
 		unset($session_cl['id'],$session_cl['sex'],$session_cl['user'],$session_cl['psw'],$session_cl['mail'],$session_cl['section']);
 	}
 }
-// on prend l'heure en format MKtime pour le site
+// on prend l'heure en format mk_time pour le site
 $config['current_time'] = time();
 // on vérifie que la langue est valise et on prend tout les fichiers de langues du rep
-$config['langue'] = (file_exists($root_path."langues/".$config['langue']."/langue.php"))? $config['langue'] : 'Francais';
-include($root_path."langues/".$config['langue']."/langue.php");
-$rep_langue=opendir($root_path."langues/".$config['langue']);
+$config['langue_actuelle'] = (!empty($session_cl['langue_user']) && is_dir($root_path.'langues/'.$session_cl['langue_user']))? $session_cl['langue_user'] : $config['langue'];
+include($root_path.'langues/'.$config['langue_actuelle'].'/langue.php');
+$rep_langue=opendir($root_path.'langues/'.$config['langue']);
 while($curfile=readdir($rep_langue))
 {
 	if(ereg("^lg_(.*)\.php$", $curfile))
 	{
-		include($root_path."langues/".$config['langue'].'/'.$curfile);
+		include($root_path.'langues/'.$config['langue_actuelle'].'/'.$curfile);
 	}
 }
 closedir($rep_langue);

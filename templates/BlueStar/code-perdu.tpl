@@ -1,4 +1,4 @@
-<form method="post" action="code-perdu.php"> 
+<form method="post" action="{ICI}"> 
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
 	<p>

@@ -42,7 +42,7 @@ if (defined('CL_AUTH'))
 		$block['match'] = str_replace('{TXT_DATE}', $langue['date_defit'], $block['match']);
 		$block['match'] = str_replace('{DATE}', date('j/n/Y', $match['date']), $block['match']);
 		$block['match'] = str_replace('{TXT_HEURE}', $langue['heure_defit'], $block['match']);
-		$block['match'] = str_replace('{HEURE}', date("H:i", $match['date']), $block['match']);
+		$block['match'] = str_replace('{HEURE}', date('H:i', $match['date']), $block['match']);
 		$block['match'] = str_replace('{SECTION}', $match['nom'], $block['match']);
 		$block['match'] = str_replace('{CONTRE}', $match['le_clan'], $block['match']);
 		$block['match'] = str_replace('{INFO}', bbcode($match['info']), $block['match']);

@@ -12,19 +12,19 @@ if ( !empty($_POST['Envoyer']) )
 {
 	$_POST = pure_var($_POST);
 	$_POST['auto_del'] = (isset($_POST['auto_del']))? $_POST['auto_del'] : '';
-	$date = mktime ( $_POST['heure'] , $_POST['minute'] , 1 , $_POST['mois'] , $_POST['jour'] , $_POST['annee']);
+	$date = mk_time ( $_POST['heure'] , $_POST['minute'] , 1 , $_POST['mois'] , $_POST['jour'] , $_POST['annee']);
 	$sql= "INSERT INTO `".$config['prefix']."alert` (info, date, auto_del) VALUES ('".$_POST['text']."', '".$date."', '".$_POST['auto_del']."')";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-		redirec_text("alert.php",$langue['redirection_alert_add'],'admin');
+		redirec_text('alert.php',$langue['redirection_alert_add'],'admin');
 }
 if ( !empty($_POST['Editer']) )
 {
 	$_POST = pure_var($_POST);
 	$_POST['auto_del'] = (isset($_POST['auto_del']))? $_POST['auto_del'] : '';
-	$date = mktime ( $_POST['heure'] , $_POST['minute'] , 1 , $_POST['mois'] , $_POST['jour'] , $_POST['annee']);
+	$date = mk_time ( $_POST['heure'] , $_POST['minute'] , 1 , $_POST['mois'] , $_POST['jour'] , $_POST['annee']);
 	$sql = "UPDATE `".$config['prefix']."alert` SET info='".$_POST['text']."', date='".$date."', auto_del='".$_POST['auto_del']."' WHERE id='".$_POST['for']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
@@ -32,7 +32,7 @@ if ( !empty($_POST['Editer']) )
 	}
 	else
 	{
-		redirec_text("alert.php",$langue['redirection_alert_edit'],'admin');
+		redirec_text('alert.php',$langue['redirection_alert_edit'],'admin');
 	}
 }
 if ( !empty($_POST['dell']) )
@@ -44,15 +44,15 @@ if ( !empty($_POST['dell']) )
 	}
 	else
 	{
-		redirec_text("alert.php",$langue['redirection_alert_dell'],'admin');
+		redirec_text('alert.php',$langue['redirection_alert_dell'],'admin');
 	}
 }
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$config['skin']);
 $template->set_filenames( array('body' => 'admin_alert.tpl'));
 liste_smilies(true, '', 25);
 $template->assign_vars( array(
-	'ICI' => $_SERVER['PHP_SELF'],
+	'ICI' => session_in_url('alert.php'),
 	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'TITRE' => $langue['titre_alert'],
 	'TITRE_GESTION' => $langue['titre_alert_gestion'],
@@ -105,10 +105,10 @@ while ($list = $rsql->s_array($get_list))
 {
 	$template->assign_block_vars('liste', array( 
 		'ID' => $list['id'],
-		'DATE' => ($list['date'] == -1)? $langue['opt_auto_dell_desactiver'] : date("j/n/Y à H:i", $list['date']),
+		'DATE' => ($list['date'] == -1)? $langue['opt_auto_dell_desactiver'] : date("j/n/Y H:i", $list['date']),
 		'TEXT' => bbcode($list['info']), 
 	));
 }
 $template->pparse('body');
-include($root_path."conf/frame_admin.php");
+include($root_path.'conf/frame_admin.php');
 ?>

@@ -1,6 +1,6 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
-	<form method="post" action="alert.php">
+	<form method="post" action="{ICI}">
 		<div class="big_cadre">
 			<h1>{TITRE_GESTION}</h1>
 			<p>
@@ -38,20 +38,20 @@
 			</div>
 			<p>
 				<span>
-						<!-- BEGIN editer --> 
-						<input type="submit" name="Editer" value="{BT_EDITER}" /> 
-						<!-- END editer --> 
-						<!-- BEGIN rajouter --> 
-						<input type="submit" name="Envoyer" value="{BT_ENVOYER}" /> 
-						<!-- END rajouter --> 
-						<input name="for" type="hidden" value="{ID}" />
+					<!-- BEGIN editer --> 
+					<input type="submit" name="Editer" value="{BT_EDITER}" /> 
+					<!-- END editer --> 
+					<!-- BEGIN rajouter --> 
+					<input type="submit" name="Envoyer" value="{BT_ENVOYER}" /> 
+					<!-- END rajouter --> 
+					<input name="for" type="hidden" value="{ID}" />
 				</span>
 			</p>
 		</div>
 	</form>
 	<SCRIPT language="JavaScript">
 	<!--
-	toggle_msg('auto_del_div', 'auto_del', 'true', 'checked');
+		toggle_msg('auto_del_div', 'auto_del', 'true', 'checked');
 	-->
 	</script> 
 	<div class="big_cadre">
@@ -71,8 +71,8 @@
 						<td>{liste.DATE}</td>
 						<td>{liste.TEXT}</td>
 						<td>
-							<form action="alert.php" method="post">
-								<input name="dell" type="submit" value="{BT_DELL}" onClick="return demande('{TXT_CON_DELL}')" />
+							<form action="{ICI}" method="post">
+								<input name="dell" type="submit" value="{BT_DELL}" onclick="return demande('{TXT_CON_DELL}')" />
 								<input name="for" type="hidden" value="{liste.ID}" />
 								<input name="edit" type="submit" value="{BT_EDITER}" />
 							</form>

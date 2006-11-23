@@ -39,12 +39,10 @@ if (defined('CL_AUTH'))
 	
 	// strip newlines.
 	$tpl  = str_replace("\n", '', $tpl);
-	
-	// vérifie si le site du constructeur est en ligne
 	$tpl = preg_replace('#<!-- BEGIN (.*?) -->(.*?)<!-- END (.*?) -->#', "\n" . '$block[\'\\1\'] = \'\\2\';', $tpl);
 	eval($tpl);
 		
-	$block['newsletter'] = str_replace('{ROOT_PATH}', $root_path, $block['newsletter']);
+	$block['newsletter'] = str_replace('{ICI}', session_in_url($root_path.'modules/newsletter.php'), $block['newsletter']);
 	$block['newsletter'] = str_replace('{MAIL}', $langue['form_mail'], $block['newsletter']);
 	$block['newsletter'] = str_replace('{ID}', $modules['id'], $block['newsletter']);
 	$block['newsletter'] = str_replace('{ENVOYER}', $langue['envoyer'], $block['newsletter']);

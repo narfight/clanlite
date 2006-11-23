@@ -5,7 +5,7 @@
 		<!-- BEGIN update -->
 		<h2>{admin.update.TITRE}</h2>
 		{admin.update.TEXTE}
-		<form action="index.php">
+		<form action="{admin.update.ICI}" method="post">
 			<input name="toggle_get_version" type="submit" value="{admin.update.TXT_TOGGLE}" />
 		</form>
 		<!-- END upadte -->
@@ -35,7 +35,7 @@
 					<td>{admin.nul_part.EQUIPE}</td>
 					<td>{admin.nul_part.PV}</td>
 					<td>
-						<form method="post" action="../administration/editer-user.php">
+						<form method="post" action="{admin.nul_part.ICI}">
 							<input type="submit" name="editer" value="{admin.nul_part.BT_EDITER}" />
 							<input name="id" type="hidden" value="{admin.nul_part.ID}" />
 						</form>

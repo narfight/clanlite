@@ -253,7 +253,7 @@ tr
 }
 
 /* titre dans les bloques du centre */
-.news h2, .table-titre, thead tr
+.news h2, .table-titre, thead th
 {
 	margin: 0;
 	font-size: 12px;

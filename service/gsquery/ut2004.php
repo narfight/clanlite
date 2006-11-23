@@ -30,7 +30,7 @@ require_once GSQUERY_DIR . 'gameSpy.php';
 /**
  * @brief Uses the gameSpy protocol
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: ut2004.php,v 1.5 2004/08/12 19:14:47 jr Exp $
+ * @version $Id: ut2004.php 190 2004-09-25 15:48:06Z jr $
  *
  * Adds UT2004 Color code support
  */
