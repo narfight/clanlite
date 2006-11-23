@@ -54,7 +54,7 @@
 		<h2>{entete_match.MATCH_PLACE}</h2>
 		<!-- END entete_match -->
 		<!-- BEGIN cadre_match -->
-		{cadre_match.MATCH_DISPO}
+		{cadre_match.MATCH_DISPO}<br />
 		<!-- END cadre_match -->
 		<!-- BEGIN entrainement -->
 		<h2>{entrainement.ENTRAI_PLACE}</h2>

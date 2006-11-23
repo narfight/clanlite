@@ -143,7 +143,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module']) )
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	$actu_data = $rsql->s_array($get);
-	$actu_data = unserialize($actu_data['config']);
+	$actu_data = (!empty($actu_data['config']))? unserialize($actu_data['config']): array('serveur' => '', 'liste' => true, 'image' => false);
 	$sql = 'SELECT `id`, `ip`, `port`, `protocol` FROM `'.$config['prefix'].'game_server`';
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
@@ -156,7 +156,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module']) )
 	}
 	$template->assign_block_vars('serveur_config',array(
 		'TITRE' => $langue['titre_module_serveur_game'],
-		'TXT_SERVEUR' => $langue['redirection_module_serveur_game_edit'],
+		'TXT_SERVEUR' => $langue['serveur_game_ip'],
 		'TXT_IMAGE' => $langue['image_map_module_serveur_game'],
 		'IMAGE_CHECKED' => ($actu_data['image'])?'checked="checked"' : '',
 		'TXT_LISTE' => $langue['liste_module_serveur_game'],

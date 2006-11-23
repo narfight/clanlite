@@ -101,17 +101,15 @@ if(!empty($user_connect) && !empty($psw_connect))
 // on prend l'heure en format mk_time pour le site
 $config['current_time'] = time();
 // on vérifie que la langue est valise et on prend tout les fichiers de langues du rep
-$config['langue_actuelle'] = (!empty($session_cl['langue_user']) && is_dir($root_path.'langues/'.$session_cl['langue_user']))? $session_cl['langue_user'] : $config['langue'];
+$config['langue_actuelle'] = (!empty($session_cl['langue_user']) && file_exists($root_path.'langues/'.$session_cl['langue_user'].'/langue.php'))? $session_cl['langue_user'] : $config['langue'];
 require($root_path.'langues/'.$config['langue_actuelle'].'/langue.php');
-$rep_langue=opendir($root_path.'langues/'.$config['langue']);
-while($curfile=readdir($rep_langue))
+foreach(scandir($root_path.'langues/'.$config['langue_actuelle']) as $id => $file)
 {
-	if(ereg("^lg_(.*)\.php$", $curfile))
+	if(ereg("^lg_(.*)\.php$", $file))
 	{
-		require($root_path.'langues/'.$config['langue_actuelle'].'/'.$curfile);
+		require($root_path.'langues/'.$config['langue_actuelle'].'/'.$file);
 	}
 }
-closedir($rep_langue);
-$session_cl['action_membre'] = (!empty($action_membre) &&!empty($langue[$action_membre]))? $action_membre : 'where_unknow';
+$session_cl['action_membre'] = (!empty($action_membre) && !empty($langue[$action_membre]))? $action_membre : 'where_unknow';
 save_session($session_cl);
 ?>

@@ -116,7 +116,7 @@
 			</p>
 			<p>
 				<span><label for="web">{TXT_WEB}&nbsp;:</label></span>
-				<span>http://<input name="web" id="web" type="text" value="{WEB}" onblur="formverif(this.id,'nbr','2')" />/</span>
+				<span><input name="web" id="web" type="text" value="{WEB}" onblur="formverif(this.id,'nbr','2')" /></span>
 			</p>
 			<p>
 				<span><label for="arme">{TXT_ARME}&nbsp;:</label></span>

@@ -1,6 +1,6 @@
 <?php
 /****************************************************************************
- *	Fichier		: 															*
+ *	Fichier		: mailiste.php												*
  *	Copyright	: (C) 2004 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*

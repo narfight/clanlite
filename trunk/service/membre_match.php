@@ -104,7 +104,7 @@ while ( ($list_match = $rsql->s_array($get_match)) )
 		if (!$pas_inscrit)
 		{// on ajoute le titre si il n'est pas encore présent
 			$template->assign_block_vars('titre_pas_inscrit', array('TXT' => $langue['match_pas_inscrit']));
-			$pas_inscrit = false;
+			$pas_inscrit = true;
 		}
 	}
 	$template->assign_block_vars($tpl_ou, array( 
