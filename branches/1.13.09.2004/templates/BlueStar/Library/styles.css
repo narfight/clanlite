@@ -1,0 +1,624 @@
+/* eviter des espace apres les formulaire et les liste */
+form
+{
+	margin: 0px;
+}
+ul
+{
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+
+/* eviter des ligne de couleur en dessou des images qui sont des liens */
+img
+{
+	border: 0px;
+}
+
+/* definit l'arriere du site dans sont enssenble */
+body
+{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	margin: 0px;
+	font-size: 12px;
+	color: #000000;
+	background-color: #FFFFFF;
+}
+
+/* pour la demande pour démarrer le lecteur mp3 */
+.demande_mp3
+{
+	text-align: center;
+}
+
+/* ceci definit la largeur du site en entier et de la partie admin*/
+.cadre_largeur , .cadre_largeur_admin
+{
+	position: absolute;
+	width: 898px;
+	left: 50%;
+	margin-left: -449px;
+	background-color: #94938E;
+	background-image: url("../images/bg_cadre_largeur.gif");
+	background-repeat: repeat-y;
+	border: 1px solid black;
+}
+
+/* on change qq petit truc pour la partie admin */
+.cadre_largeur_admin
+{
+	background-image: url("../images/bg_cadre_largeur_admin.gif");
+	background-repeat: repeat-y;
+	border: 1px solid black;
+}
+
+/* definit l'affichage des formulaire */
+input, textarea, select, option
+{
+	background-color: #1191D1;
+	border: solid 1px #000000;
+	font-size:12px;
+}
+option
+{
+	text-align:center
+}
+input:focus, textarea:focus, select:focus, option:hover
+{
+	background-color: #FFFFFF;
+}
+
+/* changement de la couleur du champ quand il est (pas) bien rempli -- fonctionne pas sur IE -- */
+.champ_bon
+{
+	background-color: #66FF66;
+}
+
+.champ_movais
+{
+	background-color: #F38386;
+}
+
+/* on definit le cadre pour les bulles d'aide */
+.flash_poper
+{
+	position: absolute;
+	visibility: hidden;
+	font-size: 12px;
+	color: #000066;
+	background-color: #9DBBFF;
+	border: 1px solid black;
+	z-index: 5;
+}
+
+/* pour le module de matck*/
+.match_null
+{
+	background-color: #FFFFFF;
+}
+.match_win
+{
+	background-color: #00CC00;
+}
+.match_lost
+{
+	background-color: #CC3333;
+}
+/* pour quand on survole un div ou on peux cliquer pour afficher des infos, que le sourit change de curseur */
+.toggle_titre, label
+{
+	cursor: pointer;
+}
+
+/* mise en page du haut */
+.hautpage
+{
+	width: 100%;
+	height: 84px;
+	background-image: url("../images/ban_head.gif");
+	background-repeat:no-repeat;
+	font-weight: bold;
+	border-bottom: 1px solid black;
+}
+
+/* cadre avec les liens + les styles pour les liens */
+.menuliens
+{
+	width : 100%;
+	margin: 0px;
+	padding: 10px 0px 10px 0px;
+	background-image: url("../images/bg_menu.gif");
+	background-repeat: repeat-x;
+	background-color: #FFB105;
+	color: black;
+	font-weight: bold;
+	font-size: 9px;
+	border-bottom: 1px solid black;
+	text-align: center;
+}
+.menuliens li
+{
+	display: inline;
+	padding: 0px 5px 0px 5px;
+}
+/* endroit ou doit apparaitre les alertes */
+.cadre_alert
+{
+	background-image: url("../images/bg_alert.gif");
+	background-repeat: repeat-x;
+	background-color: #6394E8;
+	border-bottom: 1px solid black;
+	border-top: 0px;
+}
+
+/* metre en valeur les alert */
+.alert_visible
+{
+	padding: 3px;
+	font-weight: bold;
+	color: #FF6600;
+	font-size: 14px;
+}
+.cadre_alert ul
+{
+	margin: 10px 10px 0px 20px;
+}
+
+/* c'est la ligne qui est en fait la fin de l'entete */
+.end_head
+{
+	background-image: url("../images/end_head.gif");
+	height: 20px;
+	border-bottom: 1px solid black;
+	margin-bottom: 10px;
+}
+
+/* les colonnes gauche - centrée - droite */
+.colonne_gauche
+{
+	float: left;
+	width: 195px;
+	background-image: url('../images/bg_module.gif');
+}
+.colonne_droite
+{
+	float: left;
+	width: 195px;
+	margin-left: 0px;
+	background-image: url('../images/bg_module.gif');
+}
+.colonne_central
+{
+	float: left;
+	margin-left: 12px;
+	width: 496px;
+}
+
+.colonne_central_admin
+{
+	float: left;
+	margin-left: 10px;
+	width: 75%;
+}
+
+/* pas de page ou il a les information sur le copyright */
+.copyright
+{
+	float: left;
+	width: 100%;
+	height: 149px;
+	background-image: url("../images/bg_copyright.gif");
+}
+.cadre_largeur_admin .copyright
+{
+	background-image: url("../images/bg_copyright_admin.gif");
+}
+.cellule_copyright
+{
+	float: left;
+	width: 100%;
+	font-size: 10px;
+	text-align: center;
+	padding-top: 70px;
+}
+
+/* pour les bloques du centre
+couleur des cadre pour le centre et d'autre endroit */
+.news , .table-cellule , .sous-cellule th
+{
+	font-size: 12px;
+	color: #000066;
+	background-color: #9DBBFF;
+	background-image: none;
+	text-align: left;
+	font-weight: normal;
+}
+/* definit la couleur des ligne du tableau */
+.big_cadre tr
+{
+	background-color: #B4E4FF;
+}
+
+.table-cellule
+{
+	background-color: #539EDF;
+}
+
+.table-cellule-2
+{
+	background-color: #1191D1;
+}
+
+/* titre dans les bloques du centre */
+.news h2, .table-titre, thead tr
+{
+	margin: 0;
+	font-size: 12px;
+	color: #C00000;
+	border-top: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+	background-image: url("../images/titre_h2.gif");
+	background-repeat: repeat-x;
+	background-color: #FDD95E;
+}
+
+/* sous titre */
+.news h3
+{
+	margin: 0;
+	font-size: 10px;
+	color: #ffffff;
+	background-color: #FF6666;
+	border: 2px solid #FF6600;
+}
+
+/* bloque contenant les informations dans les bloques du centre */
+.news ul.header
+{
+	float: right;
+	margin: 0 0 10px 10px;
+	font-size: 12px;
+	color: #000000;
+	background-color: #FBBD4A;
+	list-style-type: none;
+	margin-left: 0;
+	padding-left: 0;
+}
+
+/* les bloques a gauche et a droite
+cadre qui prendra le titre et le contenu du module */
+.module
+{
+	background-image: url('../images/head_module.gif');
+	background-repeat: no-repeat;
+}
+.module p
+{
+	margin:0px;
+}
+/* titre du module */
+.module_titre
+{
+	font-weight: bold;
+	color:#F86F34;
+	height: 18px;
+	text-align: center;
+	padding: 5px 15px 0px 10px;
+}
+
+/* contenu du module */
+.module_cellule
+{
+	font-size: 12px;
+	color: #000066;
+	padding: 0px 15px 0px 10px;
+	clear: both;
+}
+
+/* le bas du cadre module */
+.module_foot
+{
+	background-image: url('../images/foot_module.gif');
+	background-repeat: no-repeat;
+	height: 15px;
+}
+
+/* cadre du centre */
+/* ce qui entour les cadre au centre */
+.big_cadre
+{
+	border: 1px solid #000000;
+	font-size: 12px;
+	margin-bottom: 18px;
+	width: 483px;
+	background-color: #B4E4FF;
+}
+
+/* titre du cadre au centre  et pour les titre dans un cadre dans l'admin*/
+.big_cadre h1, .colonne_central_admin .big_cadre .big_cadre h1
+{
+	border-bottom: none;
+	padding: 6px 0px 6px 0px;
+	margin: 0px;
+	font-weight: bold;
+	color: #000033;
+	font-size: 14px;
+	text-align: center;
+	background-image: url("../images/bg_titre.gif");
+	background-repeat: repeat-x;
+	background-color: #B4E4FF;
+}
+
+.big_cadre p
+{
+	border-top: 1px dashed #8CC1F3;
+	vertical-align: middle;
+	padding: 0px;
+	margin: 0px 0px 0px 0px;
+	clear: both;
+}
+.big_cadre p label, .big_cadre p .nom_liste
+{
+	display : block;
+	float : left;
+	text-align : right;
+	width : 30%;
+	padding-right : 20px;
+}
+
+/* le cadre où sont les smilies */
+.smilies
+{
+	float: left;
+	width: 20%;
+	margin: 0px 5% 0px 5px;
+	padding: 2px;
+	background-color: #1191D1;
+	border: 1px solid black;
+}
+/* le cadre où on tape de grand message */
+.big_texte
+{
+	float: left;
+	width: 70%;
+}
+/* les liens */
+a:link, a:visited
+{ 
+	text-decoration: none;
+	color: #C00000;
+}
+
+/* utiliser souvent dans les modules pour afficher une info */
+.reponce
+{
+	font-weight: bold;
+	color: #1f4e9f
+}
+
+/* couleur du nom du joueur dans la liste des membres */
+.homme
+{
+	color: #0000FF
+}
+
+.femme
+{
+	color: #FF0080;
+}
+
+.table
+{
+	width: 100%;
+}
+
+/* definit la 1er ligne du tableau pour faire les titres des colonnes */
+.calendra-normal
+{
+	font-size: 12px;
+	color: #000066;
+	background-color: #539EDF
+}
+
+/* quand ce n'est pas un jours */
+.calendra-vide
+{
+	font-size: 12px; color: #FFFFFF; background-color: #FFFFFF
+}
+
+/* quand c'est la date d'aujourd'hui */
+.calendra-today
+{
+	font-size: 12px; color: #999999; background-color: #444466
+}
+
+.calendra-wk
+{
+	font-size: 12px; color: #000066; background-color: #1191D1
+}
+
+/* bloque qui s'affiche quand il affiche sur plusieur page */
+.parpage
+{
+	width: 483px;
+	border: 1px solid #000000;
+	background-color: #0572E0;
+}
+
+/* definit les liens dans ce bloque */
+.parpage a
+{
+	text-decoration: none;
+	color: #FFFFFF;
+}
+/*on augemente la largeur du cadre pour la partir admin */
+.colonne_central_admin .big_cadre
+{
+	border: 0px;
+	width: 674px;
+	background-color: #FFFFFF;
+}
+
+/* on change le style du 1er titre pour l'admin*/
+.colonne_central_admin .big_cadre h1
+{
+	border-bottom: 2px dotted blue;
+}
+
+/* pour l'administration : un cadre dans un cadre */
+.big_cadre .big_cadre
+{
+	margin: 10px 0px 0px 10px;
+	border: 1px solid #000000;
+	width: 640px;
+	background-color: #B4E4FF;
+	float: left;
+}
+
+/* pour les couleurs du nom des serveurs de jeux et des nom des joueurs dessus */
+/* generic colors */
+.gsquery-black { color: black; }
+.gsquery-red { color: red; }
+.gsquery-yellow { color: #E6E600; }
+.gsquery-darkgreen { color: darkgreen; }
+.gsquery-blue { color: blue; }
+.gsquery-cyan { color: cyan; }
+.gsquery-pink { color: pink; }
+.gsquery-white { color: darkgrey; }
+.gsquery-blue-night { color: #7F7FFD; }
+.gsquery-red-night { color: #D06B6B; }
+
+/* colors for FarCry */ 
+.gsquery-light-blue { color: #00FFFF; }
+.gsquery-green { color: green; }
+.gsquery-orange { color: #FF9600; }
+.gsquery-grey { color: #000099; }
+
+/* colors for q3a */
+
+.gsquery-q3a-1, .gsquery-q3a-9, .gsquery-q3a-a, .gsquery-q3a-i, .gsquery-q3a-q, .gsquery-q3a-y, .gsquery-q3a-A, .gsquery-q3a-I., .gsquery-q3a-Q, .gsquery-q3a-Y 
+{ color:#FF0000; }
+
+.gsquery-q3a-2, .gsquery-q3a-b, .gsquery-q3a-j, .gsquery-q3a-r, .gsquery-q3a-z, .gsquery-q3a-B, .gsquery-q3a-J, .gsquery-q3a-R, .gsquery-q3a-Z
+{ color:#00FF00; }
+
+.gsquery-q3a-3, .gsquery-q3a-c, .gsquery-q3a-k, .gsquery-q3a-s, .gsquery-q3a-C, .gsquery-q3a-K, .gsquery-q3a-S
+{ color:#FFFF00; }
+
+.gsquery-q3a-4, .gsquery-q3a-d, .gsquery-q3a-l, .gsquery-q3a-t, .gsquery-q3a-D, .gsquery-q3a-L, .gsquery-q3a-T
+{ color:#4444FF; }
+
+.gsquery-q3a-5, .gsquery-q3a-e, .gsquery-q3a-m, .gsquery-q3a-u, .gsquery-q3a-E, .gsquery-q3a-M, .gsquery-q3a-U
+{ color:#00FFFF; }
+
+.gsquery-q3a-6, .gsquery-q3a-f, .gsquery-q3a-n, .gsquery-q3a-v, .gsquery-q3a-F, .gsquery-q3a-N, .gsquery-q3a-V
+{ color:#FF00FF; }
+
+.gsquery-q3a-7, .gsquery-q3a-g, .gsquery-q3a-o, .gsquery-q3a-w, .gsquery-q3a-G, .gsquery-q3a-O, .gsquery-q3a-W
+{ color:#CCCCCC; }
+
+.gsquery-q3a-8, .gsquery-q3a-0, .gsquery-q3a-h, .gsquery-q3a-p, .gsquery-q3a-x, .gsquery-q3a-H, .gsquery-q3a-P, .gsquery-q3a-X
+{ color:#777777; }
+
+/* todo: add to color blocks above */
+.gsquery-q3a-exc { color:#FF0000; }
+.gsquery-q3a-at { color:#00FF00; }
+.gsquery-q3a-pound { color:#FFFF00; }
+.gsquery-q3a-dollar { color:#4444FF; }
+.gsquery-q3a-percent { color:#00FFFF; }
+.gsquery-q3a-and { color:#FF00FF; }
+.gsquery-q3a-star { color:#CCCCCC; }
+.gsquery-q3a-lparen { color:#777777; }
+.gsquery-q3a-rparen { color:#FF0000; }
+.gsquery-q3a-_ { color:#CCCCCC; }
+.gsquery-q3a-plus { color:#00FFFF; }
+.gsquery-q3a-lbracket { color:#FFFF00; }
+.gsquery-q3a-rbracket { color:#00FFFF; }
+.gsquery-q3a-bar { color:#4444FF; }
+.gsquery-q3a-colon { color:#FFFF00; }
+.gsquery-q3a-less { color:#4444FF; }
+.gsquery-q3a-greater { color:#FF00FF; }
+.gsquery-q3a-questionmark { color:#CCCCCC; }
+
+.gsquery-q3a-- { color:#00FFFF; }
+.gsquery-q3a-equal { color:#00FFFF; }
+.gsquery-q3a-lsqr { color:#FFFF00; }
+.gsquery-q3a-rsqr { color:#00FFFF; }
+.gsquery-q3a-lslash { color:#4444FF; }
+.gsquery-q3a-comma { color:#4444FF; }
+.gsquery-q3a-point { color:#FF00FF; }
+.gsquery-q3a-rslash { color:#CCCCCC; }
+.gsquery-q3a-tick { color:#CCCCCC; }
+.gsquery-q3a-quote { color:#00FF00; }
+.gsquery-q3a-semic { color:#FFFF00; } 
+
+
+/* colors for SOF2 */
+.gsquery-sof2-1 { color: #F02016; }
+.gsquery-sof2-2 { color: #A8BE7D; }
+.gsquery-sof2-3 { color: #F1F429; }
+.gsquery-sof2-4 { color: #4B48DF; }
+.gsquery-sof2-5 { color: #07F7EC; }
+.gsquery-sof2-6 { color: #F30AF1; }
+.gsquery-sof2-7 { color: #EAE9E5; }
+.gsquery-sof2-8 { color: #680ABA; }
+.gsquery-sof2-9, .gsquery-sof2-a { color: #48D9B2; }
+.gsquery-sof2-0 { color: #030102; }
+.gsquery-sof2-b { color: #D39741; }
+.gsquery-sof2-c { color: #C14CB7; }
+.gsquery-sof2-d { color: #6993B9; }
+.gsquery-sof2-e { color: #BD0C76; }
+.gsquery-sof2-f { color: #6FC1CC; }
+.gsquery-sof2-g { color: #94E258; }
+.gsquery-sof2-h { color: #7E0622; }
+.gsquery-sof2-i { color: #264798; }
+.gsquery-sof2-j { color: #59C522; }
+.gsquery-sof2-k { color: #D1AF82; }
+.gsquery-sof2-l { color: #9DC0E0; }
+.gsquery-sof2-m { color: #A932AA; }
+.gsquery-sof2-n { color: #527B39; }
+.gsquery-sof2-o { color: #A26E70; }
+.gsquery-sof2-p { color: #328D6C; }
+.gsquery-sof2-q { color: #AA979D; }
+.gsquery-sof2-r { color: #A95CAE; }
+.gsquery-sof2-s { color: #2E057F; }
+.gsquery-sof2-t { color: #680728; }
+.gsquery-sof2-u { color: #381F94; }
+.gsquery-sof2-v { color: #20B041; }
+.gsquery-sof2-w { color: #020400; }
+.gsquery-sof2-x { color: #050A27; }
+.gsquery-sof2-y { color: #208FC7; }
+.gsquery-sof2-z { color: #AC8037; }
+.gsquery-sof2-A { color: #4807E7; }
+.gsquery-sof2-B { color: #44D436; }
+.gsquery-sof2-C { color: #D25831; }
+.gsquery-sof2-D { color: #384C71; }
+.gsquery-sof2-E { color: #75A93A; }
+.gsquery-sof2-F { color: #022869; }
+.gsquery-sof2-G { color: #569B3E; }
+.gsquery-sof2-H { color: #90697E; }
+.gsquery-sof2-I { color: #5ABFDD; }
+.gsquery-sof2-J { color: #9AAC9C; }
+.gsquery-sof2-K { color: #ACD88B; }
+.gsquery-sof2-M { color: #03D37F; }
+.gsquery-sof2-N { color: #D48C14; }
+.gsquery-sof2-O { color: #B6BDF1; }
+.gsquery-sof2-P { color: #1DEB0F; }
+.gsquery-sof2-Q { color: #EE52B5; }
+.gsquery-sof2-R { color: #3D41C6; }
+.gsquery-sof2-S { color: #4EEE36; }
+.gsquery-sof2-T { color: #A95C4C; }
+.gsquery-sof2-U { color: #804AC6; }
+.gsquery-sof2-V { color: #89C6B4; }
+.gsquery-sof2-W { color: #73109F; }
+.gsquery-sof2-X { color: #37B4AE; }
+.gsquery-sof2-Y { color: #82CB1A; }
+.gsquery-sof2-Z { color: #A997D3; }
+.gsquery-sof2-and { color: #0000F9; }
+.gsquery-sof2-tick { color: #FBF235; }
+.gsquery-sof2-- { color: #1B1811; }
+.gsquery-sof2-_ { color: #B21617; }
+.gsquery-sof2-cbracket { color: #15F4FB; }
+.gsquery-sof2-equal { color: #A0CDB9; }
+.gsquery-sof2-questionmark { color: #88D551; }
+.gsquery-sof2-point { color: #5F499E; }
