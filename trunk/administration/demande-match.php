@@ -45,6 +45,7 @@ if (!empty($_POST['envois_mail']))
 	// si il veut bien le match on le rajoute dans les match
 	if ($_POST['envois'] == 'oui')
 	{
+		$_POST = pure_var($_POST);
 		// la on ajoute le match
 		$sql = "INSERT INTO `".$config['prefix']."match` (date, info, le_clan, nombre_de_joueur, heure_msn, section) VALUES ('".$envois['date']."', '".$envois['info']."', '".$envois['clan']."', '".$envois['joueurs']."', '', '0')";
 		if (! $rsql->requete_sql($sql) )

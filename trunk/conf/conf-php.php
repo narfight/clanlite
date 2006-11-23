@@ -10,13 +10,13 @@ if (!defined('CL_INSTALL'))
 }
 define('CL_AUTH', true);
 $rsql = new mysql();
-$config['securitee'] = "no";
+$config['securitee'] = 'no';
 $rsql->mysql_connection($mysqlhost, $login, $password, $base);
 // on prend la config
 $sql = "SELECT * FROM ".$config['prefix']."config";
 if (!($rsql->requete_sql($sql, 'site', 'prise de la configuration du site')))
 {
-	echo "la configuration du site n'a pu etre chargée :\"".mysql_error()."\"<br />";
+	echo 'la configuration du site n\'a pu etre chargée :"'.mysql_error().'<br />';
 	exit;
 }
 while($donnees = $rsql->s_array($rsql->query))
@@ -72,8 +72,8 @@ if(!empty($user_connect) && !empty($psw_connect))
 	$sql = "SELECT a.id,a.nom,a.section,a.langue,a.psw,a.user,a.mail,a.pouvoir,b.*,a.sex FROM ".$config['prefix']."user AS a LEFT JOIN ".$config['prefix']."pouvoir AS b ON b.user_id = a.id WHERE a.user ='".$user_connect."' AND a.psw ='".$psw_connect."'";
 	if (!($rsql->requete_sql($sql, 'site', 'Vérifie que le cookies est valide')))
 	{
-		echo $sql."<br>";
-		echo "erreur dans la demande des information d'un membre<br>";
+		echo $sql.'<br />';
+		echo 'erreur dans la demande des information d\'un membre<br />';
 		exit;
 	}
 	if (($infouser = $rsql->s_array($rsql->query)))
@@ -90,7 +90,11 @@ if(!empty($user_connect) && !empty($psw_connect))
 		{
 			$user_pouvoir[$i] = $infouser['p'.$i];
 		}
-		$config['securitee'] = ($user_pouvoir['particulier'] == "news")? "news" : "ok" ;
+		$config['securitee'] = ($user_pouvoir['particulier'] == 'news')? 'news' : 'ok' ;
+	}
+	else
+	{
+		unset($session_cl['id'],$session_cl['sex'],$session_cl['user'],$session_cl['psw'],$session_cl['mail'],$session_cl['section']);
 	}
 }
 // on prend l'heure en format MKtime pour le site

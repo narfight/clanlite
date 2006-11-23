@@ -43,7 +43,7 @@
   </tr>
   <!-- BEGIN propo -->
   <tr>
-    <td><a href="http://{propo.URL_CLAN}" onclick="window.open('{propo.URL_CLAN}');return false;">{propo.CLAN}</a></td>
+    <td><a href="{propo.URL_CLAN}" onclick="window.open('{propo.URL_CLAN}');return false;">{propo.CLAN}</a></td>
     <td><a href="mailto:{propo.MAIL}"><img src="../images/msg.gif" alt="{propo.ALT_MAIL}" /></a><a href='javascript:DoInstantMessage("{propo.NOM}","{propo.CLAN}");'><img src="../images/icon_msnm.gif" alt="{propo.ALT_MSN}" /></a></td>
     <td>{propo.DATE}</td>
     <td>{propo.TIME}</td>

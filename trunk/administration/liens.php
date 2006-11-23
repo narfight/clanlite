@@ -40,7 +40,7 @@ if (!empty($_POST['Editer']))
 	}
 	else
 	{
-		redirec_text("liens.php", $langue['redirection_liens_editer'], "admin");
+		redirec_text("liens.php", $langue['redirection_liens_edit'], "admin");
 	}
 }
 include($root_path."conf/frame_admin.php");
@@ -49,7 +49,7 @@ $template->set_filenames( array('body' => 'admin_liens.tpl'));
 $template->assign_vars( array(
 	'TXT_CON_DELL' => $langue['confirm_dell'],
 	'ICI' => $_SERVER['PHP_SELF'],
-	'TITRE_LIENS' => $langue['titre_liens_admin'],
+	'TITRE' => $langue['titre_liens_admin'],
 	'TITRE_GESTION' => $langue['titre_liens_admin_gestion'],
 	'TITRE_LISTE' => $langue['titre_liens_admin_list'],
 	'ACTION' => $langue['action'],

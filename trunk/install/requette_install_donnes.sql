@@ -15,7 +15,7 @@ INSERT INTO clanlite_config VALUES ('serveur', '0');
 INSERT INTO clanlite_config VALUES ('tag', '[CL]');
 INSERT INTO clanlite_config VALUES ('nom_clan', '&lt;Clan Lite&gt; Home');
 INSERT INTO clanlite_config VALUES ('limite_inscription', '24');
-INSERT INTO clanlite_config VALUES ('version', '1.07.07.2004');
+INSERT INTO clanlite_config VALUES ('version', '1.07.08.2004');
 INSERT INTO clanlite_config VALUES ('serveur_game_ip', '');
 INSERT INTO clanlite_config VALUES ('serveur_game_port', '');
 INSERT INTO clanlite_config VALUES ('serveur_game_info', '');
@@ -54,7 +54,7 @@ INSERT INTO clanlite_modules VALUES (7, 5, 'gauche', '1', 'TeamSpeak Luncher', '
 INSERT INTO clanlite_modules VALUES (8, 6, 'gauche', '1', 'Last Match', 'dernier_match.php', '');
 INSERT INTO clanlite_modules VALUES (10, 8, 'gauche', '1', 'Training', 'entrainements.php', '');
 INSERT INTO clanlite_news VALUES (14, '1079790784', 'Les rapports de match', 'Installation de ClanLite réussie', 'narfight');
-INSERT INTO clanlite_section VALUES (1, 'Section n°1', '1');
+INSERT INTO clanlite_section VALUES (1, 'Section n°1', 0, 1);
 INSERT INTO clanlite_smilies VALUES (44, ':D', 'BD.gif', 'super heureux', 16, 16);
 INSERT INTO clanlite_smilies VALUES (45, ':-D', 'BD.gif', 'super heureux', 16, 16);
 INSERT INTO clanlite_smilies VALUES (46, ':grin:', 'BD.gif', 'super heureux', 16, 16);

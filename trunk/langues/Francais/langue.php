@@ -301,13 +301,6 @@ $langue['titre_module_serveur_game'] = "Serveur de jeux [Module]";
 $langue['clanserveur_module_serveur_game'] = "Serveur du clan";
 $langue['redirection_module_serveur_game_edit'] = "Le serveur de jeux à afficher a été changé";
 
-$langue['where_module_ticker_ts'] = "Gère le module Ticker";
-$langue['titre_module_ticker_ts'] = "Ticker TeamSpeak [Module]";
-$langue['ticker_nsd_module_ticker_ts'] = "Emplacement de ticker_nsd.php";
-$langue['webpost_module_ticker_ts'] = "Emplacement du WebPost";
-$langue['redirection_module_ticker_ts_edit'] = "Le Webpost a été mis à jours";
-$langue['offline_module_ticker_ts'] = "La liste des serveurs est indisponible";
-
 $langue['titre_newsletter'] = "Newsletter";
 $langue['where_newsletter'] = "Ajoute son e-mail à une newsletter";
 $langue['newsletter_send_ok'] = "Vous avez bien été ajouté à la liste de la Newsletter";
@@ -325,6 +318,7 @@ $langue['module_webpost_txt_aide'] = "Dans l'administration web de votre serveur
 $langue['erreur_webpost_bad_port'] = "Le serveur TeamSpeak dit que votre serveur n'existe pas, vérifiez votre port";
 $langue['erreur_webpost_no_reply'] = "Le serveur TeamSpeak ne répond pas, vérifiez votre IP";
 $langue['module_webpost_add'] = "Attendez quelques minutes pour que le serveur envoit les informations de bases";
+
 // partie administration de CL
 $langue['prive_titre_page'] = "Partie privée du site";
 $langue['menu_titre_admin'] = "Administration";
