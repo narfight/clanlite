@@ -11,7 +11,8 @@ $template = new Template($root_path."templates/".$config['skin']);
 $template->set_filenames( array('body' => 'calendrier.tpl'));
 $jour=date("d");
 $annee=(empty($_GET['annee']))? date("Y") : $_GET['annee'];
-$mois=(isset($_GET['mois']))? $_GET['mois'] : date("m");
+$mois=(isset($_GET['mois']))? $_GET['mois'] : date('n');
+$mk_time_date = mktime( 1, 1, 1, $mois, 1, $annee);
 if ( $mois > 12)
 {
 	$annee++;
@@ -24,31 +25,31 @@ if ( $mois < 1)
 }
 switch($mois)
 {
-	case 01 :
+	case 1 :
 		$name_mois = $langue['janvier'];
 	break;
-	case 02 :
+	case 2 :
 		$name_mois = $langue['fevrier'];
 	break;
-	case 03 :
+	case 3 :
 		$name_mois = $langue['mars'];
 	break;
-	case 04 :
+	case 4 :
 		$name_mois = $langue['avril'];
 	break;
-	case 05 :
+	case 5 :
 		$name_mois = $langue['mai'];
 	break;
-	case 06 :
+	case 6 :
 		$name_mois = $langue['juin'];
 	break;
-	case 07 :
+	case 7 :
 		$name_mois = $langue['juillet'];
 	break;
-	case 08 :
+	case 8 :
 		$name_mois = $langue['aout'];
 	break;
-	case 09 :
+	case 9 :
 		$name_mois = $langue['septembre'];
 	break;
 	case 10 :
@@ -78,107 +79,94 @@ $template->assign_vars(array(
 
 // on va chercher les match, antrainement, anivairsaire des membres qu'on pourrait affichier dedans
 //match
-$sql = "SELECT date,le_clan FROM `".$config['prefix']."match`";
+$sql = "SELECT id,date,le_clan FROM `".$config['prefix']."match`";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 }
-$match_date = "";
-for ($i=0;($match = $rsql->s_array($get));$i++)
+$match_date = array();
+while ($match = $rsql->s_array($get))
 {
-	if ($mois == date("m", $match['date']) && $annee == date("Y", $match['date']))
+	if ($mois == date('n', $match['date']) && $annee == date('Y', $match['date']))
 	{
-		$match_date[$i] = array(
-			'jours' => date("j", $match['date']),
+		$match_date[$match['id']] = array(
+			'jours' => date('j', $match['date']),
 			'clan' => $match['le_clan']
 		);
 	}
-	else
-	{
-		$i--;
-	}
 }
 //entrainement
-$sql = "SELECT date FROM `".$config['prefix']."entrainement`";
+$sql = "SELECT id,date FROM `".$config['prefix']."entrainement`";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 }
-$entrai_date = "";
-for ($i=0;($entrai = $rsql->s_array($get));$i++)
+$entrai_date = array();
+while ($entrai = $rsql->s_array($get))
 {
-	if ($mois == date("m", $entrai['date']) && $annee == date("Y", $entrai['date']))
+	if ($mois == date('n', $entrai['date']) && $annee == date('Y', $entrai['date']))
 	{
-		$entrai_date[$i] = array('jours' => date("j", $entrai['date']));
-	}
-	else
-	{
-		$i--;
+		$entrai_date[$entrai['id']] = array('jours' => date('j', $entrai['date']));
 	}
 }
 //annif
-$sql = "SELECT age,user,id FROM `".$config['prefix']."user`";
+$sql = "SELECT id,age,user FROM `".$config['prefix']."user`";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql ,mysql_error(), __LINE__, __FILE__);
 }
-$annif_date ="";
-for ($i=0;($annif = $rsql->s_array($get));$i++)
+$annif_date = array();
+while ($annif = $rsql->s_array($get))
 {
-	if ($mois == date("m", $annif['age']))
+	if ($mois == date('n', $annif['age']))
 	{
-		$annif_date[$i] = array(
-			'jours' => date("j", $annif['age']),
+		$annif_date[$annif['id']] = array(
+			'jours' => date('j', $annif['age']),
 			'user' => $annif['user'],
 			'id_user' => $annif['id']
 		);
 	}
-	else
-	{
-		$i--;
-	}
 }
 // Ces variables vont nous servir pour mettre les jours dans les bonnes colonnes    
-$jour_debut_mois=date("w",time()-$jour*24*3600); //lundi = 1 Samedi = 6 et Dimanche = 0
-$jour_fin_mois=date("w",mktime(0,0,0,$mois,date('t'),$annee));
+$jour_debut_mois = (date('w', $mk_time_date) == 0)? 7 : date('w', $mk_time_date)-1; //lundi = 1 Samedi = 6 et Dimanche = 0
 $horizontal = 1;
 $verticale = 1;
 //boucle pour les 28 a 31 jours du mois
-for ($i=0;$i<date('t')+$jour_debut_mois;$i++)
+for ($i=0;$i<date('t', $mk_time_date)+$jour_debut_mois;$i++)
 {
 	$to_days = $i-$jour_debut_mois+1;
 	// on regarde si il a rien a metre dans la case comme info
-	$case[$horizontal][$verticale]['info'] = "";
-	for ($ia=0;(count($match_date)-1 >= $ia);$ia++)
+	$case[$horizontal][$verticale]['info'] = '';
+	foreach($match_date as $info_tmp)
 	{
-		if(($match_date[$ia]['jours'] == $to_days) && $to_days > 0)
+		if(($info_tmp['jours'] == $to_days) && $to_days > 0)
 		{
-			$case[$horizontal][$verticale]['info'] .= "<li>".sprintf($langue['calendrier_match'], $match_date[$ia]['clan'])."</li>";
+			$case[$horizontal][$verticale]['info'] .= "<li>".sprintf($langue['calendrier_match'], $info_tmp['clan'])."</li>";
 		}
 	}
-	for ($ia=0;(count($entrai_date)-1 >= $ia);$ia++)
+	foreach ($entrai_date as $info_tmp)
 	{
-		if(($entrai_date[$ia]['jours'] == $to_days) && $to_days > 0)
+		if(($info_tmp['jours'] == $to_days) && $to_days > 0)
 		{
 			$case[$horizontal][$verticale]['info'] .= "<li>".$langue['calendrier_entrai']."</li>";
 		}
 	}
-	for ($ib=0;(count($annif_date)-1 >= $ib);$ib++)
+	foreach ($annif_date as $info_tmp)
 	{
-		if(($annif_date[$ib]['jours'] == $to_days) && $to_days > 0)
+		if(($info_tmp['jours'] == $to_days) && $to_days > 0)
 		{
-			$case[$horizontal][$verticale]['info'] .= "<li>".sprintf($langue['calendrier_annif'], $root_path, $annif_date[$ib]['id_user'], $annif_date[$ib]['user'])."</a></li>";
+			$case[$horizontal][$verticale]['info'] .= "<li>".sprintf($langue['calendrier_annif'], $root_path, $info_tmp['id_user'], $info_tmp['user'])."</a></li>";
 		}
 	}
 	$case[$horizontal][$verticale]['class'] = ($i<$jour_debut_mois)? "calendra-vide" : "calendra-normal";
 	$case[$horizontal][$verticale]['class'] = ($horizontal >= 6)? "calendra-wk" : $case[$horizontal][$verticale]['class'];
-	$case[$horizontal][$verticale]['class'] = ($to_days == $jour)? "calendra-today" : $case[$horizontal][$verticale]['class'];
+	$case[$horizontal][$verticale]['class'] = ($to_days == $jour && (date('m-Y',time()) == date('m-Y',$mk_time_date)))? "calendra-today" : $case[$horizontal][$verticale]['class'];
 	$case[$horizontal][$verticale]['num'] = ($i<$jour_debut_mois)? "&nbsp;" : $to_days;
 	$horizontal++;
 	if ($horizontal == 8)
 	{
 		$horizontal = 1;
-		if ($case[$horizontal][$verticale]['num']+7 <= date('t'))
+		if ($case[$horizontal][$verticale]['num']+7 <= date('t', $mk_time_date))
 		{
 			$verticale++;
 		}

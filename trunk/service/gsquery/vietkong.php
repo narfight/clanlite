@@ -30,7 +30,7 @@ include_once("gameSpy.php");
 /**
  * @brief Extends the gameSpy protocol to support Vietkong
  * @author Jeremias Reith (jr@terragate.net)
- * @version $Id: vietkong.php,v 1.3 2003/09/01 16:28:50 jr Exp $
+ * @version $Id: vietkong.php,v 1.4 2004/03/21 10:02:27 jr Exp $
  * @todo process rules
  *
  * Vietkong's default query port seems to be 15426.
@@ -50,7 +50,7 @@ class vietkong extends gameSpy
 
     $cmd="\\status\\";
     if(!($response=$this->_sendCommand($this->address, $this->queryport, $cmd))) {
-      $this->errstr="No reply recieved";
+      $this->errstr="No reply received";
       return FALSE;
     }    
     $this->_processServerInfo($response);

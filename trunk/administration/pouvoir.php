@@ -12,7 +12,7 @@ if (!empty($_POST['envois_edit']))
 {
 	$_POST = pure_var($_POST);
 	$requette = "";
-	for ($i = 1;$i < 26;$i++)
+	for ($i = 1;$i < 24;$i++)
 	{
 		if($_POST['activation'.$i] != "oui")
 		{
@@ -44,13 +44,13 @@ if (!empty($_POST['editer']))
 	$edit_pouvoir = $rsql->s_array($get);
 	if ($rsql->nbr($get) == 0)
 	{
-		$sql = "INSERT INTO `".$config['prefix']."pouvoir` ( `user_id` , `p1` , `p2` , `p3` , `p4` , `p5` , `p6` , `p7` , `p8` , `p9` , `p10` , `p11` , `p12` , `p13` , `p14` , `p15` , `p16` , `p17` , `p18` , `p19` , `p20` , `p21` , `p22` , `p23`, `p24` )	VALUES ('".$_POST['id_user']."', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non')";
+		$sql = "INSERT INTO `".$config['prefix']."pouvoir` ( `user_id` , `p1` , `p2` , `p3` , `p4` , `p5` , `p6` , `p7` , `p8` , `p9` , `p10` , `p11` , `p12` , `p13` , `p14` , `p15` , `p16` , `p17` , `p18` , `p19` , `p20` , `p21` , `p22` , `p23`, `p24`, `p25` )	VALUES ('".$_POST['id_user']."', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non', 'non')";
 		if (! ($rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
 	}
-	for ($i = 1;$i < 26;$i++)
+	for ($i = 1;$i < 25;$i++)
 	{
 		$template->assign_block_vars('liste', array( 
 			'INFO_POUVOIR' => $langue['pv_num_'.$i],

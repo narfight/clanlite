@@ -22,7 +22,7 @@ while ($info = $rsql->s_array($get))
 // on scan
 if ( ($gameserver=queryServer($info['ip'], $info['port'], $info['protocol'])) )
 {
-	switch($gameserver->password)
+	switch($gameserver['password'])
 	{
 		case "0":
 			$serveur_password ="non";
@@ -37,17 +37,17 @@ if ( ($gameserver=queryServer($info['ip'], $info['port'], $info['protocol'])) )
 	$template->assign_block_vars('liste_game_server', array(
 		'TITRE' => $langue['titre_serveur_list'],
 		'TXT_NAME' => $langue['nom_serveur_jeux'],
-		'NAME' => $gameserver->servertitle,
+		'NAME' => $gameserver['servertitle'],
 		'TXT_PLACE' => $langue['nbr_place_serveur_jeux'],
-		'PLACE' => $gameserver->maxplayers,
-		'PLAYER' => $gameserver->numplayers,
-		'PORT' => $gameserver->hostport,
+		'PLACE' => $gameserver['maxplayers'],
+		'PLAYER' => $gameserver['numplayers'],
+		'PORT' => $gameserver['hostport'],
 		'TXT_IP' => $langue['ip'],
 		'IP' => $info['ip'],
 		'TXT_GAME_TYPE' => $langue['gametype_serveur_jeux'],
-		'GAME_TYPE' => $gameserver->gametype,								
+		'GAME_TYPE' => $gameserver['gametype'],
 		'TXT_CURRENT_MAP' => $langue['map_serveur_jeux'],
-		'CURRENT_MAP' => scan_map($gameserver->mapname, 'nom'),
+		'CURRENT_MAP' => scan_map($gameserver['mapname'], 'nom'),
 		'PASSWORD' => $serveur_password,
 	));
 }

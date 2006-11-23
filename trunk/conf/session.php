@@ -77,8 +77,7 @@ function clear_session()
 function dell_old_session()
 {
 	global $rsql,$config;
-	$seconde = time()-(60*$config['time_cook']);
-	$sql = "DELETE FROM `".$config['prefix']."sessions` WHERE UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(date) > ".$config['time_cook'];
+	$sql = "DELETE FROM `".$config['prefix']."sessions` WHERE UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(date) > ".(60*60*24);
 	$rsql->requete_sql($sql, 'session', 'Supprime les sessions inactives');
 }
 ?>

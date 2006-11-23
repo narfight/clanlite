@@ -69,8 +69,7 @@ if ( ($profil = $rsql->s_array($get_p)) )
 		$boucle++;
 		if (!empty($medail[$boucle]))
 		{
-			$template->assign_block_vars('profile.nombre_md_titre', array('NOMBRE_MD' => $nombre_md));
-			$template->assign_block_vars('nombre_md_titre', array('NUMERO' => $nombre_md));
+			$template->assign_block_vars('nombre_md_titre', array('NOMBRE_MD' => $nombre_md));
 		}
 	}
 }

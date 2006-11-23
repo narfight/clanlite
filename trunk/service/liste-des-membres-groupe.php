@@ -41,7 +41,7 @@ foreach($liste_group as $nom_section => $array_section)
 				'NOM' => $array_user['user'],
 				'GRADE' => $array_user['grade_nom'],
 				'ID' => $array_user['user_id'],
-				'SEX' => ($array_user['sex'] == "Femme")? "femme" : "homme",
+				'SEX' => ($array_user['sex'] == 'Femme')? 'femme' : 'homme',
 				'ROLE' => $array_user['roles'],
 				'IM' => $array_user['im']
 			));

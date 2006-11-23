@@ -23,6 +23,7 @@ $template->assign_vars(array(
 // on fais la boucle pour les matchs
 while ($liste = $rsql->s_array($get)) 
 { 
+	$nbr_match++;
 	$template->assign_block_vars('match', array(
 		'DATE' => date("j/n/Y", $liste['date']),
 		'CLAN' => $liste['le_clan'],
@@ -30,6 +31,10 @@ while ($liste = $rsql->s_array($get))
 		'HEURE' => date("H:i", $liste['date']),
 		'FOR' => $liste['id'],
 	));
+}
+if (empty($nbr_match))
+{
+	$template->assign_block_vars('no_match', array('TXT' => $langue['no_futur_match']));
 }
 $template->pparse('body');
 include($root_path."conf/frame.php");

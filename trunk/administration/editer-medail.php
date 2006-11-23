@@ -10,12 +10,12 @@ include($root_path."conf/conf-php.php");
 include($root_path."controle/cook.php");
 if ( !empty($_POST['Submit']) )
 {
-	$sql = "UPDATE ".$config['prefix']."user SET medail='".$_POST['medail1'].",".$_POST['medail2'].",".$_POST['medail3'].",".$_POST['medail4'].",".$_POST['medail5'].",".$_POST['medail6'].",".$_POST['medail7'].",".$_POST['medail8'].",".$_POST['medail9'].",".$_POST['medail10']."' WHERE id ='".$_POST['id_user']."'";
+	$sql = "UPDATE ".$config['prefix']."user SET medail='".((empty($_POST['medail1']))? '' : 1).",".((empty($_POST['medail2']))? '' : 1).",".((empty($_POST['medail3']))? '' : 1).",".((empty($_POST['medail4']))? '' : 1).",".((empty($_POST['medail5']))? '' : 1).",".((empty($_POST['medail6']))? '' : 1).",".((empty($_POST['medail7']))? '' : 1).",".((empty($_POST['medail8']))? '' : 1).",".((empty($_POST['medail9']))? '' : 1).",".((empty($_POST['medail10']))? '' : 1)."' WHERE id ='".$_POST['id_user']."'";
 	if (! ($rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	redirec_text($root_path."service/liste-des-membres.php", "Les Médails ont été changées" , "admin");
+	redirec_text($root_path."service/liste-des-membres.php", $langue['redirection_medaille'], 'admin');
 }
 include($root_path."conf/frame_admin.php");
 $template = new Template($root_path."templates/".$config['skin']);

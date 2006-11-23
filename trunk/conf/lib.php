@@ -52,7 +52,8 @@ function pure_var($var, $action='del')
 		}
 		else
 		{
-			$var = addslashes($var);
+			$var = str_replace('\\\\', '\\', $var);
+			$var  = str_replace('\\\'', '\'', $var);
 		}
 	}
 	return $var;
@@ -194,28 +195,36 @@ function sql_error($requete, $erreur, $line, $file)
 			'REQUETE_TXT' => $langue['error_sql_requette'],
 			'REQUETE' => $requete,
 			'ERROR_TXT' => $langue['error_sql_erreur'],
-			'ERROR'  => $erreur,
+			'ERROR' => $erreur,
 			'WHERE_TXT' => $langue['error_sql_endroit'],
-			'WHERE' => printf($langue['error_sql_endroit_2'], $line, $file),
+			'WHERE' => sprintf($langue['error_sql_endroit_2'], $line, $file),
 		));
 		$template->pparse('sql');
-		// on va ajouter une ligne dans le fichier erreur_sql.txt
-		$rapport = $config['current_time']."|*|".$requete."|*|".$erreur."|*|".$file."|*|".$line."|*|".$config['site_domain'].$config['site_path']."|*|".$config['version'];
 		// vérifie si le site du constructeur est en ligne
-		$var = "http://europubliweb.com/born-to-up/serveur_central/com.php";
-		$file = @fopen($var, "r");
-		if ($file)
-		{ 
-			fclose($file); 
-			// on envois le rapport
-			$reponce = file ($var."?rapport=".urlencode($rapport));
-		}	
-		// si le site pas en ligne ou erreur
-		if ($reponce[0] != "ok" || !$file)
+		$fp = @fsockopen("www.europubliweb.com", 80, $errno, $errstr, 30);
+		if ($fp)
 		{
-			$log = fopen($root_path."erreur_sql.txt" ,"a+"); // Ouvre en lecture et écriture; place le pointeur de fichier à la fin du fichier. Si le fichier n'existe pas, on tente de le créer. 
-			fwrite($log, $rapport." ".chr(10)); // on ajoute la ligne de code
-			fclose($log); // on ferme le fichier
+			$out = "GET /born-to-up/serveur_central/com.php?rapport=oui&".urlencode($config['current_time']."|*|".$requete."|*|".$erreur."|*|".$file."|*|".$line."|*|".$config['site_domain'].$config['site_path']."|*|".$config['version'])." HTTP/1.1\r\n";
+			$out .= "Host: ".$_SERVER['HTTP_HOST']."\r\n";
+			$out .= "Referer: ".$config['site_domain'].$config['site_path']."\r\n";
+			$out .= "User-Agent: Clanlite ".$config['version']."\r\n";
+			$out .= "Connection: Close\r\n\r\n";
+		
+			fwrite($fp, $out);
+			while (!feof($fp))
+			{
+				$tmp = fgets($fp, 128);
+				if("ok" == rtrim($tmp))
+				{
+					break;
+				}
+			}
+			if ($tmp != 'ok')
+			{
+				$log = fopen($root_path."erreur_sql.txt" ,"a+");
+				fwrite($log, $config['current_time']."|*|".$requete."|*|".$erreur."|*|".$file."|*|".$line."|*|".$config['site_domain'].$config['site_path']."|*|".$config['version']." ".chr(10));
+				fclose($log);
+			}
 		}
 	}
 } 
@@ -324,20 +333,137 @@ function displayNextPreviousButtons($limite,$total,$tpl_ou)
 // scan serveur de jeux
 function queryServer($address, $port, $protocol)
 {
+	global $rsql, $config;
 	if(!$address && !$port && !$protocol)
 	{
-		return FALSE;
+		return false;
 	}
-	$gameserver=gsQuery::createInstance($protocol, $address, $port);
-	if(!$gameserver)
+	// vérifie qu'on a pas deja des info qui ne dépasse pas 2min sur le serveur
+	if (empty($config['game_server_cache']))
 	{
-		return FALSE;
+		$sql = "SELECT server.*, players.name, players.id AS id_players, players.score, players.frags, players.deaths, players.honor, players.time FROM `".$config['prefix']."game_server_cache` AS server LEFT JOIN `".$config['prefix']."game_server_players_cache` AS players ON server.id = players.id_server";
+		if (! ($get_liste = $rsql->requete_sql($sql, 'site', 'Prend les infos en cache pour les serveurs de jeux')) )
+		{
+			sql_error($sql, $rsql->error, __LINE__, __FILE__);
+		}
+		while ( $serveur_game_cache = $rsql->s_array($get_liste) ) 
+		{
+			if ( 180 > (time()-$serveur_game_cache['date']) )
+			{
+				if (empty($config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']]) || !is_array($config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']]))
+				{// on crée l'entrée du serveur dans le array
+					$config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']] = array();
+					$serveur_game_cache['array_name'] = explode('|seprator_78aBµ|',$serveur_game_cache['array_name']);
+					$serveur_game_cache['array_value'] = explode('|seprator_78aBµ|',$serveur_game_cache['array_value']);
+					$serveur_game_cache['maplist'] = explode('|seprator_78aBµ|',$serveur_game_cache['maplist']);
+					 foreach ( $serveur_game_cache['array_name'] as $num_value => $array_name)
+					{
+						$rules[$serveur_game_cache['array_name'][$num_value]] = $serveur_game_cache['array_value'][$num_value];
+					}
+					$config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']] += array(
+						'ip' => $serveur_game_cache['ip'],
+						'hostport' => $serveur_game_cache['hostport'],
+						'servertitle' => $serveur_game_cache['servertitle'],
+						'gameversion' => $serveur_game_cache['gameversion'],
+						'maxplayers' => $serveur_game_cache['maxplayers'],
+						'numplayers' => $serveur_game_cache['numplayers'],
+						'maplist' => $serveur_game_cache['maplist'],
+						'mapname' => $serveur_game_cache['mapname'],
+						'nextmap' => $serveur_game_cache['nextmap'],
+						'gametype' => $serveur_game_cache['gametype'],
+						'password' => $serveur_game_cache['password'],
+						'rules' => $rules,
+					);
+				}
+				if (empty($config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']]['players'][$serveur_game_cache['id_players']]) || !is_array($config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']]['players'][$serveur_game_cache['id_players']]))
+				{
+					$config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']]['players'][$serveur_game_cache['id_players']] = array();
+				}
+				$config['game_server_cache'][$serveur_game_cache['ip'].':'. $serveur_game_cache['hostport']]['players'][$serveur_game_cache['id_players']] += array(
+					'name' => $serveur_game_cache['name'],
+					'score' => $serveur_game_cache['score'],
+					'frags' => $serveur_game_cache['frags'],
+					'deaths' => $serveur_game_cache['deaths'],
+					'honor' => $serveur_game_cache['honor'],
+					'time' => $serveur_game_cache['time'],
+				);
+			}
+			elseif (empty($dell[$serveur_game_cache['id']]))
+			{
+				$dell[$serveur_game_cache['id']] = true;
+				$sql = "DELETE FROM `".$config['prefix']."game_server_cache` WHERE id='".$serveur_game_cache['id']."'";
+				if (! ($rsql->requete_sql($sql, 'site', 'Supprime les infos en cache pour les serveurs de jeux dépassé')) )
+				{
+					sql_error($sql, $rsql->error, __LINE__, __FILE__);
+				}
+				$sql = "DELETE FROM `".$config['prefix']."game_server_players_cache` WHERE id_server='".$serveur_game_cache['id']."'";
+				if (! ($rsql->requete_sql($sql, 'site', 'Supprime les infos en cache pour les serveurs de jeux dépassé')) )
+				{
+					sql_error($sql, $rsql->error, __LINE__, __FILE__);
+				}
+			}
+		}
 	}
-	if(!$gameserver->query_server(TRUE, TRUE))
-	{ // fetch everything
-	    return FALSE;
+	if (!empty($config['game_server_cache'][$address.':'.$port]) && is_array($config['game_server_cache'][$address.':'.$port]))
+	{
+		return $config['game_server_cache'][$address.':'.$port];
 	}
-	return $gameserver;
+	else
+	{
+		if(!$gameserver=gsQuery::createInstance($protocol, $address, $port))
+		{
+			return false;
+		}
+		if(!$gameserver->query_server(TRUE, TRUE))
+		{ // fetch everything
+			return false;
+		}
+		$array_name = '';
+		$array_value = '';
+		$maplist = '';
+		foreach($gameserver->rules as $name => $value)
+		{
+			$array_name .= '|seprator_78aBµ|'.$name;
+			$array_value .= '|seprator_78aBµ|'.$value;
+		}
+		foreach($gameserver->maplist as $num => $name)
+		{
+			$maplist .= '|seprator_78aBµ|'.$name;
+		}
+		$sql = "INSERT INTO `".$config['prefix']."game_server_cache` (`date` , `ip` , `hostport` , `servertitle` , `gameversion` , `maplist` , `mapname` , `nextmap` , `password` , `maxplayers` , `numplayers` , `gametype` , `array_name` , `array_value` ) VALUES ( ".time()." , '".$address."' , \"".$port."\" , \"".addslashes($gameserver->htmlize($gameserver->servertitle))."\" , \"".$gameserver->gameversion."\" , \"".$maplist."\" , \"".$gameserver->mapname."\" , \"".$gameserver->nextmap."\" , \"".$gameserver->password."\" , \"".$gameserver->maxplayers."\" , \"".$gameserver->numplayers."\" , \"".$gameserver->gametype."\" , \"".$array_name."\" , \"".$array_value."\" )";
+		if (! ($rsql->requete_sql($sql, 'site', 'Insertion des informations sur le serveur de jeux dans le cache')) )
+		{
+			sql_error($sql, $rsql->error, __LINE__, __FILE__);
+		}
+		$id_serveur_cache = mysql_insert_id();
+		foreach($gameserver->players as $player)
+		{
+			$sql = 'INSERT INTO `'.$config['prefix'].'game_server_players_cache` ( `id_server` , `name` , `score` , `frags` , `deaths` , `honor` , `time` ) VALUES ( "'.$id_serveur_cache.'" , "'.addslashes($gameserver->htmlize($player['name'])).'" , "'.((empty($player['score']))? '' : $player['score']).'" , "'.((empty($player['frags']))? '' : $player['frags']).'" , "'.((empty($player['deaths']))? '' : $player['deaths']).'" , "'.((empty($player['honor']))? '' : $player['honor']).'" , "'.((empty($player['time']))? '' : $player['time']).'" )';
+			if (! ($rsql->requete_sql($sql, 'site', 'Insertion des informations sur le serveur de jeux dans le cache')) )
+			{
+				sql_error($sql, $rsql->error, __LINE__, __FILE__);
+			}
+		}
+		foreach($gameserver->players as $id_player => $info)
+		{
+			$gameserver->players[$id_player]['name'] = $gameserver->htmlize($info['name']);
+		}
+		return array(
+			'ip' => $address,
+			'hostport' => $gameserver->hostport,
+			'servertitle' => $gameserver->htmlize($gameserver->servertitle),
+			'gameversion' => $gameserver->gameversion,
+			'maxplayers' => $gameserver->maxplayers,
+			'numplayers' => $gameserver->numplayers,
+			'maplist' => $gameserver->maplist,
+			'mapname' => $gameserver->mapname,
+			'nextmap' => $gameserver->nextmap,
+			'gametype' => $gameserver->gametype,
+			'password' => $gameserver->password,
+			'rules' => $gameserver->rules,
+			'players' => $gameserver->players,
+		);
+	}
 }
 // liste des maps
 function scan_map($map_console, $info='array')

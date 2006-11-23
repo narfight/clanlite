@@ -255,3 +255,34 @@ CREATE TABLE `clanlite_équipe` (
   `détail` longtext NOT NULL,
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
+
+CREATE TABLE `clanlite_game_server_cache` (
+  `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `date` decimal(12,0) default NULL,
+  `ip` varchar(255) NOT NULL default '',
+  `hostport` smallint(5) unsigned NOT NULL default '0',
+  `servertitle` text NOT NULL,
+  `gameversion` varchar(255) NOT NULL default '',
+  `maplist` longtext NOT NULL,
+  `mapname` varchar(255) NOT NULL default '',
+  `nextmap` varchar(255) NOT NULL default '',
+  `password` enum('-1','1','0') NOT NULL default '-1',
+  `maxplayers` tinyint(3) unsigned NOT NULL default '0',
+  `numplayers` tinyint(3) unsigned NOT NULL default '0',
+  `gametype` tinytext NOT NULL,
+  `array_name` longtext NOT NULL,
+  `array_value` longtext NOT NULL,
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+CREATE TABLE `clanlite_game_server_players_cache` (
+  `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `id_server` mediumint(8) unsigned NOT NULL default '0',
+  `name` text NOT NULL,
+  `score` varchar(255) NOT NULL default '',
+  `frags` varchar(255) NOT NULL default '',
+  `deaths` varchar(255) NOT NULL default '',
+  `honor` varchar(255) NOT NULL default '',
+  `time` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
