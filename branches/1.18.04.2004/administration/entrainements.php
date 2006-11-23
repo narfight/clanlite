@@ -1,0 +1,99 @@
+<?php
+// -------------------------------------------------------------
+// LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
+// -------------------------------------------------------------
+$root_path = './../';
+$niveau_secu = 10;
+$action_membre= 'where_entrain';
+include($root_path."conf/template.php");
+include($root_path."conf/conf-php.php");
+include($root_path."controle/cook.php");
+if ( !empty($HTTP_POST_VARS['Envoyer']) )
+{
+	$date = mktime( $HTTP_POST_VARS['heure'], $HTTP_POST_VARS['minute'], 0, $HTTP_POST_VARS['mois'], $HTTP_POST_VARS['jours'], $HTTP_POST_VARS['annee']);
+	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
+	$sql = "INSERT INTO `".$config['prefix']."entrainement` (info, date, user, priver) VALUES ('".$HTTP_POST_VARS['texte']."', '".$date."', '".$session_cl['user']."', '".$HTTP_POST_VARS['priver']."')";
+	if (!$rsql->requete_sql($sql))
+	{
+		sql_error($sql,mysql_error(), __LINE__, __FILE__);
+	}
+	redirec_text("entrainements.php", $langue['redirection_entrain_add'], "admin");
+}
+if ( !empty($HTTP_POST_VARS['Editer']) )
+{
+	$date = mktime( $HTTP_POST_VARS['heure'], $HTTP_POST_VARS['minute'], 0, $HTTP_POST_VARS['mois'], $HTTP_POST_VARS['jours'], $HTTP_POST_VARS['annee']);
+	$HTTP_POST_VARS = pure_var($HTTP_POST_VARS);
+	$sql = "UPDATE `".$config['prefix']."entrainement` SET info='".$HTTP_POST_VARS['texte']."', date='".$date."', user='".$session_cl['user']."', priver='".$HTTP_POST_VARS['priver']."' WHERE id=".$HTTP_POST_VARS['for'];
+	if (!$rsql->requete_sql($sql))
+	{
+		sql_error($sql,mysql_error(), __LINE__, __FILE__);
+	}
+	redirec_text("entrainements.php", $langue['redirection_entrain_edit'], "admin");
+}
+if (!empty($HTTP_POST_VARS['dell']))
+{
+	$sql = "DELETE FROM `".$config['prefix']."entrainement` WHERE id ='".$HTTP_POST_VARS['for']."'";
+	if (! ($rsql->requete_sql($sql)) )
+	{
+		sql_error($sql, $rsql->error, __LINE__, __FILE__);
+	}
+	redirec_text("entrainements.php", $langue['redirection_entrain_dell'], "admin");
+}
+include($root_path."conf/frame_admin.php");
+$template = new Template($root_path."templates/".$config['skin']);
+$template->set_filenames( array('body' => 'admin_entrainements.tpl'));
+$template->assign_vars( array( 
+	'TITRE' => $langue['titre_entrain'],
+	'TITRE_GESTION' => $langue['titre_entrain_gestion'],
+	'TITRE_LISTE' => $langue['titre_entrain_list'],
+	'TXT_TEXTE' => $langue['détails'],
+	'MSG_PRIVE' => $langue['message_cote_prive'],
+	'DATE' => $langue['date'],
+	'HEURE' => $langue['heure'],
+	'POSTEUR' => $langue['posteur'],
+	'ACTION' => $langue['action'],
+));
+if ( !empty($HTTP_POST_VARS['edit']) )
+{
+	$sql = "SELECT * FROM ".$config['prefix']."entrainement WHERE id='".$HTTP_POST_VARS['for']."'";
+	if (! ($get = $rsql->requete_sql($sql)) )
+	{
+		sql_error($sql,mysql_error(), __LINE__, __FILE__);
+	}
+	$rechercheedit = $rsql->s_array($get);
+	$template->assign_block_vars('editer', array('EDITER' => $langue['editer']));
+	$template->assign_vars( array( 
+		'ID' => $rechercheedit['id'],
+		'INFO' => $rechercheedit['info'],
+		'PRIVER' => $rechercheedit['priver'],
+		'JOURS' =>  date("j", $rechercheedit['date']),
+		'MOIS' => date("n", $rechercheedit['date']),
+		'ANNEE' => date("Y", $rechercheedit['date']),
+		'HH' => date("H", $rechercheedit['date']),
+		'MM' => date("i", $rechercheedit['date']),
+	));
+}
+else
+{
+	$template->assign_block_vars('rajouter', array('ENVOYER' => $langue['envoyer']));
+}
+$sql = "SELECT * FROM ".$config['prefix']."entrainement ORDER BY `id` DESC";
+if (! ($query = $rsql->requete_sql($sql)) )
+{
+	sql_error($sql,mysql_error(), __LINE__, __FILE__);
+}
+while ($liste = $rsql->s_array($query))
+{
+	$template->assign_block_vars('liste', array(
+		'ID' => $liste['id'],
+		'INFO' => nl2br(bbcode($liste['info'])),
+		'PRIVER' => nl2br(bbcode($liste['priver'])),
+		'POSTEUR' => $liste['user'],
+		'DATE' =>  date('H:i j/n/Y', $liste['date']),
+		'SUPPRIMER' => $langue['supprimer'],
+		'EDITER' => $langue['editer'],
+	));
+}
+$template->pparse('body');
+include($root_path."conf/frame_admin.php");
+?>
