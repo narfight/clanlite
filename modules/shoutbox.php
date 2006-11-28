@@ -55,7 +55,7 @@ if (defined('CL_AUTH'))
 			$session_cl['module_shourbox_anti_doublon'] = $_POST['shoutbox_msg'];
 			save_session($session_cl);
 
-			$sql = 'INSERT INTO `'.$config['prefix'].'module_shoutbox_'.$_POST['id'].'` (`user`, `msg`) VALUES (\''.htmlentities($_POST['shoutbox_user']).'\', \''.htmlentities($_POST['shoutbox_msg']).'\')';
+			$sql = 'INSERT INTO `'.$config['prefix'].'module_shoutbox_'.$_POST['id'].'` (`user`, `msg`) VALUES (\''.$_POST['shoutbox_user'].'\', \''.$_POST['shoutbox_msg'].'\')';
 			if (! ($get = $rsql->requete_sql($sql, 'module', 'Ajoute le message dans la shoutbox')) )
 			{
 				sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -75,7 +75,7 @@ if (defined('CL_AUTH'))
 	while ( $liste = $rsql->s_array($get) )
 	{
 		$color = ($color === 'table-cellule')? 'table-cellule-2' : 'table-cellule';
-		$tmp = str_replace('{USER}', $liste['user'], $block['liste_shoutbox']);
+		$tmp = str_replace('{USER}', htmlspecialchars($liste['user']), $block['liste_shoutbox']);
 		$tmp = str_replace('{CLASS}', $color, $tmp);
 		$liste_msg .= str_replace('{MSG}', bbcode($liste['msg']), $tmp)."\n";
 		$last_id = $liste['id'];
