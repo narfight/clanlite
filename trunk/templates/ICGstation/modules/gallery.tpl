@@ -62,7 +62,7 @@
 			<tbody>
 				<!-- BEGIN images -->
 				<tr>
-					<td><img src="{images.SRC_IMG}" width="{images.TUMB_W}" height="{images.TUMB_H}" alt="{images.COM_IMG}" /></td>
+					<td><a href="{images.SRC_IMG}"><img src="{images.SRC_IMG}" width="{images.TUMB_W}" height="{images.TUMB_H}" alt="{images.COM_IMG}" /></a></td>
 					<td>{images.COM_IMG}</td>
 					<td>
 						<form method="post" action="{images.ICI}">

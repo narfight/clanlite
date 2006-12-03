@@ -290,10 +290,19 @@ if (!empty($_GET['from']))
 	$i = 1;
 	while ( $liste = $rsql->s_array($get) )
 	{
+		// définit la taille max de l'image central
+		$tmp = get_new_size(
+			array($liste['nb_largeur'], $liste['nb_hauteur']),
+			$config['img_width'], $config['img_height']);
+		$liste['nb_hauteur'] = $tmp['height'];
+		$liste['nb_largeur'] = $tmp['width'];
+	
 		$template->assign_block_vars('liste', array(
 			'TITRE' => $liste['lb_commentaire'],
 			'MIN' => $liste['url_image_mini'],
 			'NORM' => $liste['url_image_norm'],
+			'NORM_H' => $liste['nb_hauteur'],
+			'NORM_L' => $liste['nb_largeur'],
 		));
 		if ($i < 4)
 		{
@@ -306,13 +315,20 @@ if (!empty($_GET['from']))
 	switch($i)
 	{
 		case 0:
+			list($size['width'], $size['height'], $size['type']) = getimagesize('images/logo_rss.gif');
+			
 			$je_t_aime_anne_sophie[1]['url_image_min'] = 'images/logo_rss.gif';
+
 			$je_t_aime_anne_sophie[2]['url_image_norm'] = 'images/logo_rss.gif';
+			$je_t_aime_anne_sophie[2]['nb_hauteur'] = $size['height'];
+			$je_t_aime_anne_sophie[2]['nb_largeur'] = $size['width'];
+			
 			$je_t_aime_anne_sophie[3]['url_image_mini'] = 'images/logo_rss.gif';
 		break;
 		case 1:
 			$je_t_aime_anne_sophie[2]['url_image_norm'] = $je_t_aime_anne_sophie[1]['url_image_norm'];
 			$je_t_aime_anne_sophie[3]['url_image_mini'] = $je_t_aime_anne_sophie[1]['url_image_mini'];
+			$je_t_aime_anne_sophie[2]['lb_commentaire'] = $je_t_aime_anne_sophie[1]['lb_commentaire'];
 		break;
 		case 2:
 			$je_t_aime_anne_sophie[3]['url_image_mini'] = $je_t_aime_anne_sophie[2]['url_image_mini'];
@@ -321,9 +337,11 @@ if (!empty($_GET['from']))
 
 	$template->assign_vars(array(
 		'TITRE' => $langue['gallery'],
-		'COM_IMG' => $je_t_aime_anne_sophie[2]['lb_commentaire'],
 		'SRC_MIN_1' => $je_t_aime_anne_sophie[1]['url_image_mini'],
+		'COM_IMG' => $je_t_aime_anne_sophie[2]['lb_commentaire'],
 		'SRC' => $je_t_aime_anne_sophie[2]['url_image_norm'],
+		'WIDTH' => $je_t_aime_anne_sophie[2]['nb_largeur'],
+		'HEIGHT' => $je_t_aime_anne_sophie[2]['nb_hauteur'],
 		'SRC_MIN_2' => $je_t_aime_anne_sophie[3]['url_image_mini'],
 	));
 
