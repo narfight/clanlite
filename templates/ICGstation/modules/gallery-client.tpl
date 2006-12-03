@@ -6,7 +6,9 @@
 	k.push(Array(
 		"{liste.TITRE}",
 		"{liste.NORM}",
-		"{liste.MIN}"
+		"{liste.MIN}",
+		"{liste.NORM_H}",
+		"{liste.NORM_L}"
 	));
 	<!-- END liste -->
 		
@@ -30,7 +32,7 @@
 		if (dLoaded >= k.length) dLoaded = 0;
 		if (dLoaded < 0) dLoaded = k.length - 1;
 		var ci = k[dLoaded];
-		diapoTransition('currentImage', direction, ci[1], 100);
+		diapoTransition('currentImage', direction, ci[1], ci[3], ci[4], 100);
 	
 		trouve('titre_img').innerHTML = ci[0];
 		//document.getElementById('lien').href = '/kits/version-v-' + ci[3] + '.html';
@@ -42,7 +44,7 @@
 		else
 			var ni = k[dLoaded + 1];
 	
-		diapoTransition('nextImage', direction, ni[2], 100);
+		diapoTransition('nextImage', direction, ni[2], 0, 0, 100);
 		
 	
 		// ------------------------------------------------------------
@@ -52,13 +54,13 @@
 		else
 			var pi = k[dLoaded - 1];
 	
-		diapoTransition('previousImage', direction, pi[2], 100);
+		diapoTransition('previousImage', direction, pi[2], 0, 0, 100);
 	
 		return false;	
 	}
 	
 	
-	function diapoTransition(obj, direction, image, alpha)
+	function diapoTransition(obj, direction, image, image_h, image_l, alpha)
 	{
 		if (direction == 0)
 		{
@@ -75,18 +77,19 @@
 			document.getElementById(obj).style['filter']		= 'alpha(opacity=' + (alpha - 20) + ')';
 		else
 			document.getElementById(obj).style.opacity = (alpha - 20) / 100;
-		/*if (direction == -1)
-			document.getElementById(obj).style.marginLeft = '-' + alpha + 'px';
-		else if (direction == 1)
-			document.getElementById(obj).style.marginLeft = '-' + (100-alpha) + 'px';*/
-			
 			
 		if (alpha > 0)
-			setTimeout("diapoTransition('" + obj + "', '" + direction + "', '" + image + "', " + (alpha - 20) + ");", 10);
+			setTimeout("diapoTransition('" + obj + "', '" + direction + "', '" + image + "', '" + image_h + "', '" + image_l + "', " + (alpha - 20) + ");", 10);
 		else
 		{
 			//document.getElementById(obj).style.marginLeft = '0px';
 			document.getElementById(obj).src = image;
+			
+			if (image_h != 0 || image_l != 0)
+			{
+				document.getElementById(obj).height = image_h;
+				document.getElementById(obj).width = image_l;
+			}
 		}
 	}
 	
@@ -116,7 +119,7 @@
 			<tbody>
 				<tr>
 					<td width="33%"><a href="#" onClick="return diapo(-1);"><img style="opacity: 1.1;" id="previousImage" src="{SRC_MIN_1}" onload="diapoTransitionOn(this.id, 0);" /></a></td>
-					<td width="33%"><img style="opacity: 1.1;" id="currentImage" src="{SRC}" onload="diapoTransitionOn(this.id, 0);" /></td>
+					<td width="33%"><a href="{SRC}"><img style="opacity: 1.1;" id="currentImage" width="{WIDTH}" height="{HEIGHT}" src="{SRC}" onload="diapoTransitionOn(this.id, 0);" /></a></td>
 					<td width="33%"><a href="#" onClick="return diapo(1);"><img style="opacity: 1.1;" id="nextImage" src="{SRC_MIN_2}" onload="diapoTransitionOn(this.id, 0);" /></a></td>
 				</tr>
 			</tbody>
