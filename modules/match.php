@@ -45,7 +45,6 @@ if (defined('CL_AUTH'))
 		// on regarde si la personne à droit au match
 		if (isset($session_cl['section']) && ($session_cl['section'] == $match['section'] || $match['section'] == 0 || $session_cl['limite_match'] == 0))
 		{
-			echo '(isset('.$session_cl['section'].') && ('.$session_cl['section'].' == '.$match['section'].' || '.$match['section'].' == 0 || '.$session_cl['limite_match'].' == 0))';
 			$block['match_liens_membres'] = str_replace('{URL}', $root_path.'service/membre_match.php?regarder='.$match['id'], $block['match_liens_membres']);
 			$block['match_liens_membres'] = str_replace('{TEXTE}', $langue['ajouter/supprimer_demande_match'], $block['match_liens_membres']);
 			$block['match'] = str_replace('{LIENS_MEMBRES}', $block['match_liens_membres'], $block['match']);
