@@ -34,7 +34,8 @@
 			<p>
 				<span><label for="jour">{TXT_DATE}&nbsp;:</label>
 				</span>
-				<span><input name="jour" type="text" id="jour" value="{JOUR}" size="2" maxlength="2" onblur="formverif(this.id,'chiffre','31')" />/<input name="mois" type="text" id="mois" value="{MOIS}" size="2" maxlength="2" onblur="formverif(this.id,'chiffre','12')" />/<input name="annee" type="text" id="year" value="{ANNEE}" size="4" maxlength="4" onblur="formverif(this.id,'chiffre','')" />(mm/jj/yyyy)</span>
+				<span><input name="jour" type="text" id="jour" value="{JOUR}" size="2" maxlength="2" onblur="formverif(this.id,'chiffre','31')" />/<input name="mois" type="text" id="mois" value="{MOIS}" size="2" maxlength="2" onblur="formverif(this.id,'chiffre','12')" />/<input name="annee" type="text" id="year" value="{ANNEE}" size="4" maxlength="4" onblur="formverif(this.id,'chiffre','')" />
+				(jj/mm/yyyy)</span>
 			</p>
 			<p>
 				<span><label for="heure">{TXT_HEURE}&nbsp;:</label>
