@@ -109,7 +109,7 @@ if (defined('CL_AUTH'))
 if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module']) )
 {
 	define('CL_AUTH', true);
-$root_path = './../';
+	$root_path = './../';
 	$action_membre= 'where_module_serveur_game';
 	$niveau_secu = 16;
 	require($root_path.'conf/template.php');
@@ -126,8 +126,8 @@ $root_path = './../';
 		redirec_text($root_path.'administration/modules.php' , $langue['redirection_module_serveur_game_edit'],'admin');
 	}
 	require($root_path.'conf/frame_admin.php');
-	$template = new Template($root_path.'templates/'.$session_cl['skin']);
-	$template->set_filenames( array('body' => 'modules/serveur_jeux.tpl'));
+	$template = new Template(find_module_tpl('serveur_jeux.tpl', true));
+	$template->set_filenames(array('body_module' => 'serveur_jeux.tpl'));
 	$sql = "SELECT config FROM ".$config['prefix']."modules WHERE id ='".$id_module."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
@@ -145,7 +145,7 @@ $root_path = './../';
 	{
 		$liste .='<option value="'.$server_liste['id'].'" '.(($actu_data['serveur'] === $server_liste['id'])? 'selected="selected"' : '').'>'.$server_liste['ip'].':'.$server_liste['port'].' ('.$server_liste['protocol'].')</option>';
 	}
-	$template->assign_block_vars('serveur_config',array(
+	$template->assign_block_vars('serveur_config', array(
 		'ICI' => session_in_url('serveur_jeux.php'),
 		'TITRE' => $langue['titre_module_serveur_game'],
 		'TXT_SERVEUR' => $langue['serveur_game_ip'],
@@ -158,7 +158,7 @@ $root_path = './../';
 		'ID'=> $id_module,
 		'LISTE'=> $liste,
 	));
-	$template->pparse('body');
+	$template->pparse('body_module');
 	require($root_path.'conf/frame_admin.php');
 }
 ?>
