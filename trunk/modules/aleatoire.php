@@ -62,7 +62,8 @@ if (defined('CL_AUTH'))
 if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_aléatoire_module']) || !empty($_POST['Editer_aléatoire_module']) || !empty($_POST['dell_aléatoire_module']) || !empty($_POST['edit_aléatoire_module']) )
 {
 	$id_module = (empty($_GET['id_module']))? $_POST['id_module'] : $_GET['id_module'];
-	$root_path = './../';
+	define('CL_AUTH', true);
+$root_path = './../';
 	$niveau_secu = 16;
 	$action_membre= 'where_module_aléatoire';
 	require($root_path.'conf/template.php');

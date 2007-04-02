@@ -9,6 +9,11 @@
  *   the Free Software Foundation; either version 2 of the License, or		*
  *   (at your option) any later version.									*
  ***************************************************************************/
+if (!defined('CL_AUTH'))
+{// Tentative de piratage
+	die ('Oups, un petit problème, désolé ... si si, je vous le jure, je le suis.');
+}
+
 ob_start('ob_gzhandler'); 
 @ini_set('register_globals', 0);
 @include($root_path.'config.php');
@@ -22,7 +27,6 @@ if (!defined('CL_INSTALL'))
 	redirection($root_path.'install/install.php');
 }
 
-define('CL_AUTH', true);
 $rsql = new mysql();
 $config['securitee'] = 'no';
 $rsql->mysql_connection($mysqlhost, $login, $password, $base);

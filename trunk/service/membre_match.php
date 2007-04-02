@@ -9,6 +9,7 @@
  *   the Free Software Foundation; either version 2 of the License, or		*
  *   (at your option) any later version.									*
  ***************************************************************************/
+define('CL_AUTH', true);
 $root_path = './../';
 $action_membre = 'where_match_prive';
 require($root_path.'conf/template.php');

@@ -9,6 +9,7 @@
  *   the Free Software Foundation; either version 2 of the License, or		*
  *   (at your option) any later version.									*
  ***************************************************************************/
+define('CL_AUTH', true);
 $root_path = './../';
 $niveau_secu = 11;
 $action_membre= 'where_equipe';

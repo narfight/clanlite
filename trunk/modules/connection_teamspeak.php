@@ -44,7 +44,8 @@ if (defined('CL_AUTH'))
 if(!empty($_POST['teamspeak_connection_envois'])  )
 {
 	$_POST['teamspeak_connection_envois'] = '';
-	$root_path = './../';
+	define('CL_AUTH', true);
+$root_path = './../';
 	$action_membre= 'where_connection_ts';
 	require($root_path.'conf/template.php');
 	require($root_path.'conf/conf-php.php');
@@ -64,7 +65,8 @@ if(!empty($_POST['teamspeak_connection_envois'])  )
 }
 if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_connect_ts_module']) )
 {
-	$root_path = './../';
+	define('CL_AUTH', true);
+$root_path = './../';
 	$action_membre= 'where_module_connect_ts';
 	$niveau_secu = 16;
 	require($root_path.'conf/template.php');

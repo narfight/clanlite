@@ -52,7 +52,8 @@ if (defined('CL_AUTH'))
 if(!empty($_POST['Submit_newsletter']) && !empty($_POST['id']))
 {
 	unset($_POST['Submit_newsletter']);
-	$root_path = './../';
+	define('CL_AUTH', true);
+$root_path = './../';
 	$action_membre= 'where_newsletter';
 	require($root_path.'conf/template.php');
 	require($root_path.'conf/conf-php.php');

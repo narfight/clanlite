@@ -9,6 +9,7 @@
  *   the Free Software Foundation; either version 2 of the License, or		*
  *   (at your option) any later version.									*
  ***************************************************************************/
+define('CL_AUTH', true);
 $root_path = './../';
 // on inclus la conf
 $action_membre = 'where_connecte';

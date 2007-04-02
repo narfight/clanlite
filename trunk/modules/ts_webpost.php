@@ -11,7 +11,8 @@
  ***************************************************************************/
 if ($_SERVER['HTTP_USER_AGENT'] == 'WebPost_UserAgent')
 {
-	$root_path = './../';
+	define('CL_AUTH', true);
+$root_path = './../';
 	$action_membre='no session please Mr ClanLite';
 	require($root_path.'conf/conf-php.php');
 	require($root_path.'conf/lib_ts.php');
@@ -122,7 +123,8 @@ if (defined('CL_AUTH'))
 }
 if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_webpost_centrale']) )
 {
-	$root_path = './../';
+	define('CL_AUTH', true);
+$root_path = './../';
 	$action_membre= 'where_module_webpost';
 	$niveau_secu = 16;
 	require($root_path.'conf/template.php');
@@ -190,7 +192,8 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_webpost_
 }
 if (!empty($_GET['from']) && is_numeric($_GET['from']))
 {
-	$root_path = './../';
+	define('CL_AUTH', true);
+$root_path = './../';
 	$action_membre = 'where_cl_module_webpost';
 	require($root_path.'conf/template.php');
 	require($root_path.'conf/conf-php.php');

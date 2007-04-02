@@ -1,4 +1,5 @@
 <?
+define('CL_AUTH', true);
 $root_path = './../';
 $action_membre = 'where_lire_news_nfo';
 require($root_path.'conf/template.php');

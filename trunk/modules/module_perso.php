@@ -29,7 +29,8 @@ if (defined('CL_AUTH'))
 }
 if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_perso_module']) )
 {
-	$root_path = './../';
+	define('CL_AUTH', true);
+$root_path = './../';
 	$action_membre= 'where_module_module_custom';
 	$niveau_secu = 16;
 	require($root_path.'conf/template.php');

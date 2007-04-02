@@ -41,7 +41,8 @@ if (defined('CL_AUTH'))
 }
 if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_p_centrale']) )
 {
-	$root_path = './../';
+	define('CL_AUTH', true);
+$root_path = './../';
 	$action_membre= 'where_module_module_custom';
 	$niveau_secu = 16;
 	require($root_path.'conf/template.php');
@@ -87,7 +88,8 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_p_centra
 }
 if (!empty($_GET['from']))
 {
-	$root_path = './../';
+	define('CL_AUTH', true);
+$root_path = './../';
 	$action_membre = 'where_module_central';
 	require($root_path.'conf/template.php');
 	require($root_path.'conf/conf-php.php');
