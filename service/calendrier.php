@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
  *	Fichier		: calendrier.php											*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Copyright	: (C) 2007 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -25,11 +25,12 @@ if ($mois > 12)
 	$annee++;
 	$mois=1;
 }
-if ($mois < 1)
+elseif ($mois < 1)
 {
 	$annee=$annee-1;
 	$mois=12;
 }
+
 switch($mois)
 {
 	case 1 :
@@ -117,7 +118,7 @@ while ($evenements = $rsql->s_array($get))
 }
 
 //match
-$sql = 'SELECT `id`, `date`, `le_clan` FROM `'.$config['prefix'].'match`';
+$sql = 'SELECT `id`, `date`, `le_clan`, `section` FROM `'.$config['prefix'].'match`';
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql , $rsql->error, __LINE__, __FILE__);
@@ -129,10 +130,12 @@ while ($match = $rsql->s_array($get))
 	{
 		$match_date[$match['id']] = array(
 			'jours' => adodb_date('j', $match['date']+$session_cl['correction_heure']),
-			'clan' => $match['le_clan']
+			'clan' => $match['le_clan'],
+			'section' => $match['section']
 		);
 	}
 }
+
 //entrainement
 $sql = 'SELECT `id`, `date` FROM `'.$config['prefix'].'entrainement`';
 if (! ($get = $rsql->requete_sql($sql)) )
@@ -147,6 +150,7 @@ while ($entrai = $rsql->s_array($get))
 		$entrai_date[$entrai['id']] = array('jours' => adodb_date('j', $entrai['date']+$session_cl['correction_heure']));
 	}
 }
+
 //annif et annif d'entrée
 $sql = 'SELECT `id`, `age`, `user`, `user_date` FROM `'.$config['prefix'].'user`';
 if (! ($get = $rsql->requete_sql($sql)) )
@@ -185,12 +189,19 @@ for ($i=0;$i<adodb_date('t', $mk_time_date)+$jour_debut_mois;$i++)
 	$to_days = $i-$jour_debut_mois+1;
 	// on regarde si il a rien a metre dans la case comme info
 	$case[$horizontal][$verticale]['info'] = '';
-	foreach($match_date as $info_tmp)
+	foreach($match_date as $id => $info_tmp)
 	{
 		if(($info_tmp['jours'] == $to_days) && $to_days > 0)
 		{
-
-			$case[$horizontal][$verticale]['info'] .= '<li>'.sprintf($langue['calendrier_match'], $info_tmp['clan']).'</li>';
+			// si il est membre et qu'il peut participer a ce match, on lui fait un liens pour les détails
+			if (isset($session_cl['user']) && ($session_cl['limite_match'] == 0 || $info_tmp['section'] = $session_cl['section'] || $info_tmp['section'] = 0))
+			{
+				$case[$horizontal][$verticale]['info'] .= '<li><a href="'.session_in_url($root_path.'service/membre_match.php?regarder='.$id).'">'.sprintf($langue['calendrier_match'], $info_tmp['clan']).'</a></li>';
+			}
+			else
+			{
+				$case[$horizontal][$verticale]['info'] .= '<li>'.sprintf($langue['calendrier_match'], $info_tmp['clan']).'</li>';
+			}
 		}
 	}
 	foreach ($entrai_date as $info_tmp)

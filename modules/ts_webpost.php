@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
  *	Fichier		: ts_webpost.php											*
- *	Copyright	: (C) 2006 ClanLite											*
+ *	Copyright	: (C) 2007 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -12,9 +12,10 @@
 if ($_SERVER['HTTP_USER_AGENT'] == 'WebPost_UserAgent')
 {
 	$root_path = './../';
-	$action_membre='server_teamspeak_webpost';
+	$action_membre='no session please Mr ClanLite';
 	require($root_path.'conf/conf-php.php');
 	require($root_path.'conf/lib_ts.php');
+	
 	// on vérifie que le serveur est bien lié à un module
 	// scan tout les serveurs de la db pour les users qui sont dedans
 	$sql = "SELECT `id` FROM ".$config['prefix']."modules WHERE `config` = '".serialize(array('ip' => $session_cl['ip'], 'port' => $_POST['server_port'], 'query_port' => $_POST['server_queryport']))."'";
