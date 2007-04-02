@@ -94,7 +94,8 @@ if (defined('CL_AUTH'))
 if( !empty($_GET['config_modul_admin']) || !empty($_POST['del']) || !empty($_POST['modify']) || !empty($_POST['send']))
 {
 	$id_module = (empty($_GET['id_module']))? $_POST['id_module'] : $_GET['id_module'];
-	$root_path = './../';
+	define('CL_AUTH', true);
+$root_path = './../';
 	$niveau_secu = 16;
 	$action_membre= 'where_module_gallery';
 	require($root_path.'conf/conf-php.php');
@@ -270,7 +271,8 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['del']) || !empty($_POS
 
 if (!empty($_GET['from']))
 {
-	$root_path = './../';
+	define('CL_AUTH', true);
+$root_path = './../';
 	$action_membre= 'where_gallery';
 	require($root_path.'conf/template.php');
 	require($root_path.'conf/conf-php.php');

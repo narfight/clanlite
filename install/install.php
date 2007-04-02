@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 // LICENCE : GPL vs2.0 [ voir /docs/COPYING ]
 // Correction de Dolordo <dolordo@free.fr>
 // -------------------------------------------------------------
+define('CL_AUTH', true);
 $root_path = '../';
 if (file_exists($root_path.'config.php'))
 {

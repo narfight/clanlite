@@ -10,6 +10,7 @@
  *   (at your option) any later version.									*
  ***************************************************************************/
  
+define('CL_AUTH', true);
 $root_path = '../';
 $action_membre= 'where_xml_mp3';
 require($root_path.'conf/conf-php.php');

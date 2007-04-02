@@ -10,6 +10,7 @@
  *   (at your option) any later version.									*
  ***************************************************************************/
 $action_membre= 'where_edit_user';
+define('CL_AUTH', true);
 $root_path = './../';
 require($root_path.'conf/template.php');
 require($root_path.'conf/conf-php.php');

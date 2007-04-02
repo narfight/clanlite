@@ -11,6 +11,7 @@
  ***************************************************************************/
 $action_membre= 'where_admin_edit_user';
 $niveau_secu = 8;
+define('CL_AUTH', true);
 $root_path = './../';
 require($root_path.'conf/template.php');
 require($root_path.'conf/conf-php.php');

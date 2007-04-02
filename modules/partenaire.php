@@ -56,7 +56,8 @@ if (defined('CL_AUTH'))
 if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_partenaire_module']) || !empty($_POST['Editer_partenaire_module']) || !empty($_POST['dell_partenaire_module']) || !empty($_POST['edit_partenaire_module']) )
 {
 	$id_module = (empty($_GET['id_module']))? $_POST['id_module'] : $_GET['id_module'];
-	$root_path = './../';
+	define('CL_AUTH', true);
+$root_path = './../';
 	$niveau_secu = 16;
 	$action_membre= 'where_module_partenaire';
 	require($root_path.'conf/template.php');
