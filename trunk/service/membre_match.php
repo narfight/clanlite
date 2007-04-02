@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
  *	Fichier		: membre_match.php											*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Copyright	: (C) 2007 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -42,6 +42,7 @@ if (!empty($_POST['match']))
 		redirec_text('membre_match.php', $langue['user_envois_annule_demande'], 'admin');
 	}
 }
+
 require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$session_cl['skin']);
 $template->set_filenames( array('body' => 'match_membre.tpl'));
@@ -51,6 +52,7 @@ if (! ($get = $rsql->requete_sql($sql)) )
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
 }
 $nom_section = $rsql->s_array($get);
+
 $template->assign_vars(array( 
 	'ICI' => session_in_url('membre_match.php'),
 	'TITRE_MATCH' => $langue['titre_match'],
@@ -70,6 +72,7 @@ $template->assign_vars(array(
 	'MSG_PRIVE' => $langue['message_cote_prive'],
 	'TXT_MATCH_CLASS' => $langue['match_class'],
 ));
+
 $sql = "SELECT inscriptions.statu, inscriptions.id_match, inscriptions.id, user.user FROM `".$config['prefix']."match_inscription` AS inscriptions LEFT JOIN `".$config['prefix']."user` AS user ON inscriptions.user_id = user.id";
 if (! ($get_joueur = $rsql->requete_sql($sql)) )
 {
@@ -202,7 +205,7 @@ if (!empty($info_match) && is_array($info_match))
 	// on regarde si il veut regarder un match bien spécifique
 	if (isset($_GET['regarder']))
 	{
-		$template->assign_block_vars('regarder', array('FOR' => $_GET['regarder']));
+		$template->assign_block_vars('regarder', array('FOR' => intval($_GET['regarder'])));
 	}
 }
 else

@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
  *	Fichier		: frame.php													*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Copyright	: (C) 2007 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -170,7 +170,7 @@ $template->assign_vars( array(
 	'B_PRIVE_U' => session_in_url($root_path.'admin.php'),
 	'TITRE_MENU' => $langue['titre_menu_pub']
 ));
-if (!empty($session_cl['user']))
+if (isset($session_cl['user']))
 {
 	$template->assign_block_vars('connecter', array( 
 		'LOGIN' => $langue['boutton_deconnect'].'['.$session_cl['user'].']',
