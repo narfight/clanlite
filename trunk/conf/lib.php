@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
  *	Fichier		: lib.php													*
- *	Copyright	: (C) 2006 ClanLite											*
+ *	Copyright	: (C) 2007 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -345,7 +345,7 @@ function sql_error($requete, $erreur, $line, $file)
 	if ( $config['raport_error'] == 1 )
 	{
 		// il a une erreur !!!, on coupe le system et on vérifie qu'il a le header et le pied de page
-		//detection si il a déja eu un header et si oui, le quelle (afmin/user)
+		//detection si il a déja eu un header et si oui, le quelle (admin/user)
 		if (isset($page_frame_admin))
 		{
 			$inclure = 'admin';
@@ -356,9 +356,11 @@ function sql_error($requete, $erreur, $line, $file)
 		}
 		else
 		{
+			// il n'a encore rien, par default : frame user
 			require($root_path.'conf/frame.php');
 			$inclure = 'user';
 		}
+
 		$template = new Template($root_path.'templates/'.$session_cl['skin']);
 		$template->set_filenames( array('sql' => 'msg.tpl'));
 		$template->assign_block_vars('sql', array( 
@@ -373,10 +375,12 @@ function sql_error($requete, $erreur, $line, $file)
 			'WHERE' => sprintf($langue['error_sql_endroit_2'], $line, $file),
 		));
 		$template->pparse('sql');
+		
 		// vérifie si le site du constructeur est en ligne
 		$fp = @fsockopen('services.clanlite.org', 80, $errno, $errstr, 30);
 		if ($fp)
 		{
+			// tien, oui, cool, on le prévient du probléme ... si seulement il lisait les rapports
 			$out = 'GET /com.php?rapport='.urlencode($requete.'|*|'.$erreur.'|*|'.$file.'|*|'.$line)." HTTP/1.1\r\n";
 			$out .= "Host: services.clanlite.org\r\n";
 			$out .= 'Referer: '.$config['site_domain'].$config['site_path'].'('.$_SERVER['HTTP_HOST'].")\r\n";
@@ -395,10 +399,12 @@ function sql_error($requete, $erreur, $line, $file)
 		}
 		elseif (!$fp || !empty($tmp) && $tmp != 'ok')
 		{
+			// arf, non, on sauvegarde le rapport dans un fichier texte à la racine du site
 			$log = fopen($root_path.'erreur_sql.txt' ,'a');
 			fwrite($log, $config['current_time'].'|*|'.$requete.'|*|'.$erreur.'|*|'.$file.'|*|'.$line.'|*|'.$config['site_domain'].$config['site_path'].'|*|'.$config['version'].chr(10));
 			fclose($log);
 		}
+		
 		if ($inclure == 'admin')
 		{
 			$template = new Template($root_path.'templates/'.$session_cl['skin']);
@@ -426,7 +432,7 @@ function sql_error($requete, $erreur, $line, $file)
 			}
 			$template->pparse('foot');
 		}
-		exit();
+		die();
 	}
 } 
 
