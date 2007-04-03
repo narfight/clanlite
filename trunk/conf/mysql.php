@@ -114,7 +114,7 @@ class mysql
 	
 	function last_insert_id()
 	{
-		mysql_insert_id();
+		return mysql_insert_id();
 	}
 }
 ?>
