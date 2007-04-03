@@ -93,6 +93,8 @@ function find_module_tpl($file, $split)
 
 function module_tpl($file)
 {
+	global $template;
+	
 	// 1er étape, trouver le tpl demandé,
 	$tpl_filename = find_module_tpl($file, false);
 	// ouverture du TPL
@@ -108,7 +110,7 @@ function module_tpl($file)
 	$tpl = str_replace("\n", '', $tpl);
 	
 	// Turn template blocks into PHP assignment statements for the values of $match..
-	$tpl = preg_replace('#<!-- BEGIN (.*?) -->(.*?)<!-- END (.*?) -->#', "\n" . '$block[\'\\1\'] = \'\\2\';', $tpl);
+	$tpl = preg_replace('#<!-- BEGIN (.*?) -->(.*?)<!-- END \\1 -->#', "\n" . '$block[\'\\1\'] = \'\\2\';', $tpl);
 	eval($tpl);
 	return $block;
 }
