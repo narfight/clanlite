@@ -329,6 +329,14 @@ $langue['redirection_module_partenaire_edit'] = "Le partenaire a été mis à jour"
 $langue['redirection_module_partenaire_dell'] = "Le partenaire a été supprimé";
 $langue['module_partenaire_nom'] = "Nom du site";
 
+$langue['where_module_shoutbox'] = "Gère la shoutbox";
+$langue['titre_module_shoutbox'] = "La shoutbox [Module]";
+$langue['titre_module_shoutbox_del'] = "Suppresion des messages indésirable";
+$langue['redirection_module_shoutbox_edit'] = "La shoutbox a été mis à jour";
+$langue['redirection_module_shoutbox_dell'] = "Message(s) supprimé";
+$langue['module_shoutbox_nbr_lignes'] = 'Nombre de lignes dans le module';
+$langue['module_shoutbox_vider'] = 'Vider les messages';
+
 $langue['where_module_module_custom'] = "Modifie un module perso";
 $langue['titre_module_module_custom'] = "Module perso [Module]";
 $langue['titre_module_module_custom_c'] = "Module perso [Module Central]";
