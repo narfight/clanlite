@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
  *	Fichier		: mysql.php													*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Copyright	: (C) 2007 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -15,9 +15,17 @@ class mysql
 	var $nb_req = 0;	//nombre de requette
 	var $error;		//erreur possible a une requette
 	var $time = 0;	//nombre de µs total prit pour les requettes SQL
+
+	// compte le nombre de s pour executer une page du site
+	function getmicrotime()
+	{
+		list($msec, $sec) = explode(' ',microtime());
+		return ((float)$msec + (float)$sec);
+	}
+
 	function mysql_connection($mysqlhost, $login, $password, $base)
 	{
-		$tmp = getmicrotime();
+		$tmp = $this.getmicrotime();
 		$this->id_link = @mysql_connect($mysqlhost, $login, $password);
 		if(!$this->id_link)
 		{
@@ -31,19 +39,19 @@ class mysql
 			return false;
 			exit;
 		}
-		$this->time = getmicrotime()-$tmp;
+		$this->time = $this.getmicrotime()-$tmp;
 		return true;		
 	}
 	
 	function mysql_deconnection($close_link='')
 	{
-		$tmp = getmicrotime();
+		$tmp = $this.getmicrotime();
 		if ($close_link === '')
 		{
 			$close_link = $this->id_link;
 		}
 		$data = mysql_close($close_link);
-		$this->time = getmicrotime()-$tmp;
+		$this->time = $this.getmicrotime()-$tmp;
 		return $data;
 	}
 	
@@ -58,23 +66,23 @@ class mysql
 	//renvoie le nombre de lignes affecter par la derniére requette
 	function requete_nb_row()
 	{
-		$tmp = getmicrotime();
+		$tmp = $this.getmicrotime();
 		$data = mysql_affected_rows();
-		$this->time = getmicrotime()-$tmp;
+		$this->time = $this.getmicrotime()-$tmp;
 		return $data;
 	}
 	//Renvoie le nombre de champs
 	function requete_nb_cols($for)
 	{
-		$tmp = getmicrotime();
+		$tmp = $this.getmicrotime();
 		$data = mysql_num_fields($for);
-		$this->time = getmicrotime()-$tmp;
+		$this->time = $this.getmicrotime()-$tmp;
 		return $data;
 	}
 	//Envois la requette au serveur Mysql	
 	function requete_sql($sql, $group='indeterminé', $info='indeterminé')
 	{
-		$tmp = getmicrotime();
+		$tmp = $this.getmicrotime();
 		$this->sql = $sql;
 		$this->query = mysql_query($this->sql);
 		$this->error = mysql_error();
@@ -85,23 +93,28 @@ class mysql
 			'group' => $group,
 			'erreur' =>$this->error
 		);
-		$this->time = getmicrotime()-$tmp;
-		$this->log_debug[$this->nb_req]['temps'] = getmicrotime()-$tmp;
+		$this->time = $this.getmicrotime()-$tmp;
+		$this->log_debug[$this->nb_req]['temps'] = $this.getmicrotime()-$tmp;
 		return $this->query;
 	}
 	function s_array($query)
 	{
-		$tmp = getmicrotime();
+		$tmp = $this.getmicrotime();
 		$data = (empty($query))? false : mysql_fetch_array($query);
-		$this->time = getmicrotime()-$tmp;
+		$this->time = $this.getmicrotime()-$tmp;
 		return $data;
 	}
 	function nbr($query)
 	{
-		$tmp = getmicrotime();
+		$tmp = $this.getmicrotime();
 		$data = (empty($query))? false : mysql_num_rows($query);
-		$this->time = getmicrotime()-$tmp;
+		$this->time = $this.getmicrotime()-$tmp;
 		return $data;
+	}
+	
+	function last_insert_id()
+	{
+		mysql_insert_id();
 	}
 }
 ?>
