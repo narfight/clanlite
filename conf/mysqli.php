@@ -113,7 +113,7 @@ class mysql
 	}
 	function last_insert_id()
 	{
-		mysqli_insert_id($this->id_link);
+		return mysqli_insert_id($this->id_link);
 	}
 }
 ?>
