@@ -20,7 +20,7 @@ if (defined('CL_AUTH'))
 	if( !empty($module_installtion))
 	{
 		secu_level_test(16);
-		$sql = "CREATE TABLE `".$config['prefix']."module_aléatoire_".mysql_insert_id()."` (`id` MEDIUMINT( 8 ) UNSIGNED NOT NULL AUTO_INCREMENT ,`txt` LONGTEXT NOT NULL ,PRIMARY KEY ( `id` ))";
+		$sql = "CREATE TABLE `".$config['prefix']."module_aléatoire_".$rsql->last_insert_id()."` (`id` MEDIUMINT( 8 ) UNSIGNED NOT NULL AUTO_INCREMENT ,`txt` LONGTEXT NOT NULL ,PRIMARY KEY ( `id` ))";
 		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);

@@ -74,7 +74,7 @@ if (defined('CL_AUTH'))
 	if( !empty($module_installtion))
 	{
 		secu_level_test(16);
-		$id_insert = mysql_insert_id();
+		$id_insert = $rsql->last_insert_id();
 		$sql = "SELECT COUNT(id) FROM ".$config['prefix']."modules WHERE call_page ='ts_webpost.php' LIMIT 1";
 		if (! ($get = $rsql->requete_sql($sql)) )
 		{

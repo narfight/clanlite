@@ -21,7 +21,7 @@ if (defined('CL_AUTH'))
 	if( !empty($module_installtion))
 	{
 		secu_level_test(16);
-		$sql = "INSERT INTO `".$config['prefix']."custom_menu` ( `id` , `ordre` , `text` , `url` , `bouge` , `frame` , `module_central` , `id_module` ) VALUES ('', '0', '".$_POST['nom']."', 'modules/module_perso_central.php?from=".mysql_insert_id()."', '0', '0', '1', '".mysql_insert_id()."')";
+		$sql = "INSERT INTO `".$config['prefix']."custom_menu` ( `id` , `ordre` , `text` , `url` , `bouge` , `frame` , `module_central` , `id_module` ) VALUES ('', '0', '".$_POST['nom']."', 'modules/module_perso_central.php?from=".$rsql->last_insert_id()."', '0', '0', '1', '".$rsql->last_insert_id()."')";
 		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);

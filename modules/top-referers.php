@@ -19,7 +19,7 @@ if (defined('CL_AUTH'))
 	if( !empty($module_installtion))
 	{
 		secu_level_test(16);
-		$sql = 'CREATE TABLE `'.$config['prefix'].'module_top_referers_'.mysql_insert_id().'` (`name` VARCHAR( 255 ) NOT NULL , `url` VARCHAR( 255 ) NOT NULL ,`nbr` MEDIUMINT( 8 ) UNSIGNED NOT NULL ,UNIQUE (`url`)) TYPE = MYISAM ;';
+		$sql = 'CREATE TABLE `'.$config['prefix'].'module_top_referers_'.$rsql->last_insert_id().'` (`name` VARCHAR( 255 ) NOT NULL , `url` VARCHAR( 255 ) NOT NULL ,`nbr` MEDIUMINT( 8 ) UNSIGNED NOT NULL ,UNIQUE (`url`)) TYPE = MYISAM ;';
 		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);

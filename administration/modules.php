@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
- *	Fichier		: 															*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Fichier		: modules.php												*
+ *	Copyright	: (C) 2007 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -44,10 +44,7 @@ if (!empty($_POST['envois_edit']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	else
-	{
-		redirec_text('modules.php', $langue['redirection_module_edit'], 'admin');
-	}
+	redirec_text('modules.php', $langue['redirection_module_edit'], 'admin');
 }
 if (!empty($_POST['Supprimer']))
 {
@@ -134,7 +131,7 @@ while ($liste = $rsql->s_array($get))
 		'ID' => $liste['id'],
 		'NOM' => $liste['nom'],
 		'NUM' => $liste['ordre'],
-		'ETAT' => ( $liste['etat'] == 0) ? $langue['module_off'] : $langue['module_on'],
+		'ETAT' => ($liste['etat'] == 0) ? $langue['module_off'] : $langue['module_on'],
 		'CALL_PAGE' => $liste['call_page'],
 		'SUPPRIMER' => $langue['supprimer'],
 		'EDITER' => $langue['editer'],

@@ -19,7 +19,7 @@ if (defined('CL_AUTH'))
 	if( !empty($module_installtion))
 	{
 		secu_level_test(16);
-		$sql = "CREATE TABLE `".$config['prefix']."module_newsletter_".mysql_insert_id()."` (`id` mediumint(8) unsigned NOT NULL auto_increment, `mail` varchar(255) NOT NULL default '', PRIMARY KEY  (`id`))";
+		$sql = "CREATE TABLE `".$config['prefix']."module_newsletter_".$rsql->last_insert_id()."` (`id` mediumint(8) unsigned NOT NULL auto_increment, `mail` varchar(255) NOT NULL default '', PRIMARY KEY  (`id`))";
 		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -53,7 +53,7 @@ if(!empty($_POST['Submit_newsletter']) && !empty($_POST['id']))
 {
 	unset($_POST['Submit_newsletter']);
 	define('CL_AUTH', true);
-$root_path = './../';
+	$root_path = './../';
 	$action_membre= 'where_newsletter';
 	require($root_path.'conf/template.php');
 	require($root_path.'conf/conf-php.php');

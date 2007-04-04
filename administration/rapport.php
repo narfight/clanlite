@@ -109,7 +109,7 @@ if ( !empty($_POST['envoyer']) )
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 
-	$id_rapport = mysql_insert_id();
+	$id_rapport = $rsql->last_insert_id();
 
 	// on ajoute la liste des maps
 	if (isset($_POST['liste_map']) && is_array($_POST['liste_map']))
