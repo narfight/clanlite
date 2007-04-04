@@ -1,5 +1,26 @@
 <div class="big_cadre">
 	<h1>{TITRE}</h1>
+
+	<div class="big_cadre">
+		<h1>{CONFIG}</h1>
+		<form method="post" action="{ICI}" class="visible">
+			<p>
+				<span><label for="mp3_auto_start">{TXT_AUTOPLAY}&nbsp;:</label></span>
+				<span><input name="mp3_auto_start" type="checkbox" id="mp3_auto_start" value="1" {CHECK_AUTOPLAY} /></span>
+			</p>
+			<p>
+				<span><label for="mp3_shuffle">{TXT_SHUFFLE}&nbsp;:</label></span>
+				<span><input name="mp3_shuffle" type="checkbox" id="mp3_shuffle" value="1" {CHECK_SHUFFLE} /></span>
+			</p>
+			<p>
+				<span>
+					<input type="submit" name="Config_editer" value="{EDITER}" />
+				</span>
+			</p>
+
+		</form>
+	</div>
+
 	<div class="big_cadre">
 		<h1>{TITRE_GESTION}</h1>
 		<form method="post" action="{ICI}" class="visible">
@@ -21,7 +42,7 @@
 					<input type="submit" name="Envoyer" value="{rajouter.ENVOYER}" />
 					<!-- END rajouter -->
 					<!-- BEGIN edit -->
-					<input type="submit" name="Editer" value="Editer" />
+					<input type="submit" name="Editer" value="{EDITER}" />
 					<!-- END edit -->
 					<input name="for" type="hidden" id="for" value="{ID}" />
 				</span>

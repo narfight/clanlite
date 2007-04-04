@@ -156,16 +156,6 @@
 					</span>
 				</p>
 				<p>
-					<span><label for="mp3_auto_start">{TXT_AUTOPLAY}&nbsp;:</label></span>
-					<span>
-						<select name="mp3_auto_start" id="mp3_auto_start" onblur="formverif(this.id,'change','2')" />
-							<option value="2">{TXT_CHOISIR}</option>
-							<option value="1" {CHECK_AUTOPLAY_1}>{TXT_OUI}</option>
-							<option value="0" {CHECK_AUTOPLAY_0}>{TXT_NON}</option>
-						</select>
-					</span>
-				</p>
-				<p>
 					<span><label for="skin">{TXT_SKIN}&nbsp;:</label></span>
 					<span>
 						<select name="skin" id="skin" onblur="formverif(this.id,'autre','')">

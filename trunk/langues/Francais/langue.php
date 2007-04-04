@@ -603,7 +603,8 @@ $langue['redirection_admin_mp3_add'] = "Le MP3 à ajouter";
 $langue['redirection_admin_mp3_edit'] = "Le MP3 a été mis à jour";
 $langue['redirection_admin_mp3_dell'] = "Le MP3 est bien supprimé";
 $langue['admin_mp3_source'] = "URL du MP3";
-$langue['admin_mp3_autoplay'] = "Lecture automatique des MP3";
+$langue['admin_mp3_autoplay'] = "Lecture automatique";
+$langue['admin_mp3_shuffle'] = "Lecture aléatoire";
 $langue['mp3_titre'] = "Titre";
 $langue['demande_lecteur_on'] = "Cliquez ici pour écouter un MP3";
 
