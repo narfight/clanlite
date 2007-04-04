@@ -16,7 +16,23 @@ $niveau_secu = 17;
 require($root_path.'conf/template.php');
 require($root_path.'conf/conf-php.php');
 require($root_path.'controle/cook.php');
-if (!empty($_POST['dell']))
+if (isset($_POST['Config_editer']))
+{
+	$_POST = pure_var($_POST);
+	$sql = "UPDATE `".$config['prefix']."config` SET `conf_valeur` = '".((isset($_POST['mp3_auto_start']))? 1 : 0)."' WHERE `conf_nom` = 'mp3_auto_start'";
+	if (!$rsql->requete_sql($sql))
+	{
+		sql_error($sql, $rsql->error, __LINE__, __FILE__);
+	}
+	$sql = "UPDATE `".$config['prefix']."config` SET `conf_valeur` = '".((isset($_POST['mp3_shuffle']))? 1 : 0)."' WHERE `conf_nom` = 'mp3_shuffle'";
+	if (!$rsql->requete_sql($sql))
+	{
+		sql_error($sql, $rsql->error, __LINE__, __FILE__);
+	}
+
+	redirec_text('mp3.php', $langue['redirection_config_ok'] , 'admin');
+}
+if (isset($_POST['dell']))
 {
 	$sql = "DELETE FROM ".$config['prefix']."config_sond WHERE id = '".$_POST['for']."'";
 	if (! $rsql->requete_sql($sql) )
@@ -25,7 +41,7 @@ if (!empty($_POST['dell']))
 	}
 	redirec_text('mp3.php',$langue['redirection_admin_mp3_dell'],'admin');
 }
-if (!empty($_POST['Envoyer']))
+if (isset($_POST['Envoyer']))
 { 
 	$_POST = pure_var($_POST);
 	$sql = "INSERT INTO `".$config['prefix']."config_sond` (`ordre`, `SRC`, `titre`) VALUES ('".$_POST['ordre']."', '".$_POST['SRC']."', '".$_POST['titre']."')";
@@ -35,7 +51,7 @@ if (!empty($_POST['Envoyer']))
 	}
 	redirec_text('mp3.php', $langue['redirection_admin_mp3_add'], 'admin');
 }
-if (!empty($_POST['Editer']))
+if (isset($_POST['Editer']))
 {
 	$_POST = pure_var($_POST);
 	$sql = "UPDATE `".$config['prefix']."config_sond` SET `ordre`='".$_POST['ordre']."', `SRC`='".$_POST['SRC']."', `titre`='".$_POST['titre']."' WHERE id='".$_POST['for']."'";
@@ -43,10 +59,7 @@ if (!empty($_POST['Editer']))
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	else
-	{
-		redirec_text('mp3.php', $langue['redirection_admin_mp3_edit'],'admin');
-	}
+	redirec_text('mp3.php', $langue['redirection_admin_mp3_edit'],'admin');
 }
 require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$session_cl['skin']);
@@ -62,13 +75,15 @@ $template->assign_vars(array(
 	'EDITER' => $langue['editer'],
 	'CHOISIR' => $langue['choisir'],
 	'TXT_SOURCE' => $langue['admin_mp3_source'],
-	'TXT_AUTO_PLAY' => $langue['admin_mp3_autoplay'],
 	'TXT_ORDRE' => $langue['custom_menu_ordre'],
 	'TXT_TITRE' => $langue['mp3_titre'],
 	'OUI' => $langue['oui'],
 	'NON' => $langue['non'],
-	'CHECK_AUTOPLAY_1' => ($config['mp3_auto_start'] == 1)? 'selected="selected"' : '',
-	'CHECK_AUTOPLAY_0' => ($config['mp3_auto_start'] == 0)? 'selected="selected"' : '',
+	'CONFIG' => $langue['config_site_base_titre'],
+	'TXT_AUTOPLAY' => $langue['admin_mp3_autoplay'],
+	'CHECK_AUTOPLAY' => ($config['mp3_auto_start'] == 1)? 'checked="checked"' : '',
+	'TXT_SHUFFLE' => $langue['admin_mp3_shuffle'],
+	'CHECK_SHUFFLE' => ($config['mp3_shuffle'] == 1)? 'checked="checked"' : '',
 ));
 if (!empty($_POST['edit']))
 {
