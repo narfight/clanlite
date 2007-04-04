@@ -22,7 +22,7 @@ if (!empty($page_frame))
 			$modules['nom'] = $val[1];
 			$modules['id'] = $val[2];
 			$modules['config'] = $val[3];
-			$modules['place'] = $val[4];
+			$modules['place'] = 'droite';
 			require($root_path.'modules/'.$val[0]);
 		}
 		unset($module, $module_droite_nfo);
@@ -43,7 +43,7 @@ else
 	{
 		if ( $modules['place'] != 'gauche' )
 		{
-			$module_droite_nfo[$modules['id']] = $modules['call_page']."|*|".$modules['nom']."|*|".$modules['id']."|*|".$modules['config']."|*|". $modules['place'];
+			$module_droite_nfo[$modules['id']] = $modules['call_page']."|*|".$modules['nom']."|*|".$modules['id']."|*|".$modules['config'];
 		}
 		else
 		{

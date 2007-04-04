@@ -20,7 +20,7 @@ if (defined('CL_AUTH'))
 	if( !empty($module_installtion))
 	{
 		secu_level_test(16);
-		$sql = "CREATE TABLE `".$config['prefix']."module_partenaires_".mysql_insert_id()."` (`id` MEDIUMINT( 8 ) UNSIGNED NOT NULL AUTO_INCREMENT ,`nom` LONGTEXT NOT NULL ,`url` LONGTEXT NOT NULL ,`image` LONGTEXT NOT NULL ,PRIMARY KEY ( `id` ))";
+		$sql = "CREATE TABLE `".$config['prefix']."module_partenaires_".$rsql->last_insert_id()."` (`id` MEDIUMINT( 8 ) UNSIGNED NOT NULL AUTO_INCREMENT ,`nom` LONGTEXT NOT NULL ,`url` LONGTEXT NOT NULL ,`image` LONGTEXT NOT NULL ,PRIMARY KEY ( `id` ))";
 		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -57,7 +57,7 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Envoyer_partenaire_mod
 {
 	$id_module = (empty($_GET['id_module']))? $_POST['id_module'] : $_GET['id_module'];
 	define('CL_AUTH', true);
-$root_path = './../';
+	$root_path = './../';
 	$niveau_secu = 16;
 	$action_membre= 'where_module_partenaire';
 	require($root_path.'conf/template.php');

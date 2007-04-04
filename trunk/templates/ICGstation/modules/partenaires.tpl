@@ -31,25 +31,32 @@
 	</div>
 	<div class="big_cadre">
 		<h1>{TITRE_LISTE}</h1>
-		<div class="news"><table class="table"> 
-		  <tr class="table-titre"> 
-			<td>{TXT_IMAGE}</td> 
-			<td>{TXT_URL}</td> 
-			<td>{ACTION}</td> 
-		  </tr> 
-		  <!-- BEGIN liste --> 
-		  <tr> 
-			<td><img src="{liste.IMAGE}"  alt="{liste.NOM}" /></td> 
-			<td><a href="{liste.URL}" onclick="window.open('{liste.URL}');return false;">{liste.NOM}</a></td> 
-			  <td><form action="{ICI}" method="post"> 
-				  <input name="dell_partenaire_module" type="submit" id="dell" value="{liste.SUPPRIMER}" /> 
-				  <input name="for_partenaire_module" type="hidden" value="{liste.ID}" /> 
-				  <input name="id_module" type="hidden" id="id_module" value="{ID_MODULE}" />
-				  <input name="edit_partenaire_module" type="submit" value="{liste.EDITER}" /> 
-				 </form></td> 
-		  </tr> 
-		  <!-- END liste --> 
-		</table>
+		<div class="news">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>{TXT_IMAGE}</th>
+						<th>{TXT_URL}</th>
+						<th>{ACTION}</th>
+					</tr>
+				</thead>
+				<!-- BEGIN liste -->
+				<tbody>
+					<tr>
+						<td><img src="{liste.IMAGE}"  alt="{liste.NOM}" /></td>
+						<td><a href="{liste.URL}" onclick="window.open('{liste.URL}');return false;">{liste.NOM}</a></td>
+						<td>
+							<form action="{ICI}" method="post"> 
+								<input name="dell_partenaire_module" type="submit" id="dell" value="{liste.SUPPRIMER}" />
+								<input name="for_partenaire_module" type="hidden" value="{liste.ID}" />
+								<input name="id_module" type="hidden" id="id_module" value="{ID_MODULE}" />
+								<input name="edit_partenaire_module" type="submit" value="{liste.EDITER}" />
+							</form>
+						</td>
+					</tr>
+				</tbody>
+				<!-- END liste -->
+			</table>
 		</div>
 	</div>
 </div>

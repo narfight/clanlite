@@ -31,7 +31,7 @@ if (defined('CL_AUTH'))
 	if( !empty($module_installtion))
 	{
 		secu_level_test(16);
-		$id_module = mysql_insert_id();
+		$id_module = $rsql->last_insert_id();
 		$sql = 'CREATE TABLE `'.$config['prefix'].'module_pictures_'.$id_module.'` (`id_image` INT NOT NULL AUTO_INCREMENT , `url_image_mini` VARCHAR( 150 ) NOT NULL , `url_image_norm` VARCHAR( 150 ) NOT NULL , `nb_hauteur` INT NOT NULL , `nb_largeur` INT NOT NULL , `lb_commentaire` VARCHAR( 150 ) NOT NULL , PRIMARY KEY ( `id_image` ) )';
 		if (!$rsql->requete_sql($sql))
 		{
@@ -174,7 +174,7 @@ $root_path = './../';
 					}
 
 					$img_size = getimagesize($target_norm);
-					$sql = "INSERT INTO `".$config['prefix']."module_pictures_".$id_module."` ( `id_image` , `url_image_mini` , `url_image_norm` , `nb_hauteur` , `nb_largeur` , `lb_commentaire` ) VALUES ('".mysql_insert_id()."', '".$url_etiquette."', '".$target_norm."', '".$img_size[1]."', '".$img_size[0]."', '".$_POST['com_img']."')";
+					$sql = "INSERT INTO `".$config['prefix']."module_pictures_".$id_module."` ( `id_image` , `url_image_mini` , `url_image_norm` , `nb_hauteur` , `nb_largeur` , `lb_commentaire` ) VALUES ('".$rsql->last_insert_id()."', '".$url_etiquette."', '".$target_norm."', '".$img_size[1]."', '".$img_size[0]."', '".$_POST['com_img']."')";
 					if (!$rsql->requete_sql($sql))
 					{
 						sql_error($sql, $rsql->error, __LINE__, __FILE__);

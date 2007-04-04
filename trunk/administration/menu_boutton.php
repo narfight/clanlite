@@ -49,10 +49,7 @@ if ( !empty($_POST['dell']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	else
-	{
-		redirec_text('menu_boutton.php',$langue['redirection_custom_menu_dell'],'admin');
-	}
+	redirec_text('menu_boutton.php',$langue['redirection_custom_menu_dell'],'admin');
 }
 require($root_path.'conf/frame_admin.php');
 $template = new Template($root_path.'templates/'.$session_cl['skin']);

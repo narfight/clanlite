@@ -466,7 +466,7 @@ function redirection($url)
 		exit();
 	} 
 }
-function redirec_text($url,$txt,$for)
+function redirec_text($url, $txt ,$for)
 { 
 	global $root_path, $config, $rsql, $inscription, $langue, $template, $user_pouvoir, $session_cl;
 	$url = session_in_url($url);

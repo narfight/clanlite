@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
- *	Fichier		: 															*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Fichier		: module_perso.php											*
+ *	Copyright	: (C) 2007 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -30,7 +30,7 @@ if (defined('CL_AUTH'))
 if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_perso_module']) )
 {
 	define('CL_AUTH', true);
-$root_path = './../';
+	$root_path = './../';
 	$action_membre= 'where_module_module_custom';
 	$niveau_secu = 16;
 	require($root_path.'conf/template.php');

@@ -28,12 +28,12 @@ if ( !empty($_POST['Envoyer']) )
 	// si oui, on le supprime et remplace par l'id
 	if (!empty($_POST['nom_map']))
 	{
-		$sql = "UPDATE `".$config['prefix']."match_map` SET nom='', id_map='".mysql_insert_id()."' WHERE nom='".$_POST['nom_map']."'";
+		$sql = "UPDATE `".$config['prefix']."match_map` SET nom='', id_map='".$rsql->last_insert_id()."' WHERE nom='".$_POST['nom_map']."'";
 		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
 		}
-		$sql = "UPDATE `".$config['prefix']."match_rapport_map` SET nom='', id_map='".mysql_insert_id()."' WHERE nom='".$_POST['nom_map']."'";
+		$sql = "UPDATE `".$config['prefix']."match_rapport_map` SET nom='', id_map='".$rsql->last_insert_id()."' WHERE nom='".$_POST['nom_map']."'";
 		if (!$rsql->requete_sql($sql))
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);

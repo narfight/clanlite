@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
- *	Fichier		: 															*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Fichier		: serveur_jeux.php											*
+ *	Copyright	: (C) 2007 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -128,6 +128,8 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module']) )
 	require($root_path.'conf/frame_admin.php');
 	$template = new Template(find_module_tpl('serveur_jeux.tpl', true));
 	$template->set_filenames(array('body_module' => 'serveur_jeux.tpl'));
+	
+	//lit la config du module
 	$sql = "SELECT config FROM ".$config['prefix']."modules WHERE id ='".$id_module."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
@@ -135,6 +137,8 @@ if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module']) )
 	}
 	$actu_data = $rsql->s_array($get);
 	$actu_data = (!empty($actu_data['config']))? unserialize($actu_data['config']): array('serveur' => '', 'liste' => true, 'image' => false);
+	
+	//list les serveurs
 	$sql = 'SELECT `id`, `ip`, `port`, `protocol` FROM `'.$config['prefix'].'game_server`';
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{

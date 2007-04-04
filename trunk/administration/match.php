@@ -25,7 +25,7 @@ if ( !empty($_POST['Submit']) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
-	$id_match = mysql_insert_id();
+	$id_match = $rsql->last_insert_id();
 	//ajoute les maps
 	if (isset($_POST['liste_map']) && is_array($_POST['liste_map']))
 	{
