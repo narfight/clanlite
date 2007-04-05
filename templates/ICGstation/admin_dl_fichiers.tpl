@@ -77,6 +77,10 @@
 					<span><input name="nom_group" id="nom_group" type="text" value="{NOM_GROUP}" onblur="formverif(this.id,'nbr','3')" /></span>
 				</p>
 				<p>
+					<span><label for="password_group">{TXT_PASSWORD}&nbsp;:</label></span>
+					<span><input name="password_group" id="password_group" type="text" value="{PASSWORD_GROUP}" onblur="formverif(this.id,'nbr','5')" /> ({OPTIONNEL})</span>
+				</p>
+				<p>
 					<span><label for="information">{TXT}&nbsp;:</label></span>
 				</p>
 				<p>
@@ -130,7 +134,12 @@
 				<!-- BEGIN liste_group_bas -->
 				<thead>
 					<tr class="sous-cellule">
-						<th colspan="3">{liste_group_bas.GROUP_NOM}</th>
+						<th colspan="3">
+							{liste_group_bas.GROUP_NOM}
+							<!-- BEGIN psw -->
+							<img src="{liste_group_bas.psw.PATH_ROOT}images/password.jpg" alt="{liste_group_bas.psw.ALT}" />
+							<!-- END psw -->
+						</th>
 						<th colspan="2">
 							<form method="post" action="{ICI}">
 								<input name="Supprimer_group" type="submit" id="Supprimer_group" value="{liste_group_bas.SUPPRIMER}" onclick="return demande('{TXT_CON_DELL}')" />

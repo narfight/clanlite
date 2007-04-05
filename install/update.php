@@ -12,7 +12,7 @@
 define('CL_AUTH', true);
 $root_path = './../';
 $action_db = '';
-$news_version = '2.2006.11.07';
+$news_version = '2.2007.nouvelle.version';
 
 require($root_path.'conf/template.php');
 
@@ -273,6 +273,21 @@ switch($config['version'])
 			'Ajoute un systéme de repertoire pour les rapports des matchs' => 'ALTER TABLE `'.$config['prefix'].'match_rapport` ADD `repertoire` VARCHAR( 255 ) NOT NULL AFTER `id`',
 			'Ajoute d\'une table pour les informations dans le calendrier' => 'CREATE TABLE `'.$config['prefix'].'calendrier` (`id` MEDIUMINT( 8 ) UNSIGNED NOT NULL AUTO_INCREMENT ,`date` DECIMAL( 12 ) NOT NULL ,`text` MEDIUMTEXT NOT NULL ,`cyclique` ENUM( \'1\', \'0\' ) NOT NULL ,UNIQUE (`id`)) TYPE = MYISAM ;',
 		);
+	case '2.2006.11.06':
+		$action_db['2.2006.11.06'] = array(
+			'Ajoute une option pour jouer les mp3 de façon àléatoire' => "INSERT INTO `".$config['prefix']."config` ( `conf_nom` , `conf_valeur` ) VALUES ('mp3_shuffle', '1')",
+		);
+		
+		$sql = "SELECT id, config FROM ".$config['prefix']."modules WHERE `call_page` = 'shoutbox.php'";
+		if (! ($get = $rsql->requete_sql($sql)) )
+		{
+			sql_error($sql, $rsql->error, __LINE__, __FILE__);
+		}
+		while ($liste = $rsql->s_array($get))
+		{
+			$action_db['2.2006.11.06']['Configuration du module id '.$liste['id']] = "UPDATE `".$config['prefix']."modules` SET `config` = '15' WHERE `id` = '".$liste['id']."' LIMIT 1 ;";
+		}
+
 	// sans break, metre case version a la suite, comme ca il fait toutes les mise à jours de la db de la version qu'il a jusqua la version actuelle
 	$maj = true;
 	break;

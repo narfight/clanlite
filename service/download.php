@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
  *	Fichier		: download.php												*
- *	Copyright	: (C) 2006 ClanLite											*
+ *	Copyright	: (C) 2007 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -16,19 +16,30 @@ require($root_path.'conf/template.php');
 require($root_path.'conf/conf-php.php');
 if ( !empty($_POST['dll']) )
 {// on envois le fichier a télécharger si il a
-	$sql = "SELECT url_dl,telecharger FROM ".$config['prefix']."download_fichier WHERE id='".$_POST['for']."' LIMIT 1";
+	$sql = "SELECT `url_dl`, `telecharger`, `password` FROM `".$config['prefix']."download_fichier` AS fichier LEFT JOIN `".$config['prefix']."download_groupe` AS `group` ON group.id = fichier.id_rep WHERE fichier.id='".$_POST['for']."' LIMIT 1";
 	if (! $get_nfo_dll = $rsql->requete_sql($sql) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
 	}
 	$for_nfo = $rsql->s_array($get_nfo_dll);
-	$for_nfo['telecharger']++;
-	$sql = "UPDATE `".$config['prefix']."download_fichier` SET telecharger='".$for_nfo['telecharger']."' WHERE id ='".$_POST['for']."'";
-	if (! $rsql->requete_sql($sql) )
+	
+	// maiiiissss avant, on vérifie le password si il en a un
+	if (!empty($for_nfo['password']) && (isset($_POST['password']) && $_POST['password'] == $for_nfo['password']))
 	{
-		sql_error($sql, $rsql->error, __LINE__, __FILE__);
+		// le code est bon, on télécharge
+		$for_nfo['telecharger']++;
+		$sql = "UPDATE `".$config['prefix']."download_fichier` SET telecharger='".$for_nfo['telecharger']."' WHERE id ='".$_POST['for']."'";
+		if (! $rsql->requete_sql($sql) )
+		{
+			sql_error($sql, $rsql->error, __LINE__, __FILE__);
+		}
+		redirection($for_nfo['url_dl']);
 	}
-	redirection($for_nfo['url_dl']);
+	else
+	{
+		//le code n'est pas bon
+		redirec_text('download.php', $langue['download_psw_erreur'], 'user');
+	}
 }
 if ( !empty($_POST['send_vote']) )
 {//on envois le resultat du vote
@@ -70,7 +81,7 @@ else
 {
 	if( empty($_POST['action']) )
 	{// on affiche les groups de téléchargement
-		$template->assign_block_vars('tete', array('vide' => 'vide'));
+		$template->assign_block_vars('tete', array(''));
 		$sql = "SELECT groups.*, COUNT(fichiers.id_rep) FROM `".$config['prefix']."download_groupe` AS groups LEFT JOIN `".$config['prefix']."download_fichier` AS fichiers ON groups.id = fichiers.id_rep GROUP BY groups.id";
 		if (! $cat_list = $rsql->requete_sql($sql) )
 		{
@@ -83,7 +94,14 @@ else
 				'INFO_GROUP'  => $info_group['nom'].' ('.$info_group['COUNT(fichiers.id_rep)'].')',
 				'INFO_GROUP_DETAIL' => bbcode($info_group['comentaire'])
 			));
-
+			//signiale si il a un code pour télécharger le fichier
+			if (!empty($info_group['password']))
+			{
+				$template->assign_block_vars('tete.group.psw', array(
+					'PATH_ROOT' => $root_path,
+					'ALT' => $langue['download_alt_psw'],
+				));
+			}
 		}
 	}
 	if (!empty($_GET['for_rep']) || !empty($_GET['top_dl']) )
@@ -110,7 +128,7 @@ else
 		{
 			$where = "WHERE id_rep ='".$_GET['for_rep']."' ORDER BY `nom_de_fichier` ASC LIMIT ".$_GET['limite'].",".$config['objet_par_page'];
 		}
-		$sql = "SELECT * FROM ".$config['prefix']."download_fichier ".$where;
+		$sql = "SELECT fichier.*, group.password AS password FROM `".$config['prefix']."download_fichier` AS fichier LEFT JOIN `".$config['prefix']."download_groupe` AS `group` ON group.id = fichier.id_rep ".$where;
 		if (! $resultat_actu = $rsql->requete_sql($sql) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -146,6 +164,10 @@ else
 				'FOR_REP' => $_GET['for_rep'],
 				'FOR' => $actuelle['id']
 			));
+			if (!empty($actuelle['password']))
+			{
+				$template->assign_block_vars('liste_fichiers.pas_vide.psw', array('TXT' => $langue['download_psw_demande']));
+			}
 		}
 		if ( !empty($_GET['for_rep']) )
 		{

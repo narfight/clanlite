@@ -27,7 +27,12 @@
 	<h1>{TITRE_DOWNLOAD}</h1>
 	<div class="news">
 	<!-- BEGIN group -->
-		<h2><a href="{tete.group.GROUP_U}">{tete.group.INFO_GROUP}</a></h2>
+		<h2>
+			<a href="{tete.group.GROUP_U}">{tete.group.INFO_GROUP}</a>
+			<!-- BEGIN psw -->
+			<img src="{tete.group.psw.PATH_ROOT}images/password.jpg" alt="{tete.group.psw.ALT}" />
+			<!-- END psw -->
+		</h2>
 		{tete.group.INFO_GROUP_DETAIL}
 		<!-- END group -->
 		<h2><a href="{TOP_10_U}">{TOP_10}</a></h2>
@@ -49,10 +54,13 @@
 		</ul>
 		{liste_fichiers.pas_vide.DETAIL}
 		<form action="{ICI}" method="post"> 
-			<input name="voter" type="submit" id="voter" value="{liste_fichiers.pas_vide.VOTER}" />
-			<input name="dll" type="submit" id="dll" value="{liste_fichiers.pas_vide.TELECHARGER}" />
-			<input name="for" type="hidden" id="for" value="{liste_fichiers.pas_vide.FOR}" />
-			<input name="for_rep" type="hidden" id="for_rep" value="{liste_fichiers.pas_vide.FOR_REP}" />
+			<input name="voter" type="submit" id="voter_{liste_fichiers.pas_vide.FOR}" value="{liste_fichiers.pas_vide.VOTER}" />
+			<input name="dll" type="submit" id="dll_{liste_fichiers.pas_vide.FOR}" value="{liste_fichiers.pas_vide.TELECHARGER}" />
+			<input name="for" type="hidden" id="for_{liste_fichiers.pas_vide.FOR}" value="{liste_fichiers.pas_vide.FOR}" />
+			<!-- BEGIN psw -->
+			<br />{liste_fichiers.pas_vide.psw.TXT}: <input name="password" type="password" id="password_{liste_fichiers.pas_vide.FOR}" />
+			<!-- END psw -->
+			<input name="for_rep" type="hidden" id="for_rep_{liste_fichiers.pas_vide.FOR}" value="{liste_fichiers.pas_vide.FOR_REP}" />
 		</form>
 		<div style="height: 40px; width: 1px"></div>
 		<!-- END pas_vide -->
