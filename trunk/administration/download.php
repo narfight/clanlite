@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
- *	Fichier		: 															*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Fichier		: download.php												*
+ *	Copyright	: (C) 2007 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -149,11 +149,13 @@ $template->assign_vars( array(
 	'ACTION' => $langue['action'],
 	'COTE' => $langue['download_bt_cote'],
 	'DATE_MODIF' => $langue['download_modif'],
+	'TXT_PASSWORD' => $langue['group_dl_password'],
+	'OPTIONNEL' => $langue['optionnel'],
 ));
 if (!empty($_POST['Editer_group']))
 {
 	$template->assign_block_vars('editer_group', array('EDITER' => $langue['editer']));
-	$sql = "SELECT nom, comentaire, id FROM `".$config['prefix']."download_groupe` WHERE id ='".$_POST['for_group']."'";
+	$sql = "SELECT `nom`, `comentaire`, `id`, `password` FROM `".$config['prefix']."download_groupe` WHERE id ='".$_POST['for_group']."'";
 	if (! ($get = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -162,13 +164,15 @@ if (!empty($_POST['Editer_group']))
 	$template->assign_vars( array( 
 		'NOM_GROUP' => $editer['nom'],
 		'INFO_GROUP' => $editer['comentaire'],
-		'FOR_GROUP' => $editer['id']
+		'FOR_GROUP' => $editer['id'],
+		'PASSWORD_GROUP' => $editer['password']
 	));
 }
 else
 {
 	$template->assign_block_vars('rajouter_group', array('ENVOYER' => $langue['envoyer']));
 }
+
 if ( !empty($_POST['Editer_fichier']) )
 {
 	$template->assign_block_vars('editer_fichier', array('EDITER' => $langue['editer']));
@@ -192,14 +196,14 @@ else
 {
 	$template->assign_block_vars('rajouter_fichier', array('ENVOYER' => $langue['envoyer']));
 }
-$sql = "SELECT nom, id, comentaire FROM `".$config['prefix']."download_groupe`";
+$sql = "SELECT `nom`, `id`, `comentaire`, `password` FROM `".$config['prefix']."download_groupe`";
 if (! ($get = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql , $rsql->error, __LINE__, __FILE__);
 }
 while ($group_liste = $rsql->s_array($get))
 {
-	$liste_group[$group_liste['id']] = $group_liste['nom'];
+	$liste_group[$group_liste['id']] = array ('nom' => $group_liste['nom'], 'psw' => $group_liste['password']);
 	$template->assign_block_vars('liste_group', array( 
 		'SELECTED' => (!empty($editer['id_rep']) && $editer['id_rep'] == $group_liste['id'])? 'selected="selected"' : '',
 		'GROUP' => $group_liste['nom'],
@@ -223,14 +227,23 @@ while ($actuelle = $rsql->s_array($get))
 }
 if ( !empty($liste_group))
 {
-	foreach($liste_group as $id_group => $nom_group)
+	foreach($liste_group as $id_group => $le_group)
 	{
 		$template->assign_block_vars('liste_group_bas', array(
-			'GROUP_NOM' => $nom_group,
+			'GROUP_NOM' => $le_group['nom'],
 			'GROUP_ID' => $id_group,
 			'EDITER' => $langue['editer'],
 			'SUPPRIMER' => $langue['supprimer'],		
 		));
+		//signiale si il a un code pour télécharger le fichier
+		if (!empty($le_group['psw']))
+		{
+			$template->assign_block_vars('liste_group_bas.psw', array(
+				'PATH_ROOT' => $root_path,
+				'ALT' => $langue['download_alt_psw'],
+			));
+		}
+
 		if (!empty($liste_fichier[$id_group]))
 		{
 			foreach($liste_fichier[$id_group] as $fichier_id => $array_fichier)

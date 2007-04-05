@@ -119,6 +119,9 @@ $langue['download_vote_titre'] = "Les groupes de téléchargement";
 $langue['download_vote_explication'] = "Vous allez voter pour un fichier";
 $langue['download_vote_envoyer'] = "Voter";
 $langue['user_envois_vote'] = "Votre vote a été pris en considération";
+$langue['download_alt_psw'] = "Section demandant un code pour le téléchargement des fichiers";
+$langue['download_psw_erreur'] = 'Vous n\'avez pas rentré le bon code pour télécharger ce fichier';
+$langue['download_psw_demande'] = 'Code de téléchargement';
 
 $langue['def_equipe'] = "Description des équipes";
 
@@ -480,6 +483,7 @@ $langue['toggle_gestion_fichier'] = "Afficher/Cacher la gestion des fichiers";
 $langue['toggle_gestion_group'] = "Afficher/Cacher la gestion des groupes";
 $langue['dll_url'] = "Emplacement du fichier";
 $langue['group_fichier'] = "Dans le groupe";
+$langue['group_dl_password'] = "Entrez un code";
 
 $langue['where_medaille'] = "Gère les médailles d'un membre";
 $langue['redirection_medaille'] = "Les médailles ont été changées";
