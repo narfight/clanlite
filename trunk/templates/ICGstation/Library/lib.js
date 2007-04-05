@@ -110,7 +110,7 @@ function formverif(id,type,plus)
 }
 function DoInstantMessage(person,screen)
 {
-	prompt("voici le Msn-Messenger de " +screen+ ".", person);
+	prompt("Voici le Msn-Messenger de " +screen+ ".", person);
 }
 // pour les smilies
 // c'est une fonction de phpBB2 a peux de chose
