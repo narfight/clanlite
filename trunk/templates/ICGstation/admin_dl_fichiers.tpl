@@ -137,7 +137,7 @@
 						<th colspan="3">
 							{liste_group_bas.GROUP_NOM}
 							<!-- BEGIN psw -->
-							<img src="{liste_group_bas.psw.PATH_ROOT}images/password.jpg" alt="{liste_group_bas.psw.ALT}" />
+							<img src="{liste_group_bas.psw.PATH_ROOT}images/password.png" height="32" width="32" alt="{liste_group_bas.psw.ALT}" />
 							<!-- END psw -->
 						</th>
 						<th colspan="2">
