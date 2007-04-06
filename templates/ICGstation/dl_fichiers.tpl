@@ -30,7 +30,7 @@
 		<h2>
 			<a href="{tete.group.GROUP_U}">{tete.group.INFO_GROUP}</a>
 			<!-- BEGIN psw -->
-			<img src="{tete.group.psw.PATH_ROOT}images/password.jpg" alt="{tete.group.psw.ALT}" />
+			<img src="{tete.group.psw.PATH_ROOT}images/password.png" height="32" width="32" alt="{tete.group.psw.ALT}" />
 			<!-- END psw -->
 		</h2>
 		{tete.group.INFO_GROUP_DETAIL}
