@@ -16,11 +16,6 @@
 	var lastdLoaded = -1;
 	function diapo(direction)
 	{
-		var c = document.getElementById('currentImage');
-		var p = document.getElementById('previousImage');
-		var n = document.getElementById('nextImage');
-		var d = document.getElementById('description');
-	
 		dLoaded += direction;
 	
 		if (dLoaded == lastdLoaded)
@@ -57,53 +52,6 @@
 		diapoTransition('previousImage', direction, pi[2], 0, 0, 100);
 	
 		return false;	
-	}
-	
-	
-	function diapoTransition(obj, direction, image, image_h, image_l, alpha)
-	{
-		if (direction == 0)
-		{
-			if (document.all)
-				document.getElementById(obj).style['filter']		= 'alpha(opacity=0)';
-			else
-				document.getElementById(obj).style.opacity = 0;
-				
-			document.getElementById(obj).src = image;
-			return;
-		}
-		
-		if (document.all)
-			document.getElementById(obj).style['filter']		= 'alpha(opacity=' + (alpha - 20) + ')';
-		else
-			document.getElementById(obj).style.opacity = (alpha - 20) / 100;
-			
-		if (alpha > 0)
-			setTimeout("diapoTransition('" + obj + "', '" + direction + "', '" + image + "', '" + image_h + "', '" + image_l + "', " + (alpha - 20) + ");", 10);
-		else
-		{
-			//document.getElementById(obj).style.marginLeft = '0px';
-			document.getElementById(obj).src = image;
-			
-			if (image_h != 0 || image_l != 0)
-			{
-				document.getElementById(obj).height = image_h;
-				document.getElementById(obj).width = image_l;
-			}
-		}
-	}
-	
-	
-	function diapoTransitionOn(obj, alpha)
-	{
-			if (document.all)
-				document.getElementById(obj).style['filter']		= 'alpha(opacity=' + (alpha + 10) + ')';
-			else
-				document.getElementById(obj).style.opacity = (alpha + 10) / 100;	
-			
-			
-		if (alpha < 100)
-			setTimeout("diapoTransitionOn('" + obj + "', " + (alpha + 10) + ");", 10);
 	}
 //--><!]]>
 </script>
