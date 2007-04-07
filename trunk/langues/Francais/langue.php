@@ -354,6 +354,11 @@ $langue['redirection_module_connect_ts_psw_channel'] = "Code de la chambre";
 $langue['redirection_module_connect_ts_channel'] = "La chambre";
 $langue['redirection_module_connect_ts_connection'] = "Connection";
 
+$langue['where_module_match'] = "Gére le module pour le prochain match";
+$langue['titre_module_match'] = "Prochain match [Module]";
+$langue['redirection_module_match_edit'] = "Le module match à été mis à jour";
+$langue['match_module_show_map'] = "Afficher les images des maps";
+
 $langue['module_last_match_affiche_info'] = "Voir/cacher le résumé";
 
 $langue['where_module_serveur_game'] = "Gère le module serveur de jeux";

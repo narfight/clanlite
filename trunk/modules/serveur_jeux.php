@@ -50,19 +50,19 @@ if (defined('CL_AUTH'))
 				if (ereg($gameserver['mapname'].'.(gif|jpg|jpeg|jfif|png|bmp|dib|tif|tiff)', $valeur))
 				{
 					$img_map = $valeur;
-					$taille_img_map = getimagesize($root_path.'images/pics_map/'.$valeur);
 					break;
 				}
 				$img_map = 'empty.jpg';
 			}
-			if ($img_map != 'empty.jpg')
-			{
-				$block['serveur_jeux'] = str_replace('{IMAGE_MAP}', '<img src="'.$root_path.'images/pics_map/'.$img_map.'" '.$taille_img_map[3].' alt="'.sprintf($langue['alt_img_map_serveur_jeux'], $current_map).'" />', $block['serveur_jeux']);
-			}
-			else
-			{
-				$block['serveur_jeux'] = str_replace('{IMAGE_MAP}', '', $block['serveur_jeux']);
-			}
+			$taille_img_map = getimagesize($root_path.'images/pics_map/'.$img_map);
+			
+			$block['serveur_jeux_image_map'] = str_replace('{SRC}', $root_path.'images/pics_map/'.$img_map, $block['serveur_jeux_image_map']);
+			$block['serveur_jeux_image_map'] = str_replace('{TAILLE}', $taille_img_map[3], $block['serveur_jeux_image_map']);
+			$block['serveur_jeux_image_map'] = str_replace('{MODULE_ID}', $modules['id'], $block['serveur_jeux_image_map']);
+			$block['serveur_jeux_image_map'] = str_replace('{ALT}', sprintf($langue['alt_img_map_serveur_jeux'], $current_map), $block['serveur_jeux_image_map']);
+
+			//injecte le block image de map dans le module
+			$block['serveur_jeux'] = str_replace('{IMAGE_MAP}', $block['serveur_jeux_image_map'], $block['serveur_jeux']);
 		}
 		else
 		{
