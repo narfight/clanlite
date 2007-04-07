@@ -64,12 +64,12 @@ while ($info = $rsql->s_array($get))
 			if (ereg($gameserver['mapname'].'.(gif|jpg|jpeg|jfif|png|bmp|dib|tif|tiff)', $valeur))
 			{
 				$img_map = $valeur;
-				$taille_img_map = getimagesize($root_path.'images/pics_map/'.$valeur);
 				break;
 			}
 			$img_map = 'empty.jpg';
-			$taille_img_map = getimagesize($root_path.'images/pics_map/empty.jpg');
 		}
+		$taille_img_map = getimagesize($root_path.'images/pics_map/'.$img_map);
+
 		switch($gameserver['password'])
 		{
 			case 0:

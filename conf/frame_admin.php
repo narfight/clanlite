@@ -100,7 +100,7 @@ if ($session_cl['pouvoir_particulier'] == 'admin' || in_array('oui', $user_pouvo
 			'GRADE_U' => session_in_url($root_path.'administration/grades.php')
 		));
 	}
-	$sql = "SELECT id,nom,place,call_page,config FROM `".$config['prefix']."modules`";
+	$sql = "SELECT id, nom, place, call_page, config FROM `".$config['prefix']."modules`";
 	if (! ($get_module = $rsql->requete_sql($sql)) )
 	{
 		sql_error($sql , $rsql->error, __LINE__, __FILE__);

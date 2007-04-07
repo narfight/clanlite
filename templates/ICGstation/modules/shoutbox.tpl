@@ -39,31 +39,31 @@
 </div>
 <div class="big_cadre" id="simple">
 	<h1>{shoutbox_config.TITRE_DEL}</h1>
-		<div class="news">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>{shoutbox_config.NOM}</th>
-						<th>{shoutbox_config.MSG}</th>
-						<th>{shoutbox_config.ACTION}</th>
-					</tr>
-				</thead>
-				<tbody>
-					<!-- BEGIN liste -->
-					<tr>
-						<td>{shoutbox_config.liste.NOM}</td>
-						<td>{shoutbox_config.liste.MSG}</td>
-						<td>
-							<form method="post" action="{shoutbox_config.ICI}">
-								<input name="Supprimer_msg" type="submit" value="{shoutbox_config.SUPPRIMER}" onclick="return demande('{shoutbox_config.TXT_CON_DELL}')" />
-								<input name="for_msg" type="hidden" value="{shoutbox_config.liste.FOR}" />
-								<input name="id_module" type="hidden" id="id_module" value="{shoutbox_config.ID}" />
-							</form>
-						</td>
-					</tr>
-					<!-- END liste -->
-				</tbody>
-			</table>
-		</div>
+	<div class="news">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>{shoutbox_config.NOM}</th>
+					<th>{shoutbox_config.MSG}</th>
+					<th>{shoutbox_config.ACTION}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- BEGIN liste -->
+				<tr>
+					<td>{shoutbox_config.liste.NOM}</td>
+					<td>{shoutbox_config.liste.MSG}</td>
+					<td>
+						<form method="post" action="{shoutbox_config.ICI}">
+							<input name="Supprimer_msg" type="submit" value="{shoutbox_config.SUPPRIMER}" onclick="return demande('{shoutbox_config.TXT_CON_DELL}')" />
+							<input name="for_msg" type="hidden" value="{shoutbox_config.liste.FOR}" />
+							<input name="id_module" type="hidden" id="id_module" value="{shoutbox_config.ID}" />
+						</form>
+					</td>
+				</tr>
+				<!-- END liste -->
+			</tbody>
+		</table>
+	</div>
 </div>
 <!-- END shoutbox_config -->
