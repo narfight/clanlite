@@ -282,4 +282,49 @@ function bbcode_insert(text1,text2, where)
 			sel.value = sel.value + text1;
 		} 
 	}  
-} 
+}
+
+function diapoTransition(obj, direction, image, image_h, image_l, alpha)
+{
+	if (direction == 0)
+	{
+		if (document.all)
+			document.getElementById(obj).style['filter'] = 'alpha(opacity=0)';
+		else
+			document.getElementById(obj).style.opacity = 0;
+			
+		document.getElementById(obj).src = image;
+		return;
+	}
+	
+	if (document.all)
+		document.getElementById(obj).style['filter'] = 'alpha(opacity=' + (alpha - 20) + ')';
+	else
+		document.getElementById(obj).style.opacity = (alpha - 20) / 100;
+		
+	if (alpha > 0)
+		setTimeout("diapoTransition('" + obj + "', '" + direction + "', '" + image + "', '" + image_h + "', '" + image_l + "', " + (alpha - 20) + ");", 10);
+	else
+	{
+		document.getElementById(obj).src = image;
+		
+		if (image_h != 0 || image_l != 0)
+		{
+			document.getElementById(obj).height = image_h;
+			document.getElementById(obj).width = image_l;
+		}
+	}
+}
+
+
+function diapoTransitionOn(obj, alpha)
+{
+		if (document.all)
+			document.getElementById(obj).style['filter']		= 'alpha(opacity=' + (alpha + 10) + ')';
+		else
+			document.getElementById(obj).style.opacity = (alpha + 10) / 100;	
+		
+		
+	if (alpha < 100)
+		setTimeout("diapoTransitionOn('" + obj + "', " + (alpha + 7) + ");", 10);
+}

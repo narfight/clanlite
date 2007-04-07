@@ -7,6 +7,23 @@
 	{TXT_GAME_TYPE}: <span class="reponce">{GAME_TYPE}</span><br />
 	{LISTE}
 <!-- END serveur_jeux -->
+<!-- BEGIN serveur_jeux_image_map -->
+	<div id="module_serveur_jeux_{MODULE_ID}">
+		<img src="{SRC}" id="map_serveur_act_{MODULE_ID}" alt="{ALT}" {TAILLE} />
+		<script type="text/javascript">
+			<!--//--><![CDATA[//><!--
+			// calcul la nouvelle taille par rapport à la place dispo pour l'image de map
+			if (trouve('module_serveur_jeux_{MODULE_ID}').offsetWidth < trouve('map_serveur_act_{MODULE_ID}').width)
+			{
+				rapport_taille_{MODULE_ID} = trouve('map_serveur_act_{MODULE_ID}').width/trouve('module_serveur_jeux_{MODULE_ID}').offsetWidth;
+				//alert(rapport_taille);
+				trouve('map_serveur_act_{MODULE_ID}').width = trouve('map_serveur_act_{MODULE_ID}').width/rapport_taille_{MODULE_ID};
+				trouve('map_serveur_act_{MODULE_ID}').height = trouve('map_serveur_act_{MODULE_ID}').height/rapport_taille_{MODULE_ID};
+			}
+		//--><!]]>
+		</script>
+	</div>
+<!-- END serveur_jeux_image_map -->
 <!-- BEGIN total_liste -->
 	{TXT_LISTE} :
 <marquee height="100" scrollamount="1" scrolldelay="20" direction="up" onmouseover="this.scrollAmount=0" onmouseout="this.scrollAmount=1">
