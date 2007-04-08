@@ -8,7 +8,9 @@
  *   it under the terms of the GNU General Public License as published by	*
  *   the Free Software Foundation; either version 2 of the License, or		*
  *   (at your option) any later version.									*
- ***************************************************************************/
+ ****************************************************************************
+ *$Id$
+ */
 define('CL_AUTH', true);
 $root_path = './';
 require($root_path.'conf/template.php');
