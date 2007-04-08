@@ -108,9 +108,9 @@ function module_tpl($file)
 	
 	// strip newlines.
 	$tpl = str_replace("\n", '', $tpl);
-	
 	// Turn template blocks into PHP assignment statements for the values of $match..
 	$tpl = preg_replace('#<!-- BEGIN (.*?) -->(.*?)<!-- END \\1 -->#', "\n" . '$block[\'\\1\'] = \'\\2\';', $tpl);
+	
 	eval($tpl);
 	return $block;
 }

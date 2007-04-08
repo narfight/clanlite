@@ -62,6 +62,10 @@ else
 	$inscription = $config['inscription'];
 }
 // on vérifie que c'est pas un robot comme le serveur TS, alors on ne lui donne pas de session
+if (!isset($action_membre))
+{
+	$action_membre = '';
+}
 if ($action_membre != 'no session please Mr ClanLite')
 {
 	//on démarre la session

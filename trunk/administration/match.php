@@ -316,7 +316,7 @@ while ( ($list_user = $rsql->s_array($get_joueur)) )
 }
 
 unset($info_match);
-$sql = "SELECT a.*, server_map.nom, match_map.id_map, match_map.nom AS nom_map, server_map.nom AS nom_map_actu, section.nom FROM `".$config['prefix']."match` AS a LEFT JOIN `".$config['prefix']."match_map` AS match_map ON match_map.id_match = a.id LEFT JOIN `".$config['prefix']."server_map` AS server_map ON server_map.id = match_map.id_map LEFT JOIN `".$config['prefix']."section` section ON a.section = section.id ORDER BY repertoire, a.date ASC";
+$sql = "SELECT a.*, match_map.id_map, match_map.nom AS nom_map, server_map.nom AS nom_map_actu, section.nom FROM `".$config['prefix']."match` AS a LEFT JOIN `".$config['prefix']."match_map` AS match_map ON match_map.id_match = a.id LEFT JOIN `".$config['prefix']."server_map` AS server_map ON server_map.id = match_map.id_map LEFT JOIN `".$config['prefix']."section` section ON a.section = section.id ORDER BY repertoire, a.date ASC";
 if (! ($get_match = $rsql->requete_sql($sql)) )
 {
 	sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -329,12 +329,10 @@ while ( ($list_match = $rsql->s_array($get_match)) )
 		$info_match[$list_match['repertoire']][$list_match['id']] = array(
 			'nombre_de_joueur' => $list_match['nombre_de_joueur'],
 			'date' => $list_match['date'],
+			'heure_msn' => $list_match['heure_msn'],
 			'le_clan' => $list_match['le_clan'],
 			'info' => $list_match['info'],
 			'priver' => $list_match['priver'],
-			'nombre_de_joueur' => $list_match['nombre_de_joueur'],
-			'heure_msn' => $list_match['heure_msn'],
-			'nom' => $list_match['nom'],
 			'repertoire' => $list_match['repertoire'],
 		);
 	}
