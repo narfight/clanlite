@@ -9,6 +9,7 @@
  *   the Free Software Foundation; either version 2 of the License, or		*
  *   (at your option) any later version.									*
  ***************************************************************************/
+
 if (defined('CL_AUTH'))
 {
 	if( !empty($get_nfo_module) )
@@ -112,6 +113,10 @@ if (defined('CL_AUTH'))
 			$block['match'] = str_replace('{MAP}', $block['match_map'], $block['match']);
 			$block['match'] = str_replace('{ID_MODULE}', $modules['id'], $block['match']);
 
+		}
+		else
+		{
+			$block['match'] = str_replace('{MAP}', '', $block['match']);
 		}
 		$template->assign_block_vars('modules_'.$modules['place'],array(
 			'TITRE' => $modules['nom'],
