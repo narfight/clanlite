@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
  *	Fichier		: 															*
- *	Copyright	: (C) 2004 ClanLite											*
+ *	Copyright	: (C) 2007 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
