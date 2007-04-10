@@ -12,7 +12,7 @@
 if ($_SERVER['HTTP_USER_AGENT'] == 'WebPost_UserAgent')
 {
 	define('CL_AUTH', true);
-$root_path = './../';
+	$root_path = './../';
 	$action_membre='no session please Mr ClanLite';
 	require($root_path.'conf/conf-php.php');
 	require($root_path.'conf/lib_ts.php');
@@ -67,15 +67,14 @@ if (defined('CL_AUTH'))
 	if( !empty($get_nfo_module) )
 	{
 		$filename = basename(__FILE__);
-		$nom = 'TeamSpeak WebPost (central)';
-		$central = true;
+		$nom = 'TeamSpeak WebPost';
 		return;
 	}
 	if( !empty($module_installtion))
 	{
 		secu_level_test(16);
 		$id_insert = $rsql->last_insert_id();
-		$sql = "SELECT COUNT(id) FROM ".$config['prefix']."modules WHERE call_page ='ts_webpost.php' LIMIT 1";
+		$sql = "SELECT COUNT(id) FROM ".$config['prefix']."modules WHERE call_page ='ts_webpost.php' OR  call_page ='ts_webpost.php' LIMIT 1";
 		if (! ($get = $rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -99,7 +98,7 @@ if (defined('CL_AUTH'))
 	if( !empty($module_deinstaller))
 	{
 		secu_level_test(16);
-		$sql = "SELECT COUNT(id) FROM `".$config['prefix']."modules` WHERE call_page ='ts_webpost.php'";
+		$sql = "SELECT COUNT(id) FROM `".$config['prefix']."modules` WHERE call_page ='ts_webpost.php' OR call_page ='ts_webpost.php'";
 		if (! ($get = $rsql->requete_sql($sql)) )
 		{
 			sql_error($sql, $rsql->error, __LINE__, __FILE__);
@@ -124,7 +123,7 @@ if (defined('CL_AUTH'))
 if( !empty($_GET['config_modul_admin']) || !empty($_POST['Submit_module_webpost_centrale']) )
 {
 	define('CL_AUTH', true);
-$root_path = './../';
+	$root_path = './../';
 	$action_membre= 'where_module_webpost';
 	$niveau_secu = 16;
 	require($root_path.'conf/template.php');
@@ -193,7 +192,7 @@ $root_path = './../';
 if (!empty($_GET['from']) && is_numeric($_GET['from']))
 {
 	define('CL_AUTH', true);
-$root_path = './../';
+	$root_path = './../';
 	$action_membre = 'where_cl_module_webpost';
 	require($root_path.'conf/template.php');
 	require($root_path.'conf/conf-php.php');
