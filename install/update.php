@@ -12,7 +12,7 @@
 define('CL_AUTH', true);
 $root_path = './../';
 $action_db = '';
-$news_version = '2.2007.nouvelle.version';
+$news_version = '2.2007.04.11';
 
 require($root_path.'conf/template.php');
 
