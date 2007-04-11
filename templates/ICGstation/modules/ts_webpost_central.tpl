@@ -40,13 +40,13 @@
 						<li style="list-style-image:url(../images/modules_ts/channel{webpost_show.channel.sub_channel.PASSWORD_ICON}.gif)">{webpost_show.channel.sub_channel.NAME}
 							<ul>
 							<!-- BEGIN sub_user -->
-								<li style="list-style-image:url(../images/modules_ts/{webpost_show.channel.sub_channel.sub_user.PLAYER_ICON}.gif)" onmouseover="poplink('dssdf',event)" onmouseout="kill_poplink()">{webpost_show.channel.sub_channel.sub_user.USER_NAME}</li>
+								<li style="list-style-image:url(../images/modules_ts/{webpost_show.channel.sub_channel.sub_user.PLAYER_ICON}.gif)">{webpost_show.channel.sub_channel.sub_user.USER_NAME}</li>
 							<!-- END sub_user -->
 							</ul>
 						</li>
 					<!-- END sub_channel -->
 					<!-- BEGIN user -->
-						<li style="list-style-image:url(../images/modules_ts/{webpost_show.channel.user.PLAYER_ICON}.gif)" onmouseover="poplink('dssdf',event)" onmouseout="kill_poplink()">{webpost_show.channel.user.USER_NAME}</li>
+						<li style="list-style-image:url(../images/modules_ts/{webpost_show.channel.user.PLAYER_ICON}.gif)">{webpost_show.channel.user.USER_NAME}</li>
 					<!-- END user -->
 					</ul>
 				</li>

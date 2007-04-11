@@ -1,7 +1,7 @@
 <?php
 /****************************************************************************
  *	Fichier		: update.php												*
- *	Copyright	: (C) 2006 ClanLite											*
+ *	Copyright	: (C) 2007 ClanLite											*
  *	Email		: support@clanlite.org										*
  *																			*
  *   This program is free software; you can redistribute it and/or modify	*
@@ -276,6 +276,7 @@ switch($config['version'])
 	case '2.2006.11.06':
 		$action_db['2.2006.11.06'] = array(
 			'Ajoute une option pour jouer les mp3 de façon àléatoire' => "INSERT INTO `".$config['prefix']."config` ( `conf_nom` , `conf_valeur` ) VALUES ('mp3_shuffle', '1')",
+			'Changement du fichier pour le module WebPost' => "UPDATE `".$config['prefix']."modules` SET `call_page` = 'ts_webpost_central' WHERE `call_page` = 'ts_webpost'",
 		);
 		
 		$sql = "SELECT id, config FROM ".$config['prefix']."modules WHERE `call_page` = 'shoutbox.php'";
