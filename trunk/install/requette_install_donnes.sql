@@ -31,6 +31,7 @@ INSERT INTO `clanlite_config` VALUES ('refresh', '1');
 INSERT INTO `clanlite_config` VALUES ('heure_ete', '1');
 INSERT INTO `clanlite_config` VALUES ('time_zone', '1');
 INSERT INTO `clanlite_config` VALUES ('mp3_auto_start', '1');
+INSERT INTO `clanlite_config` VALUES ('mp3_shuffle', '0');
 INSERT INTO `clanlite_custom_menu` VALUES (1, 1, 'boutton_news', 'service/index_pri.php', '0', '0', '0', 0, '1');
 INSERT INTO `clanlite_custom_menu` VALUES (2, 2, 'boutton_liste_membres_groupe', 'service/liste-des-membres-groupe.php', '0', '0', '0', 0, '1');
 INSERT INTO `clanlite_custom_menu` VALUES (3, 3, 'boutton_forum', 'url_forum', '0', '0', '0', 0, '1');
