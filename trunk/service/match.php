@@ -117,6 +117,7 @@ if (!empty($info_match) && is_array($info_match))
 						'TAILLE_WIDTH' => floor($taille_img_map[0]/$rapport),
 						'TAILLE_HEIGHT' => floor($taille_img_map[1]/$rapport),
 						'SRC' => $root_path.'images/pics_map/'.$img_map,
+						'ID' => $id,
 					));
 				}
 			}
