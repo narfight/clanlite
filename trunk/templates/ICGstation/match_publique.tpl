@@ -82,13 +82,13 @@ function OrImage(id, minimum, action)
 	<!-- BEGIN match -->
 	<form method="post" action="{ICI}"> 
 		<h2 class="toggle_titre">
-			<input value="{VOIR}" name="voir_{class.match.FOR}" type="button" onClick="toggle('{class.match.FOR}')">&nbsp;&nbsp;{class.match.CONTRE} {class.match.CLAN}
+			<input value="{VOIR}" name="voir_{class.match.FOR}" type="button" onClick="toggle('{class.match.ID}')">&nbsp;&nbsp;{class.match.CONTRE} {class.match.CLAN}
 			<!-- BEGIN liens_membres -->
 			<a href="{class.match.liens_membres.URL}">{class.match.liens_membres.TEXTE}</a>
 			<!-- END liens_membres -->
 		</h2>
 	</form> 
-	<div id="toggle_{class.match.FOR}" style="display:none">
+	<div id="toggle_{class.match.ID}" style="display:none">
 		<p>
 			<span class="nom_liste">{TXT_DATE} :</span>
 			<span class="reponce">{class.match.DATE}</span>
