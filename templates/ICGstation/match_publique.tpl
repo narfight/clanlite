@@ -35,7 +35,6 @@ function SurImage(e, id, minimum)
 	{
 		coef = -1 * A * (x-millieu) + reel.width;
 	}
-	window.status = "Coef:" + coef + " X:" + x + " Millieu:" + millieu + " Angle:" + A + "Min:" + minimum + " Vrais largeur:" + reel.width;
 
 	img.width = coef;
 	img.height = img.width * rapport_l_h;
