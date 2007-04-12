@@ -107,7 +107,7 @@ function OrImage(id, minimum, action)
 		</p>
 		<div id="dock_{class.match.ID}">
 			<!-- BEGIN map_list -->
-			<div style="margin:5px;float:left"><span class="reponce">{class.match.map_list.NOM}</span><br /><img id="image_map_{class.match.map_list.ID}" src="{class.match.map_list.SRC}" alt="{class.match.map_list.NOM}" width="{class.match.map_list.TAILLE_WIDTH}" height="{class.match.map_list.TAILLE_HEIGHT}" onmousemove="SurImage(event, this.id, {class.match.map_list.TAILLE_WIDTH}, true)" onmouseout="OrImage(this.id, {class.match.map_list.TAILLE_WIDTH}, true)" /></div>
+			<div style="margin:5px;float:left"><span class="reponce">{class.match.map_list.NOM}</span><br /><img id="image_{class.match.map_list.ID}" src="{class.match.map_list.SRC}" alt="{class.match.map_list.NOM}" width="{class.match.map_list.TAILLE_WIDTH}" height="{class.match.map_list.TAILLE_HEIGHT}" onmousemove="SurImage(event, this.id, {class.match.map_list.TAILLE_WIDTH}, true)" onmouseout="OrImage(this.id, {class.match.map_list.TAILLE_WIDTH}, true)" /></div>
 			<!-- END map_list -->
 		</div>
 		<p>
