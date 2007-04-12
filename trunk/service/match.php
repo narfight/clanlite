@@ -65,6 +65,7 @@ while ( ($list_match = $rsql->s_array($get_match)) )
 	}
 }
 
+$id_map = 0;
 if (!empty($info_match) && is_array($info_match))
 {
 	foreach($info_match as $nom => $match)
@@ -117,8 +118,9 @@ if (!empty($info_match) && is_array($info_match))
 						'TAILLE_WIDTH' => floor($taille_img_map[0]/$rapport),
 						'TAILLE_HEIGHT' => floor($taille_img_map[1]/$rapport),
 						'SRC' => $root_path.'images/pics_map/'.$img_map,
-						'ID' => $id,
+						'ID' => $id_map,
 					));
+					$id_map++;
 				}
 			}
 			// affiche le liens pour aller dans la partie membre s'inscrire
