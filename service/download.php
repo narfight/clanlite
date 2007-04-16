@@ -24,7 +24,7 @@ if ( !empty($_POST['dll']) )
 	$for_nfo = $rsql->s_array($get_nfo_dll);
 	
 	// maiiiissss avant, on vérifie le password si il en a un
-	if (!empty($for_nfo['password'])
+	if (!empty($for_nfo['password']))
 	{
 		if (isset($_POST['password']) && $_POST['password'] == $for_nfo['password']))
 		{
