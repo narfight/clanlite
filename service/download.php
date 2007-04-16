@@ -24,21 +24,25 @@ if ( !empty($_POST['dll']) )
 	$for_nfo = $rsql->s_array($get_nfo_dll);
 	
 	// maiiiissss avant, on vérifie le password si il en a un
-	if (!empty($for_nfo['password']) && (isset($_POST['password']) && $_POST['password'] == $for_nfo['password']))
+	if (!empty($for_nfo['password'])
 	{
-		// le code est bon, on télécharge
-		$for_nfo['telecharger']++;
-		$sql = "UPDATE `".$config['prefix']."download_fichier` SET telecharger='".$for_nfo['telecharger']."' WHERE id ='".$_POST['for']."'";
-		if (! $rsql->requete_sql($sql) )
+		if (isset($_POST['password']) && $_POST['password'] == $for_nfo['password']))
 		{
-			sql_error($sql, $rsql->error, __LINE__, __FILE__);
+			// le code est bon, on télécharge
+			$for_nfo['telecharger']++;
+			$sql = "UPDATE `".$config['prefix']."download_fichier` SET telecharger='".$for_nfo['telecharger']."' WHERE id ='".$_POST['for']."'";
+			if (! $_CL['SGBD']->requete_sql($sql) )
+			{
+				sql_error($sql, $_CL['SGBD']->error, __LINE__, __FILE__);
+			}
+			redirection($for_nfo['url_dl']);
+		}
+		else
+		{
+			//le code n'est pas bon
+			redirec_text('download.php', $langue['download_psw_erreur'], 'user');
 		}
 		redirection($for_nfo['url_dl']);
-	}
-	else
-	{
-		//le code n'est pas bon
-		redirec_text('download.php', $langue['download_psw_erreur'], 'user');
 	}
 }
 if ( !empty($_POST['send_vote']) )
