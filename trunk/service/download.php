@@ -26,7 +26,7 @@ if ( !empty($_POST['dll']) )
 	// maiiiissss avant, on vérifie le password si il en a un
 	if (!empty($for_nfo['password']))
 	{
-		if (isset($_POST['password']) && $_POST['password'] == $for_nfo['password']))
+		if (isset($_POST['password']) && $_POST['password'] == $for_nfo['password'])
 		{
 			// le code est bon, on télécharge
 			$for_nfo['telecharger']++;
