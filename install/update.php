@@ -277,8 +277,8 @@ switch($config['version'])
 		$action_db['2.2006.11.06'] = array(
 			'Ajoute une option pour jouer les mp3 de façon àléatoire' => "INSERT INTO `".$config['prefix']."config` ( `conf_nom` , `conf_valeur` ) VALUES ('mp3_shuffle', '1')",
 			'Changement du fichier pour le module WebPost' => "UPDATE `".$config['prefix']."modules` SET `call_page` = 'ts_webpost_central' WHERE `call_page` = 'ts_webpost'",
-			'Configuration du module shoutbox' => "UPDATE `".$config['prefix']."modules` SET `config` = '15' WHERE `call_page` = 'shoutbox.php'";
-		}
+			'Configuration du module shoutbox' => "UPDATE `".$config['prefix']."modules` SET `config` = '15' WHERE `call_page` = 'shoutbox.php'",
+		);
 
 	// sans break, metre case version a la suite, comme ca il fait toutes les mise à jours de la db de la version qu'il a jusqua la version actuelle
 	$maj = true;
