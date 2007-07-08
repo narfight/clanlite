@@ -30,7 +30,8 @@
 		diapoTransition('currentImage', direction, ci[1], ci[3], ci[4], 100);
 	
 		trouve('titre_img').innerHTML = ci[0];
-		//document.getElementById('lien').href = '/kits/version-v-' + ci[3] + '.html';
+		trouve('url_currentImage').href = ci[1];
+		
 	
 		// ------------------------------------------------------------
 		// le suivant
@@ -67,7 +68,7 @@
 			<tbody>
 				<tr>
 					<td width="33%"><a href="#" onClick="return diapo(-1);"><img style="opacity: 1.1;" id="previousImage" src="{SRC_MIN_1}" onload="diapoTransitionOn(this.id, 0);" /></a></td>
-					<td width="33%"><a href="{SRC}"><img style="opacity: 1.1;" id="currentImage" width="{WIDTH}" height="{HEIGHT}" src="{SRC}" onload="diapoTransitionOn(this.id, 0);" /></a></td>
+					<td width="33%"><a href="{SRC}" id="url_currentImage"><img style="opacity: 1.1;" id="currentImage" width="{WIDTH}" height="{HEIGHT}" src="{SRC}" onload="diapoTransitionOn(this.id, 0);" /></a></td>
 					<td width="33%"><a href="#" onClick="return diapo(1);"><img style="opacity: 1.1;" id="nextImage" src="{SRC_MIN_2}" onload="diapoTransitionOn(this.id, 0);" /></a></td>
 				</tr>
 			</tbody>
