@@ -317,20 +317,25 @@ $root_path = './../';
 	switch($i)
 	{
 		case 0:
-			list($size['width'], $size['height'], $size['type']) = getimagesize('images/logo_rss.gif');
+			list($size['width'], $size['height'], $size['type']) = getimagesize($root_path.'images/logo_rss.gif');
 			
-			$je_t_aime_anne_sophie[1]['url_image_min'] = 'images/logo_rss.gif';
+			$je_t_aime_anne_sophie[1]['url_image_mini'] = $root_path.'images/logo_rss.gif';
 
-			$je_t_aime_anne_sophie[2]['url_image_norm'] = 'images/logo_rss.gif';
+			$je_t_aime_anne_sophie[2]['url_image_norm'] = $root_path.'images/logo_rss.gif';
+			$je_t_aime_anne_sophie[2]['lb_commentaire'] = '';
 			$je_t_aime_anne_sophie[2]['nb_hauteur'] = $size['height'];
 			$je_t_aime_anne_sophie[2]['nb_largeur'] = $size['width'];
 			
-			$je_t_aime_anne_sophie[3]['url_image_mini'] = 'images/logo_rss.gif';
+			$je_t_aime_anne_sophie[3]['url_image_mini'] = $root_path.'images/logo_rss.gif';
 		break;
 		case 1:
+			list($size['width'], $size['height'], $size['type']) = getimagesize($je_t_aime_anne_sophie[1]['url_image_norm']);
+			
 			$je_t_aime_anne_sophie[2]['url_image_norm'] = $je_t_aime_anne_sophie[1]['url_image_norm'];
 			$je_t_aime_anne_sophie[3]['url_image_mini'] = $je_t_aime_anne_sophie[1]['url_image_mini'];
 			$je_t_aime_anne_sophie[2]['lb_commentaire'] = $je_t_aime_anne_sophie[1]['lb_commentaire'];
+			$je_t_aime_anne_sophie[2]['nb_hauteur'] = $size['height'];
+			$je_t_aime_anne_sophie[2]['nb_largeur'] = $size['width'];
 		break;
 		case 2:
 			$je_t_aime_anne_sophie[3]['url_image_mini'] = $je_t_aime_anne_sophie[2]['url_image_mini'];
