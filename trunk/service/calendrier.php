@@ -18,8 +18,8 @@ require($root_path.'conf/frame.php');
 $template = new Template($root_path.'templates/'.$session_cl['skin']);
 $template->set_filenames( array('body' => 'calendrier.tpl'));
 $jour=adodb_date('d', $config['current_time']+$session_cl['correction_heure']);
-$annee=(empty($_GET['annee']))? adodb_date('Y', $config['current_time']+$session_cl['correction_heure']) : $_GET['annee'];
-$mois=(isset($_GET['mois']))? $_GET['mois'] : adodb_date('n', $config['current_time']+$session_cl['correction_heure']);
+$annee=(empty($_GET['annee']))? adodb_date('Y', $config['current_time']+$session_cl['correction_heure']) : intval($_GET['annee']);
+$mois=(isset($_GET['mois']))? intval($_GET['mois']) : adodb_date('n', $config['current_time']+$session_cl['correction_heure']);
 $mk_time_date = adodb_mktime( 1, 1, 1, $mois, 1, $annee);
 if ($mois > 12)
 {
