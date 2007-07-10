@@ -42,8 +42,8 @@ if ( !empty($_POST['dll']) )
 			//le code n'est pas bon
 			redirec_text('download.php', $langue['download_psw_erreur'], 'user');
 		}
-		redirection($for_nfo['url_dl']);
 	}
+	redirection($for_nfo['url_dl']);
 }
 if ( !empty($_POST['send_vote']) )
 {//on envois le resultat du vote
