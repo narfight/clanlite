@@ -31,9 +31,9 @@ if ( !empty($_POST['dll']) )
 			// le code est bon, on télécharge
 			$for_nfo['telecharger']++;
 			$sql = "UPDATE `".$config['prefix']."download_fichier` SET telecharger='".$for_nfo['telecharger']."' WHERE id ='".$_POST['for']."'";
-			if (! $_CL['SGBD']->requete_sql($sql) )
+			if (! $rsql->requete_sql($sql) )
 			{
-				sql_error($sql, $_CL['SGBD']->error, __LINE__, __FILE__);
+				sql_error($sql, $rsql->error, __LINE__, __FILE__);
 			}
 			redirection($for_nfo['url_dl']);
 		}
