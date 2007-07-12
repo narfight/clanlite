@@ -13,7 +13,7 @@ INSERT INTO `clanlite_config` VALUES ('inscription', '2');
 INSERT INTO `clanlite_config` VALUES ('tag', '[CL]');
 INSERT INTO `clanlite_config` VALUES ('nom_clan', 'Votre nom de clan');
 INSERT INTO `clanlite_config` VALUES ('limite_inscription', '24');
-INSERT INTO `clanlite_config` VALUES ('version', '2.2006.11.07');
+INSERT INTO `clanlite_config` VALUES ('version', '2.2007.07.12');
 INSERT INTO `clanlite_config` VALUES ('objet_par_page', '4');
 INSERT INTO `clanlite_config` VALUES ('site_path', '/clanlite/');
 INSERT INTO `clanlite_config` VALUES ('raport_error', '1');
