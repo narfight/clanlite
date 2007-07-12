@@ -12,7 +12,7 @@
 define('CL_AUTH', true);
 $root_path = './../';
 $action_db = '';
-$news_version = '2.2007.04.11';
+$news_version = '2.2007.07.12';
 
 require($root_path.'conf/template.php');
 
@@ -279,7 +279,7 @@ switch($config['version'])
 			'Changement du fichier pour le module WebPost' => "UPDATE `".$config['prefix']."modules` SET `call_page` = 'ts_webpost_central' WHERE `call_page` = 'ts_webpost'",
 			'Configuration du module shoutbox' => "UPDATE `".$config['prefix']."modules` SET `config` = '15' WHERE `call_page` = 'shoutbox.php'",
 		);
-
+	case '2.2007.04.11':
 	// sans break, metre case version a la suite, comme ca il fait toutes les mise à jours de la db de la version qu'il a jusqua la version actuelle
 	$maj = true;
 	break;
